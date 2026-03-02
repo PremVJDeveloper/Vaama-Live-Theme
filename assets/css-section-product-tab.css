@@ -1,0 +1,62 @@
+/*================= PRODUCT TABS ============*/
+.wpbingo-section--product-tabs .product-tabs__nav {
+  margin-bottom: 35px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.wpbingo-section--product-tabs .product-tabs__nav ul {
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+}
+.wpbingo-section--product-tabs .product-tabs__nav ul li {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0 30px;
+}
+.wpbingo-section--product-tabs .product-tabs__nav ul li:first-child {
+  margin-left: 0;
+}
+.wpbingo-section--product-tabs .product-tabs__nav ul li:last-child {
+  margin-right: 0;
+}
+.wpbingo-section--product-tabs .slick-arrow {
+  box-shadow: unset;
+}
+.wpbingo-section--product-tabs .slick-arrow:before {
+  font-size: 25px;
+}
+.wpbingo-section--product-tabs .slick-arrow:hover {
+  background: transparent;
+  color: var(--theme-color);
+}
+.wpbingo-section--product-tabs .button-view {
+  text-align: center;
+  margin-top: 50px;
+}
+.wpbingo-section--product-tabs .button-view a {
+  display: inline-block;
+  line-height: 40px;
+  padding: 0 30px;
+  letter-spacing: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--gray-dark);
+  border: 1px solid var(--gray-dark);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+.wpbingo-section--product-tabs .button-view a:hover {
+  border-color: var(--theme-color);
+  background: var(--theme-color);
+  color: var(--white);
+}
+@media (max-width: 767px) {
+	.wpbingo-section--product-tabs .product-tabs__nav ul li {
+    margin: 0 7.5px;
+  }
+  .wpbingo-section--product-tabs .product-tabs__nav .product-tabs__nav-link {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,25 @@
+<div class="header-cart">
+	<a class="js-header-cart header-cart__link" href="{{ routes.cart_url }}">
+		<i class="icon-cart"></i>
+		<span class="header-cart__span d-none">{{ 'layout.header.cart_title' | t }}</span>
+		<span class="header-cart__count" data-cart-count>{{ cart.item_count }}</span>
+		<span class="header-cart__span d-none">{{ 'layout.header.cart_items_count' | t:count:cart.item_count }}</span>
+		<span class="header-cart__span d-none" data-cart-cost>{{ cart.total_price | money }}</span>
+	</a>
+	{%- if settings.cart_type == "modal" -%}
+		<div class="pre_order-cart hidden">
+			{% for item in collections.all.products %}
+				{%- for variant in item.variants -%}
+					{% if variant.inventory_quantity == 0 and variant.inventory_policy == "continue" %}
+						<span data-handle="{{ variant.id }}"></span>
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+		</div>
+		{%- unless template contains 'cart' -%}
+			<div class="header-cart__content">
+				<div class="ajaxcart-container fire-done" data-cart-container></div>
+			</div>
+		{%- endunless -%}
+	{%- endif -%}
+</div>

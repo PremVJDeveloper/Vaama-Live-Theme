@@ -1,0 +1,152 @@
+{{ 'css-section-contact.css' | asset_url | stylesheet_tag }}
+{% assign margin 			= block.settings.margin | split: "|" %}
+{% assign padding 			= block.settings.padding | split: "|" %}
+<style>
+  {%- if margin[0] != blank or padding[0] != blank -%}
+	#shopify-block-{{ block.id }} .wpbingo-widget--contact_info{
+		{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+		{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+	}
+{%- endif -%}
+{%- if margin[1] != blank or padding[1] != blank -%}
+	@media (max-width:1199px){
+		#shopify-block-{{ block.id }} .wpbingo-widget--contact_info{
+			{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+			{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+		}
+	}
+{%- endif -%}
+{%- if margin[2] != blank or padding[2] != blank -%}
+	@media (max-width:991px){
+		#shopify-block-{{ block.id }} .wpbingo-widget--contact_info{
+			{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+			{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+		}
+	}
+{%- endif -%}
+{%- if margin[3] != blank or padding[3] != blank -%}
+	@media (max-width:767px){
+		#shopify-block-{{ block.id }} .wpbingo-widget--contact_info{
+			{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+			{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+		}
+	}
+{%- endif -%}
+</style>
+<div class="wpbingo-block wpbingo-widget--contact_info wpbingo-block--{{ block.id }}">
+    <div class="contact-info">
+          <div class="contact-form-content">
+              {% form 'contact' %}
+                  {% if form.posted_successfully? %}
+                      <p class="alert alert-success">
+                          {{ 'contact.form.post_success' | t }}
+                      </p>
+                  {% endif %}
+                  {{ form.errors | default_errors }}
+                  <div class="row">
+                      <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                          <div class="form-group required">
+                              <input id="contactFormName" class="form-control" type="text" name="contact[{{ 'contact.form.name' | t }}]"
+                                  value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                                  placeholder="{{ "contact.form.your_name" | t }}" required
+                                  autocapitalize="words"/>
+                          </div>
+                      </div>
+                      <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                          <div class="form-group required">
+                              <input id="contactFormEmail" class="form-control{% if form.errors contains 'email' %} is-invalid{% endif %}"
+                                  type="email" name="contact[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required
+                                  placeholder="{{ "contact.form.your_email" | t }}" autocorrect="off" autocapitalize="off" required/>
+                          </div>
+                      </div>
+                      <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                          <div class="form-group required">
+                              <input id="contactFormPhone" class="form-control" type="tel" name="contact[{{ 'contact.form.phone' | t }}]"
+                              value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                              placeholder="{{ "contact.form.phone_number" | t }}" required
+                              pattern="[0-9\-]*"/>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <textarea id="contactFormMessage" class="form-control {% if form.errors contains 'body' %} is-invalid{% endif %}"
+                          rows="10" name="contact[{{ 'contact.form.message' | t }}]" rows="4"
+                          placeholder="{{ "contact.form.your_message" | t }}"
+                          required>{% if form.body %}{{ form.body }}{% endif %}
+                      </textarea>
+                  </div>
+                  <div class="form-button">
+                      <input type="submit" class="btn btn-primary" value="{{ 'contact.form.send' | t }}">
+                  </div>
+              {% endform %}
+          </div>
+      </div>
+</div>
+{% schema %}
+  {
+    "name": "Contact form",
+    "settings": [
+        {
+			"type": "textarea",
+			"id": "padding",
+			"label": "Padding",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "textarea",
+			"id": "margin",
+			"label": "Margin",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+        {
+			"type": "header",
+			"content": "General Settings"
+		},
+        {
+			"type": "text",
+			"id": "label_name",
+			"label": "Label name",
+			"default": "Name"
+		},
+        {
+			"type": "text",
+			"id": "placeholder_name",
+			"label": "Placeholder name",
+			"default": "Your Name"
+		},
+        {
+			"type": "text",
+			"id": "label_email",
+			"label": "Label email",
+			"default": "Email"
+		},
+        {
+			"type": "text",
+			"id": "placeholder_email",
+			"label": "Placeholder email",
+			"default": "Your Email"
+		},
+        {
+			"type": "text",
+			"id": "label_message",
+			"label": "Label message",
+			"default": "Message"
+		},
+        {
+			"type": "text",
+			"id": "placeholder_message",
+			"label": "Placeholder message",
+			"default": "Your Message"
+		},
+         {
+			"type": "text",
+			"id": "label_button",
+			"label": "Label button",
+			"default": "Submit"
+		}
+    ],
+    "presets": [{"name": "Contact form"}]
+  }
+{% endschema %}

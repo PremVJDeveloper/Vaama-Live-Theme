@@ -1,0 +1,2112 @@
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Function to hide the "Powered by Partialy" span
+  function hidePoweredBy() {
+    const poweredByElements = document.querySelectorAll(".pp-powered-by");
+    if (poweredByElements.length > 0) {
+      poweredByElements.forEach(el => {
+        el.style.display = "none";
+      });
+    }
+  }
+
+  // Run once after DOM is ready
+  hidePoweredBy();
+
+  // Also observe DOM changes (Partial.ly sometimes injects content after load)
+  const observer = new MutationObserver(() => {
+    hidePoweredBy();
+  });
+
+  // Watch the entire document for dynamically added nodes
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+  
+  // Size mapping
+  const sizeMapping = {
+    "5": "44.8mm",
+    "6": "45.9mm",
+    "7": "47.1mm",
+    "8": "48.1mm",
+    "9": "49.0mm",
+    "10": "50.0mm",
+    "11": "50.9mm",
+    "12": "51.8mm",
+    "13": "52.8mm",
+    "14": "54.0mm",
+    "15": "55.0mm",
+    "16": "55.9mm",
+    "17": "56.9mm",
+    "18": "57.8mm",
+    "19": "59.1mm",
+    "20": "60.0mm",
+    "21": "60.9mm",
+    "22": "61.9mm",
+    "23": "62.8mm",
+    "24": "63.8mm",
+    "25": "64.7mm",
+    "26": "65.7mm",
+
+  };
+  
+  // Drawer functionality for color and size selection
+  function initVariantDrawer() {
+    // Create drawer container
+    const drawerHTML = `
+      <div id="variant-drawer" class="variant-drawer" style="display: none;">
+        <div class="variant-drawer__overlay"></div>
+        <div class="variant-drawer__content">
+          <div class="variant-drawer__header">
+            <h3>Select Options</h3>
+            <button type="button" class="variant-drawer__close">&times;</button>
+          </div>
+          <div class="variant-drawer__body">
+            <div id="drawer-color-options" class="drawer-options"></div>
+            <div class="drawer-options drawer-diamond-quality">
+              <div class="drawer-options__header">
+                <h4>Diamond Quality</h4>
+              </div>
+
+              <div class="diamond-quality-grid">
+                <div class="diamond-quality-box active">
+                  <span class="dq-title">EF–VVS</span>
+                  <span class="dq-sub">In Stock</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="drawer-size-options" class="drawer-options"></div>
+          </div>
+          <div class="variant-drawer__footer">
+            <button type="button" id="apply-variants" class="btn btn--primary">Done</button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Create open drawer button - Updated to match your screenshot
+const openButtonHTML = `
+  <div class="variant-pill">
+    <div class="variant-pill__info">
+      <span class="variant-pill__text" id="pill-metal">
+        14KT Yellow Gold
+      </span>
+
+      <span class="variant-pill__separator">|</span>
+
+      <span class="variant-pill__text" id="pill-size">
+        Size : 14 IND
+      </span>
+    </div>
+
+    <button
+      type="button"
+      id="open-variant-drawer"
+      class="variant-pill__cta"
+    >
+      Customize
+    </button>
+  </div>
+`;
+
+{% comment %} /* Example append */
+document.querySelector('.product-form')?.insertAdjacentHTML(
+  'beforeend',
+  openButtonHTML
+); {% endcomment %}
+
+    
+    // Create size guide modal
+    const sizeGuideModalHTML = `
+      <div id="size-guide-modal" class="size-guide-modal">
+        <div class="size-guide-modal__overlay"></div>
+        <div class="size-guide-modal__content">
+          <div class="size-guide-modal__header">
+            <h3>Size Guide</h3>
+            <button type="button" class="size-guide-modal__close">&times;</button>
+          </div>
+          <div class="size-guide-modal__body">
+            {% if product.metafields.custom.size_guide %}
+              {{ product.metafields.custom.size_guide.value | raw }}
+            {% else %}
+              <p>No size guide available.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Add CSS for drawer and size guide modal
+const style = document.createElement('style');
+style.textContent = `
+.div{
+font-family:'Inter', SANS-SERIF;
+color: #28365b;
+}
+
+/* Variant Selection Button - Glass Effect Styling */
+.variant-pill {
+  display: flex;
+  width:100%;
+  align-items: center;
+  justify-content:  space-between;
+  padding: 16px 18px;
+  border: 1px solid #28365b;
+  border-radius: 5px;
+  background: #ffffff;
+  margin: 8px 0;
+}
+/* Gold color indicators */
+.drawer-color-option label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px;
+  min-width: 120px;
+  border: 1px solid rgba(104, 124, 169, 0.3);
+  border-radius: 10px;
+  background: #f8f9fa;
+  cursor: pointer;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 400;
+  color: #28365b;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.drawer-color-option label .color-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Yellow Gold */
+.drawer-color-option label[for*="Yellow-Gold"] .color-indicator,
+.drawer-color-option label[for*="Yellow-Gold-Made"] .color-indicator,
+.drawer-color-option label[for*="Yellow-Gold-In"] .color-indicator {
+  background: #f5d76e url('https://vaama.co/cdn/shop/files/steptodown.com923204.jpg?v=1747054351') center/cover;
+}
+
+/* Rose Gold */
+.drawer-color-option label[for*="Rose-Gold"] .color-indicator,
+.drawer-color-option label[for*="Rose-Gold-Made"] .color-indicator,
+.drawer-color-option label[for*="Rose-Gold-In"] .color-indicator {
+  background: #d8a1a8 url('https://vaama.co/cdn/shop/files/Rose_Gold.png?v=1747055220') center/cover;
+}
+
+/* White Gold */
+.drawer-color-option label[for*="White-Gold"] .color-indicator,
+.drawer-color-option label[for*="White-Gold-Made"] .color-indicator,
+.drawer-color-option label[for*="White-Gold-In"] .color-indicator {
+  background: #f3f3f3 url('https://vaama.co/cdn/shop/files/Frame_11.png?v=1747054909') center/cover;
+}
+
+/* Color name container */
+.color-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.color-info .color-name {
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.color-info .stock-status {
+  display: block;
+  font-size: 10px;
+  margin-top: 2px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+  color: #666;
+  line-height: 1.2;
+}
+
+/* Selected state */
+.drawer-color-option input[type="radio"]:checked + label .color-indicator {
+  border-color: #28365b;
+  box-shadow: 0 0 0 2px rgba(40, 54, 91, 0.1);
+}
+/* Left info */
+.variant-pill__info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #28365b;
+  line-height: 1;
+}
+
+/* Gold dot */
+.variant-pill__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f2c94c;
+  flex-shrink: 0;
+}
+
+/* Text */
+.variant-pill__text {
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+/* Separator */
+.variant-pill__separator {
+  color: #8a8a8a;
+  font-weight: 300;
+  margin: 0 4px;
+}
+
+/* Button */
+.variant-pill__cta {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-family:'Inter', SANS-SERIF;
+    font-weight:bold;
+  background: #D5DCE7;
+  color: #28365b;
+  font-size: 13px;
+  {% comment %} font-weight: 500; {% endcomment %}
+  letter-spacing: 0.8px;
+  cursor: pointer;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .variant-pill {
+    {% comment %} padding: 14px; {% endcomment %}
+            padding: 14px;
+        gap: 2rem;
+  }
+
+  .variant-pill__info {
+    font-size: 11px;
+    gap:0px;
+  }
+  .variant-pill__cta {
+    padding: 9px 9px;
+    font-size: 11px;
+    font-weight:bold;
+  }
+}
+
+/* Keep all existing drawer styles below */
+.variant-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: none;
+}
+
+.variant-drawer__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.variant-drawer__content {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40%;
+  height: 100%;
+  background: white;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.variant-drawer__header {
+  padding: 18px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.variant-drawer__header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #28365b;
+}
+
+.variant-drawer__close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.variant-drawer__body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* ---------- Drawer Options General Styling ---------- */
+.drawer-options {
+  margin-bottom: 32px;
+}
+
+.drawer-options__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.drawer-options__header h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #28365b;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+
+/* ---------- Color Options ---------- */
+.drawer-color-option {
+  display: inline-block;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.drawer-color-option input[type="radio"] {
+  display: none;
+}
+
+/* NON-SELECTED: Light version */
+.drawer-color-option label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 18px;
+  min-width: 120px;
+  border: 1px solid rgba(104, 124, 169, 0.3);
+  border-radius: 10px;
+  background: #f8f9fa;
+  cursor: pointer;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 400;
+  color: #28365b;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* SELECTED: Dark version */
+.drawer-color-option input[type="radio"]:checked + label {
+  border: 2px solid #687ca9;
+  background: #b3c1d8;
+  box-shadow: 0 4px 12px rgba(40, 54, 91, 0.1);
+}
+
+/* Made to Order styling - Light version */
+.drawer-color-option label.made-to-order {
+  color: #28365b;
+  border-color: rgba(104, 124, 169, 0.3);
+  background-color: #f8f9fa;
+}
+
+.drawer-color-option label.in-stock {
+  color: #28365b;
+  border-color: rgba(104, 124, 169, 0.3);
+  background-color: #f8f9fa;
+}
+
+/* Stock status text styling */
+.drawer-color-option label .stock-status {
+  display: block;
+  font-size: 10px;
+  margin-top: 4px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+  color: #666;
+}
+
+/* Selected state - Dark version status text */
+.drawer-color-option input[type="radio"]:checked + label .stock-status {
+  color: #28365b;
+  font-weight: 600;
+}
+
+/* Hover effect - Light version gets subtle hover */
+.drawer-color-option label {
+  position: relative;
+  overflow: hidden;
+}
+
+.drawer-color-option label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.drawer-color-option label:hover::before {
+  left: 100%;
+}
+
+.drawer-color-option label:hover {
+  background: #f0f2f5;
+  transform: translateY(-1px);
+  border-color: rgba(104, 124, 169, 0.5);
+}
+
+/* Selected hover - Dark version hover */
+.drawer-color-option input[type="radio"]:checked + label:hover {
+  background: #a0b0cc;
+  border-color: #28365b;
+}
+
+/* ---------- Size Options ---------- */
+.drawer-size-option {
+  display: inline-block;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.drawer-size-option input[type="radio"] {
+  display: none;
+}
+
+/* NON-SELECTED: Light version */
+.drawer-size-option label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 95px;
+  height: 85px;
+  border: 1px solid rgba(104, 124, 169, 0.3);
+  border-radius: 10px;
+  background: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 400;
+  color: #28365b;
+  position: relative;
+  overflow: hidden;
+}
+
+/* SELECTED: Dark version */
+.drawer-size-option:not(.size-unavailable) input[type="radio"]:checked + label {
+  border: 2px solid #687ca9;
+  background: #b3c1d8;
+  box-shadow: 0 4px 12px rgba(40, 54, 91, 0.1);
+}
+
+.drawer-size-option label .size-number {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 2px;
+  color: #28365b;
+}
+
+/* Selected state - Dark version size number */
+.drawer-size-option:not(.size-unavailable) input[type="radio"]:checked + label .size-number {
+  font-weight: 600;
+  color: #28365b;
+}
+
+.drawer-size-option label .size-mm {
+  font-size: 10px;
+  color: #666;
+  opacity: 0.9;
+  letter-spacing: 0.2px;
+}
+
+/* Selected state - Dark version size mm */
+.drawer-size-option:not(.size-unavailable) input[type="radio"]:checked + label .size-mm {
+  color: #28365b;
+  opacity: 1;
+}
+
+.drawer-size-option label .size-stock-status {
+  display: block;
+  font-size: 9px;
+  margin-top: 4px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+  color: #666;
+}
+
+/* Selected state - Dark version stock status */
+.drawer-size-option:not(.size-unavailable) input[type="radio"]:checked + label .size-stock-status {
+  color: #28365b;
+  font-weight: 600;
+}
+
+.drawer-size-option label.size-in-stock .size-stock-status {
+  color: #666;
+}
+
+.drawer-size-option label.size-made-to-order .size-stock-status {
+  color: #666;
+}
+
+.drawer-size-option.size-unavailable label {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: #ddd;
+  background: #f9f9f9;
+}
+
+.drawer-size-option.size-unavailable input[type="radio"] {
+  pointer-events: none;
+}
+
+.drawer-size-option.size-unavailable label:hover {
+  border-color: #ddd;
+  transform: none;
+  box-shadow: none;
+  background-color: #f9f9f9;
+}
+
+.drawer-size-option.size-unavailable .size-number {
+  color: #999;
+}
+
+.drawer-size-option.size-unavailable .size-mm {
+  color: #999;
+}
+
+.drawer-size-option.size-unavailable .size-stock-status {
+  color: #999;
+}
+
+/* Hover effect - Light version gets subtle hover */
+.drawer-size-option label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.drawer-size-option label:hover::before {
+  left: 100%;
+}
+
+.drawer-size-option label:hover {
+  background: #f0f2f5;
+  transform: translateY(-1px);
+  border-color: rgba(104, 124, 169, 0.5);
+}
+
+/* Selected hover - Dark version hover */
+.drawer-size-option:not(.size-unavailable) input[type="radio"]:checked + label:hover {
+  background: #a0b0cc;
+  border-color: #28365b;
+}
+
+/* Checkmark for selected size - Dark version only */
+.drawer-size-option:not(.size-unavailable) input[type="radio"]:checked + label::after {
+  content: "✓";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  background: #28365b;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* ---------- Diamond Quality UI ---------- */
+.drawer-diamond-quality {
+  margin-bottom: 28px;
+}
+
+.diamond-quality-grid {
+  display: flex;
+  gap: 12px;
+}
+
+/* Diamond Quality box - Always dark/selected style */
+.diamond-quality-box {
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 2px solid #687ca9;
+  background: #b3c1d8;
+  min-width: 120px;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.diamond-quality-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.diamond-quality-box:hover::before {
+  left: 100%;
+}
+
+.diamond-quality-box.active {
+  border-color: #28365b;
+  background: #a0b0cc;
+  box-shadow: 0 4px 12px rgba(40, 54, 91, 0.1);
+}
+
+.dq-title {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #28365b;
+}
+
+.dq-sub {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #28365b;
+  text-transform: capitalize;
+  opacity: 0.9;
+}
+
+/* ---------- Size Guide Button - NO BOX STYLE ---------- */
+.size-guide-btn {
+  background: none;
+  color: #28365b;
+  border: none;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}
+
+.size-guide-btn:hover {
+  color: #1a243f;
+  text-decoration: underline !important;
+}
+
+.variant-drawer__footer {
+  padding: 16px 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* ---------- Done Button Styling - Dark version ---------- */
+#apply-variants.btn.btn--primary {
+  background: #28365b;
+  color: white;
+  border: 2px solid #687ca9;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+#apply-variants.btn.btn--primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+#apply-variants.btn.btn--primary:hover::before {
+  left: 100%;
+}
+.variant-drawer.open .variant-drawer__overlay {
+  opacity: 1;
+}
+
+.variant-drawer.open .variant-drawer__content {
+  transform: translateX(0);
+}
+
+/* Size Guide Modal */
+.size-guide-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10001;
+  display: none;
+}
+
+.size-guide-modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.size-guide-modal__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  background: white;
+  border-radius: 4px;
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.size-guide-modal.open {
+  display: block;
+}
+
+.size-guide-modal.open .size-guide-modal__overlay {
+  opacity: 1;
+}
+
+.size-guide-modal.open .size-guide-modal__content {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.size-guide-modal__header {
+  padding: 18px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.size-guide-modal__header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #28365b;
+}
+
+.size-guide-modal__close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.size-guide-modal__body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* ---------- Mobile UI tweaks ---------- */
+@media (max-width: 767px) {
+  .variant-drawer__content {
+    border-radius: 16px 16px 0 0;
+  }
+
+  .variant-drawer__header h3 {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .diamond-quality-box {
+    width: 30%;
+  }
+
+  .diamond-quality-grid {
+    flex-direction: column;
+  }
+}
+
+/* Drawer responsive styles */
+@media (max-width: 767px) {
+  .variant-drawer__content {
+    width: 100%;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    height: auto;
+    max-height: 75vh;
+    transform: translateY(100%);
+  }
+  
+  .variant-drawer.open .variant-drawer__content {
+    transform: translateY(0);
+  }
+  
+  .variant-drawer__header {
+    padding: 16px;
+  }
+  
+  .variant-drawer__header h3 {
+    font-size: 15px;
+  }
+  
+  .variant-drawer__body {
+    padding: 16px;
+  }
+  
+  .drawer-options__header h4 {
+    font-size: 12px;
+  }
+  
+  .drawer-color-option label {
+    min-width: 95px;
+    padding: 12px 14px;
+    font-size: 12px;
+  }
+  
+  .drawer-color-option label .stock-status {
+    font-size: 9px;
+  }
+  
+  .variant-drawer__footer .btn {
+    padding: 10px;
+    font-size: 13px;
+  }
+  
+  .size-guide-modal__content {
+    width: 95%;
+    max-height: 85vh;
+  }
+  
+  .size-guide-modal__header {
+    padding: 16px;
+  }
+  
+  .size-guide-modal__body {
+    padding: 16px;
+  }
+  
+  /* Mobile adjustments */
+  .drawer-color-option label {
+    min-width: 95px;
+    padding: 10px 12px;
+    font-size: 12px;
+    gap: 6px;
+  }
+  
+  .drawer-color-option label .color-indicator {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .color-info .color-name {
+    font-size: 11px;
+  }
+  
+  .color-info .stock-status {
+    font-size: 8px;
+  }
+  
+  /* DEFAULT: Android sizing (74px x 85px) */
+  .drawer-size-option label {
+    width: 70px;
+    height: 85px;
+  }
+  
+  .drawer-size-option label .size-number {
+    font-size: 18px;
+  }
+  
+  .drawer-size-option label .size-mm {
+    font-size: 10px;
+  }
+  
+  .drawer-size-option label .size-stock-status {
+    font-size: 8px;
+  }
+  
+  .diamond-quality-box {
+    padding: 12px 14px;
+  }
+  
+  .dq-title {
+    font-size: 13px;
+  }
+  
+  .dq-sub {
+    font-size: 10px;
+  }
+  
+  .size-guide-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
+  /* iPhone detection and sizing */
+  @media only screen and (max-width: 767px) {
+    /* Detect iPhone using screen dimensions and pixel ratio */
+    @media (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 480px),
+           (min-resolution: 192dpi) and (max-device-width: 480px),
+           (-webkit-device-pixel-ratio: 2) and (max-device-width: 480px),
+           (device-aspect-ratio: 9/16) and (max-device-width: 480px),
+           (device-aspect-ratio: 375/667) and (max-device-width: 480px),
+           (device-aspect-ratio: 414/736) and (max-device-width: 480px) {
+      /* iPhone specific sizing */
+      .drawer-size-option label {
+        width: 70px;
+        height: 85px;
+      }
+      
+      .drawer-size-option label .size-number {
+        font-size: 20px;
+      }
+      
+      .drawer-size-option label .size-mm {
+        font-size: 11px;
+      }
+      
+      .drawer-size-option label .size-stock-status {
+        font-size: 9px;
+      }
+      
+      /* Adjust checkmark for larger boxes */
+      .drawer-size-option:not(.size-unavailable) input[type="radio"]:checked + label::after {
+        top: 6px;
+        right: 6px;
+        width: 18px;
+        height: 18px;
+        font-size: 11px;
+      }
+    }
+  }
+}
+
+/* Simple scrollbar */
+.variant-drawer__body::-webkit-scrollbar,
+.size-guide-modal__body::-webkit-scrollbar {
+  width: 3px;
+}
+
+.variant-drawer__body::-webkit-scrollbar-track,
+.size-guide-modal__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.variant-drawer__body::-webkit-scrollbar-thumb,
+.size-guide-modal__body::-webkit-scrollbar-thumb {
+  background: #ddd;
+}
+`;
+
+document.head.appendChild(style);
+    
+    // Insert size guide modal
+    document.body.insertAdjacentHTML('beforeend', sizeGuideModalHTML);
+    
+    // Find the product form
+    const productForm = document.querySelector('form[data-product-form]');
+    if (!productForm) return;
+    
+    // Find the variants container
+    const variantsWrapper = document.querySelector('.variants-wrapper.product-form__item');
+    if (variantsWrapper) {
+      // Insert drawer
+      document.body.insertAdjacentHTML('beforeend', drawerHTML);
+      
+      // Find the place to insert the button - before the quantity selector
+      const quantitySelector = document.querySelector('.trigger-button');
+      const addToCartButton = document.querySelector('.product-single__add-to-cart');
+      
+      let insertLocation;
+      if (quantitySelector) {
+        // Insert before quantity selector
+        insertLocation = quantitySelector;
+      } else if (addToCartButton) {
+        // Insert before add to cart button
+        insertLocation = addToCartButton;
+      } else {
+        // Insert after variants wrapper
+        insertLocation = variantsWrapper.nextElementSibling;
+      }
+      
+      if (insertLocation) {
+        insertLocation.insertAdjacentHTML('afterend', openButtonHTML);
+      } else {
+        // Fallback: Insert after variants wrapper
+        variantsWrapper.insertAdjacentHTML('afterend', openButtonHTML);
+      }
+      
+      // Hide the original variants
+      const allVariantsWrappers = document.querySelectorAll('.variants-wrapper.product-form__item');
+      allVariantsWrappers.forEach(wrapper => {
+        wrapper.style.display = 'none';
+      });
+      
+      // Initialize drawer
+      const drawer = document.getElementById('variant-drawer');
+      const openButton = document.getElementById('open-variant-drawer');
+      const closeButton = drawer.querySelector('.variant-drawer__close');
+      const overlay = drawer.querySelector('.variant-drawer__overlay');
+      const applyButton = document.getElementById('apply-variants');
+      
+      // Size guide modal elements
+      const sizeGuideModal = document.getElementById('size-guide-modal');
+      const sizeGuideCloseBtn = sizeGuideModal.querySelector('.size-guide-modal__close');
+      const sizeGuideOverlay = sizeGuideModal.querySelector('.size-guide-modal__overlay');
+      
+      // Get existing color and size options
+      const colorOptions = document.querySelectorAll('.js-product-select-option--1 .single-option-selector');
+      const sizeOptions = document.querySelectorAll('.js-product-select-option--2 option');
+      
+      // Get product variants data from the select element
+      const variantSelect = document.querySelector('.js-product-select--{{ section.id }}');
+      let variantsData = [];
+      let availableSizesByColor = {};
+      
+      if (variantSelect) {
+        variantSelect.querySelectorAll('option').forEach(option => {
+          if (option.value) {
+            const variantText = option.textContent;
+            const variantId = option.value;
+            const isAvailable = !option.disabled;
+            const isSoldOut = variantText.includes('sold_out') || variantText.includes('Sold Out');
+            
+            // Extract color and size from variant text
+            const parts = variantText.split(' - ')[0].split(' / ');
+            const color = parts[0] || '';
+            const size = parts[1] || '';
+            
+            if (color && size) {
+              const cleanColor = color.trim();
+              const cleanSize = size.trim();
+              
+              variantsData.push({
+                id: variantId,
+                color: cleanColor,
+                size: cleanSize,
+                isAvailable: isAvailable && !isSoldOut,
+                isSoldOut: isSoldOut
+              });
+              
+              // Build available sizes by color map
+              if (!availableSizesByColor[cleanColor]) {
+                availableSizesByColor[cleanColor] = [];
+              }
+              if (isAvailable && !isSoldOut) {
+                availableSizesByColor[cleanColor].push(cleanSize);
+              }
+            }
+          }
+        });
+      }
+      
+      // Store current selections
+      let selectedColor = '';
+      let selectedSize = '';
+      
+      // Get initial values
+      const initialColorInput = document.querySelector('.js-product-select-option--1 input[type="radio"]:checked');
+      if (initialColorInput) {
+        selectedColor = initialColorInput.value;
+      }
+      
+      const initialSizeSelect = document.querySelector('.js-product-select-option--2 select');
+      if (initialSizeSelect) {
+        selectedSize = initialSizeSelect.value;
+      }
+      
+function updateButtonText() {
+  const sizeEl = document.getElementById('pill-size');
+  const metalEl = document.getElementById('pill-metal');
+
+  if (!sizeEl || !metalEl) return;
+
+  // Size
+  if (selectedSize) {
+    const mm = sizeMapping[selectedSize] || '';
+    sizeEl.textContent = mm
+      ? `Size : ${selectedSize} IND (${mm})`
+      : `Size : ${selectedSize} IND`;
+  } else {
+    sizeEl.textContent = 'Size : Select';
+  }
+
+  // Metal
+  metalEl.textContent = selectedColor
+    ? selectedColor
+    : 'Select Metal';
+}
+      
+      // Initialize button text
+      updateButtonText();
+      
+      // Check if a color has any available sizes
+      function isColorInStock(color) {
+        return availableSizesByColor[color] && availableSizesByColor[color].length > 0;
+      }
+      
+      // Check if a specific color-size combination is available
+      function isSizeAvailableForColor(color, size) {
+        if (!availableSizesByColor[color]) return false;
+        return availableSizesByColor[color].includes(size);
+      }
+      
+      // Update size availability based on selected color
+      function updateSizeAvailability(color) {
+        const sizeOptions = document.querySelectorAll('.drawer-size-option');
+        
+        sizeOptions.forEach(sizeOption => {
+          const sizeValue = sizeOption.querySelector('input').value;
+          const sizeLabel = sizeOption.querySelector('label');
+          const stockStatusSpan = sizeLabel.querySelector('.size-stock-status');
+          
+          if (color) {
+            const isAvailable = isSizeAvailableForColor(color, sizeValue);
+            const stockStatus = isAvailable ? 'In Stock' : 'Made to Order';
+            
+            // Update stock status text
+            stockStatusSpan.textContent = stockStatus;
+            
+            // Update classes
+            sizeLabel.classList.remove('size-in-stock', 'size-made-to-order');
+            sizeOption.classList.remove('size-unavailable');
+            
+            if (isAvailable) {
+              sizeLabel.classList.add('size-in-stock');
+            } else {
+              sizeLabel.classList.add('size-made-to-order');
+            }
+            
+            // Enable/disable the size option
+            sizeOption.querySelector('input').disabled = false;
+          } else {
+            // No color selected, show all sizes as available
+            stockStatusSpan.textContent = 'Select Color';
+            sizeLabel.classList.remove('size-in-stock', 'size-made-to-order');
+            sizeOption.classList.remove('size-unavailable');
+            sizeOption.querySelector('input').disabled = false;
+          }
+        });
+      }
+      
+      // Function to update original variant inputs and trigger change events
+      function updateVariantSelection(colorValue, sizeValue) {
+        let shouldTriggerChange = false;
+        
+        // Update color if provided
+        if (colorValue && colorValue !== selectedColor) {
+          selectedColor = colorValue;
+          const originalColorInput = document.querySelector(`.js-product-select-option--1 input[value="${colorValue}"]`);
+          if (originalColorInput) {
+            originalColorInput.checked = true;
+            // Trigger change event using jQuery to match your theme
+            if (typeof $ !== 'undefined') {
+              $(originalColorInput).trigger('change');
+            } else {
+              const changeEvent = new Event('change', { bubbles: true });
+              originalColorInput.dispatchEvent(changeEvent);
+            }
+            shouldTriggerChange = true;
+            
+            // Update size availability when color changes
+            updateSizeAvailability(colorValue);
+            // Update button text
+            updateButtonText();
+          }
+        }
+        
+        // Update size if provided
+        if (sizeValue && sizeValue !== selectedSize) {
+          selectedSize = sizeValue;
+          const originalSizeSelect = document.querySelector('.js-product-select-option--2 select');
+          if (originalSizeSelect) {
+            originalSizeSelect.value = sizeValue;
+            // Trigger change event using jQuery to match your theme
+            if (typeof $ !== 'undefined') {
+              $(originalSizeSelect).trigger('change');
+            } else {
+              const changeEvent = new Event('change', { bubbles: true });
+              originalSizeSelect.dispatchEvent(changeEvent);
+            }
+            shouldTriggerChange = true;
+            // Update button text
+            updateButtonText();
+          }
+        }
+        
+        // If we changed anything, also update the variant select
+        if (shouldTriggerChange) {
+          // Find the matching variant
+          if (variantSelect) {
+            // Find variant that matches both color and size
+            for (const option of variantSelect.options) {
+              const variantText = option.text.toLowerCase();
+              const matchesColor = !selectedColor || variantText.includes(selectedColor.toLowerCase());
+              const matchesSize = !selectedSize || variantText.includes(` / ${selectedSize}`);
+              
+              if (matchesColor && matchesSize && !option.disabled) {
+                if (variantSelect.value !== option.value) {
+                  variantSelect.value = option.value;
+                  // Trigger change event
+                  if (typeof $ !== 'undefined') {
+                    $(variantSelect).trigger('change');
+                  } else {
+                    const changeEvent = new Event('change', { bubbles: true });
+                    variantSelect.dispatchEvent(changeEvent);
+                  }
+                }
+                break;
+              }
+            }
+          }
+        }
+      }
+      
+      // Store unique color values to avoid duplicates
+      const uniqueColors = new Set();
+      
+      // Populate color options in drawer
+// Populate color options in drawer
+const colorContainer = document.getElementById('drawer-color-options');
+if (colorOptions.length > 0) {
+  colorContainer.innerHTML = '<div class="drawer-options__header"><h4>Color</h4></div>';
+  colorOptions.forEach(option => {
+    const input = option.querySelector('input[type="radio"]');
+    const label = option.querySelector('label');
+    if (input && label) {
+      const value = input.value;
+      const isChecked = input.checked;
+      
+      // Get clean color name without tooltip text
+      let colorName = label.textContent.trim();
+      // Remove tooltip text if it exists (like "Yellow Gold Yellow Gold")
+      const tooltipSpan = label.querySelector('.tool-tip');
+      if (tooltipSpan) {
+        colorName = tooltipSpan.textContent.trim();
+      }
+      
+      // Remove "Made to Order" or "In Stock" from display text
+      colorName = colorName.replace('Made to Order', '').replace('In Stock', '').trim();
+      
+      // Check stock status for this color (if it has any available sizes)
+      const isInStock = isColorInStock(value);
+      const stockStatus = isInStock ? 'In Stock' : 'Made to Order';
+      const statusClass = isInStock ? 'in-stock' : 'made-to-order';
+      
+      // Determine color type for indicator
+      let colorType = '';
+      if (value.toLowerCase().includes('yellow')) {
+        colorType = 'yellow';
+      } else if (value.toLowerCase().includes('rose')) {
+        colorType = 'rose';
+      } else if (value.toLowerCase().includes('white')) {
+        colorType = 'white';
+      }
+      
+      // Only add if not duplicate
+      if (!uniqueColors.has(value)) {
+        uniqueColors.add(value);
+        
+        const optionHTML = `
+          <div class="drawer-color-option">
+            <input type="radio" id="drawer-color-${value.replace(/\s+/g, '-')}" 
+                   name="drawer-color" value="${value}" ${isChecked ? 'checked' : ''}>
+            <label for="drawer-color-${value.replace(/\s+/g, '-')}" 
+                   class="${statusClass}">
+              <span class="color-indicator ${colorType}-gold"></span>
+              <div class="color-info">
+                <span class="color-name">${colorName}</span>
+                <span class="stock-status">${stockStatus}</span>
+              </div>
+            </label>
+          </div>
+        `;
+        colorContainer.insertAdjacentHTML('beforeend', optionHTML);
+      }
+    }
+  });
+}
+     
+      // Populate size options in drawer with size guide button
+      const sizeContainer = document.getElementById('drawer-size-options');
+      if (sizeOptions.length > 0) {
+        const sizeGuideButtonHTML = `
+          <div class="drawer-options__header">
+            <h4>Size</h4>
+            <button type="button" class="size-guide-btn">Size Guide</button>
+          </div>
+        `;
+        sizeContainer.innerHTML = sizeGuideButtonHTML;
+        
+        // Store size elements for later updates
+        window.sizeElements = {};
+        
+        // Add size options
+        sizeOptions.forEach(option => {
+          const value = option.value;
+          const text = option.textContent.split(' - ')[0]; // Remove price part
+          
+          // Only add if not disabled (or show even if disabled with Made to Order status)
+          if (value) {
+            const mmValue = sizeMapping[value] || '';
+            // Initial stock status will be updated when color is selected
+            const stockStatus = 'Select Color';
+            
+            const optionHTML = `
+              <div class="drawer-size-option" data-size="${value}">
+                <input type="radio" id="drawer-size-${value}" 
+                       name="drawer-size" value="${value}">
+                <label for="drawer-size-${value}" class="">
+                  <span class="size-number">${value}</span>
+                  ${mmValue ? `<span class="size-mm">${mmValue}</span>` : ''}
+                  <span class="size-stock-status">${stockStatus}</span>
+                </label>
+              </div>
+            `;
+            sizeContainer.insertAdjacentHTML('beforeend', optionHTML);
+            
+            // Store reference to this size element
+            window.sizeElements[value] = sizeContainer.lastElementChild;
+          }
+        });
+      }
+      
+      // Get size guide button
+      const sizeGuideBtn = sizeContainer.querySelector('.size-guide-btn');
+      
+      // Add event listeners for color selection in drawer
+      const drawerColorInputs = drawer.querySelectorAll('input[name="drawer-color"]');
+      drawerColorInputs.forEach(input => {
+        input.addEventListener('change', function() {
+          // Update variant selection immediately
+          updateVariantSelection(this.value, null);
+        });
+      });
+      
+      // Add event listeners for size selection in drawer
+      const drawerSizeInputs = drawer.querySelectorAll('input[name="drawer-size"]');
+      drawerSizeInputs.forEach(input => {
+        input.addEventListener('change', function() {
+          // Update variant selection immediately
+          updateVariantSelection(null, this.value);
+        });
+      });
+      
+      // Size guide button click
+      if (sizeGuideBtn) {
+        sizeGuideBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          openSizeGuideModal();
+        });
+      }
+      
+      // Prevent open button from submitting form
+      openButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openDrawer();
+      });
+      
+      // Prevent drawer close button from any form submission
+      closeButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeDrawer();
+      });
+      
+      // Prevent overlay click from bubbling
+      overlay.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeDrawer();
+      });
+      
+      // Size guide modal close button
+      sizeGuideCloseBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeSizeGuideModal();
+      });
+      
+      // Size guide overlay click
+      sizeGuideOverlay.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeSizeGuideModal();
+      });
+      
+      // Close size guide modal on escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sizeGuideModal.style.display === 'block') {
+          closeSizeGuideModal();
+        }
+      });
+      
+      // Open drawer function
+      function openDrawer() {
+        // Update drawer selections to match current selections
+        if (selectedColor) {
+          const drawerColorInput = drawer.querySelector(`input[name="drawer-color"][value="${selectedColor}"]`);
+          if (drawerColorInput) {
+            drawerColorInput.checked = true;
+          }
+        }
+        
+        if (selectedSize) {
+          const drawerSizeInput = drawer.querySelector(`input[name="drawer-size"][value="${selectedSize}"]`);
+          if (drawerSizeInput) {
+            drawerSizeInput.checked = true;
+          }
+        }
+        
+        // Update size availability based on selected color
+        updateSizeAvailability(selectedColor);
+        
+        drawer.style.display = 'block';
+        setTimeout(() => {
+          drawer.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }, 10);
+      }
+      
+      // Close drawer function
+      function closeDrawer() {
+        drawer.classList.remove('open');
+        setTimeout(() => {
+          drawer.style.display = 'none';
+          document.body.style.overflow = '';
+        }, 300);
+      }
+      
+      // Open size guide modal function
+      function openSizeGuideModal() {
+        sizeGuideModal.style.display = 'block';
+        setTimeout(() => {
+          sizeGuideModal.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }, 10);
+      }
+      
+      // Close size guide modal function
+      function closeSizeGuideModal() {
+        sizeGuideModal.classList.remove('open');
+        setTimeout(() => {
+          sizeGuideModal.style.display = 'none';
+          document.body.style.overflow = '';
+        }, 300);
+      }
+      
+      // Apply selections - This now just closes the drawer since changes are already applied
+      applyButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeDrawer();
+      });
+      
+      // Also listen for changes on the original inputs to update button text
+      const originalColorInputs = document.querySelectorAll('.js-product-select-option--1 input[type="radio"]');
+      originalColorInputs.forEach(input => {
+        input.addEventListener('change', function() {
+          if (this.checked) {
+            selectedColor = this.value;
+            updateButtonText();
+            // Update size availability when color changes from original inputs
+            updateSizeAvailability(selectedColor);
+          }
+        });
+      });
+      
+      const originalSizeSelect = document.querySelector('.js-product-select-option--2 select');
+      if (originalSizeSelect) {
+        originalSizeSelect.addEventListener('change', function() {
+          selectedSize = this.value;
+          updateButtonText();
+        });
+      }
+      
+      // Initial update of size availability
+      if (selectedColor) {
+        updateSizeAvailability(selectedColor);
+      }
+    }
+  }
+  
+  // Initialize drawer after a short delay to ensure DOM is ready
+  setTimeout(initVariantDrawer, 500);
+});
+</script>
+{%- if external == blank and group_product == blank -%}
+	<meta itemprop="priceCurrency" content="{{ cart.currency.iso_code }}">
+	<link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+	{% capture "form_classes" %}
+		js-addtocart-form product-single__form{% if product.has_only_default_variant %} product-single__form--no-variants{% endif %}
+	{%- endcapture %}
+	{% form 'product', product, class:form_classes, data-product-form: '' %}
+	{% unless product.has_only_default_variant %}
+		{%- for option in product.options_with_values -%}
+			{%- assign type = 'label' -%}
+			{%- if filter_name_1 != blank and filter_name_1 == option.name -%}
+				{%- assign type = select_filter_1 -%}
+			{% elsif filter_name_2 != blank and filter_name_2 == option.name %}
+				{%- assign type = select_filter_2 -%}
+			{% elsif filter_name_3 != blank and filter_name_3 == option.name %}
+				{%- assign type = select_filter_3 -%}
+			{% endif %}
+			<div class="variants-wrapper product-form__item wpb-variants-swatch" style="display:block">
+				{% assign current = product.selected_or_first_available_variant %}
+				{%- if forloop.index == 1 -%}
+					{% assign current_option = current.option1 %}
+				{% elsif forloop.index == 2 %}
+					{% assign current_option = current.option2 %}
+				{% else %}
+					{% assign current_option = current.option3 %}
+				{% endif %}
+				<label class="variants__label">{{ option.name | escape }}: <span>{{ current_option }}</span></label>
+				<div class="js-product-select-option--{{ forloop.index }} variants__options{% if type !='color' %} {{ block.settings.product_selector }}{% endif %}">
+				{%- if block.settings.product_selector == 'radio' -%}
+					{%- assign option_index = forloop.index -%}
+					{%- for value in option.values -%}
+						{%- assign option_disabled = true -%}
+						{%- assign variant_alt = 'false' -%}
+						{%- for variant in product.variants -%}
+							{%- if variant.available -%}
+								{%- if option_index == 1 and variant.option1 == value -%}
+									{%- assign option_disabled = false -%}
+									{%- break -%}
+								{%- elsif option_index == 2 and variant.option2 == value and variant.option1 == current_variant.option1 -%}
+									{%- assign option_disabled = false -%}
+									{%- break -%}
+								{%- elsif option_index == 3 and variant.option3 == value and variant.option2 == current_variant.option2 and variant.option1 == current_variant.option1 -%}
+									{%- assign option_disabled = false -%}
+									{%- break -%}
+								{%- endif -%}
+							{%- endif -%}
+						{%- endfor -%}
+						{%- for variant in product.variants -%}
+							{%- if variant.title contains value and variant.featured_image  -%}
+								{%- assign variant_image = '' -%}
+							{%- endif -%}
+						{%- endfor -%}
+						<div class="single-option-selector" data-single-option-button>
+							<input type="radio" {% if option.selected_value == value %} checked="checked"{% endif %}
+								{% if option_disabled %} disabled="disabled"{% endif %}
+								value="{{ value | escape }}"
+								data-index="option{{ option_index }}"
+								name="option{{ option.position }}"
+								class="js-single-option-selector{% if option_disabled %} disabled{% endif %}"
+								id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
+								{%- if variant_image != blank and type =='color' -%}
+                                      <label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+                                          data-{{ type }}="{{ value }}"
+                                          title="{{ value | strip | escape }}"
+                                          style="background:url('{{ variant_image }}');background-size: cover;background-position: center;"
+                                          class="{% if option_disabled %}disabled{% endif %}">
+                                          {{ value | escape }}
+                                          {%- if type != 'label' -%}
+                                              <span class="tool-tip">{{ value | escape }}</span>
+                                          {%- endif -%}
+                                      </label>
+								{%- else -%}
+									<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+										data-{{ type }}="{{ value }}"
+										title="{{ value | strip | escape }}"
+										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %}">
+										{{ value | escape }}
+										{%- if type != 'label' -%}
+											<span class="tool-tip">{{ value | escape }}</span>
+										{%- endif -%}
+									</label>
+								{%- endif -%}
+						</div>
+					{%- endfor -%}
+				{%- elsif block.settings.product_selector == 'checkbox' -%}
+					{%- assign option_index = forloop.index -%}
+					{%- for value in option.values -%}
+						{%- assign option_disabled = true -%}
+						{%- for variant in product.variants -%}
+							{%- if variant.available -%}
+								{%- if option_index == 1 and variant.option1 == value -%}
+									{%- assign option_disabled = false -%}
+									{%- break -%}
+								{%- elsif option_index == 2 and variant.option2 == value and variant.option1 == current_variant.option1 -%}
+									{%- assign option_disabled = false -%}
+									{%- break -%}
+								{%- elsif option_index == 3 and variant.option3 == value and variant.option2 == current_variant.option2 and variant.option1 == current_variant.option1 -%}
+									{%- assign option_disabled = false -%}
+									{%- break -%}
+								{%- endif -%}
+							{%- endif -%}
+						{%- endfor -%}
+						<div class="single-option-selector checkbox" data-single-option-button>
+							<input type="radio" {% if option.selected_value == value %} checked="checked"{% endif %}
+								{% if option_disabled %} disabled="disabled"{% endif %}
+								value="{{ value | escape }}"
+								data-index="option{{ option_index }}"
+								name="option{{ option.position }}"
+								class="js-single-option-selector{% if option_disabled %} disabled{% endif %}"
+								id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
+							<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+								title="{{ value | strip | escape }}"
+								{% if option_disabled %}class="disabled"{% endif %}>
+								{{ value | escape }}
+							</label>
+						</div>
+					{%- endfor -%}
+				{%- elsif block.settings.product_selector == 'color-checkbox' -%}
+					{%- assign option_index = forloop.index -%}
+					{%- for value in option.values -%}
+						{%- assign option_disabled = true -%}
+						{%- assign variant_alt = 'false' -%}
+						{%- for variant in product.variants -%}
+							{%- if variant.available -%}
+								{%- if option_index == 1 and variant.option1 == value -%}
+									{%- assign option_disabled = false -%}
+									{%- break -%}
+								{%- elsif option_index == 2 and variant.option2 == value and variant.option1 == current_variant.option1 -%}
+									{%- assign option_disabled = false -%}
+									{%- break -%}
+								{%- elsif option_index == 3 and variant.option3 == value and variant.option2 == current_variant.option2 and variant.option1 == current_variant.option1 -%}
+									{%- assign option_disabled = false -%}
+									{%- break -%}
+								{%- endif -%}
+							{%- endif -%}
+						{%- endfor -%}
+						{%- for variant in product.variants -%}
+							{%- if variant.title contains value and variant.featured_image  -%}
+								{%- assign variant_image = '' -%}
+							{%- endif -%}
+						{%- endfor -%}
+						<div class="single-option-selector color-checkbox" data-single-option-button>
+							<input type="radio" {% if option.selected_value == value %} checked="checked"{% endif %}
+								{% if option_disabled %} disabled="disabled"{% endif %}
+								value="{{ value | escape }}"
+								data-index="option{{ option_index }}"
+								name="option{{ option.position }}"
+								class="js-single-option-selector{% if option_disabled %} disabled{% endif %}"
+								id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
+							{%- if variant_image != blank and type =='color' -%}
+												<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+													data-{{ type }}="{{ value }}"
+													title="{{ value | strip | escape }}"
+													style="background:url('{{ variant_image }}');background-size: cover;background-position: center;"
+													class="{% if option_disabled %}disabled{% endif %}">
+													{{ value | escape }}
+													{%- if type != 'label' -%}
+														<span class="tool-tip">{{ value | escape }}</span>
+													{%- endif -%}
+												</label>
+							{%- elsif type =='color' -%}
+								<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+									data-{{ type }}="{{ value }}"
+									title="{{ value | strip | escape }}"
+									class="{{ value | escape }} {% if option_disabled %}disabled{% endif %}">
+									{{ value | escape }}
+									{%- if type != 'label' -%}
+										<span class="tool-tip">{{ value | escape }}</span>
+									{%- endif -%}
+								</label>
+							{%- else -%}
+								<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+									title="{{ value | strip | escape }}"
+									class="checkbox{% if option_disabled %} disabled{% endif %}">
+									{{ value | escape }}
+								</label>
+							{%- endif -%}
+						</div>
+					{%- endfor -%}
+				{%- elsif block.settings.product_selector == 'color-select' -%}
+					{%- if type =='color' -%}
+						{%- assign option_index = forloop.index -%}
+						{%- for value in option.values -%}
+							{%- assign option_disabled = true -%}
+							{%- assign variant_alt = 'false' -%}
+							{%- for variant in product.variants -%}
+								{%- if variant.available -%}
+									{%- if option_index == 1 and variant.option1 == value -%}
+										{%- assign option_disabled = false -%}
+										{%- break -%}
+									{%- elsif option_index == 2 and variant.option2 == value and variant.option1 == current_variant.option1 -%}
+										{%- assign option_disabled = false -%}
+										{%- break -%}
+									{%- elsif option_index == 3 and variant.option3 == value and variant.option2 == current_variant.option2 and variant.option1 == current_variant.option1 -%}
+										{%- assign option_disabled = false -%}
+										{%- break -%}
+									{%- endif -%}
+								{%- endif -%}
+							{%- endfor -%}
+							{%- for variant in product.variants -%}
+    							{%- if variant.title contains value and variant.featured_image  -%}
+    								{%- assign variant_image = '' -%}
+    							{%- endif -%}
+    						{%- endfor -%}
+							<div class="single-option-selector" data-single-option-button>
+								<input type="radio" {% if option.selected_value == value %} checked="checked"{% endif %}
+									{% if option_disabled %} disabled="disabled"{% endif %}
+									value="{{ value | escape }}"
+									data-index="option{{ option_index }}"
+									name="option{{ option.position }}"
+									class="js-single-option-selector{% if option_disabled %} disabled{% endif %}"
+									id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
+								{%- if variant_image != blank and type =='color' -%}
+												<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+													data-{{ type }}="{{ value }}"
+													title="{{ value | strip | escape }}"
+													style="background:url('{{ variant_image }}');background-size: cover;background-position: center;"
+													class="{% if option_disabled %}disabled{% endif %}">
+													{{ value | escape }}
+													{%- if type != 'label' -%}
+														<span class="tool-tip">{{ value | escape }}</span>
+													{%- endif -%}
+												</label>
+								{%- elsif type =='color' -%}
+									<label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+										data-{{ type }}="{{ value }}"
+										title="{{ value | strip | escape }}"
+										class="{{ value | escape }} {% if option_disabled %}disabled{% endif %}">
+										{{ value | escape }}
+										{%- if type != 'label' -%}
+											<span class="tool-tip">{{ value | escape }}</span>
+										{%- endif -%}
+									</label>
+								{%- endif -%}
+							</div>
+						{%- endfor -%}
+					{%- else -%}
+						<select class="js-single-option-selector single-option-selector-{{ section.id }} product-form__input"
+							data-id="SingleOptionSelector-{{ forloop.index0 }}"
+							data-index="option{{ forloop.index }}"
+							type="select"
+							data-single-option-select>
+							{%- assign option_index = forloop.index -%}
+							{% for value in option.values %}
+								<option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value | escape }}</option>
+							{% endfor %}
+						</select>
+					{%- endif -%}
+				{%- else -%}
+					<select class="js-single-option-selector single-option-selector-{{ section.id }} product-form__input"
+						data-id="SingleOptionSelector-{{ forloop.index0 }}"
+						data-index="option{{ forloop.index }}"
+						data-single-option-select>
+						{% for value in option.values %}
+							<option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value | escape }}</option>
+						{% endfor %}
+					</select>
+				{%- endif -%}
+				</div>
+			</div>
+		{%- endfor -%}
+	{% endunless %}
+	<select name="id" class="js-product-select--{{ section.id }} product-single__variants d-none">
+		{%- for variant in product.variants -%}
+			{%- if variant.available -%}
+				<option {% if variant == product.selected_or_first_available_variant %}
+					selected="selected" {% endif %}
+					data-sku="{{ variant.sku }}"
+					value="{{ variant.id }}">
+					{{ variant.title }} - {{ variant.price | money_with_currency }}
+				</option>
+			{%- else -%}
+				<option disabled="disabled">
+					{{ variant.title }} - {{ 'products.product.sold_out' | t }}
+				</option>
+			{%- endif -%}
+		{%- endfor -%}
+	</select>
+
+
+
+ 
+	{% unless product.has_only_default_variant %}
+		{%- if settings.show_size_chart -%}
+		<div class="size-guide">
+			<i class="wpb-icon-ruler"></i><div class="title-size-guide">{{ 'products.product.size_guide' | t }}</div>
+			<div class="img-size-guide">
+				<div class="img-size-content">
+					<div class="title-size-guide"></div>
+					{%- if size_chart -%}
+						<img class="size_image" src="{{ size_chart | image_url:width:size_chart.width,height:size_chart.height }}" alt="{{ size_chart.alt | escape }}" width="{{ size_chart.width }}" height="{{ size_chart.height }}" />
+					{%- else -%}
+						{%- if settings.type_sizechart == "image" -%}
+							<img class="size_image" src="{{ settings.img_size_chart | image_url:width:settings.img_size_chart.width,height:settings.img_size_chart.height }}" alt="{{ settings.img_size_chart.alt | escape }}" width="{{ settings.img_size_chart.width }}" height="{{ settings.img_size_chart.height }}" />
+						{%- else -%}
+							{{ settings.html_size_chart.content }}
+						{%- endif -%}
+					{%- endif -%}
+				</div>
+			</div>
+		</div>
+		{%- endif -%}
+	{% endunless %}
+	{%- if block.settings.product_available_enable -%}
+		<div class="content-variant_inventory">
+			{% if current_variant.inventory_management == "shopify" %}
+				{% if current_variant.inventory_quantity > 0 %}
+					{%- for item in cart.items -%}
+						{% if current_variant.id == item.variant_id %}
+							{%- assign stock_cart = item.quantity -%}
+						{% endif %}
+					{%- endfor -%}
+					{%- assign stock = current_variant.inventory_quantity | minus: stock_cart -%}
+					{%- assign sold = block.settings.total_product_solid -%}
+					{%- assign total = stock | plus: sold -%}
+					{%- assign percent = stock | times: 100.00 | divided_by: total | round: 4 -%}
+					<div class="js-product-avaiable product-avaiable">
+						<div id="variant-inventory_percent" class="show" style="--progress-bar-width:{{ percent }}%">
+							{{'products.product.left_in_stock_html' | t: current_variant: stock }}
+							<div class="content-percent"><div class="percent"></div></div>
+						</div>
+					</div>
+				{% endif %}
+			{% endif %}
+		</div>
+	{%- endif -%}
+	<div class="product-single__buttons" style="--payment-bg:{{ block.settings.payment_button_color }};--payment-color:{{ block.settings.payment_text_color }};     display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    /* gap: 0px; */
+    align-items: center;margin: 0px 0px;">
+		{% comment %}Product quantity{% endcomment %}
+		{%- if block.settings.quantity_enabled and current_variant.available -%}
+		<div class="js-quantity-selector product-quantity">
+			<label for="Quantity" class="product-quantity__label">{{ 'products.product.quantity' | t }}</label>
+			<div class="product-quantity__selector">
+				{%- if block.settings.quantity_selector == 'text' -%}
+					<div class="wpbingo-qty">
+						<button type="button" class="js-qty-adjust wpbingo-qty__adjust wpbingo-qty__adjust--minus" aria-label="{{ 'cart.general.reduce_quantity' | t }}">
+							<i class="feather-minus"></i>
+						</button>
+						<input type="text" name="quantity" class="js-qty-number wpbingo-qty__number" value="1" min="1" aria-label="quantity" pattern="[0-9]*">
+						<button type="button" class="js-qty-adjust wpbingo-qty__adjust wpbingo-qty__adjust--plus" aria-label="{{ 'cart.general.increase_quantity' | t }}">
+							<i class="feather-plus"></i>
+						</button>
+					</div>
+				{%- else -%}
+					<select name="quantity" id="Quantity" class="product-quantity__select">
+						{%- for i in (1..10) -%}
+							<option {% if forloop.first %}selected="selected"{% endif %} value="{{ i }}">{{ i }}</option>
+						{%- endfor -%}
+					</select>
+				{%- endif -%}
+			</div>
+		</div>
+		{%- endif -%}
+		{%- if product.handle != blank and section.settings.product_button_wishlist -%}
+			<div class="button-wishlist">
+				<button type="button" aria-label="Add to wishlist" class="" button-wishlist data-product-handle="{{ product.handle }}">
+				</button>
+			</div>
+		{%- endif -%}
+		{% comment %}Add to cart button{% endcomment %}
+		<div class="product-single__add-to-cart" style="--atc-bg:{{ block.settings.atc_button_color }};width:100%;">
+			<button  class="btn btn--add-to-cart{% if block.settings.enable_payment_button %} btn--secondary-accent{% endif %}"{% unless current_variant.available %} disabled="disabled"{% endunless %}
+				type="submit"
+				name="add">
+				<span class="btn__text">
+					{% if current_variant.available %}
+						{% if current_variant.inventory_policy == "continue" %}
+							{{ 'products.product.pre_order' | t }}
+						{% else %}
+							{{ 'products.product.add_to_cart' | t }}
+						{% endif %}
+					{% else %}
+						{{ 'products.product.sold_out' | t }}
+					{% endif %}
+				</span>
+			</button>
+
+		</div>
+		{% if block.settings.enable_payment_button and current_variant.available %}
+			{% comment %} terms and conditions checkbox {% endcomment %}
+				{% if settings.show_terms_conditions %}
+					<p class="ajaxcart_terms_conditions">
+						<input style="float:none; vertical-align: middle;" type="checkbox" class="agree_terms_conditions" />
+						<label style="display:inline; float:none" for="agree">
+							{{ settings.content_terms_conditions }}
+						</label>
+					</p>
+				{% endif %}
+			{% comment %} end terms and conditions checkbox {% endcomment %}
+			{% comment %} {{ form | payment_button }} {% endcomment %}
+              {% render 'gokwik-buy-now' %}
+		{% endif %}
+	</div>
+	{% endform %}
+	{% unless current_variant.available %}
+		{% include 'back-in-stock-form' %}
+	{% endunless %}
+{%- elsif external != blank and group_product == blank -%}
+	<div class="product-single__buttons product-single__add-to-cart">
+		<a class="product-single__external" href="{{ external }}">{{ 'products.product.buy_product' | t }}</a>
+		{%- if product.handle != blank and section.settings.product_button_wishlist -%}
+			<div class="button-wishlist">
+				<button type="button" aria-label="Add to wishlist" class="" data-product-handle="{{ product.handle }}">
+				</button>
+			</div>
+		{%- endif -%}
+	</div>
+{%- elsif group_product != blank -%}
+	<form method="post" id="group_table_product" action="/cart/add"  enctype="multipart/form-data" novalidate="novalidate">
+		<input type="hidden" name="form_type" value="product">
+		<div class="group_table">
+			{% for group_ids in group_product_array %}
+				{% assign product_id = group_ids | plus: 0 %}
+				{% paginate collections.all.products by 1000 %}
+				{% for product in collections.all.products %}
+					{%- if product.id == product_id -%}
+						<div data-product_id="{{ product_id }}" class="item-product-group">
+							<div class="product-content">
+								<div class="product-thumb">
+									<a href="{{ product.url }}">
+										{% include 'img-global' with image: product.featured_image, class: "featured-banner__img", effect: "fade-in" %}
+									</a>
+								</div>
+								<div class="product-info">
+									<h3 class="product-title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+									{% assign number_variant = 0 %}
+									{%- for variant in product.variants -%}
+										{% assign number_variant = number_variant | plus: 1 %}
+									{%- endfor -%}
+									{%- if number_variant == 1 -%}
+										{%- for variant in product.variants -%}
+											{% if variant.inventory_management == "shopify" and variant.inventory_policy != "continue" %}
+												{% if variant.inventory_quantity == 0 %}
+													{% assign out_stock = true %}
+												{%- endif -%}
+											{%- endif -%}
+											<div class="product-price">{{ product.price | money }}</div>
+											<input name="items[][id]" type="hidden" value="{{ variant.id  }}" {% if out_stock %}disabled="disabled"{%- endif -%}>
+											{% if out_stock %}
+												<div class="stock">{{'products.product.out_stock' | t }}</div>
+											{%- endif -%}
+										{%- endfor -%}
+									{%- else -%}
+										<select name="items[][id]" class="js-product-btp--{{ section.id }} product-single__variants">
+											{%- for variant in product.variants -%}
+												{%- if variant.available -%}
+													<option {% if variant == product.selected_or_first_available_variant %}
+														selected="selected" {% endif %}
+														data-price="{{ variant.price }}"
+														value="{{ variant.id }}">
+														{{ variant.title }} - {{ variant.price | money_with_currency }}
+													</option>
+												{%- else -%}
+													<option disabled="disabled">
+														{{ variant.title }} - {{ 'products.product.sold_out' | t }}
+													</option>
+												{%- endif -%}
+											{%- endfor -%}
+										</select>
+									{%- endif -%}
+								</div>
+							</div>
+							<div class="quantity-content">
+								{%- if out_stock -%}
+									<div class="wpbingo-qty">
+										<button type="button" class="js-qty-adjust wpbingo-qty__adjust wpbingo-qty__adjust--minus" aria-label="{{ 'cart.general.reduce_quantity' | t }}" disabled="disabled">
+											<i class="feather-minus"></i>
+										</button>
+										<input type="text" name="items[][quantity]" class="js-qty-number wpbingo-qty__number" value="0" min="0" aria-label="quantity" pattern="[0-9]*" disabled="disabled">
+										<button type="button" class="js-qty-adjust wpbingo-qty__adjust wpbingo-qty__adjust--plus" aria-label="{{ 'cart.general.increase_quantity' | t }}" disabled="disabled">
+											<i class="feather-plus"></i>
+										</button>
+									</div>
+								{%- else -%}
+									<div class="wpbingo-qty">
+										<button type="button" class="js-qty-adjust wpbingo-qty__adjust wpbingo-qty__adjust--minus" aria-label="{{ 'cart.general.reduce_quantity' | t }}">
+											<i class="feather-minus"></i>
+										</button>
+										<input type="text" name="items[][quantity]" class="js-qty-number wpbingo-qty__number" value="1" min="0" aria-label="quantity" pattern="[0-9]*">
+										<button type="button" class="js-qty-adjust wpbingo-qty__adjust wpbingo-qty__adjust--plus" aria-label="{{ 'cart.general.increase_quantity' | t }}">
+											<i class="feather-plus"></i>
+										</button>
+									</div>
+								{%- endif -%}
+							</div>
+						</div>
+					{%- endif -%}
+				{% endfor %}
+				{% endpaginate %}
+			{% endfor %}
+		</div>
+		{% comment %}Add to cart button{% endcomment %}
+		<div class="product-group__add-to-cart product-single__buttons" style="--atc-bg:{{ block.settings.atc_button_color }};">
+			<button type="submit" class="add-group-to-cart">
+				{{ 'products.product.add_to_cart' | t }}
+			</button>
+			{%- if product.handle != blank and section.settings.product_button_wishlist -%}
+				<div class="button-wishlist">
+					<button type="button" aria-label="Add to wishlist" class="" button-wishlist data-product-handle="{{ product.handle }}">
+					</button>
+				</div>
+			{%- endif -%}
+		</div>
+	</form>
+{%- endif -%}
+

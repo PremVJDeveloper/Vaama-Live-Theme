@@ -1,0 +1,85 @@
+<div class="svc-box">
+  <div class="svc-input-wrapper">
+    <input id="svcPin"
+           type="text"
+           maxlength="6"
+           inputmode="numeric"
+           placeholder="Enter Pincode">
+      <img src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/locate_me.svg?v=1772002337">
+    <button id="svcLocateBtn">Locate Me</button>
+  </div>
+
+  <div id="svcMsg" class="svc-msg"></div>
+</div>
+<script src="{{ 'serviceability.js' | asset_url }}" defer></script>
+
+<style>
+  .svc-box {
+    width: 100%;
+    {% comment %} max-width: 420px; {% endcomment %}
+    margin: 20px 0 0 0;
+  }
+
+  .svc-input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #28365b;
+    border-radius: 30px;
+    padding: 10px 16px;
+    background: #fff;
+    border-radius: 5px; 
+    font-family: 'Inter';      /* change made */
+    font-style: normal;        /* change made */
+    font-weight: 600;          /* change made */
+    font-size: 12px;          /* change made */
+    line-height: 14px;          /* change made */
+
+  }
+
+  .svc-input-wrapper input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: 'Inter', SANS-SERIF;      /* change made */
+    font-style: normal;        /* change made */
+    font-weight: 400;          /* change made */
+    font-size: 14px;           /* change made */
+    line-height: 16px;         /* change made */
+  }
+
+  .svc-input-wrapper button {
+    background: none;
+    border: none;
+    color: #28365b;
+    font-weight: 600;
+    font-family:'Inter', SANS-SERIF;
+    padding: 4px 6px;       /* change made */
+    gap: 4px;                /* change made */
+
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+  }
+
+  .svc-msg {
+    padding: 8px 10px;
+    font-size: 14px;
+        font-family:'Inter', SANS-SERIF;
+
+    font-weight: 600;
+    min-height: 20px;
+  }
+
+  .svc-msg.success {
+    color: #18780b;
+        font-family:'Inter', SANS-SERIF;
+
+  }
+
+  .svc-msg.error {
+    color: #b11212;
+        font-family:'Inter', SANS-SERIF;
+
+  }
+</style>

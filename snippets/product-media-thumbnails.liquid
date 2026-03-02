@@ -1,0 +1,122 @@
+<div class="js-product-thumbnails js-product-thumbnails-{{ section.id }}{%- if varriant_array != blank -%}-{{ forloop.index }}{% endif %} product-single__thumbnails" data-columns="{{ section.settings.thumbnail_count }}" {% if img_thumbnail and vertical %}data-vertical="true"{% endif %}>
+{%- if videoId != blank -%}
+	<div class="product-single__thumbnail-wrapper">
+		<img src="http://img.youtube.com/vi/{{ videoId[1] }}/sddefault.jpg" width="300" height="400" />
+	</div>
+{% endif %}
+{% for media in product.media %}
+	{% if product.media.size > 0 %}
+		{%- if varriant_array != blank -%}
+            {% assign media_alt = media.alt | strip | replace: ' ', '_' %}
+			{%- if media_alt ==  varriant_image -%}
+				<div class="product-single__thumbnail-wrapper">
+					<div class="product-media__wrapper">
+						{%- capture thumbnail_alt -%}
+							{%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+								{{ 'products.product.video_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+							{%- elsif media.media_type == 'model' -%}
+								{{ 'products.product.model_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+							{%- else -%}
+								{{ 'products.product.gallery_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+							{%- endif -%}
+						{%- endcapture -%}
+						<a href="javascript:void(0)"
+							class="{%- if media.media_type == 'video' or media.media_type == 'external_video' or media.media_type == 'model' -%}
+							product-single__video{%- else -%}product-single__thumbnail{% endif %}
+							{% if media == featured_media %} active-thumb{% endif %}"
+							data-media="{{ media | image_url:width:media.width,height:media.height }}"
+							data-media-id="{{ section.id }}-{{ media.id }}"
+							data-product-thumbnail>
+							<img class="product-image__thumb lazyload fade-in" src="{{ media | image_url:width:150 }}" alt="{{ thumbnail_alt }}" width="{{ media.width }}" height="{{ media.height }}" >
+							{%- if media.media_type == 'video' or media.media_type == 'external_video' or media.media_type == 'model' -%}
+								<div class="product-single__thumbnail-badge  {{ media.media_type }}">
+									{%- if media.media_type == 'model' -%}
+										<i class="icon-model"></i>
+									{%- else -%}
+										<i class="feather-play"></i>
+									{%- endif -%}
+								</div>
+							{%- endif -%}
+						</a>
+					</div>
+				</div>
+			{%- endif -%}
+          {%- if media.alt == product.title -%}
+				<div class="product-single__thumbnail-wrapper">
+					<div class="product-media__wrapper">
+						{%- capture thumbnail_alt -%}
+							{%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+								{{ 'products.product.video_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+							{%- elsif media.media_type == 'model' -%}
+								{{ 'products.product.model_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+							{%- else -%}
+								{{ 'products.product.gallery_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+							{%- endif -%}
+						{%- endcapture -%}
+						<a href="javascript:void(0)"
+							class="{%- if media.media_type == 'video' or media.media_type == 'external_video' or media.media_type == 'model' -%}
+							product-single__video{%- else -%}product-single__thumbnail{% endif %}
+							{% if media == featured_media %} active-thumb{% endif %}"
+							data-media="{{ media | image_url:width:media.width,height:media.height }}"
+							data-media-id="{{ section.id }}-{{ media.id }}"
+							data-product-thumbnail>
+							<img class="product-image__thumb lazyload fade-in" src="{{ media | image_url:width:150 }}" alt="{{ thumbnail_alt }}" width="{{ media.width }}" height="{{ media.height }}" >
+							{%- if media.media_type == 'video' or media.media_type == 'external_video' or media.media_type == 'model' -%}
+								<div class="product-single__thumbnail-badge  {{ media.media_type }}">
+									{%- if media.media_type == 'model' -%}
+										<i class="icon-model"></i>
+									{%- else -%}
+										<i class="feather-play"></i>
+									{%- endif -%}
+								</div>
+							{%- endif -%}
+						</a>
+					</div>
+				</div>
+			{%- endif -%}
+		{%- else -%}
+			<div class="product-single__thumbnail-wrapper">
+				<div class="product-media__wrapper">
+					{%- capture thumbnail_alt -%}
+						{%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+							{{ 'products.product.video_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+						{%- elsif media.media_type == 'model' -%}
+							{{ 'products.product.model_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+						{%- else -%}
+							{{ 'products.product.gallery_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+						{%- endif -%}
+					{%- endcapture -%}
+					<a href="javascript:void(0)"
+						class="{%- if media.media_type == 'video' or media.media_type == 'external_video' or media.media_type == 'model' -%}
+						product-single__video{%- else -%}product-single__thumbnail{% endif %}
+						{% if media == featured_media %} active-thumb{% endif %}"
+						data-media="{{ media | image_url:width:media.width,height:media.height }}"
+						data-media-id="{{ section.id }}-{{ media.id }}"
+						data-product-thumbnail>
+						{%- if media.alt == 'bwp-image-360' -%}
+							<img class="product-image__thumb lazyload fade-in" src="{{ media | image_url:width:150 }}" alt="{{ thumbnail_alt }}" width="{{ media.width }}" height="{{ media.height }}" >
+							<div class="product-single__thumbnail-badge image-360">
+								<i>360</i>
+							</div>
+						{%- else -%}
+							<img class="product-image__thumb lazyload fade-in" src="{{ media | image_url:width:150 }}" alt="{{ thumbnail_alt }}" width="{{ media.width }}" height="{{ media.height }}" >
+							{%- if media.media_type == 'video' or media.media_type == 'external_video' or media.media_type == 'model' -%}
+								<div class="product-single__thumbnail-badge  {{ media.media_type }}">
+									{%- if media.media_type == 'model' -%}
+										<i class="feather-box"></i>
+									{%- else -%}
+										<i class="feather-play"></i>
+									{%- endif -%}
+								</div>
+							{%- endif -%}
+						{%- endif -%}
+					</a>
+				</div>
+			</div>
+		{%- endif -%}
+		{%- if media.alt == 'bwp-image-360' -%}
+			{%- break -%}
+		{%- endif -%}
+	{% endif %}
+{% endfor %}
+</div>

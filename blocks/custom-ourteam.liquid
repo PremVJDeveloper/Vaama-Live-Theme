@@ -1,0 +1,214 @@
+{%- style -%}
+     #shopify-section-{{ section.id }} .wpbingo-widget--ourteam .ourteam-card__avatar{
+        border-radius: {{ block.settings.border_image }};
+    }
+    #shopify-section-{{ section.id }} .wpbingo-widget--ourteam .ourteam-card__name{
+        color:{{block.settings.color_title}};
+        font-size:{{block.settings.font_size_title}}px;
+        line-height:{{block.settings.line_height_title}}px;
+        font-weight:{{block.settings.font_weight_title}};
+        letter-spacing:{{block.settings.letter_spacing_title}}px;
+    }
+    #shopify-section-{{ section.id }} .wpbingo-widget--ourteam .ourteam-card__job{
+        color:{{block.settings.color_job}};
+        font-size:{{block.settings.font_size_job}}px;
+        line-height:{{block.settings.line_height_job}}px;
+        font-weight:{{block.settings.font_weight_job}};
+        letter-spacing:{{block.settings.letter_spacing_job}}px;
+    }
+    #shopify-section-{{ section.id }} .wpbingo-widget--ourteam .social-icons li a{
+        border-radius: {{block.settings.border_social}};
+        -webkit-border-radius: {{block.settings.border_social}};
+        border-color:{{block.settings.color_sosial}};
+    }
+    #shopify-section-{{ section.id }} .wpbingo-widget--ourteam .social-icons li a i,#shopify-section-{{ section.id }} .wpbingo-widget--ourteam .social-icons li a svg{
+        color: {{block.settings.color_sosial}};
+        fill: {{block.settings.color_sosial}};
+    }
+    #shopify-section-{{ section.id }} .wpbingo-widget--ourteam .social-icons li a:hover{
+         border-color:{{block.settings.color_sosial_hover}};
+          background:{{block.settings.color_sosial_hover}};
+    }
+    @media(max-width:767px){
+        #shopify-section-{{ section.id }} .wpbingo-widget--ourteam .ourteam-card__name{
+            font-size:{{block.settings.font_size_title_mobi}}px;
+            line-height:{{block.settings.line_height_title_mobi}}px;
+            letter-spacing:{{block.settings.letter_spacing_title_mobi}}px;
+        }
+        #shopify-section-{{ section.id }} .wpbingo-widget--ourteam .ourteam-card__job{
+            font-size:{{block.settings.font_size_job_mobi}}px;
+            line-height:{{block.settings.line_height_job_mobi}}px;
+            letter-spacing:{{block.settings.letter_spacing_job_mobi}}px;
+        }
+    }
+{%- endstyle -%}
+{% schema %}
+  {
+    "name": "Custom css",
+    "settings": [
+        {
+            "type": "header",
+            "content": "====== IMAGE ======"
+        },
+        {
+            "type": "text",
+            "id": "border_image",
+            "label": "Border radius",
+            "default": "50%",
+            "info": "50%"
+        },
+        {
+            "type": "header",
+            "content": "====== TITLE ======"
+        },
+        {
+            "type": "color",
+            "id": "color_title",
+            "label": "color",
+            "default": "#000"
+        },
+        {
+            "type": "number",
+            "id": "font_size_title",
+            "label": "Font size",
+            "default": 20,
+            "info": "px"
+        },
+        {
+            "type": "number",
+            "id": "line_height_title",
+            "label": "Line height",
+            "default": 30,
+            "info": "px"
+        },
+        {
+            "type": "number",
+            "id": "letter_spacing_title",
+            "label": "Letter spacing",
+            "default": 0,
+            "info": "px"
+        },
+        {
+            "type": "text",
+            "id": "font_weight_title",
+            "label": "Font Weight",
+            "default": "500"
+        },
+        {
+            "type": "header",
+            "content": "====== JOB ======"
+        },
+        {
+            "type": "color",
+            "id": "color_job",
+            "label": "color",
+            "default": "#4e4e4e"
+        },
+        {
+            "type": "number",
+            "id": "font_size_job",
+            "label": "Font size",
+            "default": 16,
+            "info": "px"
+        },
+        {
+            "type": "number",
+            "id": "line_height_job",
+            "label": "Line height",
+            "default": 24,
+            "info": "px"
+        },
+        {
+            "type": "number",
+            "id": "letter_spacing_job",
+            "label": "Letter spacing",
+            "default": 0,
+            "info": "px"
+        },
+        {
+            "type": "text",
+            "id": "font_weight_job",
+            "label": "Font Weight",
+            "default": "500"
+        },
+         {
+            "type": "header",
+            "content": "====== SOCIAL ======"
+        },
+        {
+            "type": "text",
+            "id": "border_social",
+            "label": "Border radius",
+            "default": "50%",
+            "info": "50%"
+        },
+        {
+            "type": "color",
+            "id": "color_sosial",
+            "label": "color",
+            "default": "#fff"
+        },
+        {
+            "type": "color",
+            "id": "color_sosial_hover",
+            "label": "color hover",
+            "default": "#000"
+        },
+        {
+            "type": "header",
+            "content": "====== MOBILE ======",
+            "info": "screen < 767px"
+        },
+        {
+            "type": "header",
+            "content": "----------------- title"
+        },
+        {
+            "type": "number",
+            "id": "font_size_title_mobi",
+            "label": "Font size",
+            "default": 20,
+            "info": "px"
+        },
+        {
+            "type": "number",
+            "id": "line_height_title_mobi",
+            "label": "Line height",
+            "default": 30,
+            "info": "px"
+        },
+        {
+            "type": "number",
+            "id": "letter_spacing_title_mobi",
+            "label": "Letter spacing",
+            "default": 0,
+            "info": "px"
+        },
+        {
+            "type": "header",
+            "content": "----------------- job"
+        },
+        {
+            "type": "number",
+            "id": "font_size_job_mobi",
+            "label": "Font size",
+            "default": 16,
+            "info": "px"
+        },
+        {
+            "type": "number",
+            "id": "line_height_job_mobi",
+            "label": "Line height",
+            "default": 22,
+            "info": "px"
+        },
+        {
+            "type": "number",
+            "id": "letter_spacing_job_mobi",
+            "label": "Letter spacing",
+            "default": 0,
+            "info": "px"
+        }
+    ]
+  }
+{% endschema %}

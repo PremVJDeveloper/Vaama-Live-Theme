@@ -1,0 +1,31 @@
+.bwp-widget-list_link .bwp-list_link.list-style-none,.bwp-widget-list_link .bwp-list_link.list-style-custom{
+  padding:0;
+  list-style:none;
+}
+.bwp-widget-list_link .bwp-list_link.list-style-disc{
+  list-style:disc;
+}
+.bwp-widget-list_link .bwp-list_link.list-style-circle{
+  list-style:circle;
+}
+.bwp-widget-list_link .bwp-list_link.list-style-square{
+  list-style:square;
+}
+.bwp-widget-list_link .bwp-list_link.list-style-decimal{
+  list-style:decimal;
+}
+.bwp-widget-list_link .bwp-list_link.list-style-decimal-leading-zero{
+  list-style:decimal-leading-zero;
+}
+.bwp-widget-list_link .bwp-list_link.list-style-lower-alpha{
+  list-style:lower-alpha;
+}
+.bwp-widget-list_link .bwp-list_link.list-style-upper-alpha{
+  list-style:upper-alpha;
+}
+.bwp-widget-list_link .bwp-list_link.list-style-lower-roman{
+  list-style:lower-roman;
+}
+.bwp-widget-list_link .bwp-list_link.list-style-upper-roman{
+  list-style:upper-roman;
+}

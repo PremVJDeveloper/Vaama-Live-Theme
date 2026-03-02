@@ -1,0 +1,88 @@
+<section class="vaama-promise-marquee" style="background: {{ section.settings.bg_color }};">
+  
+  {% if section.settings.header_text != blank %}
+    <h2 class="vaama-promise-header"
+        style="color: {{ section.settings.header_color }};
+               font-size: {{ section.settings.header_size }}px;
+               text-align: {{ section.settings.header_align }};
+               font-family: {{ section.settings.header_font_family }};">
+      {{ section.settings.header_text }}
+    </h2>
+  {% endif %}
+
+<div class="marquee">
+  <div class="marquee__inner">
+    {% for block in section.blocks %}
+      <div class="marquee-item">
+        {% if block.settings.icon != blank %}
+          <div class="icon-container">
+            <img loading="lazy"
+                 src="{{ block.settings.icon | img_url: '150x' }}"
+                 alt="{{ block.settings.title | escape }}"
+                 class="marquee-icon">
+          </div>
+        {% endif %}
+        {% if block.settings.title != blank %}
+          <p class="marquee-title"
+            style="color: {{ section.settings.font_color }};
+                   font-size: {{ section.settings.font_size }}px;
+                   font-family: {{ section.settings.item_font_family }};">
+            {{ block.settings.title }}
+          </p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+</section>
+
+{{ 'vaama-promise.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vaama-promise-js.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Vaama Promise Marquee",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "text", "id": "header_text", "label": "Header Title", "default": "Vaama Promise" },
+    { "type": "color", "id": "header_color", "label": "Header Color", "default": "#001f4d" },
+    { "type": "range", "id": "header_size", "label": "Header Font Size (px)", "min": 16, "max": 48, "step": 1, "default": 24 },
+    { "type": "select", "id": "header_align", "label": "Header Alignment", "default": "center", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ]},
+    { "type": "select", "id": "header_font_family", "label": "Header Font Family", "default": "Arial, sans-serif", "options": [
+      { "value": "Arial, sans-serif", "label": "Arial" },
+      { "value": "Helvetica, sans-serif", "label": "Helvetica" },
+      { "value": "'Times New Roman', serif", "label": "Times New Roman" },
+      { "value": "Georgia, serif", "label": "Georgia" },
+      { "value": "'Courier New', monospace", "label": "Courier New" },
+      { "value": "Verdana, sans-serif", "label": "Verdana" }
+    ]},
+    { "type": "color", "id": "font_color", "label": "Item Font Color", "default": "#001f4d" },
+    { "type": "range", "id": "font_size", "label": "Item Font Size (px)", "min": 12, "max": 32, "step": 1, "default": 16 },
+    { "type": "select", "id": "item_font_family", "label": "Item Font Family", "default": "Arial, sans-serif", "options": [
+      { "value": "Arial, sans-serif", "label": "Arial" },
+      { "value": "Helvetica, sans-serif", "label": "Helvetica" },
+      { "value": "'Times New Roman', serif", "label": "Times New Roman" },
+      { "value": "Georgia, serif", "label": "Georgia" },
+      { "value": "'Courier New', monospace", "label": "Courier New" },
+      { "value": "Verdana, sans-serif", "label": "Verdana" }
+    ]}
+  ],
+  "blocks": [
+    {
+      "type": "promise",
+      "name": "Promise Item",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "title", "label": "Title", "default": "EF Colour Diamonds Brilliant White Perfection" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Vaama Promise Marquee", "category": "Custom" }
+  ]
+}
+{% endschema %}

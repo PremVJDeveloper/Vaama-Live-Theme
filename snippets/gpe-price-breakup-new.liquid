@@ -1,0 +1,622 @@
+<!-- [Live Gold Price Editor] Inline Price Breakup - Figma Design -->
+<!-- [START OF CAPTURE] -->
+{% capture 'variant_meta_fields' %}
+  {% for variant in product.variants %}
+    {% if variant.metafields.DI-GoldPrice.variant_config != blank %}
+      {{ variant.id | json }}: {{ variant.metafields.DI-GoldPrice.variant_config }} {% unless forloop.last %},{% endunless %}
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+
+{% capture 'variants' %}
+  {% for variant in product.variants %}
+    {{ variant.id }}: {{ variant | json }} {% unless forloop.last %},{% endunless %}
+  {% endfor %}
+{% endcapture %}
+<!-- [END OF CAPTURE] -->
+
+<div id="gpe-inline-container" style="display:none;">
+
+  <!-- Tabs -->
+  <div class="gpe-tabs-row">
+    <button class="gpe-tab active" id="gpe-tab-breakup" onclick="gpeShowTab('breakup')">
+      <!-- REPLACE src with your Price Breakup icon SVG URL -->
+      {% comment %} <img class="gpe-tab-icon" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Price_breakup_icon_7d660273-0b43-4268-ba9d-cb1f840f5242.svg?v=1772018101" alt="" /> {% endcomment %}
+      Price Breakup
+    </button>
+    <button class="gpe-tab" id="gpe-tab-savings" onclick="gpeShowTab('savings')">
+      <!-- REPLACE src with your Your Savings icon SVG URL -->
+      {% comment %} <img class="gpe-tab-icon" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Savings_icon_3c0f34d7-bd41-49a0-8ee6-507dfcd21e2a.svg?v=1772018104" alt="" /> {% endcomment %}
+      Your Savings
+    </button>
+  </div>
+
+  <!-- Underline bar -->
+  <div class="gpe-underline-track">
+    <div class="gpe-underline-active" id="gpe-underline-active"></div>
+  </div>
+
+  <!-- Price Breakup Panel -->
+  <div id="gpe-panel-breakup" class="gpe-panel">
+    <div class="gpe-card">
+      <table class="gpe-table"><tbody id="gpe-inline-body"></tbody></table>
+      <div class="gpe-divider"></div>
+      <div class="gpe-total-row">
+        <span class="gpe-total-label">Total</span>
+        <span class="gpe-total-value" id="gpe-inline-total"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Savings Panel -->
+  <div id="gpe-panel-savings" class="gpe-panel" style="display:none;">
+    <div class="gpe-card">
+      <div id="gpe-savings-content" style="padding-left: 14px;"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var variantConfigs = { {{ variant_meta_fields }} };
+  var variants = { {{ variants }} };
+  var metalPriceConfig = {{ shop.metafields.DI-GoldPrice.metal_prices }};
+  var shopStonePricings = {{ shop.metafields.DI-GoldPrice.stone_pricing | default: "[]" }} || [];
+
+  function gpeShowTab(tab) {
+    document.getElementById('gpe-panel-breakup').style.display = tab === 'breakup' ? '' : 'none';
+    document.getElementById('gpe-panel-savings').style.display = tab === 'savings' ? '' : 'none';
+    document.getElementById('gpe-tab-breakup').classList.toggle('active', tab === 'breakup');
+    document.getElementById('gpe-tab-savings').classList.toggle('active', tab === 'savings');
+    document.getElementById('gpe-underline-active').style.left = tab === 'breakup' ? '0' : '50%';
+  }
+
+  const gpeFirstVariantId = {{ product.selected_or_first_available_variant.id }};
+  if (variantConfigs && variantConfigs[gpeFirstVariantId]) {
+    gpeUpdateInline(gpeFirstVariantId);
+  }
+
+  document.addEventListener('change', function () {
+    const url = new URL(document.URL);
+    const variantId = url.searchParams.get("variant");
+    if (variantId && !isNaN(variantId) && variantConfigs && variantConfigs[variantId]) {
+      gpeUpdateInline(variantId);
+    } else if (variantId) {
+      document.getElementById('gpe-inline-container').style.display = 'none';
+    }
+  });
+
+  function gpeUpdateInline(variantId) {
+    const variantConfig = variantConfigs[variantId];
+
+    // --- Metal ---
+    var metalPricePerGram = 0, metalLabel = '';
+    if (variantConfig.metal_type.toLowerCase() === 'gold') {
+      const pm = {
+        '24K': metalPriceConfig.gold_price_24k, '22K': metalPriceConfig.gold_price_22k,
+        '21K': metalPriceConfig.gold_price_21k, '18K': metalPriceConfig.gold_price_18k,
+        '14K': metalPriceConfig.gold_price_14k, '10K': metalPriceConfig.gold_price_10k,
+        '9K': metalPriceConfig.gold_price_9k
+      };
+      metalPricePerGram = pm[variantConfig.purity] || 0;
+      metalLabel = `${variantConfig.purity || ''} Yellow Gold (${gpeFmt(metalPricePerGram)}/g)`;
+    } else if (variantConfig.metal_type.toLowerCase() === 'silver') {
+      metalPricePerGram = metalPriceConfig.silver_price;
+      metalLabel = `Silver (${gpeFmt(metalPricePerGram)}/g)`;
+    } else if (variantConfig.metal_type.toLowerCase() === 'platinum') {
+      metalPricePerGram = metalPriceConfig.platinum_price;
+      metalLabel = `Platinum (${gpeFmt(metalPricePerGram)}/g)`;
+    } else if (variantConfig.metal_type.toLowerCase() === 'palladium') {
+      metalPricePerGram = metalPriceConfig.palladium_price;
+      metalLabel = `Palladium (${gpeFmt(metalPricePerGram)}/g)`;
+    }
+    if (!metalPricePerGram) return;
+    if (!variantConfig.tax) variantConfig.tax = metalPriceConfig.default_tax;
+
+    const metalCost = variantConfig.metal_weight * metalPricePerGram;
+    var productPrice = metalCost, compareProductPrice = metalCost;
+
+    // --- Stones: aggregate all diamonds into one row, gemstones separately ---
+    var diamondCharges = 0, compareDiamondCharges = 0;
+    var gemstoneCharges = 0, compareGemstoneCharges = 0;
+
+    // Diamond aggregation for Price Breakup tab
+    var totalDiamondPcs = 0;
+    var totalDiamondWeight = 0;
+    var diamondDiscountPct = 0;
+    var diamondRowLabel = '';
+    var diamondRowCompare = 0;
+    var diamondRowFinal = 0;
+
+    // For savings tab — per stone details
+    var savingsDiamondRows = []; // {title, weight, clarity, color, discountPrice, fullPrice, discountPct}
+
+    if (variantConfig.advanced_stone_config && variantConfig.advanced_stone_config.length > 0) {
+      diamondCharges = gpeCalcStone(variantConfig.advanced_stone_config, 'diamond', true);
+      compareDiamondCharges = gpeCalcStone(variantConfig.advanced_stone_config, 'diamond', false);
+      gemstoneCharges = gpeCalcStone(variantConfig.advanced_stone_config, 'gemstone', true);
+      compareGemstoneCharges = gpeCalcStone(variantConfig.advanced_stone_config, 'gemstone', false);
+
+      // Build diamond row (sum all diamonds)
+      let allDiamondLabels = new Set();
+      for (const sc of variantConfig.advanced_stone_config) {
+        if (sc.stone_type.toLowerCase() !== 'diamond') continue;
+        const r = gpeFetchSlab(sc);
+        if (!r) continue;
+        const { slab, title } = r;
+
+        totalDiamondPcs += (+sc.stone_quantity);
+        totalDiamondWeight += (+sc.stone_weight);
+        allDiamondLabels.add(title);
+
+        // Track discount % (use highest discount found)
+        if (slab.discount && slab.discount > diamondDiscountPct) {
+          diamondDiscountPct = slab.discount;
+        }
+
+        let rowCompare = slab.price * sc.stone_weight;
+        let rowFinal = slab.discount ? (slab.price - slab.price * slab.discount / 100) * sc.stone_weight : rowCompare;
+        diamondRowCompare += rowCompare;
+        diamondRowFinal += rowFinal;
+
+        // For savings comparison table
+        savingsDiamondRows.push({
+          title: title,
+          weight: sc.stone_weight,
+          clarity: sc.clarity || (title.includes('VVS') ? 'VVS' : sc.stone_type),
+          color: sc.color || (title.match(/[A-Z]-[A-Z]/) ? title.match(/[A-Z]-[A-Z]/)[0] : '—'),
+          discountPrice: rowFinal,
+          fullPrice: rowCompare,
+          discountPct: slab.discount || 0
+        });
+      }
+
+      // Build combined label e.g. "E-F, VVS/VS (4 Pcs.)"
+      diamondRowLabel = 'E-F VVS' + ` (${totalDiamondPcs} Pcs.)`;
+    }
+
+    productPrice += diamondCharges + gemstoneCharges;
+    compareProductPrice += compareDiamondCharges + compareGemstoneCharges;
+
+    // --- Making Charges ---
+    var makingCharges = variantConfig.making_charges ? variantConfig.making_charges * variantConfig.metal_weight : 0;
+    var compareMakingCharges = makingCharges;
+    var makingDiscountPct = 0;
+    if (metalPriceConfig.making_charges_discount) {
+      makingDiscountPct = metalPriceConfig.making_charges_discount;
+      makingCharges = makingCharges - makingCharges * metalPriceConfig.making_charges_discount / 100;
+    }
+    productPrice += makingCharges;
+    compareProductPrice += compareMakingCharges;
+
+    const taxes = productPrice * (variantConfig.tax / 100);
+    const compareTaxes = compareProductPrice * (variantConfig.tax / 100);
+    const finalPrice = productPrice + taxes;
+    const finalComparePrice = compareProductPrice + compareTaxes;
+
+    // ── BUILD PRICE BREAKUP ROWS ──
+    let rows = `<tr class="gpe-row">
+      <td class="gpe-col-label">${metalLabel}</td>
+      <td class="gpe-col-value">${gpeFmt(metalCost)}</td>
+    </tr>`;
+
+    // Diamond row (aggregated)
+    if (totalDiamondPcs > 0) {
+      const hasDiamondDiscount = diamondRowCompare !== diamondRowFinal;
+      rows += `<tr class="gpe-row">
+        <td class="gpe-col-label">
+          ${diamondRowLabel}
+          ${diamondDiscountPct ? `<span class="gpe-badge">${diamondDiscountPct}% OFF</span>` : ''}
+        </td>
+        <td class="gpe-col-value">
+          ${hasDiamondDiscount ? `<span class="gpe-strike">${gpeFmt(diamondRowCompare)}</span> ` : ''}${gpeFmt(diamondRowFinal)}
+        </td>
+      </tr>`;
+    }
+
+    // Gemstone rows (individual)
+    if (variantConfig.advanced_stone_config) {
+      for (const sc of variantConfig.advanced_stone_config) {
+        if (sc.stone_type.toLowerCase() !== 'gemstone') continue;
+        const r = gpeFetchSlab(sc);
+        if (!r) continue;
+        const { slab, title } = r;
+        let slabPrice = slab.price * sc.stone_weight;
+        let compareSlabPrice = slabPrice;
+        let discountPct = 0;
+        if (slab.discount) {
+          discountPct = slab.discount;
+          slabPrice = (slab.price - slab.price * slab.discount / 100) * sc.stone_weight;
+        }
+        rows += `<tr class="gpe-row">
+          <td class="gpe-col-label">
+            ${title} - ${sc.stone_quantity} Pcs.
+            ${discountPct ? `<span class="gpe-badge">${discountPct}% OFF</span>` : ''}
+          </td>
+          <td class="gpe-col-value">
+            ${compareSlabPrice !== slabPrice ? `<span class="gpe-strike">${gpeFmt(compareSlabPrice)}</span> ` : ''}${gpeFmt(slabPrice)}
+          </td>
+        </tr>`;
+      }
+    }
+
+    // Making Charges
+    if (variantConfig.making_charges) {
+      rows += `<tr class="gpe-row">
+        <td class="gpe-col-label">
+          Making Charges
+          ${makingDiscountPct ? `<span class="gpe-badge">${makingDiscountPct}% OFF</span>` : ''}
+        </td>
+        <td class="gpe-col-value">
+          ${compareMakingCharges !== makingCharges ? `<span class="gpe-strike">${gpeFmt(compareMakingCharges)}</span> ` : ''}${gpeFmt(makingCharges)}
+        </td>
+      </tr>`;
+    }
+
+    // GST
+    rows += `<tr class="gpe-row">
+      <td class="gpe-col-label">GST (${variantConfig.tax}%)</td>
+      <td class="gpe-col-value">${gpeFmt(taxes)}</td>
+    </tr>`;
+
+    document.getElementById('gpe-inline-body').innerHTML = rows;
+    document.getElementById('gpe-inline-total').textContent = gpeFmt(finalPrice);
+
+    // ── BUILD SAVINGS TAB — Diamond Comparison Table ──
+    const totalSavings = finalComparePrice - finalPrice;
+
+    // Aggregate grown diamond data from savingsDiamondRows
+    const grownTotalPrice = savingsDiamondRows.reduce((s, r) => s + r.discountPrice, 0);
+    const grownTotalWeight = totalDiamondWeight;
+    // Clarity & Color from first diamond stone config (most common pattern)
+    const firstDiamond = savingsDiamondRows[0] || {};
+    const grownClarity = firstDiamond.clarity || '—';
+    const grownColor = firstDiamond.color || '—';
+
+    // Mined diamond equivalent: compare price (no discount)
+    const minedTotalPrice = savingsDiamondRows.reduce((s, r) => s + r.fullPrice, 0);
+    // Mined typically SI clarity, IJ color (standard comparison)
+    const minedClarity = 'SI';
+    const minedColor = 'IJ';
+
+    let savingsHtml = `
+      <table class="gpe-savings-table">
+        <thead>
+          <tr>
+            <td class="gpe-sv-head-label">Diamond<br>Comparison</td>
+            <td class="gpe-sv-head-col">Vaama Grown<br>Diamond</td>
+            <td class="gpe-sv-head-col">Mined<br>Diamond</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="gpe-sv-row">
+            <td class="gpe-sv-row-label"><span class="gpe-sv-icon">₹</span> Price</td>
+            <td class="gpe-sv-val gpe-sv-grown">${gpeFmt(grownTotalPrice)}</td>
+            <td class="gpe-sv-val">${gpeFmt(minedTotalPrice)}</td>
+          </tr>
+          <tr class="gpe-sv-row">
+            <td class="gpe-sv-row-label"><img class="gpe-sv-img-icon" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Quality_icon_48214c00-a44d-41d8-ac47-9d9d34dccdbc.svg?v=1772018200" alt="" /> Carat</td>
+            <td class="gpe-sv-val">${grownTotalWeight.toFixed(2)} CT</td>
+            <td class="gpe-sv-val">${grownTotalWeight.toFixed(2)} CT</td>
+          </tr>
+          <tr class="gpe-sv-row">
+            <td class="gpe-sv-row-label"><img class="gpe-sv-img-icon" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/clarity_icon_2c2a292a-39e8-4d22-990b-d7352e88f425.svg?v=1772018200" alt="" /> Clarity</td>
+            <td class="gpe-sv-val">${grownClarity}</td>
+            <td class="gpe-sv-val">SI</td>
+          </tr>
+          <tr class="gpe-sv-row">
+            <td class="gpe-sv-row-label"><img class="gpe-sv-img-icon" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/color_icon_c01a18a6-a7cc-4fb4-b458-a69ff746d078.svg?v=1772018292" alt="" /> Color</td>
+            <td class="gpe-sv-val">${grownColor}</td>
+            <td class="gpe-sv-val">IJ</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="gpe-sv-total-row">
+            <td class="gpe-sv-total-label">Total Saving</td>
+            <td class="gpe-sv-total-grown">${gpeFmt(totalSavings > 0 ? totalSavings : (minedTotalPrice - grownTotalPrice))}</td>
+            <td class="gpe-sv-total-zero">₹ 0</td>
+          </tr>
+        </tfoot>
+      </table>`;
+
+    document.getElementById('gpe-savings-content').innerHTML = savingsHtml;
+    document.getElementById('gpe-inline-container').style.display = '';
+  }
+
+  function gpeCalcStone(configs, type, withDiscount) {
+    var total = 0;
+    for (const sc of configs) {
+      if (sc.stone_type.toLowerCase() !== type.toLowerCase()) continue;
+      const pw = (+sc.stone_weight) / (+sc.stone_quantity);
+      for (const p of shopStonePricings) {
+        if (p.id !== sc.pricing_id) continue;
+        for (const s of p.slabs) {
+          if (pw >= s.from_weight && pw <= s.to_weight) {
+            var pr = s.price;
+            if (s.discount && withDiscount) pr -= pr * s.discount / 100;
+            total += sc.stone_weight * pr; break;
+          }
+        }
+      }
+    }
+    return total;
+  }
+
+  function gpeFetchSlab(sc) {
+    const pw = (+sc.stone_weight) / (+sc.stone_quantity);
+    for (const p of shopStonePricings) {
+      if (p.id !== sc.pricing_id) continue;
+      for (const s of p.slabs) {
+        if (pw >= s.from_weight && pw <= s.to_weight) return { slab: s, title: p.title };
+      }
+    }
+    return null;
+  }
+
+  function gpeFmt(price) {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency', currency: 'INR',
+      maximumFractionDigits: 0, minimumFractionDigits: 0
+    }).format(price);
+  }
+</script>
+
+<style>
+  #gpe-inline-container {
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+    {% comment %} border-top: 1px solid #98a2b3; {% endcomment %}
+    margin-top: 64px;
+    {% comment %} padding-top: 32px; {% endcomment %}
+  }
+  /* Tab icon */
+  .gpe-tab-icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    flex-shrink: 0;
+    /* Tint inactive icons to match text opacity */
+    opacity: inherit;
+  }
+  /* ── Tabs ── */
+  .gpe-tabs-row {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .gpe-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 0 0 20px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 12px;
+    color: #28365B;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 400;
+    opacity: 0.6;
+    gap: 8px;
+    transition: opacity 0.2s;
+  }
+
+  .gpe-tab.active {
+    font-weight: 600;
+    opacity: 1;
+  }
+
+  /* ── Underline track ── */
+  .gpe-underline-track {
+    position: relative;
+    height: 1px;
+    background: rgba(40, 54, 91, 0.3);
+  }
+
+  .gpe-underline-active {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 2px;
+    background: rgba(40, 54, 91, 0.8);
+    border-radius: 2px;
+    transition: left 0.25s ease;
+  }
+
+  /* ── Panel ── */
+  .gpe-panel {
+    margin-top: 16px;
+  }
+
+  /* ── Card ── */
+  .gpe-card {
+    min-height: 160px;
+    box-sizing: border-box;
+    background: #F5F6F8;
+    border-radius: 5px;
+    padding: 12px 16px 14px 14px;
+  }
+
+  /* ── Price Breakup Table ── */
+  .gpe-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .gpe-row td {
+    height: 28px;
+    padding: 10px 0;
+    vertical-align: middle;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    color: #28365B;
+    font-weight: 400;
+  }
+
+  .gpe-col-label {
+    width: 60%;
+  }
+
+  .gpe-col-value {
+    width: 40%;
+    text-align: right;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  /* ── Strikethrough ── */
+  .gpe-strike {
+    font-size: 12px;
+    line-height: 16px;
+    color: #7B86A3;
+    text-decoration: line-through;
+    text-decoration-color: #28365B;
+    text-decoration-thickness: 0.5px;
+    margin-right: 5px;
+    font-weight: 400;
+  }
+
+  /* ── Discount badge (green pill) ── */
+  .gpe-badge {
+    display: inline-block;
+    background: #30A200;
+    border-radius: 2px;
+    padding: 2px 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    line-height: 12px;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.03rem;
+    vertical-align: middle;
+    margin-left: 5px;
+  }
+
+  /* ── Divider ── */
+  .gpe-divider {
+    width: 100%;
+    border: none;
+    border-top: 0.3px solid #D4D8E1;
+    margin: 10px 0 10px 0;
+  }
+
+  /* ── Total row ── */
+  .gpe-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .gpe-total-label,
+  .gpe-total-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 600;
+    color: #28365B;
+  }
+
+  /* ── Savings Comparison Table ── */
+  .gpe-savings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #28365B;
+  }
+
+  .gpe-savings-table thead tr td {
+    padding: 0 0 12px 0;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: #28365B;
+    vertical-align: top;
+  }
+
+  .gpe-sv-head-label {
+    width: 35%;
+  }
+
+  .gpe-sv-head-col {
+    width: 32.5%;
+    font-weight: 500;
+  }
+
+  .gpe-sv-row td {
+    padding: 8px 0;
+    font-size: 12px;
+    line-height: 16px;
+    color: #28365B;
+    font-weight: 400;
+    border-top: 0.3px solid rgba(40, 54, 91, 0.15);
+  }
+
+  .gpe-sv-row-label {
+    font-weight: 400;
+    color: #28365B;
+  }
+
+  .gpe-sv-icon {
+    display: inline-block;
+    margin-right: 4px;
+    font-size: 11px;
+    color: #28365B;
+  }
+
+  .gpe-sv-val {
+    font-size: 12px;
+    color: #28365B;
+  }
+
+  .gpe-sv-grown {
+    color: #28365B;
+  }
+
+  /* Savings footer */
+  .gpe-sv-total-row td {
+    padding: 10px 0 2px 0;
+    border-top: 0.3px solid rgba(40, 54, 91, 0.8);
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  .gpe-sv-img-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 4px;
+    fill: #28365b;
+    filter: brightness(1) saturate(100%) invert(19%) sepia(20%) saturate(900%) hue-rotate(190deg) brightness(95%) contrast(95%);
+
+  }
+
+  .gpe-sv-total-label {
+    color: #28365B;
+    font-weight: 700;
+  }
+
+  .gpe-sv-total-grown {
+    color: #28a745;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .gpe-sv-total-zero {
+    color: #e53935;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .gpe-green {
+    color: #28a745;
+  }
+</style>

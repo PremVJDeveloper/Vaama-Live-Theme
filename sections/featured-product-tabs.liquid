@@ -1,0 +1,619 @@
+{{ 'css-section-product-tab.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.fullwidth -%}
+	{%- assign container = 'container-full' -%}
+{%- elsif section.settings.max_width != blank -%}
+	{%- assign container = 'bwp-container' -%}
+{%- else -%}
+	{%- assign container = 'container' -%}
+{%- endif -%}
+
+{%- assign max_width = '' -%}
+{%- if section.settings.fullwidth == blank and section.settings.max_width != blank -%}
+	{%- assign width_container = section.settings.max_width | plus: 0 -%}
+	{%- capture max_width -%}style="max-width: {{ section.settings.max_width }};"{%- endcapture -%}
+{%- endif -%}
+
+{% assign margin 	= section.settings.margin | split: "|" %}
+{% assign padding 	= section.settings.padding | split: "|" %}
+{%- style -%}
+	{%- if section.settings.fullwidth == blank and section.settings.max_width != blank and width_container > 1200 -%}
+		@media (max-width: {{ section.settings.max_width }}) and (min-width: 1200px){
+			#shopify-section-{{ section.id }} .bwp-container{
+				padding-left:30px;
+				padding-right:30px;
+			}
+		}
+	{%- endif -%}
+	{%- if margin[0] != blank or padding[0] != blank -%}
+		#shopify-section-{{ section.id }} .wpbingo-section--product-tabs{
+			{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+			{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+		}
+	{%- endif -%}
+	{%- if margin[1] != blank or padding[1] != blank -%}
+		@media (max-width:1200px){
+			#shopify-section-{{ section.id }} .wpbingo-section--product-tabs{
+				{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+				{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[2] != blank or padding[2] != blank -%}
+		@media (max-width:991px){
+			#shopify-section-{{ section.id }} .wpbingo-section--product-tabs{
+				{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+				{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[3] != blank or padding[3] != blank -%}
+		@media (max-width:767px){
+			#shopify-section-{{ section.id }} .wpbingo-section--product-tabs{
+				{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+				{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if section.blocks.size > 0 -%}
+		{%- for block in section.blocks -%}
+			{%- if block.type == 'css' -%}
+				#shopify-section-{{ section.id }} .wpbingo-section--product-tabs .product-tabs__nav-link{
+					font-size: {{ block.settings.font_size_title }}px;
+					line-height: {{ block.settings.line_height_title }}px;
+					font-weight: {{ block.settings.font_weight_title }};
+					letter-spacing:{{ block.settings.letter_spacing_title }}px;
+					color:{{ block.settings.color_title }};
+					margin:{{ block.settings.margin_title }};
+				}
+				#shopify-section-{{ section.id }} .wpbingo-section--product-tabs .product-tabs__nav-item .active{
+					color:{{ block.settings.color_title_active }};
+					font-weight: {{ block.settings.font_weight_title_active }};
+				}
+				#shopify-section-{{ section.id }} .wpbingo-section--product-tabs .product-tabs__nav-link:hover{
+					color:{{ block.settings.color_title_active }};
+				}
+				#shopify-section-{{ section.id }} .wpbingo-section--product-tabs .bwp-button{
+					font-size: {{ block.settings.font_size_button }}px;
+					line-height: {{ block.settings.line_height_button }}px;
+					color:{{ block.settings.color_button }};
+					padding:{{ block.settings.padding_button }};
+					background:{{ block.settings.bg_button }};
+					font-weight: {{ block.settings.font_weight_button }};
+					letter-spacing:{{ block.settings.letter_spacing_button }}px;
+					border-radius:{{ block.settings.border_radius }};
+					overflow:hidden;
+					{%- if block.settings.border -%}
+						border:{{ block.settings.border_width }}px solid {{ block.settings.border_color_button }};
+					{%- endif -%}
+				}
+				#shopify-section-{{ section.id }} .wpbingo-section--product-tabs .bwp-button a:hover{
+					color:{{ block.settings.color_hover_button }};
+					border-color:{{ block.settings.border_color_hover_button }};
+				}
+				#shopify-section-{{ section.id }} .wpbingo-section--product-tabs .bwp-button:hover:before{
+					background:{{ block.settings.bg_hover_button }};
+				} 
+				@media(max-width:767px){
+					#shopify-section-{{ section.id }} .wpbingo-section--product-tabs .product-tabs__nav-link{
+						font-size: {{ block.settings.font_size_title_mobi }}px;
+						line-height: {{ block.settings.line_height_title_mobi }}px;
+						margin:{{ block.settings.margin_title_mobi }};
+					}
+					#shopify-section-{{ section.id }} .wpbingo-section--product-tabs .bwp-button{
+						font-size: {{ block.settings.font_size_button_mobi }}px;
+						line-height: {{ block.settings.line_height_button_mobi }}px;
+						padding:{{ block.settings.padding_button_mobi }};
+						border-radius:{{ block.settings.border_radius_mobi }};
+						{%- if block.settings.border -%}
+							border-width:{{ block.settings.border_width }}px;
+						{%- endif -%}
+					}
+				}
+			{%- endif -%}
+		{%- endfor -%}
+	{%- endif -%}
+{%- endstyle -%}
+
+{%- assign carousel = section.settings.carousel | escape -%}
+{%- assign grid_style = section.settings.grid_style | escape -%}
+{%- assign collection_handle = section.settings.featured_products -%}
+{%- assign nav = section.settings.navigation -%}
+{%- assign infinite = section.settings.infinite -%}
+{%- assign autoplay = section.settings.autoplay -%}
+{%- assign autoplay_speed = section.settings.autoplay_speed | escape -%}
+  {%- assign columns = section.settings.columns -%}
+  {%- assign column1440 = section.settings.column1440 -%}
+  {%- assign column1 = section.settings.column1 -%}
+  {%- assign column2 = section.settings.column2 -%}
+  {%- assign column3 = section.settings.column3 -%}
+  {%- assign column4 = section.settings.column4 -%}
+{% capture col_gird %}
+  {% if columns == 5 %} col-xl-2-5{% else %} col-xl-{{ 12 | divided_by: columns }}{% endif %}
+  {% if column1440 == 5 %} col-xx-2-5{% else %} col-xx-{{ 12 | divided_by: column1440 }}{% endif %}
+  {% if column1 == 5 %} col-lg-2-5{% else %} col-lg-{{ 12 | divided_by: column1 }}{% endif %}
+  {% if column2 == 5 %} col-md-2-5{% else %} col-md-{{ 12 | divided_by: column2 }}{% endif %}
+  {% if column3 == 5 %} col-sm-2-5{% else %} col-sm-{{ 12 | divided_by: column3 }}{% endif %}
+  {% if column4 == 5 %} col-2-5{% else %} col-{{ 12 | divided_by: column4 }}{% endif %}
+{% endcapture %}
+
+<section class="wpbingo-section--{{ section.id }} wpbingo-section--product-tabs product-tabs overflow-hidden"{% if section.settings.color != blank %} style="background-color:{{ section.settings.color }}"{% endif %}>
+  <div class="{{ container }}" {{ max_width }}>
+    <div class="wpbingo-section__inner">
+      <div class="wpbingo-section__content">
+        {%- if section.blocks.size > 0 -%}
+			<div class="product-tabs__nav">
+				<ul class="nav">
+					{%- for block in section.blocks -%}
+						{%- assign tab_heading =  block.settings.title | escape -%}
+						<li class="nav-item product-tabs__nav-item">
+							<a class="product-tabs__nav-link{% if forloop.first %} active{% endif %}" data-toggle="tab" href="#product-tabs-{{ section.id }}{{ forloop.index }}">
+								{{ tab_heading }}
+							</a>
+						</li>
+					{%- endfor -%}
+				</ul>
+				{%- if section.settings.button != blank -%}
+					<div class="bwp-button button-{{forloop.index}}">
+						<a href="{{ section.settings.button_url }}">
+							{{ section.settings.button }}
+						</a>
+					</div>
+				{%- endif -%}
+			</div>
+			<div class="tab-content product-tabs__content bwp_slider-carousel bwp_slick-margin-mobile">
+				{%- for block in section.blocks -%}
+					{%- assign collection_handle = block.settings.collection -%}
+					{%- assign limit = block.settings.limit | plus: 0 -%}
+					<div class="tab-pane fade{% if forloop.first %} show active{% endif %}" id="product-tabs-{{ section.id }}{{ forloop.index }}">
+						{%- if collection_handle == blank or collections[collection_handle] == empty or collections[collection_handle].products_count == 0 -%}
+							<div class="row">
+								{% include 'onboarding-featured-products' %}
+							</div>
+						{%- else -%}
+							<div class="js-carousel slick-carousel" data-nav="{{ nav }}" data-infinite="{{ infinite }}" data-autoplay="{{ autoplay }}"
+								data-autoplayspeed="{{ autoplay_speed }}"
+								data-columns="{{ columns }}"
+								data-column1440="{{ column1440 }}"
+								data-column1="{{ column1 }}"
+								data-column2="{{ column2 }}"
+								data-column3="{{ column3 }}"
+								data-column4="{{ column4 }}">
+									{%- for product in collections[collection_handle].products limit: limit -%}
+										<div class="slick-carousel__item">
+											{% include 'product-grid-item' %}
+										</div>
+									{%- endfor -%}
+							</div>
+						{%- endif -%}
+					</div>
+				{%- endfor -%}
+			</div>
+        {%- else -%}
+			<div class="wpbingo-section__empty">
+				<div class="rte text-center">
+					{{ 'home_page.onboarding.no_content' | t }}
+				</div>
+			</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product tabs",
+  "class": "wpbingo-framework",
+  "settings": [
+    {
+		"type": "header",
+		"content": "Layout settings"
+	},
+	{
+		"type": "color",
+		"id": "color",
+		"label": "Background"
+	},
+	{
+		"type": "text",
+		"id": "max_width",
+		"label": "Width container",
+		"info": "Default: 1440px"
+	},
+	{
+		"type": "checkbox",
+		"id": "fullwidth",
+		"label": "Fullwidth"
+	},
+	{
+		"type": "text",
+		"id": "padding",
+		"label": "Padding",
+		"placeholder": "0px 0px 0px 0px",
+		"info":"Screen: desktop | 1200px | 991px | 767px"
+	},
+	{
+		"type": "text",
+		"id": "margin",
+		"label": "Margin",
+		"placeholder": "0px 0px 0px 0px",
+		"info":"Screen: desktop | 1200px | 991px | 767px"
+	},
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+	{
+		"type": "text",
+		"id": "button",
+		"label": "Button",
+		"default": "VIEW ALL PRODUCT"
+	},
+	{
+		"type": "url",
+		"id": "button_url",
+		"label": "Button url"
+	},
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+		"type": "checkbox",
+		"id": "navigation",
+		"label": "Show navigation",
+		"default": true
+	},
+	{
+		"type": "checkbox",
+		"id": "infinite",
+		"label": "Infinite loop sliding",
+		"default": true
+	},
+	{
+		"type": "checkbox",
+		"id": "autoplay",
+		"label": "Enable autoplay",
+		"default": false
+	},
+	{
+		"type": "text",
+		"id": "autoplay_speed",
+		"label": "Autoplay speed",
+		"info": "Autoplay speed in milliseconds. Type: int(ms)",
+		"default": "10000"
+	},
+	{
+		"type": "range",
+		"id": "columns",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns >1440px",
+		"default": 4,
+		"info": "Desktops"
+	},
+	{
+		"type": "range",
+		"id": "column1440",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns 1200px to 1440px",
+		"default": 4,
+		"info": "Desktops"
+	},
+	{
+		"type": "range",
+		"id": "column1",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns on 992px to 1199px",
+		"default": 4,
+		"info": "Desktops"
+	},
+	{
+		"type": "range",
+		"id": "column2",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns on 768px to 991px",
+		"default": 3,
+		"info": "Laptop"
+	},
+	{
+		"type": "range",
+		"id": "column3",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns on 480px to 767px",
+		"default": 1,
+		"info": "Tablets"
+	},
+	{
+		"type": "range",
+		"id": "column4",
+		"min": 1,
+		"max": 5,
+		"step": 1,
+		"label": "Number of Columns in 480px or less than",
+		"default": 1,
+		"info": "Mobile phone"
+	}
+  ],
+	"blocks": [
+		{
+			"type": "tab",
+			"name": "Tab item",
+			"settings": [
+				{
+					"type": "text",
+					"id": "title",
+					"label": "Heading",
+					"default": "Tab heading"
+				},
+				{
+					"type": "collection",
+					"id": "collection",
+					"label": "Collection"
+				},
+				{
+					"type": "range",
+					"id": "limit",
+					"min": 1,
+					"max": 20,
+					"step": 1,
+					"label": "Number of products",
+					"default": 8
+				}
+			]
+		},
+		{
+			"type": "css",
+			"name": "Custom css",
+			"limit": 1,
+			"settings": [
+				{
+					"type": "header",
+					"content": "====== Title ======"
+				},
+				{
+					"type": "color",
+					"id": "color_title",
+					"label": "color",
+					"default": "#666666"
+				},
+				{
+					"type": "color",
+					"id": "color_title_active",
+					"label": "color active",
+					"default": "#000"
+				},
+				{
+					"type": "text",
+					"id": "font_weight_title_active",
+					"label": "Font Weight Active",
+					"default": "500"
+				},
+				{
+					"type": "number",
+					"id": "font_size_title",
+					"label": "Font size",
+					"default": 16,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height_title",
+					"label": "Line height",
+					"default": 22,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "letter_spacing_title",
+					"label": "Letter spacing",
+					"default": 0,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "font_weight_title",
+					"label": "Font Weight",
+					"default": "400"
+				},
+				{
+					"type": "text",
+					"id": "margin_title",
+					"label": "margin",
+					"default": "0px 0px 0px 0px",
+					"placeholder":"0px 0px 0px 0px"
+				},
+				{
+					"type": "header",
+					"content": "====== button ======"
+				},
+				{
+					"type": "checkbox",
+					"id": "border",
+					"label": "Turn on border",
+					"default": false
+				},
+				{
+					"type": "number",
+					"id": "border_width",
+					"label": "Border width",
+					"default": 0
+				},
+				{
+					"type": "color",
+					"id": "bg_button",
+					"label": "Background"
+				},
+				{
+					"type": "color",
+					"id": "color_button",
+					"label": "color",
+					"default": "#000"
+				},
+				{
+					"type": "color",
+					"id": "border_color_button",
+					"label": "Border color",
+					"default": "#dddddd"
+				},
+				{
+					"type": "header",
+					"content": "hover button"
+				},
+				{
+					"type": "color",
+					"id": "bg_hover_button",
+					"label": "Background"
+				},
+				{
+					"type": "color",
+					"id": "color_hover_button",
+					"label": "color",
+					"default": "#000"
+				},
+				{
+					"type": "color",
+					"id": "border_color_hover_button",
+					"label": "Border color",
+					"default": "#dddddd"
+				},
+				{
+					"type": "text",
+					"id": "border_radius",
+					"label": "Border radius",
+					"default": "0px 0px 0px 0px",
+					"info": "top right bottom left"
+				},
+				{
+					"type": "number",
+					"id": "font_size_button",
+					"label": "Font size",
+					"default": 16,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height_button",
+					"label": "Line height",
+					"default": 22,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "letter_spacing_button",
+					"label": "Letter spacing",
+					"default": 0,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "font_weight_button",
+					"label": "Font Weight",
+					"default": "500"
+				},
+				{
+					"type": "text",
+					"id": "padding_button",
+					"label": "Padding",
+					"default": "0px 0px 0px 0px",
+					"placeholder":"0px 0px 0px 0px"
+				},
+				{
+					"type": "header",
+					"content": "====== Mobile ======",
+					"info": "screen < 767px"
+				},
+				{
+					"type": "header",
+					"content": "---------- Title"
+				},
+				{
+					"type": "number",
+					"id": "font_size_title_mobi",
+					"label": "Font size",
+					"default": 16,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height_title_mobi",
+					"label": "Line height",
+					"default": 22,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "margin_title_mobi",
+					"label": "margin",
+					"default": "0px 0px 0px 0px",
+					"placeholder":"0px 0px 0px 0px"
+				},
+				{
+					"type": "header",
+					"content": "---------- button"
+				},
+				{
+					"type": "text",
+					"id": "border_radius_mobi",
+					"label": "Border radius",
+					"default": "0px 0px 0px 0px",
+					"info": "top right bottom left"
+				},
+				{
+					"type": "number",
+					"id": "border_width_mobi",
+					"label": "Border width",
+					"default": 0
+				},
+				{
+					"type": "number",
+					"id": "font_size_button_mobi",
+					"label": "Font size",
+					"default": 16,
+					"info": "px"
+				},
+				{
+					"type": "number",
+					"id": "line_height_button_mobi",
+					"label": "Line height",
+					"default": 22,
+					"info": "px"
+				},
+				{
+					"type": "text",
+					"id": "padding_button_mobi",
+					"label": "Padding",
+					"default": "0px 0px 0px 0px",
+					"placeholder":"0px 0px 0px 0px"
+				}
+			]
+		}
+	],
+  "presets": [
+    {
+      "name": "Product tabs",
+      "category": "3. Product",
+      "blocks": [
+        {
+          "type": "tab"
+        },
+        {
+          "type": "tab"
+        },
+        {
+          "type": "tab"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

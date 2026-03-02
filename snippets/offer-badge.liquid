@@ -1,0 +1,73 @@
+{{ 'offer-badge.css' | asset_url | stylesheet_tag }}
+
+{%- if block.settings.show_animated_tags -%}
+        {%- assign diamond_details = product.metafields.custom.diamond_details_plugin | default: '' -%}
+        {%- assign show_tags = false -%}
+        {%- if diamond_details != blank -%}
+          {%- assign diamond_sets = diamond_details | split: ',' -%}
+          
+          {%- for diamond_set in diamond_sets -%}
+            {%- assign diamond_parts = diamond_set | split: '/' -%}
+            {%- if diamond_parts.size >= 3 -%}
+              {%- assign diamond_weight = diamond_parts[1] | plus: 0 -%}
+              {%- assign diamond_count = diamond_parts[2] | plus: 0 -%}
+              
+              {%- if diamond_count > 0 -%}
+                {%- assign average_diamond_weight = diamond_weight | divided_by: diamond_count -%}
+                {%- if average_diamond_weight >= 1 -%}
+                  {%- assign show_tags = true -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- if show_tags -%}
+          {%- assign tag_count = 0 -%}
+          {%- assign tag_icons = "" -%}
+          {%- assign tag_texts = "" -%}
+
+          {%- if block.settings.tag1_icon_url != blank and block.settings.tag1_text != blank -%}
+            {%- assign tag_icons = tag_icons | append: block.settings.tag1_icon_url | append: ',' -%}
+            {%- assign tag_texts = tag_texts | append: block.settings.tag1_text | append: '.' -%}
+            {%- assign tag_count = tag_count | plus: 1 -%}
+          {%- endif -%}
+
+          {%- comment -%} Tag 2 {%- endcomment -%}
+          {%- if block.settings.tag2_icon_url != blank and block.settings.tag2_text != blank -%}
+            {%- assign tag_icons = tag_icons | append: block.settings.tag2_icon_url | append: ',' -%}
+            {%- assign tag_texts = tag_texts | append: block.settings.tag2_text | append: '.' -%}
+            {%- assign tag_count = tag_count | plus: 1 -%}
+          {%- endif -%}
+
+          {%- assign tag_icons_array = tag_icons | split: ',' -%}
+          {%- assign tag_texts_array = tag_texts | split: '.' -%}
+
+          {%- if tag_count > 0 -%}
+          <div class="css-carousel-container" data-tag-count="{{ tag_count }}" data-product-id="{{ product.id }}" style="--tag-count: {{ tag_count }}; --cycle-duration: {{ tag_count | times: 3 }}s;">
+            <div class="css-icon-container">
+              {%- for icon_url in tag_icons_array -%}
+                {%- if icon_url != blank -%}
+                  <img src="{{ icon_url }}" class="css-icon css-tag-{{ forloop.index0 }}" width="16" height="16" style="width:16px;height:16px;object-fit:contain;" alt="{{ tag_texts_array[forloop.index0] }}" data-tag-type="{{ tag_texts_array[forloop.index0] | handleize }}">
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            <div class="css-text-container">
+              {%- for text in tag_texts_array -%}
+                {%- if text != blank -%}
+                  <div class="css-text-content css-text-{{ forloop.index0 }}">{{ text }}</div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+          {%- endif -%}
+        {%- else -%}
+          <!-- Empty space for alignment when tags are not shown -->
+          <div class="css-carousel-container empty-tags-space" style="visibility: hidden; height: 32px;"></div>
+        {%- endif -%}
+      {%- else -%}
+        <!-- Empty space for alignment when animated tags are disabled -->
+        <div class="css-carousel-container empty-tags-space" style="visibility: hidden; height: 32px;"></div>
+      {%- endif -%}
+

@@ -1,0 +1,997 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "settings": {
+        "enable": true,
+        "bgimage": true,
+        "image": "shopify://shop_images/Diamond_Information_page.png",
+        "show_pagetitle": true,
+        "show_breadcrumb": true,
+        "color_breadcrumb": "#ffffff",
+        "align_breadcrumb": "center"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "featured_custom_section_XmLgG6": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_zxxGYU": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_w8A3Dd": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "Lab grown diamonds are real diamonds created in controlled laboratory environments that replicate the natural diamond-growing process. These diamonds possess the same physical, chemical, and optical properties as mined diamonds. They're genuine diamonds in every sense, just with a different origin story. At Vaama Jewellery, we specialize in these remarkable gemstones that offer the perfect balance of exceptional quality, ethical sourcing, and unmistakable brilliance.",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#28365b",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "title_Em3ac3": {
+              "type": "title",
+              "name": "Title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "The 4Cs of Diamonds",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 36,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "50px 0px 0px 0px",
+                "margin": "",
+                "color_mobi": "#28365b",
+                "font_size_mobi": 28,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "text_block_G3G6zW": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "When evaluating a diamond's quality and beauty, gemologists and jewelers worldwide rely on the standardized 4Cs grading system: Cut, Color, Clarity, and Carat. These four characteristics together determine a diamond's appearance, rarity, and value. <br><br>Understanding the 4Cs is important when selecting your perfect diamond. Each factor contributes differently to a diamond's overall beauty, and knowing how they interact helps you make informed decisions about which qualities matter most for your preferences and priorities.",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "50px 10px 50px 0px",
+                "margin": "",
+                "color_mobi": "#28365b",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "image_A6NTTW": {
+              "type": "image",
+              "name": "Image",
+              "settings": {
+                "image": "shopify://shop_images/Group_176_3.svg",
+                "url": "",
+                "padding": "25px 10px 0px 10px",
+                "margin": "",
+                "size": "",
+                "image_size": "contain",
+                "image_pos": "center center",
+                "align": "center",
+                "border_radius": "0px 0px 0px 0px",
+                "border": false,
+                "border_width": "0px 0px 0px 0px",
+                "border_color": "#ffffff",
+                "effect": "none",
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_w8A3Dd",
+            "title_Em3ac3",
+            "text_block_G3G6zW",
+            "image_A6NTTW"
+          ]
+        }
+      },
+      "block_order": [
+        "column_zxxGYU"
+      ],
+      "name": "4Cs of Diamond",
+      "settings": {
+        "max_width": "1200px",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "0px 10px",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_KzwecT": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_dhczpM": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_Fpp6KU": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Glassmorphism Hero Section</title>\n  <style>\n    * {\n      margin: 0;\n      padding: 0;\n      box-sizing: border-box;\n    }\n\n    #shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .hero-section {\n      background: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Diamond_Information_page_1.png?v=1748934327') no-repeat center center/cover;\n      height: 600px;\n      display: flex;\n      align-items: center;\n      padding: 0 5%;\n      position: relative;\n       justify-content: flex-end;\n    }\n\n    #shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .glass-container {\n      max-width: 520px;\n      padding: 20px 25px;\n      border-radius: 20px;\n      background: rgba(255, 255, 255, 0.15);\n      backdrop-filter: blur(12px);\n      -webkit-backdrop-filter: blur(12px);\n      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);\n      color: white;\n      border: 1px solid rgba(255, 255, 255, 0.25);\n         text-align: center;\n    }\n\n    #shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .glass-container h1 {\n     font-size: 36px;\n    margin-bottom: 12px;\n    text-align: center;\n    color: white;\n    }\n\n    #shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .glass-container p {\n      font-size: 0.95rem;\n      line-height: 1.5;\n      color: #eee;\n      text-align: center;\n      font-family: mickir;\n     padding: 10px 0px\n    }\n    \n    #shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .glass-container button{\n\npadding: 8px 16px;\nbackground-color: rgba(255, 255, 255, 0.2);\n    border: 1px solid rgba(255, 255, 255, 0.4);\n    color: white;\n    border-radius: 20px;\n    cursor: pointer;\n    font-size: 0.9rem;\n    backdrop-filter: blur(4px);\n    transition: background 0.3s;\n    font-family: mickir;\n}\n\n    @media (max-width: 768px) {\n     #shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .hero-section {\n        padding: 20px;\n        justify-content: center;\n        text-align: center;\n      }\n     #shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .glass-container h1 {\n     font-size: 28px;\n    margin-bottom: 12px;\n    text-align: center;\n    color: white;\n    }\n     #shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .glass-container {\n        width: 100%;\n      }\n    #shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .hero-section {\n        background: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Diamond_Information_page_1.png?v=1748934327') no-repeat center center / auto;\n        height: 850px;\n        display: flex;\n        vertical-align: top;\n        align-items: flex-start;\n        padding: 0 5%;\n        position: relative;\n        padding-top: 30px;\n    }    \n#shopify-block-AWjR6SWpGanltc0ZoR__text_block_Fpp6KU .glass-container button {\n    padding: 8px 16px;\n    background-color: rgb(255 255 255 / 100%) !important;\n    border: 1px solid rgba(255, 255, 255, 0.4);\n    color: #28365a !important;\n    border-radius: 20px;\n    cursor: pointer;\n    font-size: 0.9rem;\n    backdrop-filter: blur(4px);\n    transition: background 0.3s;\n    font-family: mickir;\n}\n}\n  </style>\n\n\n\n  <section class=\"hero-section\">\n    <div class=\"glass-container\">\n      <h1>Diamond Cut</h1>\n      <p>The cut of a diamond determines how well it interacts with light affecting its brilliance (brightness), fire (rainbow dispersion), and scintillation (sparkle). While other qualities matter, nothing influences a diamond's beauty more than its cut quality. \n\n<br><br>A well-cut diamond is precisely shaped and proportioned to maximize light performance. When light enters an expertly cut diamond, it reflects from facet to facet and returns through the top, creating that captivating sparkle. In contrast, poorly cut diamonds allow light to escape through the sides or bottom, resulting in a dull, lifeless appearance. Cut quality scales typically range from Excellent to Poor, with the top grades representing optimal proportions that achieve maximum light return.</p>\n     <button><a href=\"https://vaama.co/collections/blush-collection\">Explore now</a></button>\n    </div>\n  </section>\n\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "text_block_8yhnpL": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_Fpp6KU",
+            "text_block_8yhnpL"
+          ]
+        }
+      },
+      "block_order": [
+        "column_dhczpM"
+      ],
+      "name": "Diamond Cut",
+      "settings": {
+        "max_width": "",
+        "fullwidth": true,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "50px 0px 0px 0px",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_TUad38": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_dkCEGW": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "title_RJWd3K": {
+              "type": "title",
+              "name": "Title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "Diamond Color",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 36,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "| | | 0px 0px 20px 0px",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 28,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "text_block_bCVMKc": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "Diamond color is graded on a scale from D (completely colorless) to Z (light yellow or brown). The difference between color grades is often subtle and nearly invisible to the untrained eye, particularly between adjacent grades. However, these small differences significantly impact a diamond's value and appearance. Colorless diamonds (D-F) are the most rare and valuable, appearing bright white and reflecting the most light. Near-colorless diamonds (G-J) still appear colorless to the naked eye but may show slight warmth under certain lighting. As you move further down the scale, diamonds begin to display increasingly visible yellow or brown tints. When set in jewelry, particularly in white gold or platinum, colorless diamonds create a striking, bright appearance that maximizes their fire and brilliance.",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 18,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "title_kjdWzH": {
+              "type": "title",
+              "name": "Title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "What We Offer at Vaama Jewellery",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 36,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "30px 0px",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 28,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "text_block_YRTdDF": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "We provide only EF color diamonds, which fall in the Colorless category. E & F color diamonds have no visible tint to the naked eye and appear bright white in all lighting conditions.  These premium color grades ensure that your diamond maintains its bright white appearance regardless of setting or lighting conditions, offering timeless beauty without compromise.",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 18,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "title_RJWd3K",
+            "text_block_bCVMKc",
+            "title_kjdWzH",
+            "text_block_YRTdDF"
+          ]
+        }
+      },
+      "block_order": [
+        "column_dkCEGW"
+      ],
+      "name": "Diamond Color",
+      "settings": {
+        "max_width": "",
+        "fullwidth": false,
+        "background_color": "",
+        "background": "shopify://shop_images/6_1_3.png",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "50px 10px 50px 10px",
+        "margin": "50px 0px 0px 0px",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_a4KcVi": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_LJ79VH": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "title_9cU8xM": {
+              "type": "title",
+              "name": "Title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "Diamond Clarity",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 36,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "0px 0px 50px 0px",
+                "margin": "",
+                "color_mobi": "#28365b",
+                "font_size_mobi": 30,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "image_rybYDY": {
+              "type": "image",
+              "name": "Image",
+              "settings": {
+                "image": "shopify://shop_images/Group_177.svg",
+                "url": "",
+                "padding": "",
+                "margin": "",
+                "size": "",
+                "image_size": "cover",
+                "image_pos": "center center",
+                "align": "center",
+                "border_radius": "0px 0px 0px 0px",
+                "border": false,
+                "border_width": "0px 0px 0px 0px",
+                "border_color": "#ffffff",
+                "effect": "none",
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "text_block_6wRcdm": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "Clarity refers to the presence or absence of inclusions (internal) and blemishes (external) in a diamond. These natural imperfections develop during the diamond's formation process, whether in nature or in a laboratory environment. The Gemological Institute of America (GIA) clarity scale includes: Flawless (FL), Internally Flawless (IF), Very Very Slightly Included (VVS1, VVS2), Very Slightly Included (VS1, VS2), Slightly Included (SI1, SI2), and Included (I1, I2, I3). Flawless diamonds show no inclusions or blemishes under 10x magnification and are exceptionally rare. VVS diamonds contain minute inclusions that are difficult for even trained gemologists to see under 10x magnification. As you move down the scale, inclusions become progressively more visible, potentially affecting transparency and brilliance.",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 18,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "50px 0px 50px 0px",
+                "margin": "",
+                "color_mobi": "#28365b",
+                "font_size_mobi": 16,
+                "line_height_mobi": 18,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "image_wMaETB": {
+              "type": "image",
+              "name": "Image",
+              "settings": {
+                "image": "shopify://shop_images/Group_183.svg",
+                "url": "",
+                "padding": "",
+                "margin": "",
+                "size": "",
+                "image_size": "cover",
+                "image_pos": "center center",
+                "align": "center",
+                "border_radius": "0px 0px 0px 0px",
+                "border": false,
+                "border_width": "0px 0px 0px 0px",
+                "border_color": "#ffffff",
+                "effect": "none",
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "title_9cU8xM",
+            "image_rybYDY",
+            "text_block_6wRcdm",
+            "image_wMaETB"
+          ]
+        }
+      },
+      "block_order": [
+        "column_LJ79VH"
+      ],
+      "name": "Diamond Clarirty",
+      "settings": {
+        "max_width": "",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "50px 10px 0px 10px",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_DRrfLd": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_9EHCLG": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_M3RiK8": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Glassmorphism Hero Section</title>\n  <style>\n    * {\n      margin: 0;\n      padding: 0;\n      box-sizing: border-box;\n    }\n\n     #shopify-section-template--18059827544246__featured_custom_section_DRrfLd .hero-section {\n      background: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/What_we_offer.png?v=1748938848') no-repeat center center/cover;\n      height: 600px;\n      display: flex;\n      align-items: center;\n      padding: 0 5%;\n      position: relative;\n    }\n\n     #shopify-section-template--18059827544246__featured_custom_section_DRrfLd .glass-container {\n      max-width: 520px;\n      padding: 20px 25px;\n      border-radius: 20px;\n      background: rgba(255, 255, 255, 0.15);\n      backdrop-filter: blur(12px);\n      -webkit-backdrop-filter: blur(12px);\n      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);\n      color: white;\n      border: 1px solid rgba(255, 255, 255, 0.25);\n         text-align: center;\n    }\n\n    #shopify-section-template--18059827544246__featured_custom_section_DRrfLd .glass-container h1 {\n     font-size: 36px;\n    margin-bottom: 12px;\n    text-align: center;\n    color: white;\n    }\n\n    #shopify-section-template--18059827544246__featured_custom_section_DRrfLd .glass-container p {\n      font-size: 0.95rem;\n      line-height: 1.5;\n      color: #eee;\n      text-align: center;\n      font-family: mickir;\n     padding: 10px 0px\n    }\n    \n     #shopify-section-template--18059827544246__featured_custom_section_DRrfLd .glass-container button{\n\npadding: 8px 16px;\nbackground-color: rgba(255, 255, 255, 0.2);\n    border: 1px solid rgba(255, 255, 255, 0.4);\n    color: white;\n    border-radius: 20px;\n    cursor: pointer;\n    font-size: 0.9rem;\n    backdrop-filter: blur(4px);\n    transition: background 0.3s;\n    font-family: mickir;\n}\n\n    @media (max-width: 768px) {\n     #shopify-section-template--18059827544246__featured_custom_section_DRrfLd  .hero-section {\n        padding: 20px;\n        justify-content: center;\n        text-align: center;\n      }\n#shopify-section-template--18059827544246__featured_custom_section_DRrfLd  .glass-container h1 {\n     font-size: 28px;\n    margin-bottom: 12px;\n    text-align: center;\n    color: white;\n    }\n     #shopify-section-template--18059827544246__featured_custom_section_DRrfLd .glass-container {\n        width: 100%;\n      }\n    #shopify-section-template--18059827544246__featured_custom_section_DRrfLd  .hero-section {\n        background: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Diamond_Information_page_1.png?v=1748934327') no-repeat center center / auto;\n        height: 550px;\n        display: flex;\n        vertical-align: top;\n        align-items: flex-start;\n        padding: 0 5%;\n        position: relative;\n        padding-top: 30px;\n    }    \n#shopify-section-template--18059827544246__featured_custom_section_DRrfLd  .glass-container button {\n    padding: 8px 16px;\n    background-color: rgb(255 255 255 / 100%) !important;\n    border: 1px solid rgba(255, 255, 255, 0.4);\n    color: #28365a !important;\n    border-radius: 20px;\n    cursor: pointer;\n    font-size: 0.9rem;\n    backdrop-filter: blur(4px);\n    transition: background 0.3s;\n    font-family: mickir;\n}\n}\n  </style>\n\n\n\n  <section class=\"hero-section\">\n    <div class=\"glass-container\">\n      <h1>What We Offer at Vaama Jewellery</h1>\n      <p>We provide diamonds with VVS Clarity (Very Very Slightly Included). This ensures an eye-clean, flawless appearance, offering premium quality without visible imperfections. Higher clarity means greater transparency and brilliance, making the diamond look pristine and luxurious, a standard we uphold in every piece we create.</p>\n     <button><a href=\"https://vaama.co/collections/blush-collection\">Explore now</a></button>\n    </div>\n  </section>\n\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_M3RiK8"
+          ]
+        }
+      },
+      "block_order": [
+        "column_9EHCLG"
+      ],
+      "name": "What we offer",
+      "settings": {
+        "max_width": "",
+        "fullwidth": true,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "50px 0px 0px 0px",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_nnNUQj": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_fLjcQb": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "title_DEXtTc": {
+              "type": "title",
+              "name": "Title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "Diamond Carat",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 36,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 30,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "image_KyL6qk": {
+              "type": "image",
+              "name": "Image",
+              "settings": {
+                "image": "shopify://shop_images/Group_185.svg",
+                "url": "",
+                "padding": "0px 0px 50px 0px",
+                "margin": "",
+                "size": "",
+                "image_size": "cover",
+                "image_pos": "center center",
+                "align": "left",
+                "border_radius": "0px 0px 0px 0px",
+                "border": false,
+                "border_width": "0px 0px 0px 0px",
+                "border_color": "#ffffff",
+                "effect": "none",
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "text_block_arGWMc": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "Carat is a measure of a diamond's weight, not its size. One carat equals 200 milligrams, and each carat is divided into 100 points. While carat weight significantly influences a diamond's value, two diamonds of equal weight can appear quite different in size depending on their cut quality and proportions. A well-cut diamond with optimal proportions will appear larger than a poorly cut diamond of the same weight because it maximizes the visible surface area and reflects more light. This is why considering cut quality alongside carat weight is important for finding a diamond that looks both beautiful and substantial. When selecting a diamond, consider how it will look in its setting and on the wearer's hand. Sometimes a slightly smaller diamond with exceptional cut and clarity creates more impact than a larger stone with visible flaws or dullness.",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "title_R3taBD": {
+              "type": "title",
+              "name": "Title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "What We Offer <br>at Vaama Jewellery",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 36,
+                "line_height": 36,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "50px 0px 20px 0px",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 28,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "text_block_kEtbtf": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "We offer a variety of carat weights to suit different budgets and preferences while ensuring superior cut, color, and clarity. A well-cut diamond can appear larger than its actual weight, so we focus on cut quality to maximize visual size and brilliance. Our selection process prioritizes optimal proportions that enhance the diamond's appearance regardless of size, ensuring you receive the most beautiful diamond within your chosen carat range.",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 18,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "title_DEXtTc",
+            "image_KyL6qk",
+            "text_block_arGWMc",
+            "title_R3taBD",
+            "text_block_kEtbtf"
+          ]
+        }
+      },
+      "block_order": [
+        "column_fLjcQb"
+      ],
+      "name": "Diamond Carat",
+      "settings": {
+        "max_width": "",
+        "fullwidth": true,
+        "background_color": "",
+        "background": "shopify://shop_images/6_1_3.png",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "50px 10px 50px 10px",
+        "margin": "50px 0px 0px 0px",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_mGEYTB": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_PABMac": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "title_bryrLD": {
+              "type": "title",
+              "name": "Title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "Value Proposition of Lab Grown Diamonds",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 36,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "50px 0px 0px 0px",
+                "margin": "",
+                "color_mobi": "#28365b",
+                "font_size_mobi": 28,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "image_A8tHfm": {
+              "type": "image",
+              "name": "Image",
+              "settings": {
+                "image": "shopify://shop_images/Layer_1_48.svg",
+                "url": "",
+                "padding": "50px 0px 50px 0px",
+                "margin": "",
+                "size": "",
+                "image_size": "cover",
+                "image_pos": "center center",
+                "align": "center",
+                "border_radius": "0px 0px 0px 0px",
+                "border": false,
+                "border_width": "0px 0px 0px 0px",
+                "border_color": "#ffffff",
+                "effect": "none",
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "text_block_wCRkxH": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "Lab grown diamonds offer exceptional value compared to their mined counterparts. Lab-grown diamonds are typically available at just 30–40% of the price of a natural diamond with the same visual, physical, and chemical properties.meaning you can invest in higher quality or larger carat weight without exceeding your budget.<br><br>\n\nBeyond the price advantage, lab grown diamonds maintain their brilliance and beauty indefinitely. They are just as durable as mined diamonds, rating 10 on the Mohs hardness scale making them perfect for everyday wear and heirloom pieces too.",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "0px 0px 50px 0px",
+                "color_mobi": "#28365b",
+                "font_size_mobi": 16,
+                "line_height_mobi": 18,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "title_bryrLD",
+            "image_A8tHfm",
+            "text_block_wCRkxH"
+          ]
+        }
+      },
+      "block_order": [
+        "column_PABMac"
+      ],
+      "name": "Value Proposition of Lab Grown Diamonds",
+      "settings": {
+        "max_width": "1200px",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "| | | 0px 10px 0px 10px",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_HGV6zc": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_dHcUxk": {
+          "type": "_column",
+          "settings": {
+            "width": 70,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "title_n8Y4Wc": {
+              "type": "title",
+              "name": "Title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "Certification & Authenticity",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 36,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 28,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "image_aWEzmj": {
+              "type": "image",
+              "name": "Image",
+              "settings": {
+                "image": "shopify://shop_images/Layer_1_49.svg",
+                "url": "",
+                "padding": "50px 0px 50px 0px",
+                "margin": "",
+                "size": "",
+                "image_size": "cover",
+                "image_pos": "center center",
+                "align": "center",
+                "border_radius": "0px 0px 0px 0px",
+                "border": false,
+                "border_width": "0px 0px 0px 0px",
+                "border_color": "#ffffff",
+                "effect": "none",
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "text_block_BBWGj4": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "Every piece of your jewellery comes with comprehensive certification from respected gemological laboratories like IGI, GIA or SGL. These certificates document the exact specifications of your diamond, including precise measurements of the 4Cs and other distinguishing characteristics. A diamond certificate serves as your guarantee of quality and authenticity. It provides objective verification of your diamond's properties and serves as an important document for insurance and future appraisals. When reading your certificate, pay special attention to the cut, color, and clarity grades, as these factors most significantly impact your diamond's beauty.",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 18,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "title_n8Y4Wc",
+            "image_aWEzmj",
+            "text_block_BBWGj4"
+          ]
+        }
+      },
+      "block_order": [
+        "column_dHcUxk"
+      ],
+      "name": "Certification and authenticity",
+      "settings": {
+        "max_width": "",
+        "fullwidth": true,
+        "background_color": "",
+        "background": "shopify://shop_images/6_1_3.png",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "50px 0px 50px 0px | | | 50px 10px 50px 10px",
+        "margin": "",
+        "vertical_align": "middle",
+        "horizontal_align": "center"
+      }
+    },
+    "featured_custom_section_qLWcQz": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_GMJdPC": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_Bnqmn4": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <meta name=\"description\" content=\"Frequently asked questions about Vaama Jewellery's lab-grown diamonds, certification, quality standards, and customer policies.\">\n  <title>Frequently Asked Questions - Vaama Jewellery | Lab-Grown Diamond FAQs</title>\n  <style>\n    .faq-wrapper {\n      max-width: 900px;\n      margin: 0 auto;\n    }\n\n    .faq-title {\n      text-align: center;\n      color: #24335b;\n      font-size: 2rem;\n      font-weight: 600;\n      margin-bottom: 40px;\n      letter-spacing: -0.5px;\n    }\n\n    .main-faq-container {\n      background: #ffffff;\n      border: 1px solid #e5e7eb;\n      border-radius: 8px;\n      overflow: hidden;\n    }\n\n    .main-faq-toggle {\n      background: #24335b;\n      color: #ffffff;\n      cursor: pointer;\n      padding: 20px 24px;\n      width: 100%;\n      text-align: left;\n      border: none;\n      outline: none;\n      font-size: 1.125rem;\n      font-weight: 600;\n      position: relative;\n      transition: background-color 0.2s ease;\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n    }\n\n    .main-faq-toggle:hover {\n      background: #1a2847;\n    }\n\n    .main-faq-toggle:focus {\n      outline: 2px solid #24335b;\n      outline-offset: 2px;\n    }\n\n    .main-faq-toggle::after {\n      content: '▼';\n      font-size: 1rem;\n      transition: transform 0.3s ease;\n      display: inline-block;\n    }\n\n    .main-faq-toggle.active::after {\n      transform: rotate(180deg);\n    }\n\n    .main-faq-content {\n      max-height: 0;\n      overflow: hidden;\n      transition: max-height 0.4s ease;\n      background: #ffffff;\n    }\n\n    .main-faq-content.active {\n      max-height: 5000px;\n    }\n\n    .nested-faq-container {\n      padding: 16px;\n    }\n\n    .faq-item {\n      background: #ffffff;\n      border: 1px solid #e5e7eb;\n      border-radius: 6px;\n      margin-bottom: 10px;\n      overflow: hidden;\n    }\n\n    .faq-toggle {\n      background: #ffffff;\n      color: #24335b;\n      cursor: pointer;\n      padding: 16px 20px;\n      width: 100%;\n      text-align: left;\n      border: none;\n      outline: none;\n      font-size: 1rem;\n      font-weight: 500;\n      position: relative;\n      transition: background-color 0.2s ease;\n      display: flex;\n      align-items: flex-start;\n      justify-content: space-between;\n      gap: 12px;\n      border-radius: 6px;\n    }\n\n    .faq-toggle:hover {\n      background: #f9fafb;\n    }\n\n    .faq-toggle:focus {\n      outline: 2px solid #24335b;\n      outline-offset: -2px;\n    }\n\n    .faq-toggle.active {\n      border-radius: 6px 6px 0 0;\n      background: #f9fafb;\n    }\n\n    .faq-question {\n      flex: 1;\n    }\n\n    .faq-toggle::after {\n      content: '+';\n      font-size: 1.5rem;\n      font-weight: 300;\n      transition: transform 0.3s ease;\n      display: inline-block;\n      min-width: 20px;\n      text-align: center;\n      color: #24335b;\n      line-height: 1;\n    }\n\n    .faq-toggle.active::after {\n      content: '−';\n    }\n\n    .faq-content {\n      max-height: 0;\n      overflow: hidden;\n      transition: max-height 0.3s ease, padding 0.3s ease;\n      background: #ffffff;\n      color: #4b5563;\n      line-height: 1.7;\n      font-size: 0.95rem;\n      border-top: 1px solid #e5e7eb;\n    }\n\n    .faq-content.active {\n      max-height: 500px;\n      padding: 16px 20px;\n    }\n\n    .faq-content p {\n      margin: 0;\n    }\n\n    @media (max-width: 768px) {\n\n\n      .faq-title {\n        font-size: 1.5rem;\n        margin-bottom: 30px;\n      }\n\n      .main-faq-toggle {\n        padding: 16px 20px;\n        font-size: 1rem;\n      }\n\n      .nested-faq-container {\n        padding: 12px;\n      }\n\n      .faq-toggle {\n        padding: 14px 16px;\n        font-size: 0.95rem;\n      }\n\n      .faq-content {\n        font-size: 0.9rem;\n      }\n\n      .faq-content.active {\n        padding: 14px 16px;\n      }\n    }\n\n    @media (prefers-reduced-motion: reduce) {\n      * {\n        animation-duration: 0.01ms !important;\n        animation-iteration-count: 1 !important;\n        transition-duration: 0.01ms !important;\n      }\n    }\n  </style>\n\n\n  <main class=\"faq-wrapper\">\n    <h1 class=\"faq-title\">Frequently Asked Questions</h1>\n\n    <section class=\"main-faq-container\" itemscope itemtype=\"https://schema.org/FAQPage\">\n      <button class=\"main-faq-toggle\" id=\"mainFaqToggle\" aria-expanded=\"false\" aria-controls=\"mainFaqContent\">\n        <span>Explore All FAQs</span>\n      </button>\n      \n      <div class=\"main-faq-content\" id=\"mainFaqContent\">\n        <div class=\"nested-faq-container\">\n          \n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Is a lab grown diamond a real diamond?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Yes, lab grown diamonds are genuine diamonds with identical physical, chemical, and optical properties to mined diamonds. They're created using advanced technology that replicates the natural diamond formation process in controlled laboratory conditions. Both rate 10 on the Mohs hardness scale and possess the same brilliance, fire, and durability.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Is it worth buying lab grown diamonds?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Absolutely. Lab grown diamonds offer exceptional value by providing the same beauty and quality as mined diamonds at typically 30-40% less cost. This means you can invest in higher quality grades or larger carat weights within your budget. You're getting superior quality while making a more sustainable choice.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">How much is 1 carat lab grown diamond?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">The price of a 1-carat lab grown diamond varies based on the 4Cs - cut, color, clarity, and carat weight. We recommend scheduling a consultation to explore options that match your specific preferences and budget, ensuring you receive the best value for your investment.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">What are the 4Cs of lab diamonds?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">The 4Cs - Cut, Color, Clarity, and Carat, define a diamond's quality and beauty. Cut determines how light moves through the stone, creating that captivating sparkle. Color grades range from colorless (D) to faint yellow (Z+), while Clarity measures internal characteristics. Carat refers to weight.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Can I buy only diamonds?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Yes, visit our gifting section to explore loose diamonds and other gemstones. Whether you're looking to customize an existing design or create something entirely new, our collection of individual stones offers beautiful options.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Is Vaama's jewellery certified?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Yes, all our jewellery comes with BIS Hallmarked certification and certified authenticity documentation. This ensures you receive complete transparency about your jewellery's quality and characteristics. We believe in providing you with detailed information about your jewelry, so you can wear your Vaama piece with confidence knowing its true value and ethical origins.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">What makes Vaama diamonds exceptionally brilliant?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Every Vaama ring features diamonds with our Triple Excellent Cut grade, which maximizes light reflection for unmatched sparkle. Combined with EF color grading for brilliant white perfection and VVS clarity for exceptional transparency, your jewellery delivers the kind of radiance that captures attention and creates lasting memories.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">What if my jewellery doesn't feel quite right after I receive it?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">We offer 15-day easy returns because we want you to absolutely love your jewellery. Whether it's sizing, style, or simply not feeling like \"the one,\" you can return your piece within 30 Days. This gives you time to live with your ring and ensure it truly becomes part of your story. This is not applicable on customized jewellery.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">How does Vaama ensure consistent quality across all designs?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">The Vaama Promise applies to every piece of jewellery we create - EF color diamonds, VVS clarity, and Triple Excellent cuts are our non-negotiable standards. Whether you choose a classic solitaire or an intricate vintage-inspired design, you receive the same exceptional quality that defines our commitment to excellence.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">How to Properly Store Your Jewellery?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Proper storage protects your earrings and extends their beauty for years to come. Store each pair in individual soft pouches or lined compartments to prevent scratching and tangling. Keep them away from humidity and direct sunlight, which can affect metal finishes over time. For earrings with gemstone accents, avoid contact with other jewelry pieces. Consider a dedicated jewelry box with separate sections, and always ensure earrings are completely dry before storing to prevent tarnishing.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Can You Wear Lab-Grown Diamond Jewellery Everyday?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Absolutely. Lab-grown diamonds possess the same durability and hardness as mined diamonds, making them perfect for daily wear. Your Vaama earrings are crafted with secure settings and quality metals that withstand regular use while maintaining their brilliance. With proper care, your lab-grown diamond earrings will continue sparkling beautifully through all your everyday moments.</p>\n            </div>\n          </article>\n\n        </div>\n      </div>\n    </section>\n  </main>\n\n  <script>\n    const mainToggle = document.getElementById('mainFaqToggle');\n    const mainContent = document.getElementById('mainFaqContent');\n    const faqButtons = document.querySelectorAll('.faq-toggle');\n\n    mainToggle.addEventListener('click', () => {\n      const isExpanded = mainToggle.getAttribute('aria-expanded') === 'true';\n      mainToggle.setAttribute('aria-expanded', !isExpanded);\n      mainToggle.classList.toggle('active');\n      mainContent.classList.toggle('active');\n    });\n\n    faqButtons.forEach(btn => {\n      btn.addEventListener('click', () => {\n        const isExpanded = btn.getAttribute('aria-expanded') === 'true';\n        btn.setAttribute('aria-expanded', !isExpanded);\n        btn.classList.toggle('active');\n        const faqAnswer = btn.nextElementSibling;\n        faqAnswer.classList.toggle('active');\n      });\n    });\n  </script>\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "0px 10px 0px 10px",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_Bnqmn4"
+          ]
+        }
+      },
+      "block_order": [
+        "column_GMJdPC"
+      ],
+      "name": "Custom Section",
+      "settings": {
+        "max_width": "",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "featured_custom_section_XmLgG6",
+    "featured_custom_section_KzwecT",
+    "featured_custom_section_TUad38",
+    "featured_custom_section_a4KcVi",
+    "featured_custom_section_DRrfLd",
+    "featured_custom_section_nnNUQj",
+    "featured_custom_section_mGEYTB",
+    "featured_custom_section_HGV6zc",
+    "featured_custom_section_qLWcQz"
+  ]
+}

@@ -1,0 +1,424 @@
+<section class="custom-category-section">
+  <div class="container_box">
+    <div class="text-center mb-10">
+      <h2 class="category-heading">{{ section.settings.heading }}</h2>
+      <p class="category-subheading">{{ section.settings.subheading }}</p>
+    </div>
+
+    <div class="category-grid-custom">
+      {% comment %} Show only first 5 items on desktop, first 4 on mobile {% endcomment %}
+      {% for block in section.blocks %}
+        {% assign item_index = forloop.index %}
+        <div class="category-item desktop-item-{{ item_index }} mobile-item-{{ item_index }}" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.link | default: '#' }}" class="category-link">
+            <div class="category-image-wrapper">
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | img_url: '800x' }}" alt="{{ block.settings.title }}" class="category-image">
+              {% else %}
+                <div class="placeholder-bg"></div>
+              {% endif %}
+              <div class="overlay">
+                <span class="overlay-text">{{ block.settings.title }}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+.custom-category-section {
+  padding: 60px 20px;
+  background-color: #faf7f3;
+  margin-top: 30px;
+}
+
+.category-heading {
+  font-family: 'Mickir';
+  font-size: 30px;
+  color: #2a1d16;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 8px; 
+}
+
+.category-subheading {
+  color: #6f5b4b;
+  font-size: 18px;
+  margin-top: 8px;
+  font-family: 'Mickir';
+  margin-bottom: 40px;
+}
+
+/* Desktop Grid - 5 items in single row */
+.category-grid-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  margin: 0 auto;
+  flex-wrap: nowrap;
+}
+
+.category-item {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  transition: all 0.3s ease;
+  flex: 1 1 calc(20% - 15px); /* 5 items with gaps (100%/5 = 20%) */
+  min-width: 0; /* Important for flex items with text overflow */
+  aspect-ratio: 3/4; /* Portrait/vertical ratio for desktop */
+}
+
+.category-item:hover {
+  transform: translateY(-5px);
+}
+
+.category-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.category-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.category-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.category-item:hover .category-image {
+  transform: scale(1.08);
+}
+
+.overlay {
+  position: absolute;
+  bottom:10px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 1;
+  transition: background 0.3s ease;
+}
+
+.overlay-text {
+  color: black;
+  font-family: 'Mickir';
+  font-size: 18px;
+  text-align: center;
+  padding: 0 10px;
+  letter-spacing: 0.5px;
+}
+
+/* DESKTOP: Show only first 5 items (items 6+ are hidden) */
+.category-item:nth-child(n+6) {
+  display: none;
+}
+
+/* Responsive adjustments for medium desktop */
+@media (max-width: 1200px) {
+  .category-grid-custom {
+    gap: 12px;
+  }
+  
+  .overlay-text {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 992px) {
+  .category-grid-custom {
+    gap: 10px;
+  }
+  
+  .category-item {
+    aspect-ratio: 3/4;
+  }
+  
+  .overlay-text {
+    font-size: 14px;
+    padding-bottom: 15px;
+  }
+}
+
+/* Tablet - Switch to 3x2 grid (show 4 items max) */
+@media (max-width: 768px) {
+  .custom-category-section {
+    padding: 40px 15px;
+  }
+  
+  .category-heading {
+    font-size: 25px;
+  }
+  
+  .category-subheading {
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+  
+  .category-grid-custom {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    max-width: 100%;
+  }
+  
+  .category-item {
+    aspect-ratio: 3/4; /* Square ratio for tablet */
+  }
+  
+  .overlay-text {
+    font-size: 14px;
+    padding-bottom: 10px;
+  }
+  
+  /* MOBILE/TABLET: Show only first 4 items (items 5+ are hidden) */
+  .category-item:nth-child(n+5) {
+    display: none;
+  }
+}
+
+/* Mobile Grid - 2x2 grid for 4 items */
+@media (max-width: 576px) {
+  .custom-category-section {
+    padding: 30px 10px;
+  }
+  
+  .category-heading {
+    font-size: 22px;
+  }
+  
+  .category-subheading {
+    font-size: 14px;
+    margin-bottom: 25px;
+  }
+  
+  .category-grid-custom {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .category-item {
+    aspect-ratio: 3/4; /* Square ratio for mobile */
+  }
+  
+  .overlay-text {
+    font-size: 13px;
+    padding: 0 5px;
+    padding-bottom: 8px;
+  }
+}
+
+/* For very small mobile screens */
+@media (max-width: 375px) {
+  .category-heading {
+    font-size: 20px;
+  }
+  
+  .category-subheading {
+    font-size: 13px;
+  }
+  
+  .category-grid-custom {
+    gap: 8px;
+  }
+  
+  .overlay-text {
+    font-size: 12px;
+  }
+}
+
+/* Ensure maximum blocks in schema is still 6 for admin, but display only 5/4 */
+.category-item:nth-child(n+7) {
+  display: none !important; /* Hide items beyond 6 completely */
+}
+
+/* Fallback for browsers that don't support aspect-ratio */
+@supports not (aspect-ratio: 1/1) {
+  .category-item {
+    height: 300px;
+  }
+  
+  @media (max-width: 768px) {
+    .category-item {
+      height: 200px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .category-item {
+      height: 180px;
+    }
+  }
+}
+
+/* Container styling */
+.container_box {
+  margin: 0 auto;
+}
+
+/* Placeholder for missing images */
+.placeholder-bg {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Desktop specific: Ensure 5 items show in single row */
+@media (min-width: 769px) {
+  .category-grid-custom {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    margin: 0 auto;
+    flex-wrap: nowrap;
+  }
+  
+  .category-item {
+    flex: 1 1 calc(20% - 15px) !important; /* 5 items per row */
+    max-width: calc(20% - 15px) !important;
+  }
+  
+  /* Show only first 5 items on desktop */
+  .category-item:nth-child(1),
+  .category-item:nth-child(2),
+  .category-item:nth-child(3),
+  .category-item:nth-child(4),
+  .category-item:nth-child(5) {
+    display: block !important;
+  }
+  
+  .category-item:nth-child(n+6) {
+    display: none !important;
+  }
+}
+
+/* Mobile specific: Ensure 4 items show in 2x2 grid */
+@media (max-width: 768px) {
+  .category-grid-custom {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  /* Show only first 4 items on mobile */
+  .category-item:nth-child(1),
+  .category-item:nth-child(2),
+  .category-item:nth-child(3),
+  .category-item:nth-child(4) {
+    display: block !important;
+  }
+  
+  .category-item:nth-child(n+5) {
+    display: none !important;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Custom Category Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "SHOP BY JEWELRY CATEGORY"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Section Subheading",
+      "default": "Jewelry for Every Moment"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_block",
+      "name": "Category Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Rings"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Category Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Category Section",
+      "category": "Custom Sections",
+      "blocks": [
+        {
+          "type": "category_block",
+          "settings": {
+            "title": "RINGS"
+          }
+        },
+        {
+          "type": "category_block",
+          "settings": {
+            "title": "EARRINGS"
+          }
+        },
+        {
+          "type": "category_block",
+          "settings": {
+            "title": "BRACELETS"
+          }
+        },
+        {
+          "type": "category_block",
+          "settings": {
+            "title": "NECKLACES"
+          }
+        },
+        {
+          "type": "category_block",
+          "settings": {
+            "title": "PENDANTS"
+          }
+        },
+        {
+          "type": "category_block",
+          "settings": {
+            "title": "MANGALSUTRAS"
+          }
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}

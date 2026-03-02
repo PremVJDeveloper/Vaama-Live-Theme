@@ -1,0 +1,316 @@
+/* Gift Section Base Styles */
+.gift-section {
+  padding: 56px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: transparent;
+  overflow-x: hidden;
+}
+
+.gift-section__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow: visible;
+}
+
+.gift-section__card-under {
+  font-size: 26px;
+  font-weight: 400;
+  margin-right: 6px;
+}
+
+/* Main Card Styles */
+.gift-section__main-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 32px 83px;
+  gap: 10px;
+  width: 680px;
+  height: 500px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.35) 83.65%), 
+              url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Gift_banner_webp.webp?v=1770788289');
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  flex: none;
+  z-index: 1;
+}
+
+.gift-section__main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.gift-section__title {
+  width: 290px;
+  height: 96px;
+  font-family: 'HeadstockSans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 42px;
+  line-height: 48px;
+  text-align: center;
+  letter-spacing: 0.2rem;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+/* Cards Container */
+.gift-section__cards {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex: 1;
+  justify-content: flex-start;
+  position: relative;
+  height: 500px;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Individual Card Styles - BEFORE HOVER */
+.gift-section__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px 12px;
+  gap: 10px;
+  width: 160px;
+  min-width: 160px;
+  max-width: 160px;
+  height: 500px;
+  border-radius: 10px;
+  flex: 0 1 auto;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Keep text rotated for all states */
+.gift-section__card-content {
+  margin: -16px 15px 0px 20px;
+  width: 0%;
+  height: 50%;
+  transition: transform 0.4s ease;
+}
+
+.gift-section__card-text {
+  font-family: 'HeadstockSans';
+  font-style: normal;
+  font-weight: 200;
+  font-size: 32px;
+  line-height: 56px;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  transform: rotate(90deg);
+  white-space: nowrap;
+  display: block;
+  transition: all 0.4s ease;
+  transform-origin: center;
+}
+
+/* Individual Card Backgrounds */
+.gift-section__card--20k {
+  background-image: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Under_20K_webp.webp?v=1770788288');
+}
+
+.gift-section__card--30k {
+  background-image: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/under_30k_webp.webp?v=1770788288');
+}
+
+.gift-section__card--50k {
+  background-image: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/abovr_50_k_webp.webp?v=1770788288');
+}
+
+.gift-section__card--above50k {
+  background-image: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/under_50k_webp.webp?v=1770788288');
+}
+
+/* HOVER EFFECTS - DESKTOP ONLY */
+@media screen and (min-width: 769px) {
+  /* Card hover effect - using flex-grow approach */
+  .gift-section__card:hover {
+    flex: 2 1 300px !important;
+    min-width: 300px;
+    max-width: 400px;
+    padding: 24px 12px;
+    gap: 10px;
+    border-radius: 10px;
+    opacity: 1;
+    z-index: 2;
+  }
+  
+  /* When one card expands, others shrink proportionally */
+  .gift-section__cards:hover .gift-section__card:not(:hover) {
+    flex: 0 1 120px;
+    min-width: 120px;
+    max-width: 120px;
+    opacity: 0.9;
+  }
+  
+  /* Text adjustment on hover */
+  .gift-section__card:hover .gift-section__card-text {
+    transform: rotate(90deg) scale(1.05);
+    text-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .gift-section {
+    padding: 24px 12px;
+    min-height: auto;
+  }
+  
+  .gift-section__card-under {
+    font-size: 18px;
+    font-weight: 400;
+    margin-right: 6px;
+  }
+  
+  .gift-section__container {
+    flex-direction: column;
+    gap: 16px;
+    max-width: 429px;
+  }
+
+  .gift-section__main-card {
+    width: 100%;
+    height: 380px;
+    padding: 22.9474px 59.5197px;
+    gap: 7.17px;
+    border-radius: 7.17105px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.35) 83.65%), 
+                url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Gift_banner_webp.webp?v=1770788289');
+    background-size: cover;
+  }
+
+  .gift-section__title {
+    width: 194px;
+    height: 69px;
+    font-size: 32px;
+    line-height: 34px;
+    letter-spacing: 2%;
+  }
+
+  .gift-section__cards {
+    width: 100%;
+    height: 264px;
+    gap: 11px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+  }
+
+  .gift-section__card {
+    width: 93px;
+    min-width: 93px;
+    max-width: 93px;
+    height: 246px;
+    padding: 10.16px 5.08px;
+    gap: 4.23px;
+    border-radius: 4.23333px;
+    flex-shrink: 0;
+  }
+
+  .gift-section__card-text {
+    font-size: 22px;
+    line-height: 23px;
+    text-shadow: 0px 1.69333px 4.23333px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Disable hover effects on mobile */
+  .gift-section__card:hover {
+    width: 93px !important;
+    min-width: 93px !important;
+    max-width: 93px !important;
+    flex: 0 0 auto !important;
+  }
+  
+  .gift-section__cards:hover .gift-section__card:not(:hover) {
+    flex: 0 0 auto !important;
+    min-width: 93px !important;
+    max-width: 93px !important;
+    opacity: 1;
+  }
+}
+
+/* Tablet Responsive Styles */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .gift-section__container {
+    max-width: 95%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .gift-section__main-card {
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    margin-bottom: 20px;
+  }
+
+  .gift-section__cards {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: auto;
+    gap: 12px;
+  }
+
+  .gift-section__card {
+    width: calc(25% - 9px);
+    min-width: 140px;
+    max-width: 200px;
+    height: 300px;
+    flex: 0 1 auto;
+  }
+
+  .gift-section__card-text {
+    font-size: 36px;
+    line-height: 42px;
+  }
+  
+  /* Adjust hover for tablet */
+  .gift-section__card:hover {
+    flex: 1 1 250px !important;
+    min-width: 250px;
+    max-width: 350px;
+  }
+  
+  .gift-section__cards:hover .gift-section__card:not(:hover) {
+    flex: 0 1 120px;
+    min-width: 120px;
+    max-width: 120px;
+  }
+}
+
+/* Smooth scrolling for mobile */
+.gift-section__cards {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gift-section__cards::-webkit-scrollbar {
+  display: none;
+}

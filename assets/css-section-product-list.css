@@ -1,0 +1,12 @@
+/*============= FEATURED PRODUCTS ================*/
+@media (min-width: 1200px) {
+  .wpbingo-widget--products .slick-arrow {
+    top: calc(50% - 85px);
+  }
+  .wpbingo-widget--products .slick-next {
+    right: -70px;
+  }
+  .wpbingo-widget--products .slick-prev {
+    left: -70px;
+  }
+}

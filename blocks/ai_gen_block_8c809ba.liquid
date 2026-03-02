@@ -1,0 +1,380 @@
+{% doc %}
+  @prompt
+    Generate me an accordion section where i can add questions and answers, upon clicking on the question answer slides down, and all the accordion should remain closed initailly
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-accordion-{{ ai_gen_id }} {
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-accordion-item-{{ ai_gen_id }} {
+    border-bottom: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-accordion-item-{{ ai_gen_id }}:last-child {
+    border-bottom: none;
+  }
+
+  .ai-accordion-question-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.padding }}px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: {{ block.settings.question_font_size }}px;
+    font-weight: {{ block.settings.question_font_weight }};
+    color: {{ block.settings.question_color }};
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .ai-accordion-question-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.question_hover_bg }};
+    color: {{ block.settings.question_hover_color }};
+  }
+
+  .ai-accordion-question-{{ ai_gen_id }}:focus {
+    outline: 2px solid {{ block.settings.focus_color }};
+    outline-offset: -2px;
+  }
+
+  .ai-accordion-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .ai-accordion-item-{{ ai_gen_id }}.active .ai-accordion-icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-accordion-answer-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .ai-accordion-answer-content-{{ ai_gen_id }} {
+    padding: 0 {{ block.settings.padding }}px {{ block.settings.padding }}px;
+    color: {{ block.settings.answer_color }};
+    font-size: {{ block.settings.answer_font_size }}px;
+    line-height: 1.6;
+  }
+
+  .ai-accordion-item-{{ ai_gen_id }}.active .ai-accordion-answer-{{ ai_gen_id }} {
+    max-height: 500px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-accordion-question-{{ ai_gen_id }} {
+      font-size: {{ block.settings.question_font_size | times: 0.9 }}px;
+      padding: {{ block.settings.padding | times: 0.8 }}px;
+    }
+
+    .ai-accordion-answer-content-{{ ai_gen_id }} {
+      font-size: {{ block.settings.answer_font_size | times: 0.9 }}px;
+      padding: 0 {{ block.settings.padding | times: 0.8 }}px {{ block.settings.padding | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<accordion-section-{{ ai_gen_id }} class="ai-accordion-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% for i in (1..5) %}
+    {% liquid
+      assign question_key = 'question_' | append: i
+      assign answer_key = 'answer_' | append: i
+      assign question = block.settings[question_key]
+      assign answer = block.settings[answer_key]
+    %}
+    
+    {% if question != blank and answer != blank %}
+      <div class="ai-accordion-item-{{ ai_gen_id }}" data-accordion-item>
+        <button 
+          class="ai-accordion-question-{{ ai_gen_id }}"
+          aria-expanded="false"
+          aria-controls="accordion-answer-{{ ai_gen_id }}-{{ i }}"
+          data-accordion-trigger
+        >
+          <span>{{ question }}</span>
+          <svg 
+            class="ai-accordion-icon-{{ ai_gen_id }}"
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="6,9 12,15 18,9"></polyline>
+          </svg>
+        </button>
+        <div 
+          class="ai-accordion-answer-{{ ai_gen_id }}"
+          id="accordion-answer-{{ ai_gen_id }}-{{ i }}"
+          data-accordion-content
+        >
+          <div class="ai-accordion-answer-content-{{ ai_gen_id }}">
+            {{ answer }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</accordion-section-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AccordionSection{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.accordionItems = this.querySelectorAll('[data-accordion-item]');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.accordionItems.forEach((item) => {
+          const trigger = item.querySelector('[data-accordion-trigger]');
+          const content = item.querySelector('[data-accordion-content]');
+          
+          trigger.addEventListener('click', () => {
+            this.toggleAccordion(item, trigger, content);
+          });
+        });
+      }
+
+      toggleAccordion(item, trigger, content) {
+        const isActive = item.classList.contains('active');
+        
+        if (isActive) {
+          this.closeAccordion(item, trigger, content);
+        } else {
+          this.openAccordion(item, trigger, content);
+        }
+      }
+
+      openAccordion(item, trigger, content) {
+        item.classList.add('active');
+        trigger.setAttribute('aria-expanded', 'true');
+        
+        const contentHeight = content.scrollHeight;
+        content.style.maxHeight = contentHeight + 'px';
+      }
+
+      closeAccordion(item, trigger, content) {
+        item.classList.remove('active');
+        trigger.setAttribute('aria-expanded', 'false');
+        content.style.maxHeight = '0px';
+      }
+    }
+
+    customElements.define('accordion-section-{{ ai_gen_id }}', AccordionSection{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Accordion",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Questions & Answers"
+    },
+    {
+      "type": "text",
+      "id": "question_1",
+      "label": "Question 1",
+      "default": "What is your return policy?"
+    },
+    {
+      "type": "richtext",
+      "id": "answer_1",
+      "label": "Answer 1",
+      "default": "<p>We offer a 30-day return policy for all unused items in their original packaging.</p>"
+    },
+    {
+      "type": "text",
+      "id": "question_2",
+      "label": "Question 2",
+      "default": "How long does shipping take?"
+    },
+    {
+      "type": "richtext",
+      "id": "answer_2",
+      "label": "Answer 2",
+      "default": "<p>Standard shipping takes 3-5 business days, while express shipping takes 1-2 business days.</p>"
+    },
+    {
+      "type": "text",
+      "id": "question_3",
+      "label": "Question 3",
+      "default": "Do you offer international shipping?"
+    },
+    {
+      "type": "richtext",
+      "id": "answer_3",
+      "label": "Answer 3",
+      "default": "<p>Yes, we ship to most countries worldwide. Shipping costs and delivery times vary by location.</p>"
+    },
+    {
+      "type": "text",
+      "id": "question_4",
+      "label": "Question 4"
+    },
+    {
+      "type": "richtext",
+      "id": "answer_4",
+      "label": "Answer 4"
+    },
+    {
+      "type": "text",
+      "id": "question_5",
+      "label": "Question 5"
+    },
+    {
+      "type": "richtext",
+      "id": "answer_5",
+      "label": "Answer 5"
+    },
+    {
+      "type": "header",
+      "content": "Style Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Question Style"
+    },
+    {
+      "type": "color",
+      "id": "question_color",
+      "label": "Question text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "question_hover_color",
+      "label": "Question hover text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "question_hover_bg",
+      "label": "Question hover background",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "range",
+      "id": "question_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Question font size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "question_font_weight",
+      "label": "Question font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Answer Style"
+    },
+    {
+      "type": "color",
+      "id": "answer_color",
+      "label": "Answer text color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "answer_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Answer font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "focus_color",
+      "label": "Focus outline color",
+      "default": "#005fcc"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Accordion"
+    }
+  ]
+}
+{% endschema %}

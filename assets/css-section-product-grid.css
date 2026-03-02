@@ -1,0 +1,8 @@
+@media (max-width: 1199px) {
+	 .wpbingo-widget--products-grid .wpbingo-section__content > .row {
+		margin: 0 -7.5px;
+	  }
+	  .wpbingo-widget--products-grid .wpbingo-section__content .slick-carousel__item {
+		padding: 0 7.5px;
+	  }
+}

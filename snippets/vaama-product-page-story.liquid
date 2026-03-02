@@ -1,0 +1,491 @@
+{% comment %}
+  Vaama Promises Section
+  Desktop: All 3 cards open equally side-by-side, always visible
+  Mobile: Horizontal accordion — tap to expand one card at a time
+{% endcomment %}
+
+<style>
+  /* ===== VAAMA PROMISES ===== */
+  .vaama-promises {
+    width: 100%;
+    background: #ffffff;
+    padding: 56px 0 72px;
+    font-family: 'Georgia', serif;
+  }
+
+  /* --- Section Heading --- */
+  .vaama-promises__heading {
+  font-family: 'Georgia', 'Times New Roman', serif;
+      font-weight: 100;
+      font-size: 60px;
+      line-height: 42px;
+      text-align: center;
+      color: #28365B;
+      letter-spacing: 0.02em;
+      padding: 0 30px;
+      margin: 60px 0px;
+  }
+
+  /* =============================================
+     DESKTOP LAYOUT (481px+)
+     All 3 cards equal width, fully open, static
+  ============================================= */
+
+  /* --- Cards Wrapper --- */
+  .vaama-promises__cards {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 14px;
+    padding: 0 40px;
+    height: 520px;
+  }
+
+  /* --- Individual Card --- */
+  .vaama-promise-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    flex: 1;
+    min-width: 0;
+    cursor: default;
+  }
+
+  /* Hide checkbox on desktop */
+  .vaama-promise-card input[type="checkbox"] {
+    display: none;
+  }
+
+  /* --- Inner wrapper --- */
+  .vaama-promise-card__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* Card Image */
+  .vaama-promise-card__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    {% comment %} transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); {% endcomment %}
+  }
+
+  .vaama-promise-card:hover .vaama-promise-card__image {
+    transform: scale(1.04);
+  }
+
+  /* Gradient overlay */
+  .vaama-promise-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.0) 0%,
+      rgba(0,0,0,0.18) 40%,
+      rgba(0,0,0,0.68) 100%
+    );
+    pointer-events: none;
+    border-radius: 12px;
+  }
+
+  /* SIGNATURE COLLECTION badge — desktop */
+  .vaama-promise-card__badge {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    border: 1px solid rgba(255,255,255,0.55);
+    padding: 5px 12px;
+    border-radius: 2px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* Rotated label — hidden on desktop */
+  .vaama-promise-card__title-rotated {
+    display: none;
+  }
+
+  /* --- Card Content (title + body) --- */
+  .vaama-promise-card__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 40px 30px;
+    pointer-events: none;
+  }
+
+  .vaama-promise-card__title {
+    position: absolute;
+    top: 36px;
+    left: 40px;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 36px;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    margin: 0 0 10px;
+    /* text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35); */
+  }
+
+  .vaama-promise-card__body {
+font-family: 'Georgia', 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.01em;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+  
+  }
+
+  /* Chevron — hidden on desktop */
+  .vaama-promise-card__chevron {
+    display: none;
+  }
+
+  /* =============================================
+     MOBILE LAYOUT (≤ 480px)
+     Horizontal accordion — one open at a time
+  ============================================= */
+  @media (max-width: 991px) {
+
+    .vaama-promises {
+      padding: 36px 0 52px;
+    }
+
+    .vaama-promises__heading {
+      font-size: 22px;
+      line-height: 27px;
+      margin-bottom: 24px;
+    }
+
+    .vaama-promises__cards {
+      gap: 6px;
+      padding: 0 14px;
+      height: 300px;
+    }
+
+    /* All cards collapsed by default */
+    .vaama-promise-card {
+      flex: 1;
+      {% comment %} transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1); {% endcomment %}
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    /* Show checkbox on mobile */
+    .vaama-promise-card input[type="checkbox"] {
+      display: block;
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      z-index: 10;
+      margin: 0;
+    }
+
+    /* Open card */
+    .vaama-promise-card.is-open {
+      flex: 3.2;
+    }
+
+    /* Badge hidden on mobile */
+    .vaama-promise-card__badge {
+      display: none;
+    }
+
+    .vaama-promise-card__title{
+    display:none;}
+    /* Rotated label — visible on mobile collapsed cards */
+    .vaama-promise-card__title-rotated {
+
+        display: flex;
+        width: 80px;
+        align-items: self-end;
+        justify-content: end;
+        position: absolute;
+        top: 50px;
+        left: 30%;
+        transform: translateX(-50%) rotate(-90deg);
+        /* transform-origin: unset; */
+        white-space: nowrap;
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 1;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #ffffff;
+        pointer-events: none;
+        opacity: 1;
+    }
+
+    .vaama-promise-card.is-open .vaama-promise-card__title-rotated {
+      opacity: 0;
+    }
+    .vaama-promise-card.is-open .vaama-promise-card__title {
+      display:block;
+    }
+
+    /* Content hidden until open */
+    .vaama-promise-card__content {
+      padding: 14px 14px 16px;
+      opacity: 0;
+      transform: none;
+      transition: none;
+    }
+
+    .vaama-promise-card.is-open .vaama-promise-card__content {
+      opacity: 1;
+      transform: none;
+    }
+
+    .vaama-promise-card__title {
+        font-size: 16px;
+        line-height: 19px;
+        margin-bottom: 7px;
+        top: 16px;
+        left: 20px;
+    }
+
+    .vaama-promise-card__body {
+      font-size: 11px;
+      line-height: 14px;
+    }
+
+    /* Chevron — visible on mobile */
+    .vaama-promise-card__chevron {
+      display: flex;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      {% comment %} transition: background 0.25s; {% endcomment %}
+      z-index: 5;
+    }
+
+    .vaama-promise-card__chevron svg {
+      width: 11px;
+      height: 11px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transform: rotate(-90deg);
+      {% comment %} transition: transform 0.35s ease; {% endcomment %}
+    }
+
+    .vaama-promise-card.is-open .vaama-promise-card__chevron svg {
+      transform: rotate(90deg);
+    }
+
+    .vaama-promise-card.is-open .vaama-promise-card__chevron {
+      background: rgba(255,255,255,0.3);
+    }
+  }
+
+</style>
+
+<div class="vaama-promises" aria-label="Vaama Promises">
+
+  <h2 class="vaama-promises__heading">
+    What we stand for.
+  </h2>
+
+  <div class="vaama-promises__cards">
+
+    <!-- Card 1: Trust -->
+    <div class="vaama-promise-card is-open" data-card="1">
+      <input type="checkbox" id="promise-card-1" checked aria-label="Because It Matters to You">
+
+      <div class="vaama-promise-card__inner">
+        <img
+          class="vaama-promise-card__image"
+          src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/card_1_image_webp.webp?v=1772197314"
+          alt="Because It Matters to You"
+          loading="lazy"
+        >
+        <div class="vaama-promise-card__overlay"></div>
+          <h3 class="vaama-promise-card__title">Because It Matters<br>to You</h3>
+
+        {% comment %} <span class="vaama-promise-card__badge">Signature Collection</span> {% endcomment %}
+        <span class="vaama-promise-card__title-rotated">Trust</span>
+
+        <div class="vaama-promise-card__content">
+          <p class="vaama-promise-card__body">
+            You’ve worked for this — in ways most people never see. We create pieces that recognize quiet strength as much as visible success.
+          </p>
+        </div>
+
+        <div class="vaama-promise-card__chevron" aria-hidden="true">
+          <svg viewBox="0 0 12 12"><polyline points="3,1 9,6 3,11"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Strength -->
+    <div class="vaama-promise-card is-open" data-card="2">
+      <input type="checkbox" id="promise-card-2" checked aria-label="Because It Matters to You — Strength">
+
+      <div class="vaama-promise-card__inner">
+        <img
+          class="vaama-promise-card__image"
+          src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/card_3_image_webp.webp?v=1772197314"
+          alt="Because It Matters to You — Strength"
+          loading="lazy"
+        >
+        <div class="vaama-promise-card__overlay"></div>
+          <h3 class="vaama-promise-card__title">This Is Just the<br>Beginning</h3>
+
+        {% comment %} <span class="vaama-promise-card__badge">Signature Collection</span> {% endcomment %}
+        <span class="vaama-promise-card__title-rotated">Strength</span>
+
+        <div class="vaama-promise-card__content">
+          <p class="vaama-promise-card__body">
+            The piece may mark today, but we’re here for what comes next.
+            Lifetime buyback, exchange, and honest support — because trust should last longer than a transaction
+
+
+          </p>
+        </div>
+
+        <div class="vaama-promise-card__chevron" aria-hidden="true">
+          <svg viewBox="0 0 12 12"><polyline points="3,1 9,6 3,11"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Quality -->
+    <div class="vaama-promise-card is-open" data-card="3">
+      <input type="checkbox" id="promise-card-3" checked aria-label="Quality Without Compromise">
+
+      <div class="vaama-promise-card__inner">
+        <img
+          class="vaama-promise-card__image"
+          src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/card_2_image_webp.webp?v=1772197314"
+          alt="Quality Without Compromise"
+          loading="lazy"
+        >
+        <div class="vaama-promise-card__overlay"></div>
+          <h3 class="vaama-promise-card__title">Quality Without <br>Compromise</h3>
+
+        {% comment %} <span class="vaama-promise-card__badge">Signature Collection</span> {% endcomment %}
+        <span class="vaama-promise-card__title-rotated">Quality</span>
+
+        <div class="vaama-promise-card__content">
+          <p class="vaama-promise-card__body">
+            How we make your jewelry is how we respect your milestone.
+            Only VVS clarity, EF colour and Triple Excellent cut stones qualify — only 2 out of 10 gets selected for brilliance that lasts beyond the moment.
+          </p>
+        </div>
+
+        <div class="vaama-promise-card__chevron" aria-hidden="true">
+          <svg viewBox="0 0 12 12"><polyline points="3,1 9,6 3,11"/></svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+(function () {
+  function isMobile() {
+    return window.innerWidth <= 991;
+  }
+
+  // Handle ALL instances on the page (desktop + mobile copies)
+  var sections = document.querySelectorAll('.vaama-promises');
+  if (!sections.length) return;
+
+  sections.forEach(function(section) {
+    var cards = section.querySelectorAll('.vaama-promise-card');
+
+    function initMobile() {
+      cards.forEach(function (card, i) {
+        if (i === 0) {
+          card.classList.add('is-open');
+          var cb = card.querySelector('input[type="checkbox"]');
+          if (cb) cb.checked = true;
+        } else {
+          card.classList.remove('is-open');
+          var cb = card.querySelector('input[type="checkbox"]');
+          if (cb) cb.checked = false;
+        }
+      });
+    }
+
+    function initDesktop() {
+      cards.forEach(function (card) {
+        card.classList.add('is-open');
+        var cb = card.querySelector('input[type="checkbox"]');
+        if (cb) cb.checked = true;
+      });
+    }
+
+    function init() {
+      if (isMobile()) {
+        initMobile();
+      } else {
+        initDesktop();
+      }
+    }
+
+    cards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        if (!isMobile()) return;
+
+        var isAlreadyOpen = card.classList.contains('is-open');
+        if (isAlreadyOpen) return;
+
+        cards.forEach(function (c) {
+          c.classList.remove('is-open');
+          var cb = c.querySelector('input[type="checkbox"]');
+          if (cb) cb.checked = false;
+        });
+
+        card.classList.add('is-open');
+        var cb = card.querySelector('input[type="checkbox"]');
+        if (cb) cb.checked = true;
+      });
+    });
+
+    init();
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(init, 120);
+    });
+
+  }); // end sections.forEach
+
+})();
+</script>

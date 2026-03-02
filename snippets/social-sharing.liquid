@@ -1,0 +1,40 @@
+<div class="social-sharing">
+  {%- if settings.share_facebook -%}
+    <a target="_blank"
+       href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}"
+       class="share-facebook"
+       title="{{ 'general.social.alt_text.share_on_facebook' | t }}">
+      <img src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/facebook.png?v=1769678419"
+           alt="Facebook"
+           width="24"
+           height="24">
+      <span class="sr-only">{{ 'general.social.alt_text.share_on_facebook' | t }}</span>
+    </a>
+  {%- endif -%}
+
+  {%- if settings.share_twitter -%}
+    <a target="_blank"
+       href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}"
+       class="share-twitter"
+       title="{{ 'general.social.alt_text.share_on_twitter' | t }}">
+      <img src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/twitter.png?v=1769678547"
+           alt="Twitter"
+           width="24"
+           height="24">
+      <span class="sr-only">{{ 'general.social.alt_text.share_on_twitter' | t }}</span>
+    </a>
+  {%- endif -%}
+
+  {%- if settings.share_pinterest -%}
+    <a target="_blank"
+       href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: '1024x1024' }}&amp;description={{ share_title | url_param_escape }}"
+       class="share-pinterest"
+       title="{{ 'general.social.alt_text.share_on_pinterest' | t }}">
+      <img src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/pinterest.png?v=1769678547"
+           alt="Pinterest"
+           width="24"
+           height="24">
+      <span class="sr-only">{{ 'general.social.alt_text.share_on_pinterest' | t }}</span>
+    </a>
+  {%- endif -%}
+</div>

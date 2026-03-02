@@ -1,0 +1,256 @@
+{%- assign page_item = block.settings.page_item | plus: 0 -%}
+{%- assign select_columns = settings.select_columns -%}
+{%- assign show_count = block.settings.show_count -%}
+{%- assign layout_filter = settings.layout_filter -%}
+
+{%- assign total_products_to_fetch = page_item -%}
+{%- assign estimated_offer_cards = page_item | divided_by: 6 | floor -%}
+{%- assign actual_products_needed = page_item -%}
+
+<div id="JsCollectionProduct" class="{{ select_columns }} {{settings.select_columns_sm}} {{settings.select_columns_xs}}">
+    {%- if layout_filter != 'on_top' -%}
+    <div class="page-width" id="main-collection-filters" data-id="{{ block.id }}">
+        {% render 'filter-dropdown' with results: collection, categories_menu: block.settings.categories_menu, categories_enable:block.settings.categories_enable, categories_title:block.settings.categories_title %}
+    </div>
+    {%- endif -%}
+
+    <div class="js-collection-content-product">
+        <div id="ProductGridContainer">
+            {%- assign fetch_limit = page_item | times: 3 -%}
+            {%- paginate collection.products by fetch_limit -%}
+                {%- if collection.products.size == 0 -%}
+                    <div class="collection collection--empty page-width" id="product-grid" data-id="{{ block.id }}">
+                        <div class="title-wrapper center">
+                            <h2 class="title title--primary">
+                                {{ 'collection_template.empty' | t }}<br>
+                                {{ 'collection_template.use_fewer_filters_html' | t: link: collection.url, class: "underlined-link link" }}
+                            </h2>
+                        </div>
+                    </div>
+                    <div id="product_result_count" class="hidden">{{ 'collection_template.empty' | t }}</div>
+                {%- else -%}
+
+                    {%- if layout_filter == 'on_top' -%}
+                    <div class="page-width" id="main-collection-filters" data-id="{{ block.id }}">
+                        {% render 'filter-dropdown' with results: collection, categories_menu: block.settings.categories_menu, categories_enable:block.settings.categories_enable, categories_title:block.settings.categories_title %}
+                    </div>
+                    {%- endif -%}
+
+                    <div class="collection page-width {{ block.settings.layput_shop }}">
+                        <div id="product-grid" data-id="{{ block.id }}">
+                            <div class="products__row row">
+                                {%- assign total_displayed = 0 -%}
+
+                                {%- for product in collection.products -%}
+                                    {% if collection.handle == 'bestseller' and product.tags contains 'Mens Rings' %}
+                                        {% continue %}
+                                    {% endif %}
+
+                                    {% if product.type != "Gift Cards" %}
+                                        <div class="products__col">
+                                            {% include 'product-grid-item' %}
+                                        </div>
+                                        {%- assign total_displayed = total_displayed | plus: 1 -%}
+                                    {% endif %}
+
+                                    {%- comment -%} Insert Offer Card if enabled and matches positions {%- endcomment -%}
+                                    {% comment %} {% if block.settings.offer_enable %}
+                                        {% if total_displayed == block.settings.offer_index_1 or total_displayed == block.settings.offer_index_2 %}
+                                            <div class="products__col offer-card" style="width:100%; height:314px">
+                                                <div class="offer-card-inner">
+                                                    <img src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/3_webp.webp?v=1770036287" alt="Special Offer" style="width: 100%;h;height: 90%;border-radius:5px;"/>
+                                                </div>
+                                            </div>
+                                            {%- assign total_displayed = total_displayed | plus: 1 -%}
+                                        {% endif %}
+                                    {% endif %}  {% endcomment %}
+
+                                    {%- comment -%} Stop if we've reached the page limit {%- endcomment -%}
+                                    {%- if total_displayed >= page_item -%}
+                                        {%- break -%}
+                                    {%- endif -%}
+
+                                {%- else -%}
+                                    <div class="products__no-matches">{{ 'collections.general.no_matches' | t }}</div>
+                                {%- endfor -%}
+                            </div>
+
+                            {%- comment -%} Pagination code remains unchanged {%- endcomment -%}
+                            {%- assign min_page = 1 -%}
+                            {%- assign max_page = paginate.page_size | times:paginate.current_page -%}
+                            {%- if paginate.current_page > 1 -%}
+                                {%- assign current_page = paginate.current_page | minus:1 -%}
+                            {%- endif -%}
+                            {%- if max_page > paginate.items -%}
+                                {%- assign max_page = paginate.items -%}
+                            {%- endif -%}
+                            {% assign percent =  max_page | times: 100 | divided_by: paginate.items %}
+                            <div id="product_result_count" class="hidden">{{ 'collections.general.product_count_html' | t: min_page:min_page, max_page:max_page, items_page:paginate.items }}</div>
+                            {%- if max_page <= paginate.items -%}
+                                <div class="js-collection-{{ settings.select_pagination }} page-collection-footer">
+                                    {%- if section.settings.numproduct_enable and settings.select_pagination == 'loadmore' and percent < 100 -%}
+                                        <div class="collection-product-count">{{ 'collections.general.product_count_html' | t: min_page:min_page, max_page:max_page, items_page:paginate.items }}</div>
+                                        <div class="content-percent"><div class="percent" style="width:{{percent}}%"></div></div>
+                                    {%- endif -%}
+                                    {%- if paginate.pages > 1 -%}
+                                        {% include 'pagination' %}
+                                    {%- endif -%}
+                                </div>
+                            {%- endif -%}
+
+                        </div>
+                    </div>
+                {%- endif -%}
+            {%- endpaginate -%}
+        </div>
+    </div>  
+</div>
+{% comment %} <script src="{{ 'infinity-scroll.js' | asset_url }}" defer></script> {% endcomment %}
+
+{% schema %}
+{
+    "name": "Collection pages",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Collection"
+        },
+        {
+            "type": "checkbox",
+            "id": "categories_enable",
+            "label": "Enable",
+            "default": true,
+            "info":"only used for filter dropdown and on top"
+        },
+        {
+            "type": "text",
+            "id": "categories_title",
+            "label": "Heading",
+            "default": "Collection",
+            "info":"only used for filter dropdown and on top"
+        },
+        {
+            "type": "link_list",
+            "id": "categories_menu",
+            "label": "Menu",
+            "info":"only used for filter dropdown and on top"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_count",
+            "label": "Show Count",
+            "default": true,
+            "info":"only used for filter dropdown and on top"
+        },
+        {
+            "type": "header",
+            "content": "Layout shop"
+        },
+        {
+            "type": "select",
+            "id": "layput_shop",
+            "label": "Layout shop",
+            "options": [
+                {"value": "simple", "label": "Simple"},
+                {"value": "masonry", "label": "Masonry"}
+            ],
+            "default": "simple"
+        },
+        {
+            "type": "header",
+            "content": "Number products"
+        },
+        {
+            "type": "range",
+            "id": "page_item",
+            "label": "Number of products in a page",
+            "min": 1,
+            "max": 24,
+            "step": 1,
+            "default": 12
+        },
+        {
+            "type": "header",
+            "content": "Product Count"
+        },
+        {
+            "type": "checkbox",
+            "id": "numproduct_enable",
+            "label": "Enable",
+            "default": true
+        },
+        {
+            "type": "image_picker",
+            "id": "offer_image",
+            "label": "Offer Card Image"
+        },
+        {
+            "type": "header",
+            "content": "Offer Card Settings"
+        },
+        {
+            "type": "checkbox",
+            "id": "offer_enable",
+            "label": "Enable Offer Card",
+            "default": true
+        },
+        {
+            "type": "number",
+            "id": "offer_index_1",
+            "label": "First Offer Card Index",
+            "default": 3,
+            "info": "Position of the first offer card (e.g., 3)"
+        },
+        {
+            "type": "number",
+            "id": "offer_index_2",
+            "label": "Second Offer Card Index",
+            "default": 9,
+            "info": "Position of the second offer card (e.g., 9)"
+        },
+        {
+    "type": "header",
+    "content": "Animated Tags Settings"
+},
+{
+    "type": "checkbox",
+    "id": "show_animated_tags",
+    "label": "Show Animated Tags",
+    "default": true
+},
+{
+    "type": "header",
+    "content": "Tag 1 Settings"
+},
+{
+    "type": "text",
+    "id": "tag1_icon_url",
+    "label": "Tag 1 Icon URL",
+    "default": "https://cdn.shopify.com/s/files/1/0634/8239/6854/files/diamond.png?v=1759859619"
+},
+{
+    "type": "text",
+    "id": "tag1_text",
+    "label": "Tag 1 Text",
+    "default": "Flat 30,000/carat"
+},
+{
+    "type": "header",
+    "content": "Tag 2 Settings"
+},
+{
+    "type": "text",
+    "id": "tag2_icon_url",
+    "label": "Tag 2 Icon URL",
+    "default": "https://cdn.shopify.com/s/files/1/0634/8239/6854/files/discount.png?v=1759855387"
+},
+{
+    "type": "text",
+    "id": "tag2_text",
+    "label": "Tag 2 Text",
+    "default": "Dhanteras Offer"
+}
+
+    ]
+}
+{% endschema %}

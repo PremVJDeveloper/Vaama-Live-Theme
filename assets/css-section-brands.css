@@ -1,0 +1,28 @@
+/*============== SECTION BRANDS =============*/
+.wpbingo-widget--brands .slick-dotted {
+  margin: 0;
+}
+.wpbingo-widget--brands .brand-card__img {
+  margin: auto;
+  transition: all 0.5s ease;
+}
+.wpbingo-widget--brands .slick-track {
+  display: flex;
+  align-items: center;
+}
+.wpbingo-widget--brands .brand-card__link {
+  min-height: 120px;
+  display: flex;
+}
+.wpbingo-widget--brands .slick-dots {
+  display: none !important;
+}
+@media (max-width: 767px) {
+	.wpbingo-widget--brands .slick-arrow {
+    display: none !important;
+  }
+  .wpbingo-widget--brands .slick-dots {
+    display: flex !important;
+    position: static;
+  }
+}

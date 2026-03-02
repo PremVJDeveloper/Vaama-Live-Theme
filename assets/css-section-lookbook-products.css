@@ -1,0 +1,34 @@
+.lookbook-products .wpbingo-lookbook__contents {
+    display: flex;
+    flex-wrap: wrap;
+}
+.lookbook-products .wpbingo-lookbook__contents .col-product {
+    width: 45.554%;
+    padding: 0 75px;
+}
+.lookbook-products .wpbingo-lookbook__contents .lookbook-product-content {
+    width: 54.446%;
+    padding: 0 75px;
+}
+.lookbook-products .wpbingo-lookbook__contents .product-card {
+    margin-top: 0;
+}
+@media (max-width: 991px){
+    .lookbook-products .wpbingo-lookbook__contents .col-product {
+        padding: 0 15px;
+    }
+    .lookbook-products .wpbingo-lookbook__contents .lookbook-product-content {
+        padding: 0 15px;
+    }
+}
+@media (max-width: 767px) {
+    .lookbook-products .wpbingo-lookbook__contents .col-product {
+        width: 100%;
+        padding: 0;
+    }
+    .lookbook-products .wpbingo-lookbook__contents .lookbook-product-content {
+        margin-top: 30px;
+        width: 100%;
+        padding: 0;
+    }
+}

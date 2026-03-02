@@ -1,0 +1,90 @@
+<!-- Lucent OTP Login -->
+<div id="sotp-widget" class="sotp-widget otp-loader">&nbsp;</div>
+<img style="width: 1px;height: 1px;" width="1" height="1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
+
+{% comment %}
+<section class="page-account">
+	<div class="container">
+		<h1>{{ 'customer.login.account' | t }}</h1>
+		<div class="page-account__inner">
+			<div class="login-form-container" data-section-id="login-register" data-section-type='login-register'>
+				<div class="content-form-login">
+					<div class="tab-content login-register__tab-content">
+						<div id="customers-login" role="tabpanel">
+							<div class="js-login-form login-form">
+								<h3>{{ 'customer.login.title' | t }}</h3>
+								<div class="js-recover-password-success recover-password__success alert alert-success d-none">
+									{{ 'customer.recover_password.success' | t }}
+								</div>
+								{% form 'customer_login' %}
+									{{ form.errors | default_errors }}
+									<div class="form-group">
+										<label class="d-none" for="customerEmail">{{ 'customer.login.email' | t }}</label>
+										<input id="customerEmail" class="form-control{% if form.errors contains 'email' %} is-invalid{% endif %}" name="customer[email]"
+											type="email" placeholder="{{ 'customer.login.email' | t }}" required autocorrect="off" autocapitalize="off" autofocus/>
+									</div>
+									{%- if form.password_needed -%}
+										<div class="form-group form-group--pasword">
+											<label class="d-none" for="customerPassword">{{ 'customer.login.password' | t }}</label>
+											<input id="customerPassword" class="form-control{% if form.errors contains 'password' %} is-invalid{% endif %}"
+												name="customer[password]" type="password" placeholder="{{ 'customer.login.password' | t }}" autocomplete="on" required/>
+											<a href="javascript:void(0)" class="js-password-toggle password-toggle">
+												<span class="text-show-password"><i class="feather-eye"></i></span>
+												<span class="text-hide-password"><i class="feather-eye-off"></i></span>
+											</a>
+										</div>
+									{%- endif -%}
+									{%- if form.password_needed -%}
+										<div class="form-link">
+											<a class="js-forget-password" href="#recover">{{ 'customer.login.forgot_password' | t }}</a>
+										</div>
+									{%- endif -%}
+									<div class="form-button">
+										<input type="submit" class="btn btn-primary" value="{{ 'customer.login.sign_in' | t }}">
+									</div>
+								{% endform %}
+							</div>
+							<div class="js-recover-password recover-password d-none">
+								<h2 class="login-register__heading recover-password__heading">{{ 'customer.recover_password.title' | t }}</h2>
+								<p class="recover-password__summary">{{ 'customer.recover_password.subtext' | t }}</p>
+								<div class="recover-password__form">
+									{% form 'recover_customer_password' %}
+										{{ form.errors | default_errors }}
+										{%- if form.posted_successfully? -%}
+											<script>
+												window.resetPassword = true;
+											</script>
+										{%- endif -%}
+										<div class="form-group">
+											<label class="d-none" for="recoverEmail">{{ 'customer.login.password' | t }}</label>
+											<input id="recoverEmail" class="form-control" type="email" name="email" value="" placeholder="{{ 'customer.recover_password.email' | t }}"
+											required/>
+										</div>
+										<div class="form-button">
+											<input type="submit" class="btn btn-primary" value="{{ 'customer.recover_password.submit' | t }}">
+											<a class="js-forget-password" href="#customers-login">{{ 'customer.recover_password.cancel' | t }}</a>
+										</div>
+									{% endform %}
+								</div>
+							</div>
+							{%- if shop.checkout.guest_login -%}
+								<div class="guest-form">
+									<h2 class="login-register__heading guest-form__heading">{{ 'customer.login.guest_title' | t }}</h2>
+									{% form 'guest_login' %}
+										<input type="submit" class="btn" value="{{ 'customer.login.guest_continue' | t }}">
+									{% endform %}
+								</div>
+							{%- endif -%}
+						</div>
+					</div>
+				</div>
+				<div class="content-register">
+					<h3>{{ 'customer.login.new_customer' | t }}</h3>
+					<div class="description">{{ 'customer.login.new_customer_desc' | t }}</div>
+					<div class="register-account"><a href="{{ routes.account_register_url }}">{{ 'customer.register.submit' | t }}</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endcomment %}

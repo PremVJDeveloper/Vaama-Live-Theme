@@ -1,0 +1,294 @@
+{%- if settings.product_within_collection -%}
+  {%- assign product_url = product.url | within: collection -%}
+{%- else -%}
+  {%- assign product_url = product.url -%}
+{%- endif -%}
+
+{%- assign featured_image = product.featured_media.preview_image -%}
+{%- assign media_featured = product.featured_media -%}
+
+{%- if product.variants.size > 1 and settings.sortby_variants and product.variants[0].featured_image -%}
+  {%- assign image = product.variants[0].featured_image -%}
+{%- else -%}
+  {%- assign image = featured_image -%}
+{%- endif -%}
+
+{%- assign has_video = false -%}
+{%- assign video_url = nil -%}
+{%- assign video_id = nil -%}
+
+{%- comment -%} First check for metafield video URL {%- endcomment -%}
+{%- assign metafield_video_url = product.metafields.custom.search_videos.value -%}
+{%- if metafield_video_url and metafield_video_url != blank -%}
+  {%- assign has_video = true -%}
+  {%- assign video_url = metafield_video_url -%}
+  {%- assign video_id = 'metafield-' | append: product.id -%}
+{%- else -%}
+  {%- comment -%} Fallback to Shopify product media video {%- endcomment -%}
+  {%- for media in product.media -%}
+    {%- if media.media_type == 'video' or media.sources[0].format == 'mp4' -%}
+      {%- assign has_video = true -%}
+      {%- assign video_url = media.sources[0].url -%}
+      {%- assign video_id = media.id -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+<style>
+  /* Video button and popup styles */
+  .product-card__image-container {
+    position: relative;
+  }
+
+  .video-play-button {
+    position: absolute;
+    background: none;
+    border: none;
+    bottom: 10px;
+    right: 14px;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+
+  .video-play-button img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .video-popup-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-popup-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(6px);
+    z-index: 1;
+  }
+
+  .video-popup-content {
+    position: relative;
+    z-index: 2;
+    width: 88%;
+    max-width: 820px;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    animation: popupZoom 0.35s ease;
+  }
+
+  .video-popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 38px;
+    height: 38px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 3;
+    padding: 0;
+  }
+
+  .video-popup-close img {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .video-popup-player {
+    background: white;
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-video-popup {
+    width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+  }
+
+  @keyframes popupZoom {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @media (max-width: 768px) {
+    .video-play-button {
+      width: 46px;
+      height: 46px;
+      bottom: 10px;
+      right: 10px;
+    }
+    .video-popup-content {
+      width: 95%;
+    }
+  }
+</style>
+
+<div class="product-card__image-container">
+  <a class="product-card__image-link" href="{{ product_url }}" target="_blank">
+    <div class="product-card__image">
+      {% if image %}
+        {% render 'img-global-product' with image: image, media: media_featured, class: "product-card__img", effect: "fade-in" %}
+      {% endif %}
+    </div>
+  </a>
+
+  {% if has_video and video_url %}
+    <button class="video-play-button" type="button" data-video-id="{{ video_id }}">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/play-vj-video.svg?v=1766569924"
+        alt="Play video"
+        height="38px"
+        width="38px"
+      />
+    </button>
+  {% endif %}
+</div>
+
+{% if has_video and video_url %}
+  <div
+    class="video-popup-modal"
+    id="video-popup-{{ video_id }}"
+    data-portal="true"
+  >
+    <div class="video-popup-overlay"></div>
+
+    <div class="video-popup-content">
+      <button class="video-popup-close" type="button" aria-label="Close video">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/close-circle-svgrepo-com.svg?v=1766393398"
+          alt="Close"
+          height="38px"
+          width="38px"
+        />
+      </button>
+
+      <div class="video-popup-player">
+        <video
+          class="product-video-popup"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        >
+          <source src="{{ video_url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<script>
+// Use a more robust DOM ready check
+(function() {
+  function initProductVideos() {
+    // Move popups to body first
+    document.querySelectorAll('.video-popup-modal[data-portal="true"]').forEach(modal => {
+      if (!modal.parentElement || modal.parentElement.tagName !== 'BODY') {
+        document.body.appendChild(modal);
+      }
+    });
+
+    // Initialize video play buttons
+    document.querySelectorAll('.video-play-button').forEach(button => {
+      // Remove any existing event listeners
+      button.replaceWith(button.cloneNode(true));
+    });
+
+    // Re-attach event listeners
+    document.querySelectorAll('.video-play-button').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const videoId = this.getAttribute('data-video-id');
+        const popup = document.getElementById('video-popup-' + videoId);
+        
+        if (!popup) {
+          console.error('Popup not found for video ID:', videoId);
+          return;
+        }
+
+        popup.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+
+        const video = popup.querySelector('video');
+        if (video) {
+          video.play().catch(error => {
+            console.error('Video playback failed:', error);
+            // Fallback: Try playing without autoplay
+            video.removeAttribute('autoplay');
+            video.controls = true;
+          });
+        }
+      });
+    });
+
+    // Close button functionality
+    document.querySelectorAll('.video-popup-close, .video-popup-overlay').forEach(el => {
+      el.addEventListener('click', function(e) {
+        e.stopPropagation();
+        
+        const popup = this.closest('.video-popup-modal');
+        if (!popup) return;
+
+        const video = popup.querySelector('video');
+        if (video) {
+          video.pause();
+          video.currentTime = 0;
+          video.removeAttribute('controls');
+        }
+
+        popup.style.display = 'none';
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const openPopup = document.querySelector('.video-popup-modal[style*="display: flex"]');
+        if (openPopup) {
+          const video = openPopup.querySelector('video');
+          if (video) {
+            video.pause();
+            video.currentTime = 0;
+          }
+          openPopup.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      }
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProductVideos);
+  } else {
+    initProductVideos();
+  }
+
+  // Re-initialize after AJAX content loads (if applicable)
+  document.addEventListener('ajaxComplete', initProductVideos);
+  document.addEventListener('shopify:section:load', initProductVideos);
+})();
+</script>

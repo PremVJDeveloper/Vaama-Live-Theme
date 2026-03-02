@@ -1,0 +1,943 @@
+{% schema %}
+{
+  "name": "Offer Countdown Products",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Limited Time Offer"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_countdown",
+      "label": "Enable Countdown Timer",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Hurry up! Offer ends in"
+    },
+    {
+      "type": "header",
+      "content": "Countdown Settings"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End Date",
+      "default": "2024-12-31",
+      "info": "Format: YYYY-MM-DD"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "End Time",
+      "default": "23:59",
+      "info": "Format: HH:MM (24-hour)"
+    },
+    {
+      "type": "header",
+      "content": "Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "Featured Image"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "NEW COLLECTION"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge Background",
+      "default": "#28365b"
+    },
+    {
+      "type": "header",
+      "content": "Content Position Settings"
+    },
+    {
+      "type": "range",
+      "id": "position_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal Position",
+      "default": 50,
+      "info": "Left to right position of countdown content"
+    },
+    {
+      "type": "range",
+      "id": "position_vertical",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical Position",
+      "default": 50,
+      "info": "Top to bottom position of countdown content"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Collection Settings"
+    },
+    {
+      "type": "collection",
+      "id": "product_collection",
+      "label": "Product Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "label": "Products to Show",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "products_per_slide_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Products per Slide (Desktop)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "products_per_slide_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Products per Slide (Mobile)",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Color Settings"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "countdown_bg",
+      "label": "Countdown Background",
+      "default": "rgba(40, 54, 91, 0.8)"
+    },
+    {
+      "type": "color",
+      "id": "countdown_text_color",
+      "label": "Countdown Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "product_bg",
+      "label": "Product Section Background",
+      "default": "#EFE4D2"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background",
+      "default": "#28365b"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button Hover Background",
+      "default": "#1c2845"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_bg",
+      "label": "Navigation Button Background",
+      "default": "#28365b"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_hover_bg",
+      "label": "Navigation Button Hover Background",
+      "default": "#1c2845"
+    },
+    {
+      "type": "header",
+      "content": "CTA Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "View Full Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Offer Countdown with Products",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}
+
+{%- style -%}
+#shopify-section-{{ section.id }} .offer-section {
+  display: flex;
+  min-height: 396px;
+  position: relative;
+}
+
+#shopify-section-{{ section.id }} .offer-left {
+  width: 80%;
+  height: 455px;
+  position: relative;
+  overflow: hidden;
+}
+
+#shopify-section-{{ section.id }} .offer-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#shopify-section-{{ section.id }} .offer-badge {
+  position: absolute;
+  top: 0px;
+  right: 95px;
+  background: #bba007;
+  color: white;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 0 0 8px 8px;
+  z-index: 3;
+}
+
+#shopify-section-{{ section.id }} .offer-content-overlay {
+  position: absolute;
+  top: 73%;
+  left: 26%;
+  transform: translate(-{{ section.settings.position_horizontal }}%, -{{ section.settings.position_vertical }}%);
+  text-align: {% if section.settings.text_alignment == 0 %}left{% elsif section.settings.text_alignment == 2 %}right{% else %}center{% endif %};
+  width: 70%;
+  max-width: 500px;
+  z-index: 2;
+  padding: 20px;
+}
+
+#shopify-section-{{ section.id }} .offer-title {
+  color: {{ section.settings.text_color }};
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+#shopify-section-{{ section.id }} .offer-subtitle {
+  color: {{ section.settings.text_color }};
+  font-size: 16px;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  opacity: 0.9;
+}
+
+#shopify-section-{{ section.id }} .offer-right {
+  width: 50%;
+  height: 455px;
+  background: linear-gradient(to bottom, #f8e3db, #efccc3, #d6a89b);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#shopify-section-{{ section.id }} .product-slider-wrapper {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#shopify-section-{{ section.id }} .product-slider-track {
+  display: flex;
+  transition: transform 0.3s ease;
+  width: 100%;
+  flex: 1;
+  align-items: stretch;
+}
+
+#shopify-section-{{ section.id }} .product-card {
+  flex: 0 0 auto;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-right: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  height: 90%;
+}
+
+#shopify-section-{{ section.id }} .product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+#shopify-section-{{ section.id }} .product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+#shopify-section-{{ section.id }} .product-info {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#shopify-section-{{ section.id }} .product-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #28365b;
+  margin-bottom: 8px;
+}
+
+#shopify-section-{{ section.id }} .product-title {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  flex: 1;
+}
+
+#shopify-section-{{ section.id }} .slider-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  flex-shrink: 0;
+}
+
+#shopify-section-{{ section.id }} .slider-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #5D688A;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#shopify-section-{{ section.id }} .slider-btn:hover {
+  background: {{ section.settings.button_hover_bg }};
+  transform: scale(1.05);
+}
+
+#shopify-section-{{ section.id }} .slider-btn:disabled {
+  background: #5D688A;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#shopify-section-{{ section.id }} .cta-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  background: #5D688A;
+  color: {{ section.settings.button_text }};
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+#shopify-section-{{ section.id }} .cta-button:hover {
+  background: {{ section.settings.button_hover_bg }};
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 54, 91, 0.3);
+}
+
+/* Hide scrollbar but keep functionality */
+#shopify-section-{{ section.id }} .product-slider-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#shopify-section-{{ section.id }} .product-slider-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Compact layout for better space utilization */
+#shopify-section-{{ section.id }} .offer-right-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 15px;
+}
+
+#shopify-section-{{ section.id }} .slider-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Mobile Styles with Overlap Effect - CSS Scroll Snap */
+@media (max-width: 768px) {
+  #shopify-section-{{ section.id }} .offer-section {
+    flex-direction: column;
+    min-height: auto;
+    position: relative;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-left {
+    width: 100%;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-image {
+    width: 100%;
+    height: 75%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .offer-right {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    position: relative;
+    margin-top: -80px;
+    z-index: 10;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-right-content {
+    background: linear-gradient(to bottom, #f8e3db, #efccc3, #d6a89b);
+    margin: 0 15px;
+    border-radius: 12px 12px 0 0;
+    padding: 20px 15px 25px;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-title {
+    font-size: 28px;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-subtitle {
+    font-size: 14px;
+    margin-bottom: 1rem;
+  }
+  
+  /* CSS Scroll Snap for Mobile */
+  #shopify-section-{{ section.id }} .product-slider-wrapper {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  #shopify-section-{{ section.id }} .product-slider-track {
+    display: flex;
+    flex-wrap: nowrap;
+    scroll-snap-type: x mandatory;
+    transition: none;
+  }
+  
+  #shopify-section-{{ section.id }} .product-card {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+    width: calc(50% - 10px);
+    margin: 0px 11px 0px 3px;
+    border-radius: 10px;
+    height: 218px;
+  }
+  
+  #shopify-section-{{ section.id }} .product-image {
+    height: 160px;
+  }
+  
+  #shopify-section-{{ section.id }} .product-info {
+    padding: 12px;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-content-overlay {
+    padding: 15px;
+    top: 55%;
+    left: 25%;
+  }
+  
+  /* Hide navigation buttons on mobile */
+  #shopify-section-{{ section.id }} .slider-controls {
+    display: none;
+  }
+  
+  #shopify-section-{{ section.id }} .cta-button {
+    padding: 12px 30px;
+    font-size: 14px;
+    margin-top: 15px;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-badge {
+    top: 0px;
+    right: 15px;
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+}
+
+/* Enhanced overlap for smaller screens */
+@media (max-width: 480px) {
+  #shopify-section-{{ section.id }} .offer-left {
+    height: 320px;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-right {
+    margin-top: -100px;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-right-content {
+    margin: 0px 0px;
+    padding: 0px;
+  }
+  
+  #shopify-section-{{ section.id }} .product-image {
+    height: 140px;
+  }
+  
+  #shopify-section-{{ section.id }} .product-info {
+    padding: 10px;
+  }
+  
+  #shopify-section-{{ section.id }} .product-price {
+    font-size: 15px;
+  }
+  
+  #shopify-section-{{ section.id }} .product-title {
+    font-size: 12px;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-title {
+    font-size: 24px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  #shopify-section-{{ section.id }} .offer-left {
+    width: 100%;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-image {
+    width: 100%;
+    height: 75%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-left {
+    height: 250px;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-right {
+    margin-top: -75px;
+  }
+  
+  #shopify-section-{{ section.id }} .offer-right-content {
+    margin: 0 0px;
+    padding: 0px 0px 0px;
+  }
+  
+  #shopify-section-{{ section.id }} .product-image {
+    height: 120px;
+  }
+}
+{%- endstyle -%}
+
+{%- liquid
+  assign end_date = section.settings.end_date | default: '2024-12-31'
+  assign end_time = section.settings.end_time | default: '23:59'
+  assign datetime_string = end_date | append: 'T' | append: end_time
+  assign collection = section.settings.product_collection
+  assign products_to_show = section.settings.products_to_show | default: 8
+  assign products_per_slide_desktop = section.settings.products_per_slide_desktop | default: 4
+  assign products_per_slide_mobile = section.settings.products_per_slide_mobile | default: 2
+  
+  # Get products from collection sorted by creation date (newest first)
+  if collection != blank
+    assign all_collection_products = collections[collection].products
+    
+    # Sort by created_at in descending order (newest first)
+    assign sorted_products = all_collection_products | sort: 'created_at' | reverse
+    
+    # Get the specified number of newest products
+    assign products = sorted_products | limit: products_to_show
+  else
+    # Fallback: Get all products sorted by creation date
+    assign all_products = collections.all.products | sort: 'created_at' | reverse
+    assign products = all_products | limit: products_to_show
+  endif
+  
+  # Create a shuffle seed based on current hour (60-minute timeframe)
+  # This changes every hour, so shuffle will be consistent for 60 minutes
+  assign current_hour = 'now' | date: '%H'
+  assign shuffle_seed = current_hour | plus: 0
+-%}
+
+<section class="offer-section">
+  <div class="offer-left">
+    {%- if section.settings.featured_image -%}
+      <img 
+        class="offer-image"
+        src="{{ section.settings.featured_image | img_url: '1000x' }}"
+        alt="{{ section.settings.title }}"
+        loading="lazy"
+        width="1000"
+        height="455"
+      >
+    {%- endif -%}
+    
+    {%- if section.settings.badge_text != blank -%}
+      <div class="offer-badge">{{ section.settings.badge_text }}</div>
+    {%- endif -%}
+    
+    <div class="offer-content-overlay">
+      {% if section.settings.enable_countdown %}
+        {{ 'countdown-timer.css' | asset_url | stylesheet_tag }}
+        <script src="{{ 'countdown-timer.js' | asset_url }}" defer></script>
+        <div class="countdown-timer" data-end-time="{{ datetime_string }}">
+          <div class="countdown-item">
+            <span class="countdown-value" data-days>00</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-value" data-hours>00</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-value" data-minutes>00</span>
+            <span class="countdown-label">Minutes</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-value" data-seconds>00</span>
+            <span class="countdown-label">Seconds</span>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  
+  <div class="offer-right">
+    {%- if products and products.size > 0 -%}
+      <div class="offer-right-content">
+        <div class="slider-section">
+          <div class="product-slider-wrapper">
+            <div class="product-slider-track" id="product-slider-{{ section.id }}">
+              <!-- Products will be inserted here by JavaScript -->
+              <div class="products-data-container" 
+                   data-shuffle-seed="{{ shuffle_seed }}"
+                   style="display: none;">
+                <!-- Hidden container for product data -->
+                {%- for product in products -%}
+                  <div class="product-data" 
+                       data-id="{{ product.id }}"
+                       data-title="{{ product.title | escape }}"
+                       data-price="{{ product.price | money }}"
+                       data-image="{{ product.featured_image | img_url: '300x300', crop: 'center' }}"
+                       data-url="{{ product.url }}"
+                       data-alt="{{ product.featured_image.alt | default: product.title | escape }}">
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+          
+          <div class="slider-controls">
+            <button class="slider-btn" data-prev aria-label="Previous products">‹</button>
+            <button class="slider-btn" data-next aria-label="Next products">›</button>
+          </div>
+        </div>
+        
+        {%- if section.settings.cta_text != blank -%}
+          <a href="{{ section.settings.cta_link | default: collections[collection].url }}" class="cta-button">
+            {{ section.settings.cta_text }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <div class="offer-right-content">
+        <div style="text-align: center; padding: 40px; background: {{ section.settings.product_bg }}; border-radius: 12px; margin: 0 15px;">
+          <p>No products found. Please select a collection in the theme editor.</p>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+// Simple shuffle on page load only - No continuous intervals
+(function() {
+  // Wait for DOM to be ready
+  if (document.readyState !== 'loading') {
+    initializeProducts();
+  } else {
+    document.addEventListener('DOMContentLoaded', initializeProducts);
+  }
+  
+  function initializeProducts() {
+    const container = document.querySelector('.products-data-container');
+    if (!container) return;
+    
+    try {
+      const shuffleSeed = parseInt(container.dataset.shuffleSeed) || 0;
+      const productDataElements = container.querySelectorAll('.product-data');
+      
+      if (productDataElements.length === 0) return;
+      
+      // Convert product data to array
+      const products = Array.from(productDataElements).map(el => ({
+        id: el.dataset.id,
+        title: el.dataset.title,
+        price: el.dataset.price,
+        image: el.dataset.image,
+        url: el.dataset.url,
+        alt: el.dataset.alt
+      }));
+      
+      // Shuffle products based on hourly seed
+      const shuffledProducts = hourlyShuffle(products, shuffleSeed);
+      
+      // Create product cards HTML
+      const cardsHTML = shuffledProducts.map(product => `
+        <a href="${product.url}" 
+           class="product-card" 
+           data-product-card
+           aria-label="View ${product.title}">
+          <img 
+            src="${product.image}"
+            alt="${product.alt}"
+            class="product-image"
+            loading="lazy"
+            width="300"
+            height="300"
+          >
+          <div class="product-info">
+            <div class="product-price">${product.price}</div>
+            <h3 class="product-title">${product.title}</h3>
+          </div>
+        </a>
+      `).join('');
+      
+      // Remove container and insert product cards
+      const sliderTrack = document.getElementById('product-slider-{{ section.id }}');
+      if (sliderTrack) {
+        container.remove();
+        sliderTrack.insertAdjacentHTML('afterbegin', cardsHTML);
+      }
+      
+      // Initialize the slider
+      initializeSlider();
+      
+    } catch (error) {
+      console.error('Error initializing products:', error);
+      // Fallback: Show without shuffle
+      const sliderTrack = document.getElementById('product-slider-{{ section.id }}');
+      if (sliderTrack) {
+        container.remove();
+        // Show products in original order (newest first)
+        const fallbackHTML = Array.from(productDataElements).map(el => `
+          <a href="${el.dataset.url}" class="product-card" data-product-card>
+            <img src="${el.dataset.image}" alt="${el.dataset.alt}" class="product-image" loading="lazy">
+            <div class="product-info">
+              <div class="product-price">${el.dataset.price}</div>
+              <h3 class="product-title">${el.dataset.title}</h3>
+            </div>
+          </a>
+        `).join('');
+        sliderTrack.insertAdjacentHTML('afterbegin', fallbackHTML);
+        initializeSlider();
+      }
+    }
+  }
+  
+  // Simple shuffle based on hour
+  function hourlyShuffle(array, seed) {
+    const shuffled = [...array];
+    
+    // Use hour-based seed for deterministic shuffle
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      // Create a simple hash from seed and index
+      const pseudoRandom = Math.sin(seed + i) * 10000;
+      const j = Math.floor((pseudoRandom - Math.floor(pseudoRandom)) * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    return shuffled;
+  }
+})();
+
+// Slider initialization - runs only once
+function initializeSlider() {
+  const sliderTrack = document.getElementById('product-slider-{{ section.id }}');
+  if (!sliderTrack) return;
+  
+  const productCards = sliderTrack.querySelectorAll('[data-product-card]');
+  if (productCards.length === 0) return;
+  
+  let currentSlide = 0;
+  let productsPerView = {{ products_per_slide_desktop }};
+  const gap = 20;
+  let resizeTimeout;
+  
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+  
+  function calculateCardWidth() {
+    if (isMobile()) return 0;
+    
+    const containerWidth = sliderTrack.parentElement.offsetWidth;
+    const totalGap = gap * (productsPerView - 1);
+    return (containerWidth - totalGap) / productsPerView;
+  }
+  
+  function updateSlider() {
+    if (isMobile()) {
+      sliderTrack.style.transform = 'none';
+      return;
+    }
+    
+    const cardWidth = calculateCardWidth();
+    if (cardWidth === 0) return;
+    
+    productCards.forEach(card => {
+      card.style.width = `${cardWidth}px`;
+    });
+    
+    const translateX = -currentSlide * (cardWidth + gap) * productsPerView;
+    sliderTrack.style.transform = `translateX(${translateX}px)`;
+    
+    const prevBtn = document.querySelector('[data-prev]');
+    const nextBtn = document.querySelector('[data-next]');
+    
+    if (prevBtn && nextBtn) {
+      const maxSlides = Math.max(0, Math.ceil(productCards.length / productsPerView) - 1);
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide >= maxSlides;
+      prevBtn.style.display = isMobile() ? 'none' : 'flex';
+      nextBtn.style.display = isMobile() ? 'none' : 'flex';
+    }
+  }
+  
+  const prevBtn = document.querySelector('[data-prev]');
+  const nextBtn = document.querySelector('[data-next]');
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (!isMobile() && currentSlide > 0) {
+        currentSlide--;
+        updateSlider();
+      }
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (isMobile()) return;
+      
+      const maxSlides = Math.max(0, Math.ceil(productCards.length / productsPerView) - 1);
+      if (currentSlide < maxSlides) {
+        currentSlide++;
+        updateSlider();
+      }
+    });
+  }
+  
+  updateSlider();
+  
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (isMobile()) {
+        currentSlide = 0;
+        productCards.forEach(card => {
+          card.style.width = '';
+        });
+        sliderTrack.style.transform = 'none';
+      } else {
+        productsPerView = {{ products_per_slide_desktop }};
+        updateSlider();
+      }
+    }, 250);
+  });
+}
+
+// Initialize slider
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeSlider);
+} else {
+  initializeSlider();
+}
+</script>

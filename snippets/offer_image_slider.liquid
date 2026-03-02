@@ -1,0 +1,66 @@
+{%- if section.settings.offer_image_1 != blank or section.settings.offer_image_2 != blank -%}
+  <script src="{{ 'offer-slider-product-page.js' | asset_url }}" defer></script>
+  <div class="offer-slider-wrapper" style="margin: 20px 0;">
+    {% assign image_count = 0 %}
+    {% if section.settings.offer_image_1 != blank %}
+      {% assign image_count = image_count | plus: 1 %}
+    {% endif %}
+    {% comment %} {% if section.settings.offer_image_2 != blank %}
+      {% assign image_count = image_count | plus: 1 %}
+    {% endif %} {% endcomment %}
+
+    {% if image_count == 1 %}
+      <!-- Single image (no slider) -->
+      <div class="custom-product-image">
+        <img 
+          src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Gold_coin_hero_banner_Desktop__webp_9bc4f1b7-eb88-48fe-a8fe-d33e05ba893f.webp?v=1771571126"
+          alt="Offer Banner"
+          class="responsive-product-img"
+          width="500"
+          height="300"
+          style="border-radius:10px;"
+          loading="lazy"
+        />
+      </div>
+
+    {% elsif image_count == 2 %}
+      <!-- Slider for 2 images -->
+      <div class="offer-slider" 
+           data-autoplay="{{ section.settings.autoplay }}" 
+           data-autoplay-speed="{{ section.settings.autoplay_speed | default: 3000 }}">
+        <div class="offer-slide active">
+          <img 
+            src="{{ section.settings.offer_image_1 | image_url: width: 1000 }}"
+            alt="Offer Banner 1"
+            class="responsive-product-img"
+            width="500"
+            height="300"
+            style="border-radius:10px;"
+            loading="lazy"
+          />
+        </div>
+        <div class="offer-slide">
+          <img 
+            src="{{ section.settings.offer_image_2 | image_url: width: 1000 }}"
+            alt="Offer Banner 2"
+            class="responsive-product-img"
+            width="500"
+            height="300"
+            style="border-radius:10px;"
+            loading="lazy"
+          />
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <button class="slider-nav slider-prev" aria-label="Previous slide">&#10094;</button>
+        <button class="slider-nav slider-next" aria-label="Next slide">&#10095;</button>
+        
+        <!-- Dots Indicator -->
+        <div class="slider-dots">
+          <span class="dot active" data-slide="0"></span>
+          <span class="dot" data-slide="1"></span>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{%- endif -%}

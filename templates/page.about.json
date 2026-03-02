@@ -1,0 +1,388 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "bgimage": true,
+        "show_pagetitle": true,
+        "show_breadcrumb": true,
+        "color_breadcrumb": "#ffffff",
+        "align_breadcrumb": "right"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "enable": false,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "featured_custom_section_agR8fi": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_hLYqj4": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_GnYR8r": {
+              "type": "text-block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Vaama Story Section</title>\n  <style>\n\n    .section {\n         background: url(https://cdn.shopify.com/s/files/1/0634/8239/6854/files/About-us.png?v=1747485156) no-repeat bottom / cover;\n    height: 900px;\n    display: flex\n;\n    align-items: end;\n    justify-content: center;\n    position: relative;\n    }\n\n    .glass-box {\n      background: rgba(255, 255, 255, 0.1);\n      backdrop-filter: blur(10px);\n      -webkit-backdrop-filter: blur(10px);\n      border-radius: 15px;\n      padding: 30px;\n      max-width: 1200px;\n      color: #fff;\n      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);\n margin-bottom: 30px\n    }\n\n    .glass-box h2 {\n      margin-top: 0;\n      font-size: 24px;\n      font-weight: bold;\n     color: white;\n     text-align: center;\n    }\n\n    .glass-box p {\n      margin-bottom: 10px;\n      font-size: 16px;\n      line-height: 1.5;\n    }\n.two-column {\n    display: flex;\n  gap: 30px;\n   font-family: mickir;\n  \n}  \n\n\n@media(max-width: 767px){\n.glass-box {\n      background: rgba(255, 255, 255, 0.1);\n      backdrop-filter: blur(10px);\n      -webkit-backdrop-filter: blur(10px);\n      border-radius: 15px;\n      padding: 20px;\n      max-width: 300px;\n      color: #fff;\n      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);\n margin-bottom: 30px\n    }\n.two-column {\n    display: block;\n  gap: 10px;\n   font-family: mickir;\n  \n}  \n.glass-box p {\n    margin-bottom: 10px;\n    font-size: 14px;\n    line-height: 1.5;\n}\n}\n  </style>\n\n\n  <section class=\"section\">\n    <div class=\"glass-box\">\n      <h2>The Vaama Story</h2>\n      <div class=\"two-column\">\n      <p>Vaama Jewellery emerged from a simple yet powerful vision: to change how people experience fine jewellery through accessibility and education. We founded our brand on the belief that exquisite diamond craftsmanship should be a standard and not a privilege. By focusing exclusively on lab-grown diamonds of EF color and VVS clarity, we make premium quality accessible to more people. Transparency stands at the heart of everything we do.</p>\n      <p>We believe that understanding what makes a diamond valuable enables confidence in your choice. That’s why we’re committed to educating our customers about diamond quality, helping you make informed, value-driven decisions for jewellery that lasts a lifetime. Vaama represents a new approach to fine jewellery — one that emphasizes quality, ethical sourcing, and knowledge. It’s about empowering you to create jewellery that’s as meaningful as it is beautiful.</p>\n   </div>\n    </div>\n  </section>\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_GnYR8r"
+          ]
+        }
+      },
+      "block_order": [
+        "column_hLYqj4"
+      ],
+      "settings": {
+        "max_width": "1770px",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "-90px 0 30px | | | -70px 0 50px",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_bF8Gk9": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_zCwVUq": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_NjWgGb": {
+              "type": "text-block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Vaama Story Section</title>\n  <style>\n\n    .section {\n         background: url(https://cdn.shopify.com/s/files/1/0634/8239/6854/files/About-us.png?v=1747485156) no-repeat center / cover;\n    height: 900px;\n    display: flex\n;\n    align-items: end;\n    justify-content: center;\n    position: relative;\n    }\n\n    .glass-box {\n      background: rgba(255, 255, 255, 0.1);\n      backdrop-filter: blur(10px);\n      -webkit-backdrop-filter: blur(10px);\n      border-radius: 15px;\n      padding: 30px;\n      max-width: 1200px;\n      color: #fff;\n      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);\n margin-bottom: 30px\n    }\n\n    .glass-box h2 {\n      margin-top: 0;\n      font-size: 24px;\n      font-weight: bold;\n     color: white;\n     text-align: center;\n    }\n\n    .glass-box p {\n      margin-bottom: 10px;\n      font-size: 16px;\n      line-height: 1.5;\n    }\n.two-column {\n    display: flex;\n  gap: 30px;\n   font-family: mickir;\n  \n}  \ndiv#shopify-block-Aak1aYndEYktyZElkN__text_block_NjWgGb{\ndisplay: none;\n}\n\n@media(max-width: 767px){\n.glass-box {\n      background: rgba(255, 255, 255, 0.1);\n      backdrop-filter: blur(10px);\n      -webkit-backdrop-filter: blur(10px);\n      border-radius: 15px;\n      padding: 20px;\n      max-width: 300px;\n      color: #fff;\n      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);\n margin-bottom: 30px\n    }\n.two-column {\n    display: block;\n  gap: 10px;\n   font-family: mickir;\n  \n}  \n.glass-box p {\n    margin-bottom: 10px;\n    font-size: 14px;\n    line-height: 1.5;\n}\ndiv#shopify-block-Aa09VQ3d1OGZTcXZPV__column_hLYqj4 {\n    display: none;\n}\ndiv#shopify-block-Aak1aYndEYktyZElkN__text_block_NjWgGb{\ndisplay: block;\n}\n.section {\n    background: url(https://cdn.shopify.com/s/files/1/0634/8239/6854/files/About-us.png?v=1747485156) no-repeat bottom / cover;\n    height: 600px;\n    display: flex\n;\n    align-items: end;\n    justify-content: center;\n    position: relative;\n}\n}\n  </style>\n\n\n  <section class=\"section\">\n    <div class=\"glass-box\">\n      <h2>The Vaama Story</h2>\n      <div class=\"two-column\">\n      <p>Vaama Jewellery emerged from a simple yet powerful vision: to change how people experience fine jewellery through accessibility and education. We founded our brand on the belief that exceptional diamond craftsmanship isn’t reserved for those with extraordinarily big pockets. By focusing exclusively on lab-grown diamonds of D color and VVS clarity, we make premium quality accessible to more people. Transparency stands at the heart of everything we do.</p>\n      \n   </div>\n    </div>\n  </section>\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_NjWgGb"
+          ]
+        }
+      },
+      "block_order": [
+        "column_zCwVUq"
+      ],
+      "settings": {
+        "max_width": "1770px",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "-90px 0 30px | | | -70px 0 50px",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_XUqgnR": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_iAjyNj": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "0",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_DdEd96": {
+              "type": "text-block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Jewellery Section</title>\n  <style>\n\n\n    .jewellery-section {\n      display: grid;\n    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n    gap: 40px;\n    padding: 60px 40px;\n    border-top: 0px solid #f2d1cf;\n    border-bottom: 0px solid #f2d1cf;\n    max-width: 100%;\n    margin: 0 auto;\n    }\n\n    .card {\n      text-align: center;\n      border: 0px;\n    }\n\n    .card img {\n      width: 100%;\n      height: auto;\n      border-radius: 20px;\n      object-fit: cover;\n      display: block;\n    }\n\n    .card h3 {\n      font-size: 28px;\n    margin: 15px 0 10px;\n    color: #28365B;\n    font-weight: 500;\n    }\n\n    .card p {\n    font-size: 17px;\n    color: #28365B;\n    margin: 0;\n    padding: 0 10px;\n    font-family: 'Mickir';\n}\n  </style>\n\n\n\n  <section class=\"jewellery-section\">\n    <div class=\"card\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/DFEYou_11_3.png?v=1746082746\" alt=\"Diamond Image\">\n      <h3>Diamonds For Every You</h3>\n      <p>Because your personality has many colors, and your jewelry should reflect every hue.</p>\n    </div>\n\n    <div class=\"card\">\n      <img src=\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/SKR06047_1.png?v=1747485715\" alt=\"Jewellery Expression Image\">\n      <h3>Your Jewellery, Your Personal Expression</h3>\n      <p>Custom-made jewellery that begins with your story and ends with something uniquely yours.</p>\n    </div>\n  </section>\n\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_DdEd96"
+          ]
+        }
+      },
+      "block_order": [
+        "column_iAjyNj"
+      ],
+      "settings": {
+        "max_width": "1470px",
+        "fullwidth": true,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "0",
+        "vertical_align": "middle",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_rnPam4": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_fjVCnj": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "0",
+            "margin": "| | | 0 0 30px",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_neQh8F": {
+              "type": "text-block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Our Team</title>\n  <style>\n \n\n    .team-section {\n      padding: 60px 20px;\n      text-align: center;\n      max-width: 100%;\n      margin: auto;\n     background-color: #1e1e2f;\n    }\n\n    .team-section h2 {\n      font-size: 28px;\n      font-weight: 500;\n      margin-bottom: 8px;\n      display: inline-block;\n      padding-bottom: 4px;\n     color: #ffffff;\n    }\n\n    .team-section p {\n      font-size: 16px;\n      color: #ccc;\n      margin-bottom: 40px;\n    }\n\n    .team-grid {\n      display: grid;\n      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n      gap: 30px;\n      justify-items: center;\n    }\n\n    .team-card {\n      background: #2d2d3a;\n      border-radius: 15px;\n      padding: 20px;\n      max-width: 400px;\n      box-shadow: 0 4px 20px rgba(0,0,0,0.2);\n    }\n\n    .team-card img {\n      width: 100%;\n      border-radius: 12px;\n      object-fit: cover;\n      margin-bottom: 15px;\n    }\n\n    .team-card h4 {\n      margin: 0;\n      font-size: 18px;\n      font-weight: 600;\n      color: #fff;\n    }\n\n    .team-card p {\n      margin: 5px 0 0;\n      font-size: 14px;\n      color: #aaa;\n    }\n\n    @media (max-width: 768px) {\n      .team-section h2 {\n        font-size: 24px;\n      }\n\n      .team-section p {\n        font-size: 14px;\n      }\n    }\n  </style>\n\n\n\n  <section class=\"team-section\">\n    <h2>The Faces Behind Vaama Jewellery</h2>\n    <p>The hearts and hands behind every meaningful sparkle</p>\n\n    <div class=\"team-grid\">\n      <div class=\"team-card\">\n        <img src=\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Akshat.png?v=1747486079\" alt=\"Akshat Shah\">\n        <h4>Akshat Shah</h4>\n        <p>Founder</p>\n      </div>\n\n      <div class=\"team-card\">\n        <img src=\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Tejas.png?v=1747486079\" alt=\"Tejas Shah\">\n        <h4>Tejas Shah</h4>\n        <p>Co-Founder</p>\n      </div>\n\n      <div class=\"team-card\">\n        <img src=\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Rajul.png?v=1747486079\" alt=\"Rajul Shah\">\n        <h4>Rajul Shah</h4>\n        <p>Head of Packaging and Logistics</p>\n      </div>\n    </div>\n  </section>\n\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_neQh8F"
+          ]
+        }
+      },
+      "block_order": [
+        "column_fjVCnj"
+      ],
+      "settings": {
+        "max_width": "1470px",
+        "fullwidth": true,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "0 0 85px",
+        "vertical_align": "middle",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_d8N78W": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_4QfAhd": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_dQBnPx": {
+              "type": "text-block",
+              "settings": {
+                "title": "<body>\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Vaama Jewellery Values</title>\n\n  <style>\n    .scroll-arrows {\n      display: none;\n    }\n\n    .values-section {\n      background-color: #fff;\n      padding: 60px 20px;\n      text-align: center;\n      position: relative;\n      max-width: 100%;\n      background-image: url(\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Frame_4_11.png?v=1747224977\");\n      background-size: cover;\n    }\n\n    .values-section::before,\n    .values-section::after {\n      content: '';\n      position: absolute;\n      background-image: url('/mnt/data/fcf090bd-2c6b-4db5-ad50-fd85c87f8ef8.png');\n      background-repeat: no-repeat;\n      background-size: contain;\n      opacity: 0.08;\n      z-index: 0;\n    }\n\n    .values-section::before {\n      top: 20px;\n      left: 20px;\n      width: 100px;\n      height: 100px;\n    }\n\n    .values-section::after {\n      bottom: 20px;\n      right: 20px;\n      width: 100px;\n      height: 100px;\n    }\n\n    .values-section h2 {\n      font-size: 28px;\n      font-weight: 500;\n      margin-bottom: 40px;\n      color: #28365B;\n      position: relative;\n      z-index: 1;\n    }\n\n    .values-grid {\n      display: flex;\n      justify-content: center;\n      flex-wrap: wrap;\n      gap: 150px;\n      z-index: 1;\n      position: relative;\n    }\n\n    .value-item {\n      max-width: 180px;\n      text-align: center;\n    }\n\n    .value-item img {\n      width: 100px;\n      margin-bottom: 15px;\n    }\n\n    .value-item p {\n      margin: 0;\n      color: #28365B;\n      font-size: 20px;\n      line-height: 1.4;\n      font-family: mickir;\n    }\n\n    .values-section .note {\n      margin-top: 40px;\n      font-size: 18px;\n      color: #28365B;\n      max-width: 100%;\n      margin-left: auto;\n      margin-right: auto;\n      position: relative;\n      z-index: 1;\n    }\n\n    /* Mobile scroll styles */\n    @media (max-width: 600px) {\n      .values-grid {\n        flex-wrap: nowrap;\n        overflow-x: auto;\n        scroll-snap-type: x mandatory;\n        -webkit-overflow-scrolling: touch;\n        gap: 0;\n      }\n\n      .value-item {\n        flex: 0 0 100%;\n        max-width: 100%;\n        scroll-snap-align: center;\n        padding: 20px;\n        box-sizing: border-box;\n      }\n\n      .value-item img {\n        margin: 0 auto 15px;\n        display: block;\n      }\n\n      .values-section h2 {\n        font-size: 22px;\n      }\n\n      .scroll-arrows {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n        max-width: 100%;\n        margin: 10px auto 0;\n        position: relative;\n        z-index: 2;\n        padding: 0 20px;\n      }\n\n      .scroll-arrow {\n        background-color: #f0f0f0;\n        border: none;\n        font-size: 18px;\n        padding: 6px 10px;\n        border-radius: 50%;\n        cursor: pointer;\n        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n      }\n\n      .scroll-arrow:active {\n        background-color: #ddd;\n      }\n.values-section {\n    background-image: url(\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Phone_version.png?v=1747488215\");\n background-size: cover;\n}\n    }\n  </style>\n\n  <section class=\"values-section\">\n    <h2>Values Reflected In Our Products</h2>\n\n    <div class=\"values-grid\" id=\"valuesSlider\">\n      <div class=\"value-item\">\n        <img src=\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Sustainable_1.png?v=1746165304\" alt=\"Sustainable Luxury\">\n        <p>Sustainable<br>Luxury</p>\n      </div>\n\n      <div class=\"value-item\">\n        <img src=\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Sustainable_3.png?v=1746165304\" alt=\"Uncompromising Quality\">\n        <p>Uncompromising<br>Quality</p>\n      </div>\n\n      <div class=\"value-item\">\n        <img src=\"https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Sustainable_2.png?v=1746165304\" alt=\"Transparency & Trust\">\n        <p>Transparency &<br>Trust</p>\n      </div>\n    </div>\n\n    <!-- Arrows for mobile -->\n    <div class=\"scroll-arrows\">\n      <button class=\"scroll-arrow\" onclick=\"scrollSlider(-1)\">←</button>\n      <button class=\"scroll-arrow\" onclick=\"scrollSlider(1)\">→</button>\n    </div>\n\n    <p class=\"note\">\n      These values don’t just define who we are, they define what you can expect in every product of <strong>Vaama Jewellery</strong>\n    </p>\n  </section>\n\n  <script>\n    function scrollSlider(direction) {\n      const slider = document.getElementById('valuesSlider');\n      const scrollAmount = slider.clientWidth;\n      slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });\n    }\n  </script>\n\n</body>",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_dQBnPx"
+          ]
+        }
+      },
+      "block_order": [
+        "column_4QfAhd"
+      ],
+      "settings": {
+        "max_width": "",
+        "fullwidth": true,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_3LrGDg": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_7pPCzR": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_VnDfTm": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <meta name=\"description\" content=\"Frequently asked questions about Vaama Jewellery's lab-grown diamonds, certification, quality standards, and customer policies.\">\n  <title>Frequently Asked Questions - Vaama Jewellery | Lab-Grown Diamond FAQs</title>\n  <style>\n    .faq-wrapper {\n      max-width: 900px;\n      margin: 0 auto;\n    }\n\n    .faq-title {\n      text-align: center;\n      color: #24335b;\n      font-size: 2rem;\n      font-weight: 600;\n      margin-bottom: 40px;\n      letter-spacing: -0.5px;\n    }\n\n    .main-faq-container {\n      background: #ffffff;\n      border: 1px solid #e5e7eb;\n      border-radius: 8px;\n      overflow: hidden;\n    }\n\n    .main-faq-toggle {\n      background: #24335b;\n      color: #ffffff;\n      cursor: pointer;\n      padding: 20px 24px;\n      width: 100%;\n      text-align: left;\n      border: none;\n      outline: none;\n      font-size: 1.125rem;\n      font-weight: 600;\n      position: relative;\n      transition: background-color 0.2s ease;\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n    }\n\n    .main-faq-toggle:hover {\n      background: #1a2847;\n    }\n\n    .main-faq-toggle:focus {\n      outline: 2px solid #24335b;\n      outline-offset: 2px;\n    }\n\n    .main-faq-toggle::after {\n      content: '▼';\n      font-size: 1rem;\n      transition: transform 0.3s ease;\n      display: inline-block;\n    }\n\n    .main-faq-toggle.active::after {\n      transform: rotate(180deg);\n    }\n\n    .main-faq-content {\n      max-height: 0;\n      overflow: hidden;\n      transition: max-height 0.4s ease;\n      background: #ffffff;\n    }\n\n    .main-faq-content.active {\n      max-height: 5000px;\n    }\n\n    .nested-faq-container {\n      padding: 16px;\n    }\n\n    .faq-item {\n      background: #ffffff;\n      border: 1px solid #e5e7eb;\n      border-radius: 6px;\n      margin-bottom: 10px;\n      overflow: hidden;\n    }\n\n    .faq-toggle {\n      background: #ffffff;\n      color: #24335b;\n      cursor: pointer;\n      padding: 16px 20px;\n      width: 100%;\n      text-align: left;\n      border: none;\n      outline: none;\n      font-size: 1rem;\n      font-weight: 500;\n      position: relative;\n      transition: background-color 0.2s ease;\n      display: flex;\n      align-items: flex-start;\n      justify-content: space-between;\n      gap: 12px;\n      border-radius: 6px;\n    }\n\n    .faq-toggle:hover {\n      background: #f9fafb;\n    }\n\n    .faq-toggle:focus {\n      outline: 2px solid #24335b;\n      outline-offset: -2px;\n    }\n\n    .faq-toggle.active {\n      border-radius: 6px 6px 0 0;\n      background: #f9fafb;\n    }\n\n    .faq-question {\n      flex: 1;\n    }\n\n    .faq-toggle::after {\n      content: '+';\n      font-size: 1.5rem;\n      font-weight: 300;\n      transition: transform 0.3s ease;\n      display: inline-block;\n      min-width: 20px;\n      text-align: center;\n      color: #24335b;\n      line-height: 1;\n    }\n\n    .faq-toggle.active::after {\n      content: '−';\n    }\n\n    .faq-content {\n      max-height: 0;\n      overflow: hidden;\n      transition: max-height 0.3s ease, padding 0.3s ease;\n      background: #ffffff;\n      color: #4b5563;\n      line-height: 1.7;\n      font-size: 0.95rem;\n      border-top: 1px solid #e5e7eb;\n    }\n\n    .faq-content.active {\n      max-height: 500px;\n      padding: 16px 20px;\n    }\n\n    .faq-content p {\n      margin: 0;\n    }\n\n    @media (max-width: 768px) {\n\n\n      .faq-title {\n        font-size: 1.5rem;\n        margin-bottom: 30px;\n      }\n\n      .main-faq-toggle {\n        padding: 16px 20px;\n        font-size: 1rem;\n      }\n\n      .nested-faq-container {\n        padding: 12px;\n      }\n\n      .faq-toggle {\n        padding: 14px 16px;\n        font-size: 0.95rem;\n      }\n\n      .faq-content {\n        font-size: 0.9rem;\n      }\n\n      .faq-content.active {\n        padding: 14px 16px;\n      }\n    }\n\n    @media (prefers-reduced-motion: reduce) {\n      * {\n        animation-duration: 0.01ms !important;\n        animation-iteration-count: 1 !important;\n        transition-duration: 0.01ms !important;\n      }\n    }\n  </style>\n\n\n  <main class=\"faq-wrapper\">\n    <h1 class=\"faq-title\">Frequently Asked Questions</h1>\n\n    <section class=\"main-faq-container\" itemscope itemtype=\"https://schema.org/FAQPage\">\n      <button class=\"main-faq-toggle\" id=\"mainFaqToggle\" aria-expanded=\"false\" aria-controls=\"mainFaqContent\">\n        <span>Explore All FAQs</span>\n      </button>\n      \n      <div class=\"main-faq-content\" id=\"mainFaqContent\">\n        <div class=\"nested-faq-container\">\n          \n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Is a lab grown diamond a real diamond?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Yes, lab grown diamonds are genuine diamonds with identical physical, chemical, and optical properties to mined diamonds. They're created using advanced technology that replicates the natural diamond formation process in controlled laboratory conditions. Both rate 10 on the Mohs hardness scale and possess the same brilliance, fire, and durability.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Is it worth buying lab grown diamonds?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Absolutely. Lab grown diamonds offer exceptional value by providing the same beauty and quality as mined diamonds at typically 30-40% less cost. This means you can invest in higher quality grades or larger carat weights within your budget. You're getting superior quality while making a more sustainable choice.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">How much is 1 carat lab grown diamond?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">The price of a 1-carat lab grown diamond varies based on the 4Cs - cut, color, clarity, and carat weight. We recommend scheduling a consultation to explore options that match your specific preferences and budget, ensuring you receive the best value for your investment.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">What are the 4Cs of lab diamonds?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">The 4Cs - Cut, Color, Clarity, and Carat, define a diamond's quality and beauty. Cut determines how light moves through the stone, creating that captivating sparkle. Color grades range from colorless (D) to faint yellow (Z+), while Clarity measures internal characteristics. Carat refers to weight.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Can I buy only diamonds?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Yes, visit our gifting section to explore loose diamonds and other gemstones. Whether you're looking to customize an existing design or create something entirely new, our collection of individual stones offers beautiful options.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Is Vaama's jewellery certified?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Yes, all our jewellery comes with BIS Hallmarked certification and certified authenticity documentation. This ensures you receive complete transparency about your jewellery's quality and characteristics. We believe in providing you with detailed information about your jewelry, so you can wear your Vaama piece with confidence knowing its true value and ethical origins.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">What makes Vaama diamonds exceptionally brilliant?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Every Vaama ring features diamonds with our Triple Excellent Cut grade, which maximizes light reflection for unmatched sparkle. Combined with EF color grading for brilliant white perfection and VVS clarity for exceptional transparency, your jewellery delivers the kind of radiance that captures attention and creates lasting memories.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">What if my jewellery doesn't feel quite right after I receive it?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">We offer 15-day easy returns because we want you to absolutely love your jewellery. Whether it's sizing, style, or simply not feeling like \"the one,\" you can return your piece within 30 Days. This gives you time to live with your ring and ensure it truly becomes part of your story. This is not applicable on customized jewellery.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">How does Vaama ensure consistent quality across all designs?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">The Vaama Promise applies to every piece of jewellery we create - EF color diamonds, VVS clarity, and Triple Excellent cuts are our non-negotiable standards. Whether you choose a classic solitaire or an intricate vintage-inspired design, you receive the same exceptional quality that defines our commitment to excellence.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">How to Properly Store Your Jewellery?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Proper storage protects your earrings and extends their beauty for years to come. Store each pair in individual soft pouches or lined compartments to prevent scratching and tangling. Keep them away from humidity and direct sunlight, which can affect metal finishes over time. For earrings with gemstone accents, avoid contact with other jewelry pieces. Consider a dedicated jewelry box with separate sections, and always ensure earrings are completely dry before storing to prevent tarnishing.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Can You Wear Lab-Grown Diamond Jewellery Everyday?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Absolutely. Lab-grown diamonds possess the same durability and hardness as mined diamonds, making them perfect for daily wear. Your Vaama earrings are crafted with secure settings and quality metals that withstand regular use while maintaining their brilliance. With proper care, your lab-grown diamond earrings will continue sparkling beautifully through all your everyday moments.</p>\n            </div>\n          </article>\n\n        </div>\n      </div>\n    </section>\n  </main>\n\n  <script>\n    const mainToggle = document.getElementById('mainFaqToggle');\n    const mainContent = document.getElementById('mainFaqContent');\n    const faqButtons = document.querySelectorAll('.faq-toggle');\n\n    mainToggle.addEventListener('click', () => {\n      const isExpanded = mainToggle.getAttribute('aria-expanded') === 'true';\n      mainToggle.setAttribute('aria-expanded', !isExpanded);\n      mainToggle.classList.toggle('active');\n      mainContent.classList.toggle('active');\n    });\n\n    faqButtons.forEach(btn => {\n      btn.addEventListener('click', () => {\n        const isExpanded = btn.getAttribute('aria-expanded') === 'true';\n        btn.setAttribute('aria-expanded', !isExpanded);\n        btn.classList.toggle('active');\n        const faqAnswer = btn.nextElementSibling;\n        faqAnswer.classList.toggle('active');\n      });\n    });\n  </script>\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_VnDfTm"
+          ]
+        }
+      },
+      "block_order": [
+        "column_7pPCzR"
+      ],
+      "name": "Custom Section",
+      "settings": {
+        "max_width": "",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "featured_custom_section_agR8fi",
+    "featured_custom_section_bF8Gk9",
+    "featured_custom_section_XUqgnR",
+    "featured_custom_section_rnPam4",
+    "featured_custom_section_d8N78W",
+    "featured_custom_section_3LrGDg"
+  ]
+}

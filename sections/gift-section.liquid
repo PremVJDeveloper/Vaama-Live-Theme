@@ -1,0 +1,144 @@
+{{ 'component-gift-section.css' | asset_url | stylesheet_tag }}
+
+<section class="gift-section" id="{{ section.id }}">
+  <div class="gift-section__container">
+    
+    <!-- Main Banner -->
+    <div 
+    class="gift-section__main-card"
+    style="
+        background-image:
+        linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 83.65%),
+        url({{ section.settings.main_image | image_url: width: 1200 }});    "
+    >
+      <div class="gift-section__main-content">
+        <h2 class="gift-section__title">
+          {{ section.settings.main_title }}
+        </h2>
+      </div>
+    </div>
+
+    <!-- Price Cards -->
+    <div class="gift-section__cards">
+      
+      <a href="{{ section.settings.col_20k.url }}"
+         class="gift-section__card gift-section__card--20k"
+         style="background-image:url({{ section.settings.img_20k | image_url: width: 600 }});">
+        <div class="gift-section__card-content">
+        <span class="gift-section__card-text"><span class="gift-section__card-under">Under</span>20K</span></div>
+      </a>
+
+      <a href="{{ section.settings.col_30k.url }}"
+         class="gift-section__card gift-section__card--30k"
+         style="background-image:url({{ section.settings.img_30k | image_url: width: 600 }});">
+                 <div class="gift-section__card-content">
+        <span class="gift-section__card-text"><span class="gift-section__card-under">Under</span>30K</span></div>
+      </a>
+
+      <a href="{{ section.settings.col_50k.url }}"
+         class="gift-section__card gift-section__card--50k"
+         style="background-image:url({{ section.settings.img_50k | image_url: width: 600 }});">
+                 <div class="gift-section__card-content">
+        <span class="gift-section__card-text"><span class="gift-section__card-under">Under</span>50K</span></div>
+      </a>
+      <a href="{{ section.settings.col_above_50k.url }}"
+         class="gift-section__card gift-section__card--above50k"
+         style="background-image:url({{ section.settings.img_above_50k | image_url: width: 600 }});">
+                 <div class="gift-section__card-content">
+        <span class="gift-section__card-text"><span class="gift-section__card-under">Above</span>50K</span></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gift Section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main banner image"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main title",
+      "default": "Gift Your Loved Once"
+    },
+    {
+      "type": "collection",
+      "id": "main_collection",
+      "label": "Main banner collection"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "img_20k",
+      "label": "Under 20K image"
+    },
+    {
+      "type": "collection",
+      "id": "col_20k",
+      "label": "Under 20K collection"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "img_30k",
+      "label": "Under 30K image"
+    },
+    {
+      "type": "collection",
+      "id": "col_30k",
+      "label": "Under 30K collection"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "img_50k",
+      "label": "Under 50K image"
+    },
+    {
+      "type": "collection",
+      "id": "col_50k",
+      "label": "Under 50K collection"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "img_above_50k",
+      "label": "Above 50K image"
+    },
+    {
+      "type": "collection",
+      "id": "col_above_50k",
+      "label": "Above 50K collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift Section"
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+// Add JavaScript to ensure smooth hover transitions
+document.addEventListener('DOMContentLoaded', function() {
+  const cards = document.querySelectorAll('.gift-section__card');
+  
+  // Add mouseenter and mouseleave events for desktop
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      this.style.zIndex = '10';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      this.style.zIndex = '1';
+    });
+  });
+});
+</script>

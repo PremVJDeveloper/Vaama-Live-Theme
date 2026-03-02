@@ -1,0 +1,64 @@
+<section class="page-faqs">
+	<div class="container">
+		<div class="page__inner">
+			<div class="page__content">
+				<div class="rte">
+					{{ page.content }}
+				</div>
+				<div class="faq-page2">
+					<h2>{{ section.settings.title }}</h2>
+					<div id="accordion">
+						{%- if section.blocks.size > 0 -%}
+							{% for block in section.blocks %}
+								<div class="card">
+									<div class="card-header">
+										<a class="card-link{% unless forloop.first %} collapsed{% endunless %}" data-toggle="collapse" href="#collapse-{{ forloop.index }}">
+											{{ block.settings.title }}
+										</a>
+									</div>
+									<div id="collapse-{{ forloop.index }}" class="collapse{% if forloop.first %} show{% endif %}" data-parent="#accordion">
+										<div class="card-body">
+											{{ block.settings.content }}
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						{%- endif -%}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% schema %}
+  {
+    "name": "Faqs page",
+	"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading",
+			"default": "Frequently Asked Questions."
+		}
+	],
+    "blocks": [
+      {
+        "type": "faq",
+        "name": "Faq item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading"
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Content"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

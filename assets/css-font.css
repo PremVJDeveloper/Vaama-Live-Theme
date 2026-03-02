@@ -1,0 +1,44 @@
+@font-face {
+    font-family: "Canela Light";
+    src: url('./Canela-Light.ttf') format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "HelveticaNeueLight";
+    src: url('./HelveticaNeueLight.otf') format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "HelveticaNeueRoman";
+    src: url('./HelveticaNeueRoman.otf') format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "HelveticaNeueMedium";
+    src: url('./HelveticaNeueMedium.otf') format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'HeadstockSans';
+  src: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/headstocksansregular-webfont.woff?v=1744866504') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HeadstockSans';
+  src: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/headstocksansregular-webfont.woff?v=1744866504') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mickir';
+  src: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Mickir-Regular.ttf?v=1744868107') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

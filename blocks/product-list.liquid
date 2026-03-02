@@ -1,0 +1,264 @@
+{{ 'css-section-product-list.css' | asset_url | stylesheet_tag }}
+{%- assign collection_handle = block.settings.featured_products -%}
+{%- assign nav = block.settings.navigation -%}
+{%- assign dot = block.settings.dots -%}
+{%- assign infinite = block.settings.infinite -%}
+{%- assign autoplay = block.settings.autoplay -%}
+{%- assign autoplay_speed = block.settings.autoplay_speed | escape -%}
+{%- assign columns = block.settings.columns -%}
+{%- assign column1440 = block.settings.column1440 -%}
+{%- assign column1 = block.settings.column1 -%}
+{%- assign column2 = block.settings.column2 -%}
+{%- assign column3 = block.settings.column3 -%}
+{%- assign column4 = block.settings.column4 -%}
+{%- assign limit = block.settings.limit | plus: 0 -%}
+{%- assign total_products = collections[collection_handle].products.size -%}
+{% assign margin 			= block.settings.margin | split: "|" %}
+{% assign padding 			= block.settings.padding | split: "|" %}
+{%- assign rotation_unit = section.settings.rotation_unit | default: "minute" -%}
+{%- assign rotation_interval = section.settings.rotation_interval | default: 1 -%}
+
+{%- case rotation_unit -%}
+  {%- when "minute" -%}
+    {%- assign time_value = 'now' | date: '%M' | plus: 0 -%}
+  {%- when "hour" -%}
+    {%- assign time_value = 'now' | date: '%H' | plus: 0 -%}
+  {%- when "day" -%}
+    {%- assign time_value = 'now' | date: '%d' | plus: 0 -%}
+  {%- else -%}
+    {%- assign time_value = 'now' | date: '%M' | plus: 0 -%}
+{%- endcase -%}
+
+{%- assign rotation_value = time_value | divided_by: rotation_interval -%}
+
+{%- if total_products > limit -%}
+  {%- assign max_start = total_products | minus: limit -%}
+  {%- assign start_index = rotation_value | modulo: max_start -%}
+{%- else -%}
+  {%- assign start_index = 0 -%}
+{%- endif -%}
+
+<style>
+      {%- if margin[0] != blank or padding[0] != blank -%}
+		#shopify-block-{{ block.id }} .wpbingo-widget--products{
+			{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+			{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+		}
+	{%- endif -%}
+	{%- if margin[1] != blank or padding[1] != blank -%}
+		@media (max-width:1199px){
+			#shopify-block-{{ block.id }} .wpbingo-widget--products{
+				{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+				{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[2] != blank or padding[2] != blank -%}
+		@media (max-width:991px){
+			#shopify-block-{{ block.id }} .wpbingo-widget--products{
+				{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+				{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[3] != blank or padding[3] != blank -%}
+		@media (max-width:767px){
+			#shopify-block-{{ block.id }} .wpbingo-widget--products{
+				{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+				{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+</style>
+<div class="wpbingo-block wpbingo-widget--products overflow-hidden wpbingo-block--{{ block.id }}">
+    <div class="wpbingo-section__content bwp_slider-carousel{% if block.settings.half_slider != blank %} bwp_slick-margin-mobile{% endif %}">
+          {%- if collection_handle == blank or collections[collection_handle] == empty or collections[collection_handle].products_count == 0 -%}
+              <div class="row">
+                  {% include 'onboarding-featured-products' %}
+              </div>
+          {%- else -%}
+			<div class="js-carousel slick-carousel"
+				data-nav="{{ nav }}" data-dots="{{ dot }}" data-slidesToScroll="true"
+				data-infinite="{{ infinite }}" data-autoplay="{{ autoplay }}"
+				data-autoplayspeed="{{ autoplay_speed }}"
+				data-columns="{{ columns }}"
+				data-column1440="{{ column1440 }}"
+				data-column1="{{ column1 }}"
+				data-column2="{{ column2 }}"
+				data-column3="{{ column3 }}"
+				data-column4="{{ column4 }}">
+
+			{%- assign products_shown = 0 -%}
+			{%- assign index = 0 -%}
+
+			{%- for product in collections[collection_handle].products -%}
+
+			{%- comment -%} Skip Mens Rings only for Best Seller {%- endcomment -%}
+			{%- if collection_handle == 'bestseller' and product.tags contains 'Mens Rings' -%}
+				{%- continue -%}
+			{%- endif -%}
+
+			{%- if index < start_index -%}
+				{%- assign index = index | plus: 1 -%}
+				{%- continue -%}
+			{%- endif -%}
+
+			<div class="slick-carousel__item">
+				{% include 'product-grid-item' %}
+			</div>
+
+			{%- assign products_shown = products_shown | plus: 1 -%}
+			{%- assign index = index | plus: 1 -%}
+
+			{%- if products_shown >= limit -%}
+				{%- break -%}
+			{%- endif -%}
+
+			{%- endfor -%}
+
+
+			</div>
+          {%- endif -%}
+      </div>
+</div>
+{% schema %}
+  {
+    "name": "Product list",
+    "settings": [
+        {
+			"type": "textarea",
+			"id": "padding",
+			"label": "Padding",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "textarea",
+			"id": "margin",
+			"label": "Margin",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+        {
+			"type": "header",
+			"content": "General Settings"
+		},
+        {
+			"type": "collection",
+			"id": "featured_products",
+			"label": "Collection"
+		},
+		{
+			"type": "range",
+			"id": "limit",
+			"min": 1,
+			"max": 9,
+			"step": 1,
+			"label": "Number of products",
+			"default": 9
+		},
+        {
+			"type": "header",
+			"content": "Carousel Settings"
+		},
+		{
+			"type": "checkbox",
+			"id": "navigation",
+			"label": "Show navigation",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "dots",
+			"label": "Show dot indicators",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "infinite",
+			"label": "Infinite loop sliding",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "autoplay",
+			"label": "Enable autoplay",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "half_slider",
+			"label": "Half slider",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "autoplay_speed",
+			"label": "Autoplay speed",
+			"info": "Autoplay speed in milliseconds. Type: int(ms)",
+			"default": "10000"
+		},
+		{
+			"type": "range",
+			"id": "columns",
+			"min": 1,
+			"max": 8,
+			"step": 1,
+			"label": "Number of Columns >1440px",
+			"default": 4,
+			"info": "Desktops"
+		},
+		{
+			"type": "range",
+			"id": "column1440",
+			"min": 1,
+			"max": 8,
+			"step": 1,
+			"label": "Number of Columns 1200px to 1440px",
+			"default": 4,
+			"info": "Desktops"
+		},
+		{
+			"type": "range",
+			"id": "column1",
+			"min": 1,
+			"max":7,
+			"step": 1,
+			"label": "Number of Columns on 992px to 1199px",
+			"default": 4,
+			"info": "Desktops"
+		},
+		{
+			"type": "range",
+			"id": "column2",
+			"min": 1,
+			"max": 7,
+			"step": 1,
+			"label": "Number of Columns on 768px to 991px",
+			"default": 3,
+			"info": "Laptop"
+		},
+		{
+			"type": "range",
+			"id": "column3",
+			"min": 1,
+			"max": 7,
+			"step": 1,
+			"label": "Number of Columns on 480px to 767px",
+			"default": 1,
+			"info": "Tablets"
+		},
+		{
+			"type": "range",
+			"id": "column4",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns in 480px or less than",
+			"default": 1,
+			"info": "Mobile phone"
+		}
+    ],
+    "presets": [{"name": "Product list"}]
+  }
+{% endschema %}

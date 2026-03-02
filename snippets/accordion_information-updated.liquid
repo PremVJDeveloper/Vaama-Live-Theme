@@ -1,0 +1,325 @@
+{% comment %}
+  accordion-panel.liquid
+  Combined Description + Product Details accordion with custom icons and detail cards
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<div class="apanel-wrap"{% if block.settings.product_product_tab_margin != blank %} style="margin:{{ block.settings.product_product_tab_margin }}"{% endif %}>
+  <div class="apanel-inner" id="accordion">
+
+    {%- comment %} ── COMBINED: Description + Product Details ── {% endcomment %}
+    {%- if block.settings.product_tab_selector == 'description' and full_description != blank -%}
+    <div class="apanel-item" id="apanel-product-details">
+
+      {%- comment %} Header ─────────────────────────────── {% endcomment %}
+        <button
+        class="apanel-header apanel-header--open"
+        data-target="apanel-body-description"
+        onclick="apanelToggle(this)"
+        aria-expanded="true"
+        >
+        <span class="apanel-title">{{ block.settings.tab_title | default: 'Product Details' }}</span>
+        {%- comment %} REPLACE src with your custom collapse/expand icons {% endcomment %}
+        <img class="apanel-icon apanel-icon--close" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Up_Arrow_Icon_e21e70f5-5f03-465f-9a26-dc5c4fdb28d2.svg?v=1772021156" alt="collapse" style="display:none;" />
+        <img class="apanel-icon apanel-icon--open"  src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Down_Arrow_Icon_515cc930-86c6-442f-b75c-c0e5e77dc155.svg?v=1772021157" alt="expand"/>
+      </button>
+
+      {%- comment %} Body ──────────────────────────────── {% endcomment %}
+        <div class="apanel-body" id="apanel-body-description">
+        {%- comment %} Description text {% endcomment %}
+        <div class="apanel-description">{{ full_description }}</div>
+
+        {%- comment %}
+          Diamond Details card
+          Data pulled from product metafields — adjust namespace/key to match yours
+        {% endcomment %}
+        {%- assign diamond_count   = product.metafields.product_details.diamond_count -%}
+        {%- assign diamond_weight  = product.metafields.product_details.diamond_weight -%}
+        {%- assign diamond_clarity = product.metafields.product_details.diamond_clarity -%}
+
+        {%- if diamond_count or diamond_weight or diamond_clarity -%}
+        <div class="apanel-detail-card">
+          <div class="apanel-detail-card__header">Diamond Details:</div>
+          <div class="apanel-detail-card__body">
+            {%- if diamond_count != blank -%}
+            <div class="apanel-detail-row">
+              <span class="apanel-detail-label">No. of Diamonds:</span>
+              <span class="apanel-detail-value">{{ diamond_count }}</span>
+            </div>
+            {%- endif -%}
+            {%- if diamond_weight != blank -%}
+            <div class="apanel-detail-row">
+              <span class="apanel-detail-label">Weight per piece:</span>
+              <span class="apanel-detail-value">{{ diamond_weight }}</span>
+            </div>
+            {%- endif -%}
+            {%- if diamond_clarity != blank -%}
+            <div class="apanel-detail-row">
+              <span class="apanel-detail-label">Color/Clarity:</span>
+              <span class="apanel-detail-value">{{ diamond_clarity }}</span>
+            </div>
+            {%- endif -%}
+          </div>
+        </div>
+        {%- endif -%}
+
+        {%- comment %}
+          Gold Details card
+          Adjust metafield namespace/key to match yours
+        {% endcomment %}
+        {%- assign gold_weight = product.metafields.product_details.gold_weight -%}
+        {%- assign gold_karat  = product.metafields.product_details.gold_karat -%}
+        {%- assign gold_color  = product.metafields.product_details.gold_color -%}
+
+        {%- if gold_weight or gold_karat or gold_color -%}
+        <div class="apanel-detail-card">
+          <div class="apanel-detail-card__header">Gold Details:</div>
+          <div class="apanel-detail-card__body">
+            {%- if gold_weight != blank -%}
+            <div class="apanel-detail-row">
+              <span class="apanel-detail-label">Weight:</span>
+              <span class="apanel-detail-value">{{ gold_weight }}</span>
+            </div>
+            {%- endif -%}
+            {%- if gold_karat != blank -%}
+            <div class="apanel-detail-row">
+              <span class="apanel-detail-label">Karat:</span>
+              <span class="apanel-detail-value">{{ gold_karat }}</span>
+            </div>
+            {%- endif -%}
+            {%- if gold_color != blank -%}
+            <div class="apanel-detail-row">
+              <span class="apanel-detail-label">Color:</span>
+              <span class="apanel-detail-value">{{ gold_color }}</span>
+            </div>
+            {%- endif -%}
+          </div>
+        </div>
+        {%- endif -%}
+
+      </div>{%- comment %} /apanel-body {% endcomment %}
+    </div>
+    {%- endif -%}
+
+    {%- comment %} ── CUSTOM tab ── {% endcomment %}
+    {%- if block.settings.product_tab_selector == 'custom' -%}
+    <div class="apanel-item">
+      <button
+        class="apanel-header"
+        data-target="apanel-body-{{ block.id }}"
+        onclick="apanelToggle(this)"
+        aria-expanded="false"
+      >
+        <span class="apanel-title">{{ block.settings.tab_title }}</span>
+        <img class="apanel-icon apanel-icon--close" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Up_Arrow_Icon_e21e70f5-5f03-465f-9a26-dc5c4fdb28d2.svg?v=1772021156" alt="collapse" style="display:none;" />
+        <img class="apanel-icon apanel-icon--open"  src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Down_Arrow_Icon_515cc930-86c6-442f-b75c-c0e5e77dc155.svg?v=1772021157" alt="expand"/>
+      </button>
+      <div class="apanel-body apanel-body--hidden" id="apanel-body-{{ block.id }}">
+        <div class="apanel-description">{{ block.settings.tab_content }}</div>
+      </div>
+    </div>
+    {%- endif -%}
+
+    {%- comment %} ── METAFIELDS tab ── {% endcomment %}
+    {%- if block.settings.product_tab_selector == 'metafields' -%}
+    <div class="apanel-item">
+      <button
+        class="apanel-header"
+        data-target="apanel-body-meta-{{ block.id }}"
+        onclick="apanelToggle(this)"
+        aria-expanded="false"
+      >
+        <span class="apanel-title">{{ block.settings.tab_title }}</span>
+        <img class="apanel-icon apanel-icon--close" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Up_Arrow_Icon_e21e70f5-5f03-465f-9a26-dc5c4fdb28d2.svg?v=1772021156" alt="collapse" style="display:none;" />
+        <img class="apanel-icon apanel-icon--open"  src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Down_Arrow_Icon_515cc930-86c6-442f-b75c-c0e5e77dc155.svg?v=1772021157" alt="expand"/>
+      </button>
+      <div class="apanel-body apanel-body--hidden" id="apanel-body-meta-{{ block.id }}">
+        <div class="apanel-description">{{ block.settings.tab_metafields }}</div>
+      </div>
+    </div>
+    {%- endif -%}
+
+    {%- comment %} ── REVIEWS tab ── {% endcomment %}
+    {%- if settings.product_reviews_enable and block.settings.product_tab_selector == 'review' -%}
+    <div class="apanel-item">
+      <button
+        class="apanel-header"
+        data-target="apanel-body-reviews"
+        onclick="apanelToggle(this)"
+        aria-expanded="false"
+      >
+        <span class="apanel-title">{{ block.settings.tab_title }}</span>
+        <img class="apanel-icon apanel-icon--close" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Up_Arrow_Icon_e21e70f5-5f03-465f-9a26-dc5c4fdb28d2.svg?v=1772021156" alt="collapse" style="display:none;" />
+        <img class="apanel-icon apanel-icon--open"  src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Down_Arrow_Icon_515cc930-86c6-442f-b75c-c0e5e77dc155.svg?v=1772021157" alt="expand"/>
+      </button>
+      <div class="apanel-body apanel-body--hidden" id="apanel-body-reviews">
+        <div style='clear:both'></div>
+        <div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-id='{{ product.id }}'>
+          {{ product.metafields.judgeme.widget }}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+<!-- Toggle Script -->
+<script>
+function apanelToggle(btn) {
+  const targetId = btn.getAttribute('data-target');
+  const body = document.getElementById(targetId);
+  const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+  const iconClose = btn.querySelector('.apanel-icon--close'); // Up arrow
+  const iconOpen  = btn.querySelector('.apanel-icon--open');  // Down arrow
+
+  if (isOpen) {
+    // Collapse
+    body.classList.add('apanel-body--hidden');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.classList.remove('apanel-header--open');
+
+    if (iconClose) iconClose.style.display = '';     // show UP
+    if (iconOpen)  iconOpen.style.display  = 'none'; // hide DOWN
+  } else {
+    // Expand
+    body.classList.remove('apanel-body--hidden');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.classList.add('apanel-header--open');
+
+    if (iconClose) iconClose.style.display = 'none'; // hide UP
+    if (iconOpen)  iconOpen.style.display  = '';     // show DOWN
+  }
+}</script>
+
+<!-- CSS -->
+<style>
+  .apanel-wrap {
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* ── Each accordion item ── */
+  .apanel-item {
+    border-top: 1px solid #E5E7EB;
+  }
+
+  .apanel-item:last-child {
+    border-bottom: 1px solid #E5E7EB;
+  }
+
+  /* ── Header / trigger button ── */
+  .apanel-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    padding: 16px 0;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .apanel-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #28365B;
+    line-height: 20px;
+  }
+
+  /* Custom icon — 16×16, right side */
+  .apanel-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  /* ── Body ── */
+  .apanel-body {
+    padding: 0 0 20px 0;
+    overflow: hidden;
+  }
+
+  .apanel-body--hidden {
+    display: none;
+  }
+
+  /* ── Description text ── */
+  .apanel-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #28365B;
+    margin-bottom: 20px;
+  }
+
+  .apanel-description p {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    color: #28365B;
+  }
+
+  /* ── Detail card (Diamond / Gold) ── */
+  .apanel-detail-card {
+    background: #F5F6F8;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .apanel-detail-card:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Card header row — slightly darker bg */
+  .apanel-detail-card__header {
+    background: #EAECf2;
+    padding: 12px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #28365B;
+    line-height: 20px;
+  }
+
+  /* Card body rows */
+  .apanel-detail-card__body {
+    padding: 4px 0;
+  }
+
+  .apanel-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-top: 1px solid #E5E7EB;
+  }
+
+  .apanel-detail-row:first-child {
+    border-top: none;
+  }
+
+  .apanel-detail-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #28365B;
+    line-height: 20px;
+  }
+
+  .apanel-detail-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #28365B;
+    line-height: 20px;
+    text-align: right;
+  }
+</style>

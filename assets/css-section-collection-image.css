@@ -1,0 +1,9 @@
+.wpbingo-widget--collections-image .collection-item {
+  position: relative;
+}
+.wpbingo-widget--collections-image .collection-item__title a{
+  display: inline-block;
+}
+.wpbingo-widget--collections-image .slick-arrow {
+  top: calc(50% - 23px);
+}

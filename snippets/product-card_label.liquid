@@ -1,0 +1,34 @@
+{%- assign sold_out = true -%}
+{%- if product.available -%}
+	{%- assign sold_out = false -%}
+{%- endif -%}
+{%- assign on_sale = false -%}
+{%- if product.compare_at_price > product.price -%}
+	{%- assign on_sale = true -%}
+{%- endif -%}
+{%- if product.type contains "label" -%}
+	{% assign label_card	= product.type | split: "|" %}
+	{% assign label_array	= label_card[1] | split: "," %}
+{% endif %}
+{%- if on_sale or sold_out or product.type contains "label" -%}
+	<div class="product-card__label">
+		{% if sold_out %}
+			<span class="product-card__sold-out">{{ 'products.product.out_stock' | t }}</span>
+		{% else %}
+			{% if group_product == blank and on_sale %}
+				{%- capture saved_amount -%}
+					{%- assign price = product.compare_at_price | minus: product.selected_or_first_available_variant.price -%}
+					{%- assign price_pecent = price | times: 100 -%}
+					{{ price_pecent | divided_by: product.compare_at_price  }}%
+				{%- endcapture -%}
+				<span class="product-card__on-sale">Save {{ saved_amount }}</span>
+			{% endif %}
+			{%- if product.type contains "label" -%}
+				{% for labels in label_array %}
+					{% assign label	= labels | split: "-" %}
+					<span class="product-card__label_custom" style="background:{{ label[1] }}">{{ label[0] }}</span>
+				{% endfor %}
+			{% endif %}
+		{% endif %}
+	</div>
+{%- endif -%}

@@ -1,0 +1,108 @@
+{%- capture _ -%}
+    {% assign size_default = image.width | append: 'x' | append: image.height %}
+    {% assign images_size = image_size | default: size_default %}
+    {% assign images_style = image_style | default: size_default %}
+    {% assign image_ratio = image_ratio | default: 'portrait' %}
+    {% assign crop = crop | default: '' %}
+    {% assign image_class = image_class | default: '' %}
+    {% assign max_width_image = images_size | split: 'x' | first | times: 1 %}
+    {% assign max_height_image = images_size | split: 'x' | last | times: 1 %}
+    {% assign ratio_default = image.aspect_ratio | default: 1.0 %}
+    {%- assign _loading = loading_type | default: 'lazy' -%}
+    
+    {%- comment %} Use actual image dimensions for better quality {% endcomment -%}
+    {%- if max_width_image == blank or max_width_image == 0 -%}
+        {% assign max_width_image = image.width %}
+    {%- endif -%}
+    {%- if max_height_image == blank or max_height_image == 0 -%}
+        {% assign max_height_image = image.height %}
+    {%- endif -%}
+
+    {%- comment %} Ensure we're not upscaling small images {% endcomment -%}
+    {%- if max_width_image > image.width -%}
+        {% assign max_width_image = image.width %}
+    {%- endif -%}
+    {%- if max_height_image > image.height -%}
+        {% assign max_height_image = image.height %}
+    {%- endif -%}
+
+    {%- comment %} Calculate proper ratio and dimensions {% endcomment -%}
+    {%- if image_ratio == 'portrait' -%}
+        {% assign ratio = 0.75 %}
+    {%- elsif image_ratio == 'square' -%}
+        {% assign ratio = 1.0 %}
+    {%- else -%}
+        {% assign ratio = max_width_image | times: 1.0 | divided_by: max_height_image %}
+    {%- endif -%}
+
+    {%- comment %} Use theme settings for consistent sizing {% endcomment -%}
+    {% if settings.image_raito_product != blank %}
+        {% assign image_raito_product = settings.image_raito_product | split:'/' %}
+        {% assign padding_top = 100 | times: image_raito_product[1] | divided_by: image_raito_product[0] %}
+    {% else %}
+        {% assign padding_top = 100 | divided_by: ratio_default %}
+    {%- endif -%}
+
+    {%- comment %} Set minimum dimensions to prevent blurry images {% endcomment -%}
+    {% assign min_width = 300 %}
+    {% if max_width_image < min_width %}
+        {% assign max_width_image = min_width %}
+        {% assign max_height_image = max_width_image | divided_by: ratio_default | round %}
+    {% endif %}
+
+    {% assign max_width_image = max_width_image | round %}
+    {% assign max_height_image = max_height_image | round %}
+
+{%- endcapture -%}
+
+<div class="preloading-img-product{% if  media.media_type == 'video' %} video{% if image_video %} have-variants{% endif %}{% endif %}" style="padding-top:{{ padding_top }}%">
+    {% if  media.media_type == 'video' %}
+        <video class="lazyloaded" playsinline="" loop="loop" autoplay="autoplay" muted="muted" src="{{ media.sources.last.url }}"></video>
+        {%- if image_video -%}
+            <img class="lazyload {{ class }} {{ effect }}"
+            alt="{{ image.alt }}"
+            aria-label="{{ image.alt | escape }}"
+            data-alt="{{ image.alt | escape }}"
+            data-src="{{ image | image_url: width: max_width_image, height: max_height_image }}"
+            data-srcset="
+                {{ image | image_url: width: max_width_image, height: max_height_image }} 1x,
+                {{ image | image_url: width: max_width_image | times: 2, height: max_height_image | times: 2 }} 2x
+            "
+            data-sizes="auto"
+            loading="{{ _loading }}"
+            width="{{ max_width_image }}"
+            height="{{ max_height_image }}"
+            >
+        {%- endif -%}
+    {% else %}
+        <img class="lazyload {{ class }} {{ effect }}"
+        alt="{{ image.alt }}"
+        aria-label="{{ image.alt | escape }}"
+        data-alt="{{ image.alt | escape }}"
+        data-src="{{ image | image_url: width: max_width_image, height: max_height_image }}"
+        data-srcset="
+            {{ image | image_url: width: max_width_image, height: max_height_image }} 1x,
+            {{ image | image_url: width: max_width_image | times: 2, height: max_height_image | times: 2 }} 2x
+        "
+        data-sizes="auto"
+        loading="{{ _loading }}"
+        width="{{ max_width_image }}"
+        height="{{ max_height_image }}"
+        >
+    {% endif %}
+    <noscript>
+        <img class="img-fluid noscript" 
+             src="{{ image | image_url: width: max_width_image, height: max_height_image }}" 
+             width="{{ max_width_image }}" 
+             height="{{ max_height_height }}" 
+             alt="{{ image.alt }}" />
+    </noscript>
+</div>
+
+{%- capture _ -%}
+    {% assign images_size = nil %}
+    {% assign max_width_image = nil %}
+    {% assign max_height_image = nil %}
+    {% assign image_ratio = nil %}
+    {% assign crop = nil %}
+{%- endcapture -%}

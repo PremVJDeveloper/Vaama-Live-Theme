@@ -1,0 +1,454 @@
+{%- style -%}
+	{%- assign padding = section.settings.padding -%}
+	{%- assign logo_max_width = section.settings.logo_max_width -%}
+	{% if section.settings.width_header != blank or padding != blank %}
+		.bwp-header .header-desktop .container{
+			{% if section.settings.width_header != blank %}max-width: {{ section.settings.width_header }};{% endif %}
+		}
+		.bwp-header .header-desktop {
+			{% if padding != blank %}padding: {{ padding }};{% endif %}
+		}
+	{% endif %}
+	.header-logo img {max-width: {{ logo_max_width | append: 'px' }};}
+	{% if section.settings.header_absolute %}
+		@media (min-width:1199px){
+			body.template-index .bwp-header{position:absolute;width:100%;z-index: 99;}
+			body.template-index .bwp-header:not(.sticky) .header-desktop{background-color: transparent;}
+			{% if section.settings.color_homepage_text %}
+				body.template-index .bwp-header:not(.sticky) .header-desktop .main-menu__nav-item>a{
+					color:{{ section.settings.color_homepage_text }}
+				}
+				body.template-index .bwp-header:not(.sticky) .header-desktop .main-menu__nav-item>a:before{
+					background-color:{{ section.settings.color_homepage_text }}
+				}
+				body.template-index .bwp-header:not(.sticky) .header-desktop .search-toggle{
+					color:{{ section.settings.color_homepage_text }}
+				}
+				body.template-index .bwp-header:not(.sticky) .header-desktop .search-toggle .search__input{
+					color:{{ section.settings.color_homepage_text }}
+				}
+				body.template-index .bwp-header:not(.sticky) .header-desktop .login-account{
+					color:{{ section.settings.color_homepage_text }}
+				}
+				body.template-index .bwp-header:not(.sticky) .header-desktop .header-account__title{
+					color:{{ section.settings.color_homepage_text }}
+				}
+				body.template-index .bwp-header:not(.sticky) .header-desktop  .header-cart__link{
+					color:{{ section.settings.color_homepage_text }}
+				}
+				body.template-index .bwp-header:not(.sticky) .header-desktop  .wishlist{
+					color:{{ section.settings.color_homepage_text }}
+				}
+				body.template-index .bwp-header:not(.sticky) .header-top{
+					color:{{ section.settings.color_homepage_text }}
+				}
+				body.template-index .bwp-header:not(.sticky) .header-top a{
+					color:{{ section.settings.color_homepage_text }}
+				}
+			{% endif %}
+		}
+	{% endif %}
+	
+	/* Add these new styles for the inline search */
+	.search-toggle {
+		position: relative;
+	}
+	.search-toggle form {
+		width: 100%;
+		height: 100%;
+	}
+	.search-toggle .field {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		position: relative;
+	}
+	.search-toggle .search__input {
+		width: 100%;
+		height: 100%;
+		padding: 0 50px 0 40px;
+		border: none;
+		background: transparent;
+		font-size: 16px;
+		color: #28365b;
+	}
+	.search-toggle .search__input:focus {
+		outline: none;
+		box-shadow: none;
+	}
+	.search-toggle .search__input::placeholder {
+		color: transparent;
+	}
+	.search-toggle .icon-search {
+		position: absolute;
+		left: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 1;
+		pointer-events: none;
+		color: #28365b;
+	}
+	.search-toggle .search-labels {
+		position: absolute;
+		left: 40px;
+		top: 50%;
+		transform: translateY(-50%);
+		pointer-events: none;
+		opacity: 0.7;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: calc(100% - 50px);
+		display: flex;
+		align-items: center;
+		font-size: 16px;
+		color: #28365b;
+		transition: opacity 0.3s ease;
+	}
+
+	/* Hide label when input is focused or has value */
+	.search-toggle .search__input:focus + .icon-search + .search-labels,
+	.search-toggle .search__input:not(:placeholder-shown) + .icon-search + .search-labels {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	/* Rotating text animation for desktop */
+	.search-toggle .search-rotating-text {
+		font-size: 16px;
+		display: inline-block;
+		position: relative;
+		height: 10px;
+		width: 200px;
+		text-align: left;
+		overflow: hidden;
+		margin-left: 5px;
+	}
+
+	.search-toggle .search-rotating-text span {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		animation: rotateWords 15s infinite;
+		opacity: 0;
+		color: #28365b;
+		font-weight: 500;
+	}
+
+	.search-toggle .search-rotating-text span:nth-child(1) {
+		animation-delay: 0s;
+	}
+
+	.search-toggle .search-rotating-text span:nth-child(2) {
+		animation-delay: 3s;
+	}
+
+	.search-toggle .search-rotating-text span:nth-child(3) {
+		animation-delay: 6s;
+	}
+
+	.search-toggle .search-rotating-text span:nth-child(4) {
+		animation-delay: 9s;
+	}
+
+	.search-toggle .search-rotating-text span:nth-child(5) {
+		animation-delay: 12s;
+	}
+
+	@keyframes rotateWords {
+		0% {
+			opacity: 0;
+			transform: translateY(100%);
+		}
+		3% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		17% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		20% {
+			opacity: 0;
+			transform: translateY(-100%);
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+
+	/* Alternative fade animation (uncomment if you prefer this) */
+	/*
+	@keyframes fadeWords {
+		0% {
+			opacity: 0;
+		}
+		5% {
+			opacity: 1;
+		}
+		15% {
+			opacity: 1;
+		}
+		20% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+	*/
+
+	.predictive-search {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		background: white;
+		box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+		z-index: 1000;
+		display: none;
+	}
+	.predictive-search.active {
+		display: block;
+	}
+{%- endstyle -%}
+
+<div data-section-id="{{ section.id }}" data-section-type="header-section" class="bwp-header header_2{% if section.settings.header_absolute %} header-absolute{% endif %}" data-sticky_header="{{ section.settings.header_sticky }}">
+	<div class="header-desktop">
+		<h1 class="d-none" itemprop="legalName">{{ shop.name }}</h1>
+		<div class="container">
+			<div class="header-center__inner" style="padding:0px 48px">
+				<div class="header-logo" itemscope itemtype="http://schema.org/Organization">
+					{%- assign current_iso_code = request.locale.iso_code  | split: "-" -%}
+					{%- if request.locale.primary == true -%}
+						{%- assign url = "" -%}
+					{%- else -%}
+						{%- assign url = "https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Group_4_2.svg?v=1747038589" -%}
+					{%- endif -%}
+					{%- if section.settings.logo -%}
+						<a href="/{{ url }}" itemprop="url" class="header-logo__link">
+							{%- if section.settings.logo_homepage and template.name == "index" -%}
+								<img class="header-logo__img logo-home"
+									src="{{ section.settings.logo_homepage | image_url:width:section.settings.logo_homepage.width,height:section.settings.logo_homepage.height }}" 
+									srcset="{{ section.settings.logo_homepage | image_url:width:section.settings.logo_homepage.width,height:section.settings.logo_homepage.height }}"
+									alt="{{ section.settings.logo_homepage.alt | default: shop.name }}"
+									width="{{ section.settings.logo_homepage.width }}"
+									height="{{ section.settings.logo_homepage.height }}"
+									itemprop="logo">
+								<img class="header-logo__img logo-main"
+									src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Group_4_2.svg?v=1747038589"
+									alt="{{ shop.name }}"
+									width="150"
+									height="auto"
+									itemprop="logo">
+							{%- else -%}
+								<img class="header-logo__img logo-home"
+									src="{{ section.settings.logo | image_url:width:section.settings.logo.width,height:section.settings.logo.height }}" 
+									srcset="{{ section.settings.logo | image_url:width:section.settings.logo.width,height:section.settings.logo.height }}"
+									alt="{{ section.settings.logo.alt | default: shop.name }}"
+									width="{{ section.settings.logo.width }}"
+									height="{{ section.settings.logo.height }}"
+									itemprop="logo">
+								<img class="header-logo__img logo-main"
+									src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Group_4_2.svg?v=1747038589"
+									alt="{{ shop.name }}"
+									width="150"
+									height="auto"
+									itemprop="logo">
+							{%- endif -%}
+						</a>
+					{%- else -%}
+						<a href="/{{ url }}" itemprop="url" class="header-logo__link header-logo__link--text">{{ shop.name }}</a>
+					{%- endif -%}
+				</div>
+				
+				{%- if section.settings.show_header_search -%}
+					<div class="search-toggle" 
+						style="display:flex;width:64%;height:50px;border:1px solid #28365b52;align-items:center;border-radius:10px;">
+						
+						<predictive-search class="search-modals__form" style="width: 100%;">
+							<form action="{{ routes.search_url }}" method="get" role="search" class="search">
+								<div class="field" style="position: relative; width: 100%; height: 100%;">
+									<input type="hidden" name="type" value="product" />
+									<input type="hidden" name="options[prefix]" value="last" />
+									<input class="search__input field__input" 
+										name="q" 
+										value="" 
+										placeholder=" "
+										aria-label="{{ 'general.search.submit' | t }}"
+										autocomplete="off"
+										autocapitalize="off"
+										spellcheck="false"
+										style="width: 100%;height: 100%;padding: 0 50px 0 40px;border: none;background: transparent;font-size: 16px;color: #28365b;">
+									<i class="icon-search" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #28365b;"></i>
+									<label class="search-labels" style="position: absolute; left: 40px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.7;font-size:16px;margin:0px;display:flex;align-items:center;color:#28365b;">
+										Search for&nbsp;
+										<span class="search-rotating-text" style="font-size:16px;display:inline-block;position:relative;height:16px;width:200px;text-align:left;overflow:hidden;margin-left:5px;">
+											<span>Wedding Rings</span>
+											<span>Engagement Rings</span>
+											<span>Gift for Mother</span>
+											<span>Gift for Wife</span>
+											<span>Birthday Gifts</span>
+										</span>
+									</label>
+								</div>
+								
+								<div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search style="display: none;">
+									<div class="predictive-search__loading-state">
+										<svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+											<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+										</svg>
+									</div>
+								</div>
+								
+								<span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+							</form>
+						</predictive-search>
+					</div>
+				{%- endif -%}
+
+				<div class="header-right">
+					<div class="header-page-link">
+						{%- if section.settings.show_header_user -%}
+							{% include 'header-account' %}
+						{%- endif -%}
+						{%- if section.settings.show_header_wishlist -%}
+							<a class="wishlist" href="{{  section.settings.page_wishlist.url }}" data-count-wishlist><i class="icon-wishlist"></i><span class="count"></span></a>
+						{%- endif -%}
+						{%- if section.settings.show_header_cart -%}
+							{% include 'header-cart' %}
+						{%- endif -%}
+					</div>
+				</div>
+			</div>
+			<div class="header-left">
+				<div class="main-menu">
+					<nav class="main-menu__wrap" style="margin-top:15px;display: flex;justify-content: space-evenly;">
+						<ul class="main-menu__nav">
+							{% content_for "blocks" %}
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% include 'header-mobile' %}
+</div>
+
+{% schema %}
+{
+  "name": "Header 2",
+  "blocks": [{ "type": "_mainmenu-item" }],
+  "settings": [
+    {
+		"type": "header",
+		"content": "Layout Settings"
+    },
+	{
+		"type": "text",
+		"id": "width_header",
+		"label": "Container Header",
+		"default": "1440px"
+    },
+    {
+		"type": "text",
+		"id": "padding",
+		"label": "Padding",
+		"placeholder": "60px 0px 60px 0px",
+		"default": "60px 0"
+    },
+	{
+      "type": "checkbox",
+      "id": "header_sticky",
+      "label": "Header Sticky"
+    },
+	{
+      "type": "checkbox",
+      "id": "header_absolute",
+      "label": "Header absolute",
+	  "info": "Only use for homepage"
+    },
+	{
+      "type": "color",
+      "id": "color_homepage_text",
+      "label": "Header color",
+      "default": "#fff",
+	  "info": "Only use for Header absolute"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_homepage",
+      "label": "Logo Homepage",
+	  "info":"use if you want to enter a different logo for homepage"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Custom logo width",
+      "min": 50,
+      "max": 260,
+      "step": 5,
+      "unit": "px",
+      "default": 135
+    },
+    {
+      "type": "checkbox",
+      "id": "show_header_search",
+      "label": "Show search box",
+      "default": true
+    },
+	{
+      "type": "header",
+      "content": "wishlist"
+    },
+	{
+      "type": "checkbox",
+      "id": "show_header_wishlist",
+      "label": "Show wishlist",
+      "default": true
+    },
+	{
+	  "type": "page",
+	  "id": "page_wishlist",
+	  "label": "Select page wishlist"
+	},
+    {
+      "type": "header",
+      "content": "Header User"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_header_user",
+      "label": "Show header user",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "header_user_title",
+      "label": "Heading",
+      "default": "Account"
+    },
+    {
+      "type": "link_list",
+      "id": "header_user_link_list",
+      "label": "Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_header_cart",
+      "label": "Show header cart",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

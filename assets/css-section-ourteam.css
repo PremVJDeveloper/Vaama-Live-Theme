@@ -1,0 +1,108 @@
+/*=============== SECTION OURTEAM ==============*/
+.wpbingo-widget--ourteam .ourteam-card:hover .ourteam-card__avatar:before {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
+}
+.wpbingo-widget--ourteam .ourteam-card:hover .social-icons {
+  opacity: 1;
+  visibility: visible;
+}
+.wpbingo-widget--ourteam .slick-list {
+  margin: 0 -35px;
+}
+.wpbingo-widget--ourteam .slick-slide {
+  padding: 0 35px;
+}
+.wpbingo-widget--ourteam .slick-slide:nth-child(odd) .ourteam-card {
+  margin-top: 155px;
+}
+.wpbingo-widget--ourteam .info {
+  text-align: center;
+  margin-top: 15px;
+}
+.wpbingo-widget--ourteam .ourteam-card__name {
+  color: var(--gray-dark);
+  font-size: 20px;
+}
+.wpbingo-widget--ourteam .ourteam-card__job {
+  font-size: 16px;
+}
+.wpbingo-widget--ourteam .ourteam-card__avatar {
+  position: relative;
+  overflow: hidden;
+}
+.wpbingo-widget--ourteam .ourteam-card__avatar:before {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  content: "";
+  height: 100%;
+  background: rgba(0,0,0, 0.3);
+  -webkit-transform: translate(-50%, -50%) scale(0.8);
+  transform: translate(-50%, -50%) scale(0.8);
+  z-index: 1;
+}
+.wpbingo-widget--ourteam .social-icons {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+}
+.wpbingo-widget--ourteam .social-icons li {
+  margin: 0 7px;
+  display: inline-block;
+}
+.wpbingo-widget--ourteam .social-icons li a {
+  font-size: 12px;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  line-height: 42px;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border: 1px solid var(--white);
+  color: #000;
+}
+.wpbingo-widget--ourteam .social-icons li a i,.wpbingo-widget--ourteam .social-icons li a svg {
+  font-size: 16px;
+  color: var(--white);
+   fill: var(--white);
+}
+.wpbingo-widget--ourteam .social-icons li a:hover {
+  background: var(--theme-color);
+  border-color: var(--theme-color);
+}
+@media (max-width: 1199px) {
+	.wpbingo-widget--ourteam .slick-list {
+    margin: 0 -7.5px;
+  }
+  .wpbingo-widget--ourteam .slick-carousel__item {
+    padding: 0 7.5px;
+  }
+}
+@media (max-width: 991px) {
+	.wpbingo-widget--ourteam .slick-carousel__item:nth-child(odd) .ourteam-card {
+    margin-top: 0;
+  }
+}

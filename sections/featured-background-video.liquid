@@ -1,0 +1,118 @@
+{%- if section.settings.fullwidth -%}
+	{%- assign container = 'container-full' -%}
+{%- else -%}
+	{%- assign container = 'section-container' -%}
+{%- endif -%}
+
+{%- assign max_width = '' -%}
+{%- if section.settings.fullwidth == blank and section.settings.max_width != blank -%}
+	{%- capture max_width -%}style="max-width: {{ section.settings.max_width }};"{%- endcapture -%}
+{%- endif -%}
+{% assign margin 			= section.settings.margin | split: "|" %}
+{% assign padding 			= section.settings.padding | split: "|" %}
+{%- style -%}
+	#shopify-section-{{ section.id }} .wpbingo-bg-video{
+		position: relative;
+	}
+	#shopify-section-{{ section.id }} .wpbingo-bg-video video {
+		height: 100%;
+		position: absolute;
+		top: 0;
+		z-index: -1;
+		width: 100%;
+		object-fit: cover;
+		left:0;
+	}
+	{%- if margin[0] != blank or padding[0] != blank -%}
+		#shopify-section-{{ section.id }} .wpbingo-bg-video{
+			{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+			{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+		}
+	{%- endif -%}
+	{%- if margin[1] != blank or padding[1] != blank -%}
+		@media (max-width:1199px){
+			#shopify-section-{{ section.id }} .wpbingo-bg-video{
+				{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+				{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[2] != blank or padding[2] != blank -%}
+		@media (max-width:991px){
+			#shopify-section-{{ section.id }} .wpbingo-bg-video{
+				{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+				{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[3] != blank or padding[3] != blank -%}
+		@media (max-width:767px){
+			#shopify-section-{{ section.id }} .wpbingo-bg-video{
+				{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+				{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+{%- endstyle -%}
+
+<section class="wpbingo-section wpbingo-bg-video overflow-hidden wpbingo-section--{{ section.id }}">
+	<div class="{{ container }}" {{ max_width }}>
+        <div class="section-content">
+			{% content_for "blocks" %}
+			{%- if section.settings.video != blank -%}
+				<video playsinline="" loop="loop" autoplay="autoplay" muted="muted" src="{{ section.settings.video.sources.last.url }}"></video>
+			{%- else -%}
+				<video playsinline="" loop="loop" autoplay="autoplay" muted="muted" src="https://cdn.shopify.com/videos/c/vp/82a9bbe777764dd68d0425de4573efcb/82a9bbe777764dd68d0425de4573efcb.HD-1080p-4.8Mbps-11055990.mp4"></video>
+			{%- endif -%}
+        </div>
+    </div>
+</section>
+{% schema %}
+  {
+    "name": "Background video",
+    "blocks": [{ "type": "_column" }],
+    "settings": [
+        {
+			"type": "text",
+			"id": "max_width",
+			"label": "Width container",
+			"info": "Default: 1440px"
+		},
+		{
+			"type": "checkbox",
+			"id": "fullwidth",
+			"label": "Fullwidth"
+		},
+        
+        {
+			"type": "video",
+			"id": "video",
+			"label": "Background video"
+		},
+		{
+			"type": "textarea",
+			"id": "padding",
+			"label": "Padding",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "textarea",
+			"id": "margin",
+			"label": "Margin",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		}
+    ],
+    "presets": [
+        {
+            "name": "Background video",
+            "blocks": [
+              {
+                  "type": "_column",
+              }
+           ]
+        }
+    ]
+  }
+{% endschema %}

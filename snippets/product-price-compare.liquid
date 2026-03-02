@@ -1,0 +1,345 @@
+<style>
+/* Smooth right-to-left collapsing button */
+.price-compare-button {
+  position: relative;
+  background: #28365b;
+  color: white;
+  border: none;
+  {% comment %} text-decoration: underline; {% endcomment %}
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  width: 250px;
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: autoCollapseButton 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Main button width animation — smooth, overlapping transitions */
+@keyframes autoCollapseButton {
+  0%, 55% {
+    width: 250px;
+    padding: 10px 16px;
+  }
+  60%, 80% {
+    width: 150px;
+    padding: 6px 8px;
+  }
+  85%, 100% {
+    width: 250px;
+    padding: 10px 16px;
+  }
+}
+
+.price-compare-button .button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.price-compare-button .button-label {
+  display: inline-block;
+  opacity: 1;
+  max-width: 200px;
+  text-decoration:underline;
+  overflow: hidden;
+  transition: opacity 0.5s ease, max-width 0.6s ease;
+  animation: autoHideLabel 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Label animation — hides label when collapsed */
+@keyframes autoHideLabel {
+  0%, 55% {
+    opacity: 1;
+    max-width: 200px;
+  }
+  60%, 80% {
+    opacity: 0;
+    max-width: 0;
+  }
+  85%, 100% {
+    opacity: 1;
+    max-width: 200px;
+  }
+}
+.icon-svg {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  filter: invert(1);
+  transition: all 0.5s ease;
+  animation: showSVG 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes showSVG {
+  0%, 55% {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+  }
+  60%, 80% {
+    opacity: 1;
+    width: 26px;
+    height: 26px;
+    margin-right: 4px;
+  }
+  85%, 100% {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+  }
+}
+
+#total-saving-amount {
+  font-weight: 700;
+  color: #16a34a;
+  display: inline-block;
+  transition: font-size 0.6s ease;
+  text-decoration:none;
+  animation: enlargeSaving 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Keep font-size stable (no jerkiness) */
+@keyframes enlargeSaving {
+  0%, 100% {
+    font-size: 16px;
+  }
+}
+
+/* Drawer and overlay remain unchanged */
+.price-compare-drawer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  width: 90%;
+  max-width: 500px;
+  max-height: 70vh;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 10010;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.price-compare-drawer.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.drawer-header {
+  padding: 15px 20px;
+  background: #a8b6cd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.drawer-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #28365b;
+}
+
+.close-drawer-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #28365b;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.close-drawer-btn:hover {
+  background-color: rgba(40, 54, 91, 0.1);
+}
+
+.drawer-content-outer {
+  padding: 1.5rem 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+  {% comment %} max-height: calc(70vh - 60px); {% endcomment %}
+}
+
+#price-compare-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+#price-compare-table td {
+  text-transform: capitalize;
+  padding: .25rem;
+  text-align: center;
+  border: none;
+}
+
+#price-compare-table tr:nth-child(odd) {
+  background-color: rgba(232, 236, 248, 0.89);
+  color: #28356B;
+}
+
+#price-compare-table tr:nth-child(even) {
+  background-color: rgba(245, 247, 251, 0.88);
+}
+
+#price-compare-table .bold {
+  font-weight: 600;        
+}
+
+@keyframes blink-only {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+#price-compare-table .savings-amount {
+  color: #16A34A;
+  font-weight: 700;
+  animation: blink-only 2s ease-in-out infinite;
+  font-size: 14px;
+}
+
+#price-compare-table .coin-amount {
+  color: #DAA520;
+  animation: blink-only 2s ease-in-out infinite;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+#price-compare-table .has-difference-without-offer,
+#price-compare-table .has-difference-withoffer {
+  font-weight: 600;
+  color: rgb(45, 64, 117);
+}
+
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10005;
+  display: none;
+}
+
+.drawer-overlay.active {
+  display: block;
+}
+
+/* Responsive fix */
+@media (max-width: 768px) {
+  .price-compare-button {
+    font-size: 14px;
+    width: 75%;
+  }
+.drawer-content-outer {
+  padding: 1.5rem 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+  {% comment %} max-height: calc(70vh - 60px); {% endcomment %}
+}
+  @keyframes autoCollapseButton {
+    0%, 55% {
+      width: 75%;
+      padding: 6px 14px;
+    }
+    60%, 80% {
+      width: 45%;
+      padding: 4px;
+    }
+    85%, 100% {
+      width: 75%;
+      padding: 6px 14px;
+    }
+  }
+}
+</style>
+
+<div class="price-compare">
+  <button class="price-compare-button" id="open-price-compare">
+    <span class="button-content">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/discount.png?v=1759855387"
+        alt="Offer Tag"
+        class="icon-svg"
+      />
+      <span class="button-label">Diwali Offer Benefits:</span>
+      <span id="total-saving-amount">₹0</span>
+    </span>
+  </button>
+</div>
+
+<div class="drawer-overlay" id="price-compare-overlay"></div>
+
+<div class="price-compare-drawer" id="price-compare-drawer">
+  <div class="drawer-header">
+    <h3>Price Comparison</h3>
+    <button class="close-drawer-btn" id="close-price-compare">×</button>
+  </div>
+  <div class="drawer-content-outer">
+    <table id="price-compare-table">
+      <!-- This table can be populated dynamically from your external JS -->
+    </table>
+  </div>
+</div>
+
+<script>
+  document.getElementById('open-price-compare').addEventListener('click', function() {
+    document.getElementById('price-compare-drawer').classList.add('open');
+    document.getElementById('price-compare-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  document.getElementById('close-price-compare').addEventListener('click', function() {
+    document.getElementById('price-compare-drawer').classList.remove('open');
+    document.getElementById('price-compare-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  document.getElementById('price-compare-overlay').addEventListener('click', function() {
+    document.getElementById('price-compare-drawer').classList.remove('open');
+    document.getElementById('price-compare-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.getElementById('price-compare-drawer').classList.remove('open');
+      document.getElementById('price-compare-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+</script>

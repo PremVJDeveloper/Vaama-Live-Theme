@@ -1,0 +1,55 @@
+{%- assign sidebar_enable = settings.sidebar_enable -%}
+{%- assign layout_filter = settings.layout_filter -%}
+{%- assign shop_full = settings.shop_full -%}
+{%- assign sidebar_left_class = 'col-12' -%}
+{%- assign sidebar_right_class = 'col-12' -%}
+{%- if sidebar_enable and layout_filter contains 'sidebar' -%}
+	{%- assign sidebar_left_class = 'col-12 col-lg-12 col-xl-3' -%}
+	{%- assign sidebar_right_class = 'col-12 col-lg-12 col-xl-9' -%}
+{%- endif -%}
+<section class="js-page-collection page-collection {{ settings.style_view_items }} {{ layout_filter }}{% if shop_full %} shop_full{% endif %}"{% if settings.style_view_items == 'viewmore' %} data-list_number="{{ settings.count_items }}"{% endif %}>
+	<div class="container">
+		<div class="page-collection__inner">
+			<div class="row">
+				{%- if sidebar_enable and layout_filter contains 'sidebar' -%}
+					<aside class="collection-sidebar {{ sidebar_left_class }}">
+						<div class="collection-sidebar__overlay"></div>
+						<div class="collection-sidebar__wapper">
+							<button class="js-sidebar-toggle collection-sidebar__close" type="button">
+								<span>{{ 'collections.sidebar.close' | t }}</span>
+							</button>
+							<div class="content-sidebar">
+								{% content_for "block", type: "collection-sidebartop", id: "collection-sidebartop" %}
+								{% content_for "block", type: "collection-sidebarbottom", id: "collection-sidebarbottom" %}
+							</div>
+						</div>
+					</aside>
+				{%- elsif sidebar_enable and layout_filter == 'dropdown' -%}
+					<aside class="collection-sidebar">
+						<div class="collection-sidebar__overlay"></div>
+					</aside>
+				{%- elsif sidebar_enable and layout_filter == 'on_top' -%}
+					<aside class="collection-sidebar">
+						<div class="collection-sidebar__overlay"></div>
+					</aside>
+				{%- elsif sidebar_enable and layout_filter != 'dropdown' and layout_filter != 'on_top' -%}
+					<aside class="collection-sidebar">
+						<div class="collection-sidebar__overlay"></div>
+						<div class="collection-sidebar__wapper">
+							<button class="js-sidebar-toggle collection-sidebar__close" type="button">
+								<span>{{ 'collections.sidebar.close' | t }}</span>
+							</button>
+							<div class="content-sidebar">
+								{% content_for "block", type: "collection-sidebartop", id: "collection-sidebartop" %}
+								{% content_for "block", type: "collection-sidebarbottom", id: "collection-sidebarbottom" %}
+							</div>
+						</div>
+					</aside>
+				{%- endif -%}
+				<div class="collection-content {{ sidebar_right_class }}">
+					{% content_for "block", type: "collection-template", id: "collection-template" %}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

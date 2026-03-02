@@ -1,0 +1,27 @@
+/*============= SECTION POLICY =============*/
+.bwp-widget-policy .row--banners {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+.bwp-widget-policy .featured-banner {
+  display: flex;
+  align-items: center;
+}
+.bwp-widget-policy .title-banner {
+  margin: 0 0 5px;
+}
+.bwp-widget-policy .bwp-image {
+  width: 100%;
+  transition: all .3s ease;
+}
+.bwp-widget-policy .pos-align-center .featured-banner {
+  flex-direction: column;
+  align-items: center;
+}
+.bwp-widget-policy .pos-align-right .content-image {
+  order: 2;
+}
+.bwp-widget-policy .pos-align-right .banner-wrapper-infor {
+  order: 1;
+}

@@ -1,0 +1,185 @@
+<section class="page-article portfolio related">
+	<div class="container">
+		<div class="page-article__inner">
+			{%- assign nav 				= section.settings.navigation -%}
+			{%- assign limit 			= section.settings.number_related -%}
+			{%- assign dot 				= section.settings.pagination -%}
+			{%- assign infinite 		= section.settings.infinite -%}
+			{%- assign autoplay 		= section.settings.autoplay -%}
+			{%- assign autoplay_speed 	= section.settings.autoplay_speed | escape -%}
+			{%- assign columns 			= section.settings.columns -%}
+			{%- assign column1440 		= section.settings.column1440 -%}
+			{%- assign column1 			= section.settings.column1 -%}
+			{%- assign column2 			= section.settings.column2 -%}
+			{%- assign column3 			= section.settings.column3 -%}
+			{%- assign column4 			= section.settings.column4 -%}
+			<div class="related-portfolio"{% if section.settings.portfolio_related_margin != blank %} style="margin:{{ section.settings.portfolio_related_margin }}"{% endif %}>
+				<h2 class="title-related">{{ section.settings.title_related }}</h2>
+				<div class="wpbingo-related__contents bwp_slider-carousel">
+					<div class="js-carousel slick-carousel" data-nav="{{ nav }}" data-dots="{{ dot }}" data-infinite="{{ infinite }}"
+					data-autoplay="{{ autoplay }}"
+					data-autoplayspeed="{{ autoplay_speed }}"
+					data-columns="{{ columns }}"
+					data-column1440="{{ column1440 }}"
+					data-column1="{{ column1 }}"
+					data-column2="{{ column2 }}"
+					data-column3="{{ column3 }}"
+					data-column4="{{ column4 }}">
+						{%- for related in blog.articles -%}
+							{%- if related.id == article.id -%}{% continue %}{% endif -%}
+							{%- assign index = index |plus:1 -%}
+								<div class="item">
+									<div class="item-related" style="--related-image-ratio:{{ section.settings.related_image_ratio }}">
+										<div class="related-image">
+											{%- assign image = related.image -%}
+											<a href="{{related.url}}">
+												{% include 'img-global' with image: image, class: "article__related-image", effect: "fade-in" %}
+											</a>
+										</div>
+									   <h5 class="title-article-rel"><a href="{{related.url}}">{{related.title}}</a></h5>
+									   <ul class="list-tag">
+											{% for tag in related.tags %}
+												<li class="item-tag">
+													{{ tag | link_to_tag: tag }}
+												</li>
+											{% endfor %}
+										</ul>
+									</div>
+								</div>
+							{%- if index == limit -%}{% break %}{% endif -%}
+						{%- endfor -%}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% schema %}
+{
+	"name": "Main Portfolio related",
+	"settings": [
+		{
+			"type": "text",
+			"id": "portfolio_related_margin",
+			"label": "Margin",
+			"info": "Example(top left bottom right): 15px 15px 15px 15px"
+		},
+		{
+			"type": "text",
+			"id": "title_related",
+			"label": "Title related",
+			"default": "Related Portfolio"
+		},
+		{
+			"type": "number",
+			"id": "number_related",
+			"label": "Number related",
+			"default": 4
+		},
+		{
+			"type": "text",
+			"id": "related_image_ratio",
+			"label": "Image ratio",
+			"default": "1"
+		},
+		{
+			"type": "checkbox",
+			"id": "navigation",
+			"label": "Show navigation",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "pagination",
+			"label": "Show pagination",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "infinite",
+			"label": "Infinite loop sliding",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "autoplay",
+			"label": "Enable autoplay",
+			"default": false
+		},
+		{
+			"type": "text",
+			"id": "autoplay_speed",
+			"label": "Autoplay speed",
+			"info": "Autoplay speed in milliseconds. Type: int(ms)",
+			"default": "10000"
+		},
+		{
+			"type": "range",
+			"id": "columns",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns >1440px",
+			"default": 4,
+			"info": "Desktops"
+		},
+		{
+			"type": "range",
+			"id": "column1440",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns 1200px to 1440px",
+			"default": 4,
+			"info": "Desktops"
+		},
+		{
+			"type": "range",
+			"id": "column1",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns on 992px to 1199px",
+			"default": 4,
+			"info": "Desktops"
+		},
+		{
+			"type": "range",
+			"id": "column2",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns on 768px to 991px",
+			"default": 3,
+			"info": "Laptop"
+		},
+		{
+			"type": "range",
+			"id": "column3",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns on 480px to 767px",
+			"default": 1,
+			"info": "Tablets"
+		},
+		{
+			"type": "range",
+			"id": "column4",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns in 480px or less than",
+			"default": 1,
+			"info": "Mobile phone"
+		}
+	],
+	"templates": ["article"],
+	"presets": [
+		{
+			"name": "Main Portfolio related",
+			"category": "1. Portfolio"
+		}
+    ]
+}
+{% endschema %}

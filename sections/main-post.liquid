@@ -1,0 +1,338 @@
+{%- assign number_of_comments = article.comments_count -%}
+{%- assign layout_article = section.settings.layout_article -%}
+<section class="page-article">
+	{%- if layout_article contains 'sidebar' or layout_article =='one_column' -%}
+		<div class="container">
+			<div class="page-article__inner">
+				<div class="article__image">
+					<div class="article__featured-image-wrapper" style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100}}%;">
+						{% include 'img-global' with image: article.image, class: "article__featured-image", effect: "fade-in" %}
+					</div>
+				</div>
+				<div class="content-image-single">
+					<div class="content-info">
+						{%- if section.settings.show_category -%}
+							<div class="blog-category">
+								<a href="{{ blog.url }}">{{ blog.title }}</a>
+							</div>
+						{%- endif -%}
+						<h1 class="page-title">{{ article.title }}</h1>
+						<div class="article__meta article__meta--post">
+							{% if section.settings.show_author %} {{ 'blogs.article.by' | t }} <span> {{ article.author }} </span> {% endif %} {% if section.settings.show_date %} {{ 'blogs.article.on' | t }} {{ article.updated_at | date: "%b %d, %Y" }} {% endif %}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+				{%- for block in section.blocks -%}
+					{%- if layout_article == 'sidebar_left' -%}
+						{%- case block.type -%}
+							{%- when 'sidebar' -%}
+								<div class="col-xl-3 col-lg-3 col-md-12 col-12">
+									{% include 'blog-sidebar' %}
+								</div>
+							{%- when 'content' -%}
+								<div class="col-xl-9 col-lg-9 col-md-12 col-12 post-single {{ layout_article }} left">
+										{% include 'article-template' %}
+								</div>
+						{%- endcase -%}
+					{%- endif -%}
+					{%- if layout_article == 'sidebar_right' -%}
+						{%- case block.type -%}
+							{%- when 'content' -%}
+								<div class="col-xl-9 col-lg-9 col-md-12 col-12 post-single {{ layout_article }} right">
+									{% include 'article-template' %}
+								</div>
+							{%- when 'sidebar' -%}
+								<div class="col-xl-3 col-lg-3 col-md-12 col-12">
+									{% include 'blog-sidebar' %}
+								</div>
+						{%- endcase -%}
+					{%- endif -%}
+					{%- if layout_article =='one_column' -%}
+						{%- case block.type -%}
+							{%- when 'content' -%}
+							<div class="col-xl-12 col-lg-12 col-md-12 col-12 post-single {{ layout_article }}">
+								{% include 'article-template' %}
+							</div>
+						{%- endcase -%}
+					{%- endif -%}
+				{%- endfor -%}
+				</div>
+			</div>
+		</div>
+	{%- endif -%}
+	{%- if layout_article =='prallax_image' -%}
+		{% assign img_url = article.image | img_url: '' %}
+		<div class="page-article__inner {{ layout_article }}">
+			<div class="content-image-single">
+				<div class="article__image" style="background-image:url('{{ img_url }}')">
+				</div>
+				<div class="content-info">
+					{%- if section.settings.show_category -%}
+						<div class="blog-category">
+							<a href="{{ blog.url }}">{{ blog.title }}</a>
+						</div>
+					{%- endif -%}
+					<h1 class="page-title">{{ article.title }}</h1>
+					<div class="article__meta article__meta--post">
+						{% if section.settings.show_author %} {{ 'blogs.article.by' | t }} <span> {{ article.author }} </span> {% endif %} {% if section.settings.show_date %} {{ 'blogs.article.on' | t }} {{ article.updated_at | date: "%b %d, %Y" }} {% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-12 post-single">
+						{%- for block in section.blocks -%}
+							{%- case block.type -%}
+								{%- when 'content' -%}	
+									{% include 'article-template' %}
+							{%- endcase -%}
+						{%- endfor -%}
+					</div>
+				</div>
+			</div>
+		</div>
+	{%- endif -%}
+	{%- if layout_article =='sticky_title' -%}
+		{% assign img_url = article.image | img_url: '' %}
+		<div class="page-article__inner {{ layout_article }}">
+			<div class="content-image-single">
+				<div class="article__image" style="background-image:url('{{ img_url }}')">
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="content-info">
+						{%- if section.settings.show_category -%}
+							<div class="blog-category">
+								<a href="{{ blog.url }}">{{ blog.title }}</a>
+							</div>
+						{%- endif -%}
+						<h1 class="page-title">{{ article.title }}</h1>
+						<div class="article__meta article__meta--post">
+							{% if section.settings.show_author %} {{ 'blogs.article.by' | t }} <span> {{ article.author }} </span> {% endif %} {% if section.settings.show_date %} {{ 'blogs.article.on' | t }} {{ article.updated_at | date: "%b %d, %Y" }} {% endif %}
+						</div>
+					</div>
+					<div class="post-single">
+						{%- for block in section.blocks -%}
+							{%- case block.type -%}
+								{%- when 'content' -%}	
+									{% include 'article-template' %}
+							{%- endcase -%}
+						{%- endfor -%}
+					</div>
+				</div>
+			</div>
+		</div>
+	{%- endif -%}
+	{%- if layout_article =='simple_title' -%}
+		<div class="page-article__inner {{ layout_article }}">
+			<div class="content-title">
+				<div class="content-info">
+					{%- if section.settings.show_category -%}
+						<div class="blog-category">
+							<a href="{{ blog.url }}">{{ blog.title }}</a>
+						</div>
+					{%- endif -%}
+					<h1 class="page-title">{{ article.title }}</h1>
+					<div class="article__meta article__meta--post">
+						{% if section.settings.show_author %} {{ 'blogs.article.by' | t }} <span> {{ article.author }} </span> {% endif %} {% if section.settings.show_date %} {{ 'blogs.article.on' | t }} {{ article.updated_at | date: "%b %d, %Y" }} {% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="post-single">
+					{%- for block in section.blocks -%}
+						{%- case block.type -%}
+							{%- when 'content' -%}	
+								{% include 'article-template' %}
+						{%- endcase -%}
+					{%- endfor -%}
+				</div>
+			</div>
+		</div>
+	{%- endif -%}
+</section>
+{% schema %}
+{
+	"name": "Main Post",
+	"settings": [
+		{
+			"type": "select",
+			"id": "layout_article",
+			"label": "Layout Article",
+			"options": [
+				{
+					"value": "sidebar_left",
+					"label": "Sidebar Left"
+				},
+				{
+					"value": "sidebar_right",
+					"label": "Sidebar Right"
+				},
+				{
+					"value": "one_column",
+					"label": "One Column"
+				},
+				{
+					"value": "prallax_image",
+					"label": "Prallax Image"
+				},
+				{
+					"value": "simple_title",
+					"label": "Simple Title"
+				},
+				{
+					"value": "sticky_title",
+					"label": "Sticky Title"
+				}
+			],
+			"default": "sidebar_left"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_category",
+			"label": "Show category",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "show_author",
+			"label": "Show author",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "show_date",
+			"label": "Show date",
+			"default": true
+		}
+	],
+	"blocks": [
+		{
+            "type": "@app"
+        },
+		{
+            "type": "sidebar",
+            "name": "Sidebar Blog",
+            "limit": 1,
+            "settings": [
+				{
+				  "type": "header",
+				  "content": "Blog search"
+				},
+				{
+				  "type": "checkbox",
+				  "id": "search_enable",
+				  "label": "Enable",
+				  "default": true
+				},
+				{
+				  "type": "header",
+				  "content": "Blog Categories"
+				},
+				{
+				  "type": "checkbox",
+				  "id": "categories_enable",
+				  "label": "Enable",
+				  "default": true
+				},
+				{
+				  "type": "text",
+				  "id": "categories_title",
+				  "label": "Heading",
+				  "default": "Categories"
+				},
+				{
+				  "type": "link_list",
+				  "id": "menu_categories",
+				  "label": "Menu Categories"
+				},
+				{
+				  "type": "header",
+				  "content": "Related Articles"
+				},
+				{
+				  "type": "checkbox",
+				  "id": "relatedarticles_enable",
+				  "label": "Enable",
+				  "default": true
+				},
+				{
+				  "type": "text",
+				  "id": "relatedarticles_title",
+				  "label": "Heading",
+				  "default": "Related Articles"
+				},
+				{
+				  "type": "range",
+				  "id": "relatedarticles_limit",
+				  "min": 1,
+				  "max": 10,
+				  "step": 1,
+				  "label": "Number of article",
+				  "default": 6
+				},
+				{
+				  "type": "header",
+				  "content": "Blog Tags"
+				},
+				{
+				  "type": "checkbox",
+				  "id": "tags_enable",
+				  "label": "Enable",
+				  "default": true
+				},
+				{
+				  "type": "text",
+				  "id": "tags_title",
+				  "label": "Heading",
+				  "default": "Articles Tags"
+				},
+				{
+				  "type": "range",
+				  "id": "tags_limit",
+				  "min": 1,
+				  "max": 20,
+				  "step": 1,
+				  "label": "Number of tags",
+				  "default": 10
+				}
+            ]
+        },
+		{
+            "type": "content",
+            "name": "Blog Content",
+            "limit": 1,
+            "settings": [
+				{
+					"type": "checkbox",
+					"id": "show_article_tags",
+					"label": "Show article tags",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "show_prev_next",
+					"label": "Show prev Next Article",
+					"default": true
+				}
+			]
+		}
+	],
+	"templates": ["article"],
+	"presets": [
+		{
+			"name": "Main Post",
+			"blocks": [
+                {
+                    "type": "sidebar"
+                },
+                {
+                    "type": "content"
+                }
+            ]
+		}
+    ]
+}
+{% endschema %}

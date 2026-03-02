@@ -1,0 +1,90 @@
+<script type="text/javascript">
+(function() {
+  // Helper: generate an 8-char random password
+  function randomPassword() {
+    return Math.random().toString(36).slice(-8);
+  }
+
+  // 🧩 STEP 1 — Save current cart to localStorage
+  async function saveCartToLocal() {
+    try {
+      const res = await fetch('/cart.js');
+      const cart = await res.json();
+      if (cart && cart.items && cart.items.length > 0) {
+        localStorage.setItem('preLoginCart', JSON.stringify(cart.items));
+      }
+    } catch (err) {
+      console.error('Error saving cart:', err);
+    }
+  }
+
+  // 🧩 STEP 2 — Restore cart after login
+  async function restoreCartFromLocal() {
+    const stored = localStorage.getItem('preLoginCart');
+    if (!stored) return;
+
+    try {
+      const items = JSON.parse(stored);
+      for (const item of items) {
+        await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: item.id, quantity: item.quantity })
+        });
+      }
+      localStorage.removeItem('preLoginCart');
+    } catch (err) {
+      console.error('Error restoring cart:', err);
+    }
+  }
+
+  // 🧩 STEP 3 — Hook into OptiMonk auto-account creation
+  window.createAndLoginCustomer = async function(userData) {
+    // Before login, store current cart
+    await saveCartToLocal();
+
+    var email    = encodeURIComponent(userData.email);
+    var phone    = encodeURIComponent(userData.phone || '');
+    var password = randomPassword();
+
+    // Create and login
+    fetch('/account', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body:
+        'form_type=create_customer' +
+        '&customer%5Bemail%5D='   + email +
+        (phone ? '&customer%5Bphone%5D=' + phone : '') +
+        '&customer%5Bpassword%5D=' + encodeURIComponent(password)
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('Create failed');
+      return fetch('/account/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body:
+          'customer%5Bemail%5D='   + email +
+          '&customer%5Bpassword%5D=' + encodeURIComponent(password)
+      });
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('Login failed');
+      // Redirect to checkout (cart will be restored automatically)
+      window.location.href = '/checkout';
+    })
+    .catch(function(err) {
+      console.error('OptiMonk → Shopify AJAX error:', err);
+      window.location.href = '/checkout';
+    });
+  };
+
+  // 🧩 STEP 4 — On every page load, restore cart if customer is logged in
+  document.addEventListener('DOMContentLoaded', () => {
+    const isLoggedIn = "{{ customer ? 'true' : 'false' }}" || "false";
+    if (isLoggedIn === "true") {
+      restoreCartFromLocal();
+    }
+  });
+
+  })();
+</script>

@@ -1,0 +1,437 @@
+{{ 'css-section-lookbook-intagram.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.fullwidth -%}
+	{%- assign container = 'container-full' -%}
+{%- elsif section.settings.max_width != blank -%}
+	{%- assign container = 'bwp-container' -%}
+{%- else -%}
+	{%- assign container = 'container' -%}
+{%- endif -%}
+
+{%- assign max_width = '' -%}
+{%- if section.settings.fullwidth == blank and section.settings.max_width != blank -%}
+	{%- assign width_container = section.settings.max_width | plus: 0 -%}
+	{%- capture max_width -%}style="max-width: {{ section.settings.max_width }};"{%- endcapture -%}
+{%- endif -%}
+
+{%- assign margin = '' -%}
+{%- if section.settings.margin != blank -%}
+  {%- capture margin -%}margin: {{ section.settings.margin }};{%- endcapture -%}
+{%- endif -%}
+
+{% assign margin 			= section.settings.margin | split: "|" %}
+{% assign padding 			= section.settings.padding | split: "|" %}
+{%- assign nav 				= section.settings.navigation -%}
+{%- assign rows 			= section.settings.rows -%}
+{%- assign dot 				= section.settings.pagination -%}
+{%- assign infinite 		= section.settings.infinite -%}
+{%- assign autoplay 		= section.settings.autoplay -%}
+{%- assign autoplay_speed 	= section.settings.autoplay_speed | escape -%}
+{%- assign columns 			= section.settings.columns -%}
+{%- assign column1440 		= section.settings.column1440 -%}
+{%- assign column1 			= section.settings.column1 -%}
+{%- assign column2 			= section.settings.column2 -%}
+{%- assign column3 			= section.settings.column3 -%}
+{%- assign column4 			= section.settings.column4 -%}
+
+{%- style -%}
+	{%- if section.settings.fullwidth == blank and section.settings.max_width != blank and width_container > 1200 -%}
+		@media (max-width: {{ section.settings.max_width }}) and (min-width: 1200px){
+			#shopify-section-{{ section.id }} .bwp-container{
+				padding-left:30px;
+				padding-right:30px;
+			}
+		}
+	{%- endif -%}
+	{%- if margin[0] != blank or padding[0] != blank -%}
+		#shopify-section-{{ section.id }} .wpbingo-section--lookbook{
+			{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+			{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+		}
+	{%- endif -%}
+	{%- if margin[1] != blank or padding[1] != blank -%}
+		@media (max-width:1200px){
+			#shopify-section-{{ section.id }} .wpbingo-section--lookbook{
+				{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+				{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[2] != blank or padding[2] != blank -%}
+		@media (max-width:991px){
+			#shopify-section-{{ section.id }} .wpbingo-section--lookbook{
+				{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+				{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+	{%- if margin[3] != blank or padding[3] != blank -%}
+		@media (max-width:767px){
+			#shopify-section-{{ section.id }} .wpbingo-section--lookbook{
+				{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+				{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+			}
+		}
+	{%- endif -%}
+{%- endstyle -%}
+<section class="wpbingo-section wpbingo-section--lookbook lookbook-slider {{ section.settings.layout }} wpbingo-section--{{ section.id }}" data-id="{{ section.id }}">
+	<div class="{{ container }}" {{ max_width }}>
+		<div class="wpbingo-section__inner">
+			{%- for block in section.blocks -%}
+				{% if block.type == 'image' %}
+					{%- assign length 	= length | plus: 1 -%}
+				{%- endif -%}
+			{%- endfor -%}
+			{% if section.settings.title != blank %}
+				<h2 class="tiltle-block">{{ section.settings.title }}<span class="count">{{ length }}</span></h2>
+			{%- endif -%}
+			<div class="wpbingo-lookbook__contents bwp_slider-carousel">
+				<div class="js-carousel slick-carousel" data-nav="{{ nav }}" data-dots="{{ dot }}" data-infinite="{{ infinite }}"
+				data-autoplay="{{ autoplay }}"
+				data-autoplayspeed="{{ autoplay_speed }}"
+				data-columns="{{ columns }}"
+				data-column1440="{{ column1440 }}"
+				data-column1="{{ column1 }}"
+				data-column2="{{ column2 }}"
+				data-column3="{{ column3 }}"
+				data-column4="{{ column4 }}">
+					{%- assign id = 0 -%}
+					{%- for block in section.blocks -%}
+						{% if block.type == 'image' %}
+							{%- assign j = 1 -%}
+							{%- assign i = 1 -%}
+							{%- assign image 	= block.settings.image -%}
+							{%- assign name 	= block.settings.title -%}
+							{%- assign modulo = i | modulo:rows -%}
+							{%- if modulo == 1 or rows == 1-%}
+								<div class="wpbingo-lookbook__item">
+							{%- endif -%}
+								<div class="lookbook-card">
+									<div class="lookbook-image">
+										{%- if image != blank -%}
+											{% include 'img-global' with image: image, class: "featured-lookbook__img", effect: "fade-in" %}
+										{%- else -%}
+											{%- if section.settings.fullwidth -%}
+												<img class="lazyload fade-in" src="https://placehold.jp/1920x780.png" width="1920" height="780" />
+											{%- else -%}
+												<img class="lazyload fade-in" src="https://placehold.jp/1410x700.png" width="1410" height="700" />
+											{%- endif -%}
+										{%- endif -%}
+									</div>
+									{%- for block in section.blocks -%}
+										{% if block.type == 'item' %}
+											{%- assign name_pin = block.settings.name_pin -%}
+											{%- assign product_handle = block.settings.product -%}
+											{%- assign top = block.settings.top -%}
+											{%- assign left = block.settings.left -%}
+											{% if name_pin == name %}
+												<div class="lookbook-card__item" style="top: {{ top }}%; left: {{ left }}%;">
+													<div class="lookbook-card__point">
+														<div class="lookbook-card__button">
+															<button class="lookbook-card__btn" data-toggle="modal" data-target="lookbook-{{ section.id }}-{{ id }}">
+																<span>{{ j }}</span>
+															</button>
+														</div>
+													</div>
+												</div>
+												{%- assign j = j | plus: 1 -%}
+												{%- assign id = id | plus: 1 -%}
+											{%- endif -%}
+										{%- endif -%}
+									{%- endfor -%}
+								</div>
+							{%- if modulo == 0 or forloop.last == true -%}
+								</div>
+							{%- endif -%}
+							{%- assign i = i | plus: 1 -%}
+						{%- endif -%}
+					{%- endfor -%}
+				</div>
+			</div>
+		</div>
+	</div>
+	{%- assign id = 0 -%}
+	{%- for block in section.blocks -%}
+		{% if block.type == 'item' %}
+			{%- assign name_pin = block.settings.name_pin -%}
+			{%- assign product_handle = block.settings.product -%}
+			{%- assign alignment = block.settings.display -%}
+			{%- render 'lookbook-item', product: all_products[product_handle], alignment: alignment, id: id -%}
+			{%- assign id = id | plus: 1 -%}
+		{%- endif -%}
+	{%- endfor -%}
+</section>
+{% schema %}
+    {
+        "name": "Lookbook Slider",
+        "class": "wpbingo-framework",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Layout settings"
+            },
+            {
+                "type": "text",
+                "id": "max_width",
+                "label": "Width container",
+                "info": "Default: 1440px"
+            },
+            {
+                "type": "checkbox",
+                "id": "fullwidth",
+                "label": "Fullwidth"
+            },
+            {
+                "type": "text",
+                "id": "padding",
+                "label": "Padding",
+                "placeholder": "0px 0px 0px 0px",
+                "info":"Screen: desktop | 1200px | 991px | 767px"
+            },
+            {
+                "type": "text",
+                "id": "margin",
+                "label": "Margin",
+                "placeholder": "0px 0px 0px 0px",
+                "info":"Screen: desktop | 1200px | 991px | 767px"
+            },
+            {
+                "type": "header",
+                "content": "General Settings"
+            },
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Title",
+				"default": "SHOP THE LOOK"
+			},
+			{
+				"type": "checkbox",
+				"id": "navigation",
+				"label": "Show navigation",
+				"default": true
+			},
+			{
+				"type": "checkbox",
+				"id": "pagination",
+				"label": "Show pagination",
+				"default": true
+			},
+			{
+				"type": "checkbox",
+				"id": "infinite",
+				"label": "Infinite loop sliding",
+				"default": true
+			},
+			{
+				"type": "checkbox",
+				"id": "autoplay",
+				"label": "Enable autoplay",
+				"default": false
+			},
+			{
+				"type": "text",
+				"id": "autoplay_speed",
+				"label": "Autoplay speed",
+				"info": "Autoplay speed in milliseconds. Type: int(ms)",
+				"default": "10000"
+			},
+			{
+				"type": "range",
+				"id": "rows",
+				"min": 1,
+				"max": 5,
+				"step": 1,
+				"label": "Number of rows",
+				"default": 1
+			},
+			{
+				"type": "range",
+				"id": "columns",
+				"min": 1,
+				"max": 5,
+				"step": 1,
+				"label": "Number of Columns >1440px",
+				"default": 4,
+				"info": "Desktops"
+			},
+			{
+				"type": "range",
+				"id": "column1440",
+				"min": 1,
+				"max": 5,
+				"step": 1,
+				"label": "Number of Columns 1200px to 1440px",
+				"default": 4,
+				"info": "Desktops"
+			},
+			{
+				"type": "range",
+				"id": "column1",
+				"min": 1,
+				"max": 5,
+				"step": 1,
+				"label": "Number of Columns on 992px to 1199px",
+				"default": 4,
+				"info": "Desktops"
+			},
+			{
+				"type": "range",
+				"id": "column2",
+				"min": 1,
+				"max": 5,
+				"step": 1,
+				"label": "Number of Columns on 768px to 991px",
+				"default": 3,
+				"info": "Laptop"
+			},
+			{
+				"type": "range",
+				"id": "column3",
+				"min": 1,
+				"max": 5,
+				"step": 1,
+				"label": "Number of Columns on 480px to 767px",
+				"default": 1,
+				"info": "Tablets"
+			},
+			{
+				"type": "range",
+				"id": "column4",
+				"min": 1,
+				"max": 5,
+				"step": 1,
+				"label": "Number of Columns in 480px or less than",
+				"default": 1,
+				"info": "Mobile phone"
+			},
+			{
+				"type": "select",
+				"id": "layout",
+				"label": "Layout",
+				"default": "layout-1",
+				"options": [
+					{
+						"value": "layout-1",
+						"label": "Layout 1"
+					},
+					{
+						"value": "layout-2",
+						"label": "Layout 2"
+					},
+					{
+						"value": "layout-3",
+						"label": "Layout 3"
+					}
+				]
+			}
+        ],
+        "blocks": [
+			{
+                "type": "image",
+                "name": "Image Lookbook",
+                "settings": [
+					{
+						"type": "text",
+						"id": "title",
+						"label": "Lookbook Name"
+					},
+                    {
+						"type": "image_picker",
+						"id": "image",
+						"label": "Image"
+					}
+                ]
+            },
+            {
+                "type": "item",
+                "name": "Pin Product",
+                "settings": [
+					{
+						"type": "text",
+						"id": "name_pin",
+						"label": "Pin for Image"
+					},
+                    {
+                        "type": "product",
+                        "id": "product",
+                        "label": "Choose product"
+                    },
+                    {
+                        "type": "select",
+                        "id": "display",
+                        "label": "Display type",
+                        "default": "top-left",
+                        "options": [
+                            {
+                                "value": "top-left",
+                                "label": "Top left"
+                            },
+                            {
+                                "value": "top-right",
+                                "label": "Top right"
+                            },
+                            {
+                                "value": "center-left",
+                                "label": "Center left"
+                            },
+                            {
+                                "value": "center-top",
+                                "label": "Center top"
+                            },
+                            {
+                                "value": "center-right",
+                                "label": "Center right"
+                            },
+                            {
+                                "value": "center-bottom",
+                                "label": "Center bottom"
+                            },
+                            {
+                                "value": "bottom-left",
+                                "label": "Bottom left"
+                            },
+                            {
+                                "value": "bottom-right",
+                                "label": "Bottom right"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "range",
+                        "id": "top",
+                        "min": 0,
+                        "max": 100,
+                        "step": 1,
+                        "unit": "%",
+                        "label": "Offset top",
+                        "default": 50
+                    },
+                    {
+                        "type": "range",
+                        "id": "left",
+                        "min": 0,
+                        "max": 100,
+                        "step": 1,
+                        "unit": "%",
+                        "label": "Offset left",
+                        "default": 50
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Lookbook Slider",
+                "category": "3. Lookbook",
+				"blocks": [
+					{
+						"type": "image"
+					},
+					{
+						"type": "image"
+					}
+				]
+            }
+        ]
+    }
+{% endschema %}

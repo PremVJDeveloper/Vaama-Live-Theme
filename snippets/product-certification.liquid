@@ -1,0 +1,151 @@
+{% comment %}
+  Product Certification Block
+{% endcomment %}
+
+<style>
+  .certification-section-main {
+    margin-top: 10px;
+    padding: 16px 8px;  
+    background: #F5F6F8;
+    border-radius: 5px;               
+    {% comment %} border-top: 1px solid #eee; {% endcomment %}
+    {% comment %} border-bottom: 1px solid #eee; {% endcomment %}
+  }
+
+  .certification-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding: 0px;               /* change made */
+    gap: 20px;               /* change made */  
+}
+
+  .certification-titles {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    font-family: 'Inter', SANS-SERIF;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 12px;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;  
+  }
+
+  .certification-titles p {
+    margin: 0;
+    font-family: 'Inter', SANS-SERIF;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    color: #28365B;
+  }
+
+  .certification-link {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    font-family: 'Inter', SANS-SERIF;
+    color: #28365B;
+    text-decoration: underline;
+    transition: opacity 0.2s ease;
+  }
+
+  .certification-link:hover {
+    opacity: 0.7;
+  }
+
+  .certification-logos {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 18px;
+      width: 100%;
+    margin-top: 6px;
+  }
+
+  .certification-logos img {
+    display: block;
+    width: 62px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .certification-note {
+font-size: 12px;
+    line-height: 1.5;
+    color: #28365b;
+    margin-top: 4px;
+    text-align: center;
+    font-family: 'Inter', SANS-SERIF;
+  }
+
+  @media (max-width: 480px) {
+    .certification-titles {
+      align-items: flex-start;
+    }
+    .certification-titles p {
+    font-size: 12px;
+    font-family: 'Inter', SANS-SERIF;
+  }
+
+  .certification-link {
+    font-size: 12px;
+    font-family: 'Inter', SANS-SERIF;
+  }
+    .certification-logos img {
+    width: 50px;
+  }
+  }
+</style>
+
+<div class="certification-section-main">
+  <div class="certification-section">
+
+    <div class="certification-titles">
+      <p>Certified Quality you can trust</p>
+
+      <a
+        href="/pages/certificate-authenticity"
+        class="certification-link"
+        target="_blank"
+        onclick="trackCertificateClick && trackCertificateClick(event)"
+      >
+        Check Sample Certificate
+      </a>
+    </div>
+
+    <div class="certification-logos">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/igig1.png?v=1769520342"
+        alt="IGI Certified"
+        loading="lazy"
+        width="50"
+        height="50"
+      >
+
+        
+        <img
+            src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/BIS_logo.svg?v=1772014420"
+            alt="BIS Certified"
+            loading="lazy"
+            width="50"
+            height="50"
+        >
+            <img
+              src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/sgl-logo.png?v=1769692146"
+              alt="SGL Certified"
+              loading="lazy"
+              width="50"
+              height="50"
+            >
+    </div>
+
+    <div class="certification-note">
+      Note: Our products are handcrafted and personalised for your delight, hence a weight variance is expected.
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,98 @@
+{%- assign current_variant 					= product.selected_or_first_available_variant -%}
+{%- assign featured_media 					= current_variant.featured_media | default: product.featured_media -%}
+{%- assign first_3d_model 					= product.media | where: 'media_type', 'model' | first -%}
+{%- assign stacked 							= false -%}
+{% if section.settings.media_layout 		== "stacked" %}{% assign stacked = true %}{% endif %}
+{% if section.settings.media_layout 		== "gird-mordern" %}{% assign gird-mordern = true %}{% endif %}
+{% if section.settings.media_layout 		== "gird-two" %}{% assign gird-two = true %}{% endif %}
+{% if section.settings.media_layout 		== "lagre-gallery" %}{% assign lagre-gallery = true %}{% endif %}
+{% if section.settings.media_layout 		== "slider" %}{% assign slider = true %}{% endif %}
+{% if section.settings.media_layout 		== "thumbnails" %}{% assign thumbnails = true %}{% endif %}
+{% if section.settings.media_layout 		== "gird-sticky" %}{% assign gird-sticky = true %}{% assign vertical = true %}{% endif %}
+{% if section.settings.position_thumbnails 	== "outside" %}{% assign outside = true %}{% endif %}
+{% if section.settings.position_thumbnails 	== "left" or section.settings.position_thumbnails == "right" %}{% assign vertical = true %}{% endif %}
+{%- if thumbnails or gird-sticky -%}{% assign img_thumbnail = true %}{% endif %}
+{% capture varriant_array %}
+{%- for option in product.options_with_values -%}
+	{%- for value in option.values -%}
+		{%- for media in product.media -%}
+			{%- if media.alt ==  value -%}
+					{{ value | strip | replace: ' ', '_' }}
+				{%- break -%}
+			{%- endif -%}
+		{%- endfor -%}
+	{%- endfor -%}
+{%- endfor -%}
+{% endcapture %}
+
+{% assign varriant_grouped = varriant_array | split: ' '%}
+{%- for current in product.selected_or_first_available_variant.options -%}
+    {% assign varriant_current = current | strip | replace: ' ', '_' %}
+	{%- for varriant_image in varriant_grouped -%}
+		{%- if varriant_current ==  varriant_image -%}
+			{% assign active_varriant_image = varriant_current %}
+			{%- break -%}
+		{%- endif -%}
+	{%- endfor -%}
+{%- endfor -%}
+{% assign count_image = 0 %}
+{% capture array_360 %}
+	{%- for media in product.media -%}
+		{%- if media.alt == 'bwp-image-360' -%}
+			{{ media.preview_image | img_url: '' }}
+			{% assign count_image = count_image | plus: 1 %}
+		{%- endif -%}
+	{%- endfor -%}
+{% endcapture %}
+{% assign image_360 = array_360 | split: ' '%}
+<div class="js-product-single-media normal product-single__media product-single__media--{{ section.settings.media_layout }}{% if product.has_only_default_variant %} no-variants{% endif %}">
+	{%- if varriant_array != blank -%}
+		{%- for varriant_image in varriant_grouped -%}
+			<div class="row mutil_slider-single {{ varriant_image }}{% if active_varriant_image == varriant_image %} active{% endif %}">
+				<div class="{%- if img_thumbnail and vertical -%}col-md-10 {% if gird-sticky %} left{% else %} {{ section.settings.position_thumbnails }}{% endif %}{%- else -%}col-md-12{%- endif -%}">
+					<div class="product-single__main-media">
+						{% comment %} {% render 'product-card_label',product: product %} {% endcomment %}
+						<div class="main_media-content">
+							{%- include 'product-media-image' -%}
+						</div>
+					</div>
+					{%- if first_3d_model -%}
+						{%- include 'xr-button' with model_id: first_3d_model.id, multi: false -%}
+					{%- endif -%}
+				</div>
+				{%- unless stacked or gird-mordern or lagre-gallery or slider  or gird-two -%}
+					<div class="{% if img_thumbnail and vertical %}col-md-2 {% else %}col-md-12{% endif %}">
+						<div class="product-single__main-thumbnail">
+							<div class="main_thumbnail-content">
+								{%- include 'product-media-thumbnails' -%}
+							</div>
+						</div>
+					</div>
+				{%- endunless -%}
+			</div>
+		{%- endfor -%}
+	{%- else -%}
+		<div class="row">
+			<div class="{%- if img_thumbnail and vertical -%}col-md-10 {% if gird-sticky %} left{% else %} {{ section.settings.position_thumbnails }}{% endif %}{%- else -%}col-md-12{%- endif -%}">
+				<div class="product-single__main-media">
+					{% comment %} {% render 'product-card_label',product: product %} {% endcomment %}
+					<div class="main_media-content">
+						{%- include 'product-media-image' -%}
+					</div>
+				</div>
+				{%- if first_3d_model -%}
+					{%- include 'xr-button' with model_id: first_3d_model.id, multi: false -%}
+				{%- endif -%}
+			</div>
+			{%- unless stacked or gird-mordern or lagre-gallery or slider  or gird-two -%}
+				<div class="{% if img_thumbnail and vertical %}col-md-2 {% else %}col-md-12{% endif %}">
+					<div class="product-single__main-thumbnail">
+						<div class="main_thumbnail-content">
+							{%- include 'product-media-thumbnails' -%}
+						</div>
+					</div>
+				</div>
+			{%- endunless -%}
+		</div>
+	{%- endif -%}
+</div>

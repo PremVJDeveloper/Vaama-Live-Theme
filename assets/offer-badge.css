@@ -1,0 +1,260 @@
+.css-carousel-container {
+    background: #28365b;
+    width: 145px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 150px;
+    max-width: 145px;
+}
+
+/* Frosted glass effect */
+.css-carousel-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.2) 100%
+    );
+    pointer-events: none;
+    border-radius: 150px;
+}
+
+/* Auto-collapse animations */
+.css-carousel-container {
+    animation: autoCollapse 15s ease-in-out infinite;
+}
+
+@keyframes autoCollapse {
+    /* Expanded state - first 10 seconds */
+    0%, 66% {
+        max-width: 145px;
+        padding: 8px 12px;
+        background: #28365b;
+    }
+    /* Collapsing - 1 second transition */
+    70%, 75% {
+        max-width: 40px;
+        padding: 8px;
+        background: #28365b;
+    }
+    /* Collapsed state - 4 seconds */
+    76%, 90% {
+        max-width: 40px;
+        padding: 8px;
+        background: #28365b;
+    }
+    /* Expanding - 1 second transition */
+    91%, 96% {
+        max-width: 145px;
+        padding: 8px 12px;
+        background: #28365b;
+    }
+    /* Back to expanded - last 4 seconds */
+    97%, 100% {
+        max-width: 145px;
+        padding: 8px 12px;
+        background: #28365b;
+    }
+}
+
+/* Text container animations */
+.css-carousel-container .css-text-container {
+    animation: autoHideText 15s ease-in-out infinite;
+}
+
+@keyframes autoHideText {
+    0%, 66% {
+        opacity: 1;
+        width: auto;
+        transform: translateX(0);
+    }
+    70%, 90% {
+        opacity: 0;
+        width: 0;
+        transform: translateX(10px);
+    }
+    91%, 100% {
+        opacity: 1;
+        width: auto;
+        transform: translateX(0);
+    }
+}
+
+/* Icon container adjustments for collapsed state */
+.css-carousel-container .css-icon-container {
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Enhanced icon styling for glass effect */
+.css-icon {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: all 0.3s ease;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .css-carousel-container {
+        animation: autoCollapseMobile 15s ease-in-out infinite;
+    }
+    
+    @keyframes autoCollapseMobile {
+        0%, 66% {
+            max-width: 130px;
+            padding: 6px 10px;
+        }
+        70%, 90% {
+            max-width: 36px;
+            padding: 6px;
+        }
+        91%, 100% {
+            max-width: 130px;
+            padding: 6px 10px;
+        }
+    }
+}
+
+
+
+
+.css-icon-container {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+	color:white;
+}
+
+.css-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+	align-items: center;
+    animation: iconCycle var(--cycle-duration, 6s) infinite;
+	filter: brightness(0) invert(1);
+}
+
+.css-text-container {
+    position: relative;
+    height: 16px;
+    overflow: hidden;
+    flex: 1;
+	top:2px;
+}
+
+.css-text-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 10px;
+	align-items: center;
+    font-weight: 200;
+    color: white;
+    white-space: nowrap;
+    opacity: 0;
+    animation: textCycle var(--cycle-duration, 6s) infinite;
+}
+
+/* Animation delays for 1 tag */
+.css-carousel-container[data-tag-count="1"] .css-tag-0 {
+    animation-delay: 0s;
+}
+.css-carousel-container[data-tag-count="1"] .css-text-0 {
+    animation-delay: 0s;
+}
+
+/* Animation delays for 2 tags */
+.css-carousel-container[data-tag-count="2"] .css-tag-0 {
+    animation-delay: 0s;
+}
+.css-carousel-container[data-tag-count="2"] .css-tag-1 {
+    animation-delay: 3s;
+}
+.css-carousel-container[data-tag-count="2"] .css-text-0 {
+    animation-delay: 0s;
+}
+.css-carousel-container[data-tag-count="2"] .css-text-1 {
+    animation-delay: 3s;
+}
+
+/* Keyframe animations */
+@keyframes iconCycle {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    40% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+@keyframes textCycle {
+    0% {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    40% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    50% {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .css-carousel-container {
+        padding: 6px 10px;
+        max-width: 130px;
+    }
+    
+    .css-text-content {
+        font-size: 8px;
+    }
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.product-card__image-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}

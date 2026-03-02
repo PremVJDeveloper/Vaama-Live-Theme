@@ -1,0 +1,216 @@
+<div class="vaama-collection-grid-section">
+  <section class="collection-section">
+    <!-- Column 1 -->
+    <div class="column">
+      <div class="collection-item tall">
+        {%- if section.settings.column1_image != blank -%}
+          {%- assign img_url = section.settings.column1_image | image_url: width: 800 -%}
+          <img 
+            src="{{ img_url }}"
+            srcset="
+              {{ section.settings.column1_image | image_url: width: 400 }} 400w,
+              {{ section.settings.column1_image | image_url: width: 800 }} 800w,
+              {{ section.settings.column1_image | image_url: width: 1200 }} 1200w
+            "
+            sizes="(max-width: 768px) 100vw, 50vw"
+            alt="{{ section.settings.column1_label | escape }}"
+            loading="lazy"
+            width="800"
+            height="1000"
+          >
+        {%- else -%}
+          {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+        <div class="overlay">
+          <h3>{{ section.settings.column1_label }}</h3>
+          <a href="{{ section.settings.column1_link }}">
+            <button>Shop Now</button>
+          </a>
+        </div>
+        <div class="label-text">{{ section.settings.column1_label }}</div>
+      </div>
+    </div>
+
+    <!-- Column 2 (two stacked items) -->
+    <div class="column">
+      <div class="collection-item half-height">
+        {%- if section.settings.column2_image1 != blank -%}
+          {%- assign img_url = section.settings.column2_image1 | image_url: width: 800 -%}
+          <img 
+            src="{{ img_url }}"
+            srcset="
+              {{ section.settings.column2_image1 | image_url: width: 400 }} 400w,
+              {{ section.settings.column2_image1 | image_url: width: 800 }} 800w
+            "
+            sizes="(max-width: 768px) 100vw, 50vw"
+            alt="{{ section.settings.column2_label1 | escape }}"
+            loading="lazy"
+            width="800"
+            height="600"
+          >
+        {%- else -%}
+          {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+        <div class="overlay">
+          <h3>{{ section.settings.column2_label1 }}</h3>
+          <a href="{{ section.settings.column2_link1 }}">
+            <button>Shop Now</button>
+          </a>
+        </div>
+        <div class="label-text">{{ section.settings.column2_label1 }}</div>
+      </div>
+      <div class="collection-item half-height">
+        {%- if section.settings.column2_image2 != blank -%}
+          {%- assign img_url = section.settings.column2_image2 | image_url: width: 800 -%}
+          <img 
+            src="{{ img_url }}"
+            srcset="
+              {{ section.settings.column2_image2 | image_url: width: 400 }} 400w,
+              {{ section.settings.column2_image2 | image_url: width: 800 }} 800w
+            "
+            sizes="(max-width: 768px) 100vw, 50vw"
+            alt="{{ section.settings.column2_label2 | escape }}"
+            loading="lazy"
+            width="800"
+            height="600"
+          >
+        {%- else -%}
+          {{ 'collection-3' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+        <div class="overlay">
+          <h3>{{ section.settings.column2_label2 }}</h3>
+          <a href="{{ section.settings.column2_link2 }}">
+            <button>Shop Now</button>
+          </a>
+        </div>
+        <div class="label-text">{{ section.settings.column2_label2 }}</div>
+      </div>
+    </div>
+
+    <!-- Column 3 -->
+    <div class="column">
+      <div class="collection-item tall">
+        {%- if section.settings.column3_image != blank -%}
+          {%- assign img_url = section.settings.column3_image | image_url: width: 800 -%}
+          <img 
+            src="{{ img_url }}"
+            srcset="
+              {{ section.settings.column3_image | image_url: width: 400 }} 400w,
+              {{ section.settings.column3_image | image_url: width: 800 }} 800w,
+              {{ section.settings.column3_image | image_url: width: 1200 }} 1200w
+            "
+            sizes="(max-width: 768px) 100vw, 50vw"
+            alt="{{ section.settings.column3_label | escape }}"
+            loading="lazy"
+            width="800"
+            height="1000"
+          >
+        {%- else -%}
+          {{ 'collection-4' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+        <div class="overlay">
+          <h3>{{ section.settings.column3_label }}</h3>
+          <a href="{{ section.settings.column3_link }}">
+            <button>Shop Now</button>
+          </a>
+        </div>
+        <div class="label-text">{{ section.settings.column3_label }}</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Vaama Collection Grid",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Column 1 Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "column1_image",
+      "label": "Column 1 Image"
+    },
+    {
+      "type": "text",
+      "id": "column1_label",
+      "label": "Column 1 Label",
+      "default": "Cocktail Wear"
+    },
+    {
+      "type": "url",
+      "id": "column1_link",
+      "label": "Column 1 Link"
+    },
+    {
+      "type": "header",
+      "content": "Column 2 - First Item Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "column2_image1",
+      "label": "Column 2 First Image"
+    },
+    {
+      "type": "text",
+      "id": "column2_label1",
+      "label": "Column 2 First Label",
+      "default": "Pendants"
+    },
+    {
+      "type": "url",
+      "id": "column2_link1",
+      "label": "Column 2 First Link"
+    },
+    {
+      "type": "header",
+      "content": "Column 2 - Second Item Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "column2_image2",
+      "label": "Column 2 Second Image"
+    },
+    {
+      "type": "text",
+      "id": "column2_label2",
+      "label": "Column 2 Second Label",
+      "default": "Earrings"
+    },
+    {
+      "type": "url",
+      "id": "column2_link2",
+      "label": "Column 2 Second Link"
+    },
+    {
+      "type": "header",
+      "content": "Column 3 Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "column3_image",
+      "label": "Column 3 Image"
+    },
+    {
+      "type": "text",
+      "id": "column3_label",
+      "label": "Column 3 Label",
+      "default": "Office Wear"
+    },
+    {
+      "type": "url",
+      "id": "column3_link",
+      "label": "Column 3 Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vaama Collection Grid",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

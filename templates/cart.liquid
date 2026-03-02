@@ -1,0 +1,263 @@
+<section class="page-cart">
+	<div class="pre_order-cart hidden">
+		{% for item in collections.all.products %}
+			{%- for variant in item.variants -%}
+				{% if variant.inventory_policy == "continue" %}
+					<span data-handle="{{ variant.id }}"></span>
+				{% endif %}
+			{% endfor %}
+		{% endfor %}
+	</div>
+	<div class="container">
+		<div class="page-cart__inner">
+			<header class="page-cart__header">
+				<h1 class="page-cart__title">{{ 'cart.general.page_title' | t }}</h1>
+			</header>
+			<div class="content-cart_page">
+				<form action="{{ routes.cart_url }}" method="post" novalidate id="cart-form" class="cart-form">
+					<div class="cart-table">
+						<div class="row">
+							<div class="col-12 col-lg-8 table-cart">
+								<div class="cart-table__heading">
+									<div class="cart-table__row ">
+										<div class="cart-table__col cart-table__col--product">{{ 'cart.label.product' | t }}</div>
+										<div class="cart-table__col cart-table__col--quantity">{{ 'cart.label.quantity' | t }}</div>
+										<div class="cart-table__col cart-table__col--price">{{ 'cart.label.total' | t }}</div>
+										<div class="cart-table__col cart-table__col--remove"></div>
+									</div>
+								</div>
+								<div data-cartpage-container></div>
+								{% if settings.show_gift_card %}
+									{%- assign handle = settings.product_gift_card -%}
+									{%- assign item = all_products[handle] -%}
+									{%- assign price = item.price | money -%}
+									<div class="gift-wrap">
+										<div class="gift-wrap-title">
+											<div class="icon-gift"><i class="wpb-icon-gift"></i></div>
+											{{ settings.content_gift_card }} <label> {{ 'cart.general.gift_cards_price_html' | t: price: price }}</label>
+											<div class="button-gift-cart" data-gift_card="{{ handle }}">{{ 'cart.general.button_gift_wrap' | t }}</div>
+										</div>
+									</div>
+								{% endif %}
+								{% if settings.cart_notes_enable %}
+  <div class="cart-note">
+    <label class="cart-note__label">{{ 'cart.general.note' | t }}</label>
+    <div class="cart-note__input">
+      <textarea name="note" class="ajaxcart__note-input form-control" placeholder="{{ 'cart.general.placeholder_note' | t }}" rows="5"></textarea>
+    </div>
+  </div>
+{% endif %}
+
+{% for item in cart.items %}
+  <p><strong>Product:</strong> {{ item.product.title }}</p>
+  {% if item.properties.gift_message != blank %}
+    <p><strong>Gift Message:</strong> "{{ item.properties.gift_message }}"</p>
+  {% endif %}
+{% endfor %}
+
+
+<!-- End: Display gift messages -->
+
+							</div>
+              
+                          
+							<div class="col-12 col-lg-4">
+								{%- if settings.price_shipping_bar != blank -%}
+									{%- assign price_shipping_bar 	= settings.price_shipping_bar | times: 100 -%}
+									{%- assign spend 				= price_shipping_bar | minus: cart.total_price -%}
+									{%- assign spend 				= spend | money -%}
+									<div class="shipping-bar-cart" data-price_shipping_bar="{{ price_shipping_bar }}">
+										<div class="title-freeship"><i class="wpb-icon-flash"></i> {{ 'cart.general.title' | t }} {{ settings.price_shipping_bar | times: 100 | money }}</div>
+										<div class="title-spend">{{ 'cart.general.free_shipping_html' | t: spend: spend }}</div>
+										<div class="title-shipping hide">{{ 'cart.general.free_shipping' | t }}</div>
+										<div class="shipping-progress_bar"><div class="shipping-progress fire-done"></div></div>
+									</div>
+								{%- endif -%}
+								<div class="cart-table__footer">
+									{% if settings.cart_shipping_enable %}
+										<div id="shipping-calculator">
+											<h3>{{ settings.shipping_calculator_heading | default: 'Get shipping estimates' }}</h3>
+											<div class="content-shipping">
+												<p class="field_select">
+													<select id="address_country" name="address[country]" data-default="{% if shop.customer_accounts_enabled and customer %}{{ customer.default_address.country }}{% elsif settings.shipping_calculator_default_country != '' %}{{ settings.shipping_calculator_default_country }}{% endif %}">{{ country_option_tags }}</select>
+												</p>
+												<p class="field_select" id="address_province_container" style="display:none;">
+													<select id="address_province" name="address[province]" data-default="{% if shop.customer_accounts_enabled and customer and customer.default_address.province != '' %}{{ customer.default_address.province }}{% endif %}"></select>
+												</p>  
+												<p class="field_input">
+													<input type="text" id="address_zip" placeholder="{{ 'cart.calculator.placeholder_zip' | t }}" name="address[zip]"{% if shop.customer_accounts_enabled and customer %} value="{{ customer.default_address.zip }}"{% endif %} />
+												</p>
+												<p class="field_button">
+													<input type="button" class="get-rates btn button" value="{{ settings.shipping_calculator_submit_button_label | default: 'ESTIMATE' }}" />
+												</p>
+											</div>
+											<div id="wrapper-response"></div>
+										</div>
+									{% endif %}
+									{% if settings.cart_coupon_enable %}
+										<div class="discount_code">
+											<div class="title">{{ 'cart.general.button_discount' | t }}</div>
+											<label for="discount">{{ 'cart.general.discount_code' | t }}</label>
+											<input class="discount_code_input" autocomplete="off" type="text" placeholder="{{ 'cart.general.placeholder_discount' | t }}" name="discount" value="" />
+										</div>
+									{%- endif -%}
+									<div class="cart-total">
+										{%- if cart.cart_level_discount_applications != blank -%}
+											<div class="cart__discounts">
+												{%- for discount_application in cart.cart_level_discount_applications -%}
+													<span class="order-discount order-discount--cart">
+														<span class="fa fa-tag" aria-hidden="true"></span><span class="d-none">{{ 'customer.order.discount' | t }}:</span>{{- discount_application.title -}}: 
+													</span>
+													<span class="order-discount order-discount--cart"> -{{ discount_application.total_allocated_amount | money }}</span>
+												{%- endfor -%}
+											</div>
+										{%- endif -%}
+										<div class="cart-total__subtotal">
+											<span class="cart-total__subtotal-title">{{ 'cart.general.subtotal' | t }} </span>
+											<span class="cart-total__subtotal-price">{{ cart.total_price | money }}</span>
+										</div>
+										{%- capture taxes_shipping_checkout -%}
+											{%- if shop.taxes_included and shop.shipping_policy.body != blank -%}
+												{{ 'cart.general.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+											{%- elsif shop.taxes_included -%}
+												{{ 'cart.general.taxes_included_but_shipping_at_checkout' | t }}
+											{%- elsif shop.shipping_policy.body != blank -%}
+												{{ 'cart.general.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+											{%- else -%}
+												{{ 'cart.general.taxes_and_shipping_at_checkout' | t }}
+											{%- endif -%}
+										{%- endcapture -%}
+										<p class="cart-tax"><em>{{ taxes_shipping_checkout }}</em></p>
+										{%- if settings.currency_type == '2' and settings.notify_currency and settings.mess_currency != blank %}{% assign cart_iso_code = cart.currency.iso_code %}{% assign text1 = '{{ currency }}' -%}
+											<p class="cart-currency" data-currency-jsnotify>
+												{{ settings.mess_currency | replace:text1,cart_iso_code | replace:'[currency]',cart_iso_code | replace:'[original_currency]',cart_iso_code | replace:'[current_currency]','<span class="selected-currency"></span>' }}
+											</p>
+										{%- endif -%}
+										{% comment %} terms and conditions checkbox {% endcomment %}
+											{% if settings.show_terms_conditions %}
+												<p class="ajaxcart_terms_conditions">
+													<input style="float:none; vertical-align: middle;" type="checkbox" class="agree_terms_conditions" />
+													<label style="display:inline; float:none" for="agree">
+														{{ settings.content_terms_conditions }}
+													</label>
+												</p>
+											{% endif %}
+										{% comment %} end terms and conditions checkbox {% endcomment %}
+										<div class="cart-total__buttons">
+											{% comment %} <button type="submit" name="checkout" class="btn cart-modal__btn">{{ 'cart.general.checkout' | t }}</button> {% endcomment %}
+											{% render 'gokwik-checkout' %}
+											{%- if additional_checkout_buttons -%}
+												<div class="additional_checkout_buttons">{{ content_for_additional_checkout_buttons }}</div>
+											{%- endif -%}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="page-cart-empty hidden">
+				<p class="page-cart-empty__heading">{{ 'cart.general.empty' | t }}</p>
+					<div class="page-cart-empty__content">{{ 'cart.general.continue_browsing_html' | t: link: routes.all_products_collection_url }}</div>
+				<p class="cookie-message">{{ 'cart.general.cookies_required' | t }}</p>
+			</div>
+		</div>
+	</div>
+</section>
+<script id="cart-form-template" type="text/template">
+	<div class="cart-table__body">
+		{% raw %}
+		{{#items}}
+			<div class="item-cart data-edit_variant-popup-item" data-variant_id={{variant_id}} data-line="{{line}}">
+				<div class="cart-table__row">
+					<div class="cart-table__col cart-table__col--product">
+						<div class="product-content content-edit_variant-popup">
+							<div class="image image-popup">
+								<a class="cart-tablet__image" href="{{ url }}">
+									<img src="{{ img }}" alt="{{name}}"/>
+								</a>
+							</div>
+							<div class="info">
+								<a href="{{ url }}" class="cart-product-info__name">
+									{{name}}
+								</a>
+								{{#if variant}}
+									<div class="cart-product-info_variant">
+										{{#each options}}
+											<span>{{ this.name }}: {{ this.value }}</span>
+										{{/each}}
+									</div>
+								{{/if}}
+								{% endraw %}{%- if section.settings.cart_vendor_enable -%}
+									{% raw %}<p>{{ vendor }}</p>{% endraw %}
+								{%- endif -%}{% raw %}
+								{{#properties}}
+									{{#each this}}
+										{{#if this}}
+											<span class="ajaxcart__product-meta">{{@key}}: {{this}}</span>
+										{{/if}}
+									{{/each}}
+								{{/properties}}
+								<div class="cart-product-info__price">
+								{{{ price }}}
+								{% endraw %}<div class="pre_order hidden">( {{ 'products.product.pre_order' | t }} )</div>
+								</div>
+								{% raw %}{{#if variant}}{% endraw %}
+									<div class="cart-product-edit_variant" data-title="{{ 'cart.general.edit_variant' | t }}" {% raw %} data-id_variant="{{variant_id}}" data-line="{{line}}" data-value="{{itemQty}}" data-handle="{{ handle }}">
+										<i class="wpb-icon-edit"></i>
+									</div>
+								{{/if}}
+							</div>
+						</div>
+					</div>
+					<div class="cart-table__col cart-table__col--quantity">
+						<div class="cart-product-info">
+							<div class="cart-product-info__group">
+								<div class="cart-product-info__qty">
+									{% endraw %}<label class="cart-product-info__qty-label">{{ 'cart.label.quantity' | t }}</label>{% raw %}
+									<div class="wpbingo-qty">
+									  <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus wpbingo-qty__adjust wpbingo-qty__adjust--minus" data-id="{{key}}" data-qty="{{itemMinus}}" data-line="{{line}}" aria-label="{% endraw %}{{ 'cart.general.reduce_quantity' | t }}{% raw %}">
+											<i class="feather-minus" aria-hidden="true"></i>
+									  </button>
+									  <input type="text" name="updates[]" class="ajaxcart__qty-num wpbingo-qty__number" value="{{itemQty}}" min="0" data-id="{{key}}" data-line="{{line}}" aria-label="quantity" pattern="[0-9]*" data-variant_id="{{variant_id}}">
+									  <button type="button" {{disabled}} class="ajaxcart__qty-adjust ajaxcart__qty--plus wpbingo-qty__adjust wpbingo-qty__adjust--plus" data-id="{{key}}" data-line="{{line}}" data-qty="{{itemAdd}}" aria-label="{% endraw %}{{ 'cart.general.increase_quantity' | t }}{% raw %}">
+											<i class="feather-plus" aria-hidden="true"></i>
+									  </button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="cart-table__col cart-table__col--price">
+                        <div class="cart-table__price-container">
+                            <div class="content">
+        						<div class="cart-table__price">
+        							{{#if discountsApplied}}<span class="cart__price cart__price--regular">{{{ discountprice }}}</span>{{/if}}
+        							<span class="price-discount cart__price">{{{ finalPrice }}}</span>
+        						</div>
+        						{{#if discountsApplied}}
+        							<ul class="product-discount product-discount--ajax-cart" aria-label="{% endraw %}{{ 'customer.order.discount' | t }}{% raw %}">
+        								{{#each discounts}}
+        									<li class="product-discount__item">
+        										<span class="fa fa-tag" aria-hidden="true"></span>{{ this.discount_application.title }} (-{{{ this.formattedAmount }}})
+        									</li>
+        								{{/each}}
+        							</ul>
+        						{{/if}}
+        					</div>
+                        </div>
+                    </div>
+					<div class="cart-table__col cart-table__col--remove">
+						<div class="btn--remove">
+							<a  href="javascript:void(0)" data-line="{{line}}" class="cart-product-info__btn cart-product-info__btn--remove">
+								<i class="wpb-icon-delete"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		{{/items}}
+		{% endraw %}
+	</div>
+</script>

@@ -1,0 +1,106 @@
+{% assign margin 			= block.settings.margin | split: "|" %}
+{% assign padding 			= block.settings.padding | split: "|" %}
+{%- style -%}
+    #shopify-block-{{ block.id }}{
+        max-width:{{block.settings.width}}%;
+        flex:0 0 {{block.settings.width}}%;
+		{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+		{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+    }
+    @media (max-width:1199px){
+        #shopify-block-{{ block.id }}{
+            max-width:{{block.settings.width_lap}}%;
+            flex:0 0 {{block.settings.width_lap}}%;
+			{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+			{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+        }
+    }
+	
+	@media (max-width:991px){
+		#shopify-block-{{ block.id }}{
+			 max-width:{{block.settings.width_tab}}%;
+            flex:0 0 {{block.settings.width_tab}}%;
+			{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+			{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+		}
+	}
+    @media (max-width:767px){
+        #shopify-block-{{ block.id }}{
+             max-width:{{block.settings.width_mobi}}%;
+            flex:0 0 {{block.settings.width_mobi}}%;
+			{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+			{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+        }
+    }
+{%- endstyle -%}
+<div class="bwp-block-column">
+    <div class="content-block-column">
+        {% content_for "blocks" %}
+    </div>
+</div>
+{% schema %}
+  {
+    "name": "Column",
+    "blocks": [{ "type": "@theme" },{ "type": "@app" }],
+    "settings": [
+        {
+            "type": "number",
+            "id": "width",
+            "label": "Width",
+            "default": 100,
+            "info": "%"
+        },
+        {
+			"type": "textarea",
+			"id": "padding",
+			"label": "Padding",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "textarea",
+			"id": "margin",
+			"label": "Margin",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+        {
+            "type": "header",
+            "content": "Laptop ====================",
+            "info": "screen < 1200px"
+        },
+         {
+            "type": "number",
+            "id": "width_lap",
+            "label": "Width",
+            "default": 100,
+            "info": "%"
+        },
+		{
+            "type": "header",
+            "content": "Tablet ====================",
+            "info": "screen < 991px"
+        },
+         {
+            "type": "number",
+            "id": "width_tab",
+            "label": "Width",
+            "default": 100,
+            "info": "%"
+        },
+        {
+            "type": "header",
+            "content": "Mobile ====================",
+            "info": "screen < 767px"
+        },
+         {
+            "type": "number",
+            "id": "width_mobi",
+            "label": "Width",
+            "default": 100,
+            "info": "%"
+        }
+    ],
+    "presets": [{"name": "Column"}]
+  }
+{% endschema %}

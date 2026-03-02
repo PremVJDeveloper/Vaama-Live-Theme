@@ -1,0 +1,29 @@
+{%- if settings.select_pagination == 'pagination' -%}						
+	{% capture previous_label %}
+	  <span class="pagination__navigation">
+		<i class="feather-chevron-left"></i>
+		<span class="sr-only">{{ 'general.pagination.previous' | t }}</span>
+	  </span>
+	{% endcapture %}
+	{% capture next_label %}
+	  <span class="pagination__navigation">
+		<i class="feather-chevron-right"></i>
+		<span class="sr-only">{{ 'general.pagination.next' | t }}</span>
+	  </span>
+	{% endcapture %}
+	<div class="pagination">
+	  {{ paginate | default_pagination: previous: previous_label, next: next_label }}
+	</div>
+{%- elsif settings.select_pagination == 'loadmore' -%}
+<div id="loadmore-wait" style="display:none; text-align:center; margin-bottom:10px; font-weight:600;">
+    Please wait...
+</div>
+
+<a class="loadmore-btn" href="{{ paginate.next.url }}" title="">
+    {{ 'collections.general.load_more' | t }}
+</a>
+{%- elsif settings.select_pagination == 'infinity' -%}
+	<a href="{{ paginate.next.url }}" title="">
+		<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+	</a>
+{%- endif -%}

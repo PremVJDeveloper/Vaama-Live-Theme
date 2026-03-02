@@ -1,0 +1,102 @@
+{%- if section.settings.fullwidth -%}
+  {%- assign container = 'container-full' -%}
+{%- else -%}
+  {%- assign container = 'section-container' -%}
+{%- endif -%}
+
+{%- assign max_width = '' -%}
+{%- if section.settings.fullwidth == blank and section.settings.max_width != blank -%}
+  {%- capture max_width -%}style="max-width: {{ section.settings.max_width }};"{%- endcapture -%}
+{%- endif -%}
+
+{% assign margin = section.settings.margin | split: "|" %}
+{% assign padding = section.settings.padding | split: "|" %}
+
+{%- style -%}
+#shopify-section-{{ section.id }} .wpbingo-bg-video {
+  position: relative;
+  {%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+  {%- if padding[0] != blank -%}padding: {{ padding[0] }};{%- endif -%}
+}
+#shopify-section-{{ section.id }} .wpbingo-bg-video video,
+#shopify-section-{{ section.id }} .wpbingo-bg-video img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0; left: 0;
+  z-index: -1;
+  object-fit: cover;
+}
+@media (max-width:1199px){
+  #shopify-section-{{ section.id }} .wpbingo-bg-video {
+    {%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+    {%- if padding[1] != blank -%}padding: {{ padding[1] }};{%- endif -%}
+  }
+}
+@media (max-width:991px){
+  #shopify-section-{{ section.id }} .wpbingo-bg-video {
+    {%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+    {%- if padding[2] != blank -%}padding: {{ padding[2] }};{%- endif -%}
+  }
+}
+@media (max-width:767px){
+  #shopify-section-{{ section.id }} .wpbingo-bg-video {
+    {%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+    {%- if padding[3] != blank -%}padding: {{ padding[3] }};{%- endif -%}
+  }
+}
+{%- endstyle -%}
+
+<section class="wpbingo-section wpbingo-bg-video overflow-hidden wpbingo-section--{{ section.id }}" >
+  <div class="{{ container }}" {{ max_width }}>
+    <div class="section-content">
+      {% content_for "blocks" %}
+
+      <div id="hero-media-wrapper-{{ section.id }}"></div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var wrapper = document.getElementById("hero-media-wrapper-{{ section.id }}");
+  var isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+  var enableVideo = {{ section.settings.enable_video | default: false }};
+  var enableImage = {{ section.settings.enable_image | default: false }};
+
+  if(enableVideo){
+    var src = isMobile ? "{{ section.settings.video_mobile.sources.last.url }}" : "{{ section.settings.video_desktop.sources.last.url }}";
+    wrapper.innerHTML = `<video preload="metadata" playsinline loop autoplay muted src="${src}" type="video/mp4"></video>`;
+  } else if(enableImage){
+    var src = isMobile ? "{{ section.settings.image_mobile | img_url: '2048x2048' }}" : "{{ section.settings.image_desktop | img_url: '2048x2048' }}";
+    wrapper.innerHTML = `<img src="${src}" alt="Hero Image">`;
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Background Media",
+  "blocks": [{ "type": "_column" }],
+  "settings": [
+    { "type": "text", "id": "max_width", "label": "Width container", "info": "Default: 1440px" },
+    { "type": "checkbox", "id": "fullwidth", "label": "Fullwidth" },
+    { "type": "video", "id": "video_desktop", "label": "Desktop video" },
+    { "type": "video", "id": "video_mobile", "label": "Mobile video" },
+    { "type": "image_picker", "id": "image_desktop", "label": "Desktop image" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image" },
+    { "type": "checkbox", "id": "enable_video", "label": "Enable Video" },
+    { "type": "checkbox", "id": "enable_image", "label": "Enable Image" },
+    { "type": "textarea", "id": "padding", "label": "Padding", "placeholder": "0px 0px 0px 0px", "info":"Screen: desktop | 1200px | 991px | 767px" },
+    { "type": "textarea", "id": "margin", "label": "Margin", "placeholder": "0px 0px 0px 0px", "info":"Screen: desktop | 1200px | 991px | 767px" }
+  ],
+  "presets": [
+    {
+      "name": "Hero Background Media",
+      "blocks": [{ "type": "_column" }]
+    }
+  ]
+}
+{% endschema %}

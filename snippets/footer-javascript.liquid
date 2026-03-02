@@ -1,0 +1,27 @@
+<script src="/services/javascripts/countries.js" defer="defer"></script>
+<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+<script src="{{ 'lazysizes.min.js' | asset_url }}" async="async"></script>
+<script src="{{ 'handlebars.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'jquery-3.5.1.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'debounce.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'enquire.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'jquery.countdown.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'slick.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'lodash.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'velocity.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'image.zoom.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'wpbingo.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+{%- if page_type contains 'product' -%}
+  <script src="{{ 'recent-product.min.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ '360imagerotate.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'photoswipe.min.js' | asset_url }}" defer="defer"></script>
+	<script src="{{ 'photoswipe-ui-default.min.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+<script src="{{ '//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' }}" defer="defer"></script>
+{% if settings.show_currency_selector and settings.currency_type == '2' %}
+	<script src="{{ '/services/javascripts/currencies.js' }}" defer="defer"></script>
+	<script src="{{ 'currencies.js' | asset_url }}" defer="defer"></script>
+{% endif %}

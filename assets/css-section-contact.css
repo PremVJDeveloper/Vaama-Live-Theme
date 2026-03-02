@@ -1,0 +1,71 @@
+.wpbingo-widget--contact_info .contact-form > .row {
+  margin: 0 -7.5px;
+}
+.wpbingo-widget--contact_info .contact-form > .row > div {
+  padding: 0 7.5px;
+}
+.wpbingo-widget--contact_info .contact-form-content label {
+  color: var(--gray-dark);
+  font-size: var(--font-size-base);
+  margin-bottom: 10px;
+  position: relative;
+}
+.wpbingo-widget--contact_info .form-group.required {
+  position: relative;
+}
+.wpbingo-widget--contact_info .form-group.required:before {
+  content: "*";
+  color: red;
+  position: absolute;
+  right: 15px;
+  bottom: 13px;
+  line-height: 1;
+  font-size: 20px;
+}
+.wpbingo-widget--contact_info .form-button {
+  margin-top: 40px;
+}
+.wpbingo-widget--contact_info .form-button input {
+  height: 45px;
+  line-height: 45px;
+  font-size: calc(var(--font-size-base) + 1px);
+  text-transform: capitalize;
+  padding: 0 40px;
+  color: var(--white);
+  background: var(--theme-color);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-weight: var(--body-font-weight-medium);
+  border: 0;
+  margin: auto;
+}
+.wpbingo-widget--contact_info .form-button input:hover {
+  background: var(--gray-dark);
+  color: var(--white);
+}
+.wpbingo-widget--contact_info input.form-control {
+  height: 50px;
+  line-height: 50px;
+  margin-bottom: 30px;
+  width: 100%;
+  padding: 10px 20px;
+  font-weight: var(--body-font-weight-default);
+  background: transparent;
+  border: 1px solid var(--gray-dark);
+  color: var(--gray-dark);
+}
+.wpbingo-widget--contact_info input.form-control::placeholder {
+  color: var(--text-color);
+}
+.wpbingo-widget--contact_info textarea {
+  width: 100%;
+  padding: 10px 20px;
+  border: 1px solid var(--gray-dark);
+  font-weight: var(--body-font-weight-default);
+  background: transparent;
+  color: var(--gray-dark);
+  min-height: 260px;
+}
+.wpbingo-widget--contact_info textarea::placeholder {
+  color: var(--text-color);
+}

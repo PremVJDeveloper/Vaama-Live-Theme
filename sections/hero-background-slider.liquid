@@ -1,0 +1,215 @@
+{%- if section.settings.fullwidth -%}
+  {%- assign container = 'container-full' -%}
+{%- else -%}
+  {%- assign container = 'section-container' -%}
+{%- endif -%}
+
+{%- assign max_width = '' -%}
+{%- if section.settings.fullwidth == blank and section.settings.max_width != blank -%}
+  {%- capture max_width -%}style="max-width: {{ section.settings.max_width }};"{%- endcapture -%}
+{%- endif -%}
+
+{% assign margin = section.settings.margin | split: "|" %}
+{% assign padding = section.settings.padding | split: "|" %}
+
+{%- style -%}
+#shopify-section-{{ section.id }} .hero-image-slider {
+  position: relative;
+  {%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+  {%- if padding[0] != blank -%}padding: {{ padding[0] }};{%- endif -%}
+}
+
+#shopify-section-{{ section.id }} .hero-slider {
+  position: relative;
+  width: 100%;
+  height: {{ section.settings.slider_height }}px;
+  overflow: hidden;
+}
+
+#shopify-section-{{ section.id }} .hero-slider__wrapper {
+  display: flex;
+  height: 100%;
+  transition: transform 1s ease-in-out;
+}
+
+#shopify-section-{{ section.id }} .hero-slider__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+}
+
+#shopify-section-{{ section.id }} .hero-slider__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hide radio inputs */
+#shopify-section-{{ section.id }} .hero-slider__input {
+  display: none;
+}
+
+/* Slide positioning */
+#shopify-section-{{ section.id }} #slide-1-{{ section.id }}:checked ~ .hero-slider__wrapper {
+  transform: translateX(0%);
+}
+
+#shopify-section-{{ section.id }} #slide-2-{{ section.id }}:checked ~ .hero-slider__wrapper {
+  transform: translateX(-100%);
+}
+
+
+/* Auto-advance animation */
+@keyframes slide-auto {
+  0%, 45% { transform: translateX(0%); }
+  50%, 95% { transform: translateX(-100%); }
+  100% { transform: translateX(0%); }
+}
+
+#shopify-section-{{ section.id }} .hero-slider--autoplay .hero-slider__wrapper {
+  animation: slide-auto {{ section.settings.autoplay_speed | times: 2 | divided_by: 1000.0 }}s ease-in-out infinite;
+}
+
+@media (max-width:1199px){
+  #shopify-section-{{ section.id }} .hero-image-slider {
+    {%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+    {%- if padding[1] != blank -%}padding: {{ padding[1] }};{%- endif -%}
+  }
+  
+  #shopify-section-{{ section.id }} .hero-slider {
+    height: {{ section.settings.slider_height_tablet }}px;
+  }
+}
+
+@media (max-width:991px){
+  #shopify-section-{{ section.id }} .hero-image-slider {
+    {%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+    {%- if padding[2] != blank -%}padding: {{ padding[2] }};{%- endif -%}
+  }
+}
+
+@media (max-width:767px){
+  #shopify-section-{{ section.id }} .hero-image-slider {
+    {%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+    {%- if padding[3] != blank -%}padding: {{ padding[3] }};{%- endif -%}
+  }
+  
+  #shopify-section-{{ section.id }} .hero-slider {
+    height: auto;
+  }
+}
+{%- endstyle -%}
+
+<section class="wpbingo-section hero-image-slider overflow-hidden wpbingo-section--{{ section.id }}">
+  <div class="{{ container }}" {{ max_width }}>
+  <div class="hero-slider {% if section.settings.autoplay_enabled and section.settings.enable_slider %}hero-slider--autoplay{% endif %}">
+      
+      <!-- Radio inputs for controlling slides -->
+      <input type="radio" name="slider-{{ section.id }}" id="slide-1-{{ section.id }}" class="hero-slider__input" checked>
+      {% if section.settings.enable_slider %}
+        <input type="radio" name="slider-{{ section.id }}" id="slide-2-{{ section.id }}" class="hero-slider__input">
+      {% endif %}
+      
+      <!-- Slides wrapper -->
+      <div class="hero-slider__wrapper">
+      {% if section.settings.enable_slider %}
+        {% assign slide_count = 2 %}
+      {% else %}
+        {% assign slide_count = 1 %}
+      {% endif %}
+
+      {% for i in (1..slide_count) %}
+          {% assign desktopImageKey = 'image_desktop_' | append: i %}
+          {% assign mobileImageKey = 'image_mobile_' | append: i %}
+          {% assign altTextKey = 'alt_text_' | append: i %}
+
+          <div class="hero-slider__slide">
+            <picture>
+              <source media="(max-width: 768px)" 
+                srcset="{% if section.settings[mobileImageKey] != blank %}
+                          {{ section.settings[mobileImageKey] | img_url: '1200x' }}
+                        {% else %}
+                          {{ 'image' | placeholder_svg_tag }}
+                        {% endif %}">
+              
+              <img 
+                src="{% if section.settings[desktopImageKey] != blank %}
+                        {{ section.settings[desktopImageKey] | img_url: '2000x' }}
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag }}
+                      {% endif %}"
+                alt="{{ section.settings[altTextKey] | default: 'Slide ' | append: i | escape }}"
+                loading="lazy"
+                onclick="window.location='{{ section.settings.link_collection_1.url }}'">
+            </picture>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Navigation buttons - Simplified -->
+      {% comment %} <div class="hero-slider__nav">
+        <label for="slide-1-{{ section.id }}" class="hero-slider__nav-label hero-slider__nav-prev" aria-label="Previous slide">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+        <label for="slide-2-{{ section.id }}" class="hero-slider__nav-label hero-slider__nav-next" aria-label="Next slide">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div> {% endcomment %}
+      
+    </div>
+  </div>
+</section>
+<script>
+  window.shopifyFallbackDesktop = "{{ 'image' | placeholder_svg_tag | escape }}";
+  window.shopifyFallbackMobile = "{{ 'image' | placeholder_svg_tag | escape }}";
+</script>
+{% schema %}
+{
+  "name": "Hero Image Slider",
+  "blocks": [{ "type": "_column" }],
+  "settings": [
+    { "type": "text", "id": "max_width", "label": "Width container", "info": "Default: 1440px" },
+    { "type": "checkbox", "id": "fullwidth", "label": "Fullwidth", "default": true },
+    
+    { "type": "range", "id": "slider_height", "min": 400, "max": 1000, "step": 50, "unit": "px", "label": "Desktop Slider Height", "default": 600 },
+    { "type": "range", "id": "slider_height_tablet", "min": 300, "max": 800, "step": 50, "unit": "px", "label": "Tablet Slider Height", "default": 500 },
+    { "type": "range", "id": "slider_height_mobile", "min": 200, "max": 800, "step": 50, "unit": "px", "label": "Mobile Slider Height", "default": 400 },
+    
+    { "type": "image_picker", "id": "image_desktop_1", "label": "Desktop Image 1" },
+    { "type": "text", "id": "alt_text_1", "label": "Alt Text for Image 1", "default": "Hero slide 1" },
+    { "type": "image_picker", "id": "image_desktop_2", "label": "Desktop Image 2" },
+    { "type": "text", "id": "alt_text_2", "label": "Alt Text for Image 2", "default": "Hero slide 2" },
+    
+    { "type": "image_picker", "id": "image_mobile_1", "label": "Mobile Image 1" },
+    { "type": "image_picker", "id": "image_mobile_2", "label": "Mobile Image 2" },
+    
+    { "type": "checkbox", "id": "autoplay_enabled", "label": "Enable Autoplay", "default": true },
+    { "type": "range", "id": "autoplay_speed", "min": 2000, "max": 9000, "step": 500, "unit": "ms", "label": "Autoplay Speed", "default": 5000 },
+    
+    { "type": "textarea", "id": "padding", "label": "Padding", "placeholder": "0px 0px 0px 0px", "info":"Screen: desktop | 1200px | 991px | 767px" },
+    { "type": "textarea", "id": "margin", "label": "Margin", "placeholder": "0px 0px 0px 0px", "info":"Screen: desktop | 1200px | 991px | 767px" },
+        {
+  "type": "collection",
+  "id": "link_collection_1",
+  "label": "Slide 1 Link Collection"
+},
+{
+  "type": "checkbox",
+  "id": "enable_slider",
+  "label": "Enable Slider",
+  "default": true
+}
+
+  ],
+  "presets": [
+    {
+      "name": "Hero Image Slider",
+      "blocks": [{ "type": "_column" }]
+    }
+  ]
+}
+{% endschema %}

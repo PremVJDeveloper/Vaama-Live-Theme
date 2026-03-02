@@ -1,0 +1,73 @@
+<div class="blog-sidebar">
+    {%- if block.settings.search_enable -%}
+		<div class="blog-search">
+			<form action="{{ routes.search_url }}" method="get" class="blog-search__form" role="search">
+				<input type="hidden" name="type" value="article" />
+				<input class="form-control blog-search__input" type="search" name="q" value="{{ search.terms | escape }}"
+					placeholder="{{ 'general.search.placeholder_blog' | t }}..."
+					aria-label="{{ 'general.search.placeholder_blog' | t }}">
+				<button type="submit" class="btn blog-search__btn">
+					<i class="icon-search"></i>
+					<span class="d-none">{{ 'general.search.submit' | t }}</span>
+				</button>
+			</form>
+		</div>
+    {%- endif -%}
+	{%- if block.settings.relatedarticles_enable -%}
+		<div class="category-blog">
+			<h4 class="blog-sidebar__title">{{ block.settings.categories_title | escape }}</h4>
+			<ul class="list-category">
+			{%- for link in linklists[block.settings.menu_categories].links -%}
+				<li{% if link.handle == blog.handle %} class="active"{% endif %}><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+			{%- endfor -%}
+			</ul>
+		</div>
+	{%- endif -%}
+    {%- if block.settings.relatedarticles_enable -%}
+		{%- assign heading = block.settings.relatedarticles_title | escape -%}
+		{%- assign limit = block.settings.relatedarticles_limit -%}
+		<div class="related-artibles">
+			<h4 class="blog-sidebar__title">{{ heading }}</h4>
+			<div class="related-artibles__content">
+				<ul class="related-artibles__list">
+					{% for article in blogs[blog.handle].articles limit:limit %}
+						<li class="related-artibles__item">
+							<div class="related-artibles__card">
+								{%- if article.image -%}
+									<div class="related-artibles__card-image">
+										<a href="{{ article.url }}">
+											{% include 'img-global' with image: article.image, class: "img-fluid", effect: "fade-in" %}
+										</a>
+									</div>
+								{%- endif -%}
+								<div class="related-artibles__card-content">
+									<div class="blog-category">
+										<a href="{{ blog.url }}">{{ blog.title }}</a>
+									</div>
+									<a href="{{ article.url }}">{{ article.title }}</a>
+									{%- if blog.comments_enabled? -%}
+										<span class="article__meta-comment"><a href="#comments">{{ 'blogs.comments.with_count' | t: count:  article.comments_count }} </a></span>
+									{%- endif -%}
+								</div>
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+    {%- endif -%}
+    {%- if block.settings.tags_enable and blog.all_tags.size > 0 -%}
+		{%- assign heading = block.settings.tags_title | escape -%}
+		{%- assign limit = block.settings.tags_limit -%}
+		<div class="blog-tags">
+			<h4 class="blog-sidebar__title">{{ heading }}</h4>
+			<div class="blog-tags__content">
+				<ul class="blog-tags__list">
+					{% for tag in blog.all_tags limit:limit %}
+						<li class="blog-tags__item">{{ tag | link_to_tag: tag }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+    {%- endif -%}
+ </div>

@@ -1,0 +1,179 @@
+{%- assign name = block.settings.name | escape -%}
+{%- assign job = block.settings.job | escape -%}
+{%- assign image = block.settings.image -%}
+<div class="slick-carousel__item">
+    <div class="ourteam-card">
+        <div class="ourteam-card__inner">
+            <div class="ourteam-card__avatar">
+                {%- if image -%}
+                    {% include 'img-global' with image: image, class: "ourteam-card__avatar-img", effect: "fade-in" %}
+                {%- else -%}
+                    <img class="lazyload fade-in" src="{{ 'placeholder.svg' | asset_url }}" alt="image demo" width="424" height="484" />
+                {%- endif -%}
+                <ul class="social-icons">
+                    {%- if block.settings.social_facebook_link != blank -%}
+                      <li>
+                        <a href="{{ block.settings.social_facebook_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+                          <i class="fa fa-facebook"></i>
+                          <span>Facebook</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if block.settings.social_twitter_link != blank -%}
+                      <li>
+                        <a href="{{ block.settings.social_twitter_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Twitter' }}">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" x="0" y="0" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+                          <span>Twitter</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if block.settings.social_pinterest_link != blank -%}
+                      <li>
+                        <a href="{{ block.settings.social_pinterest_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
+                          <i class="fa fa-pinterest"></i>
+                          <span>Pinterest</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if block.settings.social_instagram_link != blank -%}
+                      <li>
+                        <a href="{{ block.settings.social_instagram_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
+                          <i class="fa fa-instagram"></i>
+                          <span>Instagram</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if block.settings.social_snapchat_link != blank -%}
+                      <li>
+                        <a href="{{ block.settings.social_snapchat_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Snapchat' }}">
+                          <i class="fa fa-snapchat"></i>
+                          <span>Snapchat</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if block.settings.social_google_plus_link != blank -%}
+                      <li>
+                        <a href="{{ block.settings.social_google_plus_link | escape }}" rel="publisher" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Google Plus' }}">
+                          <i class="fa fa-google-plus"></i>
+                          <span>Google Plus</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if block.settings.social_tumblr_link != blank -%}
+                      <li>
+                        <a href="{{ block.settings.social_tumblr_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Tumblr' }}">
+                          <i class="fa fa-tumblr"></i>
+                          <span>Tumblr</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if block.settings.social_youtube_link != blank -%}
+                      <li>
+                        <a href="{{ block.settings.social_youtube_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
+                          <i class="fa fa-youtube"></i>
+                          <span>YouTube</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if block.settings.social_vimeo_link != blank -%}
+                      <li>
+                        <a href="{{ block.settings.social_vimeo_link | escape }}" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Vimeo' }}">
+                          <i class="fa fa-vimeo"></i>
+                          <span>Vimeo</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                  </ul>
+            </div>
+            {%- if name != blank or job != blank -%}
+            <div class="info">
+                {%- if name != blank -%}<div class="ourteam-card__name">{{ name }}</div> {%- endif -%}
+                {%- if job != blank -%}<div class="ourteam-card__job">{{ job }}</div> {%- endif -%}
+            </div>
+            {%- endif -%}
+        </div>
+    </div>
+</div>
+{% schema %}
+  {
+    "name": "Item",
+    "settings": [
+        {
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+        },
+        {	
+			"type": "text",
+			"id": "name",
+			"label": "Name",
+			"default": "John Doe"
+        },
+		{
+			"type": "text",
+			"id": "job",
+			"label": "Job",
+			"default": "Designer"
+        },
+		{
+			"type": "header",
+			"content": "Social"
+        },
+		{
+			"type": "text",
+			"id": "social_facebook_link",
+			"label": "Facebook",
+			"info": "https:\/\/www.facebook.com\/shopify"
+		},
+		{
+			"type": "text",
+			"id": "social_twitter_link",
+			"label": "Twitter",
+			"info": "https:\/\/twitter.com\/shopify"
+		},
+		{
+			"type": "text",
+			"id": "social_pinterest_link",
+			"label": "Pinterest",
+			"info": "https:\/\/www.pinterest.com\/shopify"
+		},
+		{
+			"type": "text",
+			"id": "social_instagram_link",
+			"label": "Instagram",
+			"info": "https:\/\/instagram.com\/shopify"
+		},
+		{
+			"type": "text",
+			"id": "social_snapchat_link",
+			"label": "Snapchat",
+			"info": "https:\/\/www.snapchat.com\/add\/shopify"
+		},
+		{
+			"type": "text",
+			"id": "social_google_plus_link",
+			"label": "Google Plus",
+			"info": "https:\/\/plus.google.com\/+shopify"
+		},
+		{
+			"type": "text",
+			"id": "social_tumblr_link",
+			"label": "Tumblr",
+			"info": "http:\/\/shopify.tumblr.com"
+		},
+		{
+			"type": "text",
+			"id": "social_youtube_link",
+			"label": "YouTube",
+			"info": "https:\/\/www.youtube.com\/user\/shopify"
+		},
+		{
+			"type": "text",
+			"id": "social_vimeo_link",
+			"label": "Vimeo",
+			"info": "https:\/\/vimeo.com\/shopify"
+		}
+    ],
+    "presets": [{"name": "Item"}]
+  }
+{% endschema %}

@@ -1,0 +1,758 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Footer group",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "column_agwQtU": {
+          "type": "_column",
+          "settings": {
+            "width": 24.6,
+            "padding": "0 15px",
+            "margin": "| | | 0 0 30px",
+            "width_lap": 24.6,
+            "width_tab": 50,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "image_Kwdpwb": {
+              "type": "image",
+              "settings": {
+                "image": "shopify://shop_images/Layer_1_44.svg",
+                "url": "",
+                "padding": "",
+                "margin": "",
+                "size": "100",
+                "image_size": "contain",
+                "image_pos": "center center",
+                "align": "left",
+                "border_radius": "0px 0px 0px 0px",
+                "border": false,
+                "border_width": "0px 0px 0px 0px",
+                "border_color": "#ffffff",
+                "effect": "none",
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "title_WDBKwV": {
+              "type": "title",
+              "disabled": true,
+              "settings": {
+                "heading_size": "h3",
+                "title": "A Brand by Vaama Lifestyle",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 14,
+                "line_height": 20,
+                "letter_spacing": 1.5,
+                "font_weight": "400",
+                "align": "left",
+                "padding": "",
+                "margin": "20px 0 23px",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 20,
+                "line_height_mobi": 14,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "text_block_RAFmTQ": {
+              "type": "text-block",
+              "settings": {
+                "title": "For offers and updates",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 15,
+                "line_height": 26,
+                "letter_spacing": 0,
+                "font_weight": "400",
+                "align": "left",
+                "padding": "",
+                "margin": "50px 0 10px",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 15,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "newsletter_nz69AY": {
+              "type": "newsletter",
+              "settings": {
+                "padding": "",
+                "margin": "",
+                "mailchimp": false,
+                "form_action": "",
+                "layout": "layout-2"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "image_Kwdpwb",
+            "title_WDBKwV",
+            "text_block_RAFmTQ",
+            "newsletter_nz69AY"
+          ]
+        },
+        "column_Pqzy8i": {
+          "type": "_column",
+          "settings": {
+            "width": 25.3,
+            "padding": "0 15px",
+            "margin": "| | 0 0 30px",
+            "width_lap": 25.3,
+            "width_tab": 50,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "title_nEczqY": {
+              "type": "title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "CUSTOMER SERVICE",
+                "font": "--font-family-pre",
+                "color": "#ffffff",
+                "font_size": 18,
+                "line_height": 20,
+                "letter_spacing": 2,
+                "font_weight": "400",
+                "align": "left",
+                "padding": "",
+                "margin": "0 0 23px",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 20,
+                "line_height_mobi": 14,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "list_link_8DUU9P": {
+              "type": "list-link",
+              "settings": {
+                "padding": "",
+                "margin": "",
+                "list_style": "none",
+                "font": "--font-family-second",
+                "font_size": 15,
+                "color": "#ffffff",
+                "color_hover": "#ffffff"
+              },
+              "blocks": {
+                "list_item_7h4Aa8": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Privacy Policy",
+                    "url": "shopify://pages/privacy-policy",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_dmPT3y": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Shipping Policy",
+                    "url": "shopify://pages/shipping-policy",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_bmCzB3": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Terms & Conditions",
+                    "url": "shopify://pages/terms-conditions",
+                    "icon": "",
+                    "padding": "0px 0px 0px 0px",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_WAmtHz": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "30 Days return policy",
+                    "url": "shopify://pages/returns-refund-policy",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_BnMbiK": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Lifetime Buyback and Exchange Policy",
+                    "url": "shopify://pages/exchange-policy",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_J3d8BX": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Refunds & Cancellation Policy",
+                    "url": "shopify://pages/refunds-cancellation-policy",
+                    "icon": "",
+                    "padding": "",
+                    "margin": ""
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "list_item_7h4Aa8",
+                "list_item_dmPT3y",
+                "list_item_bmCzB3",
+                "list_item_WAmtHz",
+                "list_item_BnMbiK",
+                "list_item_J3d8BX"
+              ]
+            }
+          },
+          "block_order": [
+            "title_nEczqY",
+            "list_link_8DUU9P"
+          ]
+        },
+        "column_rJmAYX": {
+          "type": "_column",
+          "settings": {
+            "width": 23.2,
+            "padding": "0 15px",
+            "margin": "| | 0 0 30px",
+            "width_lap": 23.2,
+            "width_tab": 50,
+            "width_mobi": 45
+          },
+          "blocks": {
+            "title_awEhmf": {
+              "type": "title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "CATAGORIES",
+                "font": "--font-family-pre",
+                "color": "#ffffff",
+                "font_size": 18,
+                "line_height": 20,
+                "letter_spacing": 2,
+                "font_weight": "400",
+                "align": "left",
+                "padding": "",
+                "margin": "0 0 23px",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 20,
+                "line_height_mobi": 14,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "list_link_FbXQk3": {
+              "type": "list-link",
+              "settings": {
+                "padding": "",
+                "margin": "",
+                "list_style": "none",
+                "font": "--font-family-second",
+                "font_size": 15,
+                "color": "#ffffff",
+                "color_hover": "#ffffff"
+              },
+              "blocks": {
+                "list_item_rqrQWc": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Bracelets",
+                    "url": "shopify://collections/all-bracelets",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_gVnDAa": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Pendants",
+                    "url": "shopify://collections/all-pendants",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_qYDVcn": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Rings",
+                    "url": "shopify://collections/all-rings",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_LEzgVG": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Earrings",
+                    "url": "shopify://collections/all-earrings",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "list_item_rqrQWc",
+                "list_item_gVnDAa",
+                "list_item_qYDVcn",
+                "list_item_LEzgVG"
+              ]
+            }
+          },
+          "block_order": [
+            "title_awEhmf",
+            "list_link_FbXQk3"
+          ]
+        },
+        "column_bcLYYx": {
+          "type": "_column",
+          "settings": {
+            "width": 26.8,
+            "padding": "0 15px",
+            "margin": "| | 0 0 30px | 0 0 40px",
+            "width_lap": 26.8,
+            "width_tab": 50,
+            "width_mobi": 45
+          },
+          "blocks": {
+            "title_b7mGyK": {
+              "type": "title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "QUICK LINKS",
+                "font": "--font-family-pre",
+                "color": "#ffffff",
+                "font_size": 18,
+                "line_height": 20,
+                "letter_spacing": 2,
+                "font_weight": "400",
+                "align": "left",
+                "padding": "",
+                "margin": "0px 0px 30px 0px",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 20,
+                "line_height_mobi": 14,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "list_link_Q4ikqt": {
+              "type": "list-link",
+              "settings": {
+                "padding": "",
+                "margin": "",
+                "list_style": "none",
+                "font": "--font-family-second",
+                "font_size": 15,
+                "color": "#ffffff",
+                "color_hover": "#ffffff"
+              },
+              "blocks": {
+                "list_item_LBYFXx": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Home",
+                    "url": "https://vaama.co/",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_Rz4eRH": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "About Us",
+                    "url": "shopify://pages/about-us",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_6FCKgW": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Diamond Gifting",
+                    "url": "shopify://collections/gifting",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_J8BUFT": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Customize your Design",
+                    "url": "shopify://pages/customizations",
+                    "icon": "",
+                    "padding": "",
+                    "margin": "0 0 9px"
+                  },
+                  "blocks": {}
+                },
+                "list_item_xQmFBy": {
+                  "type": "_list-item",
+                  "settings": {
+                    "text": "Contact Us",
+                    "url": "shopify://pages/contact",
+                    "icon": "",
+                    "padding": "",
+                    "margin": ""
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "list_item_LBYFXx",
+                "list_item_Rz4eRH",
+                "list_item_6FCKgW",
+                "list_item_J8BUFT",
+                "list_item_xQmFBy"
+              ]
+            }
+          },
+          "block_order": [
+            "title_b7mGyK",
+            "list_link_Q4ikqt"
+          ]
+        }
+      },
+      "block_order": [
+        "column_agwQtU",
+        "column_Pqzy8i",
+        "column_rJmAYX",
+        "column_bcLYYx"
+      ],
+      "settings": {
+        "max_width": "1470px",
+        "fullwidth": false,
+        "background_color": "#000",
+        "background": "shopify://shop_images/Frame_3_4.png",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "80px 0 0px | | | 30px 0 0",
+        "margin": ""
+      }
+    },
+    "featured_custom_section_Q8a4gb": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_xHzVLb": {
+          "type": "_column",
+          "settings": {
+            "width": 50,
+            "padding": "",
+            "margin": "",
+            "width_lap": 50,
+            "width_tab": 50,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_a6jz8x": {
+              "type": "text-block",
+              "settings": {
+                "title": "© 2025, Vaama Jewellery, <br>A Brand by Vaama Lifestyle",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_a6jz8x"
+          ]
+        },
+        "column_xepfwi": {
+          "type": "_column",
+          "settings": {
+            "width": 50,
+            "padding": "",
+            "margin": "",
+            "width_lap": 50,
+            "width_tab": 50,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_dc74E3": {
+              "type": "text-block",
+              "settings": {
+                "title": "GST: 24AAYFV0322J1ZX",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "right",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 15,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "text_block_VE4qKF": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "BIS License No.: HM/C-7290476121",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "right",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_dc74E3",
+            "text_block_VE4qKF"
+          ]
+        }
+      },
+      "block_order": [
+        "column_xHzVLb",
+        "column_xepfwi"
+      ],
+      "settings": {
+        "max_width": "1470px",
+        "fullwidth": false,
+        "background_color": "#28365B",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "20px 0px 50px 0px | |  0px 10px 20px 10px",
+        "margin": "",
+        "vertical_align": "top",
+        "image_loading": "lazy",
+        "rotation_unit": "minute",
+        "rotation_interval": 1,
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_L3Q6KA": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_DyMNGj": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "0 15px",
+            "margin": "| | | 0 0 10px",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "title_YyaAXL": {
+              "type": "title",
+              "name": "Title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "Popular Links",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 28,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 30,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "text_block_RY8WdH": {
+              "type": "text-block",
+              "settings": {
+                "title": "<div class=\"footer-grid\">\n\n    <!-- Rings -->\n    <div class=\"footer-category\">\n      <h4>Rings</h4>\n      <a href=\"https://vaama.co/collections/cocktail-rings-1\">Cocktail Rings</a>\n      <a href=\"https://vaama.co/collections/dailywear-rings-1\">Dailywear Rings</a>\n      <a href=\"https://vaama.co/collections/occasional-wear-rings-1\">Occasional Wear Rings</a>\n      <a href=\"https://vaama.co/collections/solitaire-rings\">Solitaire Rings</a>\n      <a href=\"https://vaama.co/collections/bands\">Band Rings</a>\n      <a href=\"https://vaama.co/collections/three-stone-rings-1\">Three Stone Rings</a>\n      <a href=\"https://vaama.co/collections/all-rings?filter.v.price.gte=15000&filter.v.price.lte=30000\">Between ₹15k to ₹30k</a>\n      <a href=\"https://vaama.co/collections/all-rings?filter.v.price.gte=30000&filter.v.price.lte=40000\">Between ₹30k to ₹40k</a>\n      <a href=\"https://vaama.co/collections/all-rings?filter.v.price.gte=40000&filter.v.price.lte=50000\">Between ₹40k to ₹50k</a>\n      <a href=\"https://vaama.co/collections/all-rings?filter.v.price.gte=40000&filter.v.price.lte=50000\">₹50000 & Above</a>\n    </div>\n\n    <!-- Pendants -->\n    <div class=\"footer-category\">\n      <h4>Pendants</h4>\n      <a href=\"https://vaama.co/collections/everyday-wear-pendants\">Everyday Wear Pendants</a>\n      <a href=\"https://vaama.co/collections/solitaire-pendants\">Solitaire Pendants</a>\n      <a href=\"https://vaama.co/collections/all-pendants?filter.v.price.gte=15000&filter.v.price.lte=30000\">Between ₹15k to ₹30k</a>\n      <a href=\"https://vaama.co/collections/all-pendants?filter.v.price.gte=30000&filter.v.price.lte=40000\">Between ₹30k to ₹40k</a>\n      <a href=\"https://vaama.co/collections/all-pendants?filter.v.price.gte=40000&filter.v.price.lte=50000\">Between ₹40k to ₹50k</a>\n      <a href=\"https://vaama.co/collections/all-pendants?filter.v.price.gte=50000&filter.v.price.lte=135481\">₹50000 & Above</a>\n    </div>\n\n    <!-- Bracelets -->\n    <div class=\"footer-category\">\n      <h4>Bracelets</h4>\n      <a href=\"https://vaama.co/collections/tennis-bracelets\">Tennis Bracelets</a>\n      <a href=\"https://vaama.co/collections/chain-bracelets\">Chain Bracelets</a>\n      <a href=\"https://vaama.co/collections/occasional-wear-bracelets\">Occasional Wear Bracelets</a>\n      <a href=\"https://vaama.co/collections/all-bracelets?filter.v.price.gte=15000&filter.v.price.lte=30000\">Between ₹15k to ₹30k</a>\n      <a href=\"https://vaama.co/collections/all-bracelets?filter.v.price.gte=30000&filter.v.price.lte=40000\">Between ₹30k to ₹40k</a>\n      <a href=\"https://vaama.co/collections/all-bracelets?filter.v.price.gte=40000&filter.v.price.lte=50000\">Between ₹40k to ₹50k</a>\n      <a href=\"https://vaama.co/collections/all-bracelets?filter.v.price.gte=50000&filter.v.price.lte=500000\">₹50000 & Above</a>\n    </div>\n\n    <!-- Earrings -->\n    <div class=\"footer-category\">\n      <h4>Earrings</h4>\n      <a href=\"https://vaama.co/collections/solitaire-studs\">Solitaire Studs</a>\n      <a href=\"https://vaama.co/collections/halo-studs\">Halo Studs</a>\n      <a href=\"https://vaama.co/collections/hoops\">Hoops</a>\n      <a href=\"https://vaama.co/collections/everyday-wear-earrings\">Everyday Wear Earrings</a>\n      <a href=\"https://vaama.co/collections/all-earrings?filter.v.price.gte=15000&filter.v.price.lte=30000\">Between ₹15k to ₹30k</a>\n      <a href=\"https://vaama.co/collections/all-earrings?filter.v.price.gte=30000&filter.v.price.lte=40000\">Between ₹30k to ₹40k</a>\n      <a href=\"https://vaama.co/collections/all-earrings?filter.v.price.gte=40000&filter.v.price.lte=50000\">Between ₹40k to ₹50k</a>\n      <a href=\"https://vaama.co/collections/all-earrings?filter.v.price.gte=50000&filter.v.price.lte=187031\">₹50000 & Above</a>\n    </div>\n\n  </div>\n\n<style>\n.footer-popular-links {\n  margin-top: 25px;\n}\n\n.footer-main-title {\n  color: white;\n  font-size: 26px !important;\n  margin-bottom: 20px;\n  font-weight: 600;\n  font-family: 'Mi';\n}\n\n.footer-grid {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  gap: 25px 40px;\n  padding-top: 20px;\n}\n\n/* Vertical separator on desktop (4 columns) */\n.footer-category {\n  padding: 0 15px;\n  border-right: 1px solid rgba(255,255,255,0.15);\n}\n\n.footer-category:last-child {\n  border-right: none;\n}\n\n.footer-category h4 {\n  color: white;\n  font-size: 20px !important;\n  margin-bottom: 12px;\n  font-weight: 600;\n}\n\n.footer-category a {\n  display: block;\n  color: #cfcfcf;\n  font-size: 15px;\n  text-decoration: none;\n  margin-bottom: 6px;\n}\n\n.footer-category a:hover {\n  color: white;\n  text-decoration: underline;\n}\n\n\n/* Tablet: 2 columns */\n@media(max-width: 1024px) {\n  .footer-grid {\n    grid-template-columns: repeat(2, 1fr);\n    gap: 20px 30px;\n  }\n\n  /* vertical dividers for 2-column layout */\n  .footer-category {\n    border-right: 1px solid rgba(255,255,255,0.15);\n  }\n  .footer-category:nth-child(2n) {\n    border-right: none;\n  }\n\n  /* horizontal lines between rows */\n  .footer-category {\n    padding-bottom: 15px;\n  }\n}\n\n\n/* Mobile: 2 columns + cleaner spacing */\n@media(max-width: 480px) {\n  .footer-grid {\n    grid-template-columns: repeat(2, 1fr);\n    gap: 15px 20px;\n  }\n\n  .footer-category h4 {\n    font-size: 18px !important;\n  }\n\n  .footer-category a {\n    font-size: 14px;\n  }\n\n  /* Vertical lines (2 columns) */\n  .footer-category {\n    border-right: 1px solid rgba(255,255,255,0.2);\n  }\n  .footer-category:nth-child(2n) {\n    border-right: none;\n  }\n\n  /* Horizontal lines between rows */\n  .footer-category {\n    padding-bottom: 15px;\n  }\n}\n</style>",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 15,
+                "line_height": 20,
+                "letter_spacing": 0,
+                "font_weight": "400",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 14,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            },
+            "text_block_WXKEVm": {
+              "type": "text-block",
+              "name": "Text block",
+              "disabled": true,
+              "settings": {
+                "title": "<h3 style=\"color: white; font-size: 25px !important;\">Pendants</h3>\n<p><a href=\"https://vaama.co/collections/everyday-wear-pendants\">Everyday Wear Pendants</a>  |  <a href=\"https://vaama.co/collections/solitaire-pendants\">Solitaire Pendants   |   </a>\n<a href=\"https://vaama.co/collections/all-pendants?filter.v.price.gte=15000&filter.v.price.lte=30000\">Between ₹15k to ₹30k   |   </a>\n<a href=\"https://vaama.co/collections/all-pendants?filter.v.price.gte=30000&filter.v.price.lte=40000\">Between ₹30k to ₹40k   |   </a>\n<a href=\"https://vaama.co/collections/all-pendants?filter.v.price.gte=40000&filter.v.price.lte=50000\">Between ₹40k to ₹50k   |   </a>\n<a href=\"https://vaama.co/collections/all-pendants?filter.v.price.gte=50000&filter.v.price.lte=135481\">₹50000 & Above</a>\n</p>",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "20px 0px 20px 0px",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "text_block_NViEiE": {
+              "type": "text-block",
+              "name": "Text block",
+              "disabled": true,
+              "settings": {
+                "title": "<h3 style=\"color: white; font-size: 25px !important;\">Bracelets</h3>\n<p><a href=\"https://vaama.co/collections/tennis-bracelets\">Tennis Bracelets</a>  |  <a href=\"https://vaama.co/collections/chain-bracelets\">Chain Bracelets</a>  |  <a href=\"https://vaama.co/collections/occasional-wear-bracelets\">Occasional Wear Bracelets   |   </a> <a href=\"https://vaama.co/collections/all-bracelets?filter.v.price.gte=15000&filter.v.price.lte=30000\">Between ₹15k to ₹30k   |   </a>\n<a href=\"https://vaama.co/collections/all-bracelets?filter.v.price.gte=30000&filter.v.price.lte=40000\">Between ₹30k to ₹40k   |   </a>\n<a href=\"https://vaama.co/collections/all-bracelets?filter.v.price.gte=40000&filter.v.price.lte=50000\">Between ₹40k to ₹50k   |   </a>\n<a href=\"https://vaama.co/collections/all-bracelets?filter.v.price.gte=50000&filter.v.price.lte=500000\">₹50000 & Above</a></p>",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "text_block_9BTPtN": {
+              "type": "text-block",
+              "name": "Text block",
+              "disabled": true,
+              "settings": {
+                "title": "<h3 style=\"color: white; font-size: 25px !important;\">Earrings</h3>\n<p><a href=\"https://vaama.co/collections/solitaire-studs\">Solitaire Studs</a>  |  <a href=\"https://vaama.co/collections/halo-studs\">Halo Studs</a>  |  <a href=\"https://vaama.co/collections/hoops\">Hoops</a>  |  <a href=\"https://vaama.co/collections/everyday-wear-earrings\">Everyday Wear Earrings   |   </a>\n<a href=\"https://vaama.co/collections/all-earrings?filter.v.price.gte=15000&filter.v.price.lte=30000\">Between ₹15k to ₹30k   |   </a>\n<a href=\"https://vaama.co/collections/all-earrings?filter.v.price.gte=30000&filter.v.price.lte=40000\">Between ₹30k to ₹40k   |   </a>\n<a href=\"https://vaama.co/collections/all-earrings?filter.v.price.gte=40000&filter.v.price.lte=50000\">Between ₹40k to ₹50k   |   </a>\n<a href=\"https://vaama.co/collections/all-earrings?filter.v.price.gte=50000&filter.v.price.lte=187031\">₹50000 & Above</a>\n</p>",
+                "font": "--font-family-second",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "title_YyaAXL",
+            "text_block_RY8WdH",
+            "text_block_WXKEVm",
+            "text_block_NViEiE",
+            "text_block_9BTPtN"
+          ]
+        }
+      },
+      "block_order": [
+        "column_DyMNGj"
+      ],
+      "settings": {
+        "max_width": "1470px",
+        "fullwidth": false,
+        "background_color": "#27365a",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "15px 0",
+        "margin": "",
+        "vertical_align": "middle",
+        "image_loading": "lazy",
+        "rotation_unit": "minute",
+        "rotation_interval": 1,
+        "horizontal_align": "left"
+      }
+    }
+  },
+  "order": [
+    "footer",
+    "featured_custom_section_Q8a4gb",
+    "featured_custom_section_L3Q6KA"
+  ]
+}

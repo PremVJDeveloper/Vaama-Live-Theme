@@ -1,0 +1,1 @@
+{"sections":{"breadcrumb":{"type":"page-breadcrumb","settings":{"enable":true,"bgimage":false,"show_pagetitle":false,"show_breadcrumb":true,"color_breadcrumb":"#000000","align_breadcrumb":"left"}},"main":{"type":"main-page","custom_css":[],"settings":{"enable":true,"padding_top":60,"padding_bottom":60}}},"order":["breadcrumb","main"]}

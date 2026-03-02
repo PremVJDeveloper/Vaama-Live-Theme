@@ -1,0 +1,951 @@
+/*==================== SECTION LOOKBOOK ============*/
+.wpbingo-section--lookbook .close-lookbook {
+  display: none;
+}
+.wpbingo-section--lookbook .wpbingo-lookbook {
+  overflow: hidden;
+}
+.wpbingo-section--lookbook .wpbingo-lookbook__content {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.wpbingo-section--lookbook .lookbook-card {
+  position: relative;
+  display: inline-block;
+}
+.wpbingo-section--lookbook .lookbook-card__item {
+  position: absolute;
+  z-index: 1;
+}
+.wpbingo-section--lookbook .lookbook-card__item:hover, .wpbingo-section--lookbook .lookbook-card__item:focus {
+  z-index: 2;
+}
+.wpbingo-section--lookbook .lookbook-card__point {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+}
+.wpbingo-section--lookbook .lookbook-card__point:hover .product-card, .wpbingo-section--lookbook .lookbook-card__point:focus .product-card {
+  opacity: 1;
+  visibility: visible;
+}
+.wpbingo-section--lookbook .lookbook-card__button {
+  cursor: pointer;
+}
+.wpbingo-section--lookbook .lookbook-card__button:hover .lookbook-card__btn {
+  background: var(--theme-color);
+  color: var(--white);
+}
+.wpbingo-section--lookbook .lookbook-card__button:hover .lookbook-card__btn:before, .wpbingo-section--lookbook .lookbook-card__button:hover .lookbook-card__btn:after {
+  border-color: var(--theme-color);
+}
+.wpbingo-section--lookbook .lookbook-card__btn {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  padding: 0;
+  background: var(--white);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  font-size: 0;
+  line-height: 22px;
+  text-align: center;
+  color: var(--gray-dark);
+}
+.wpbingo-section--lookbook .lookbook-card__btn:before, .wpbingo-section--lookbook .lookbook-card__btn:after {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  content: "";
+  border: 1px solid var(--white);
+  -webkit-animation-name: scale-lookbook;
+  animation-name: scale-lookbook;
+  -webkit-animation-duration: 3s;
+  animation-duration: 3s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  border-radius: 50%;
+}
+.wpbingo-section--lookbook .lookbook-card__btn:after {
+  animation-delay: 1.5s;
+}
+.wpbingo-section--lookbook .product-card .countdown-product.style_1 .countdown {
+  padding: 0 10px;
+}
+.wpbingo-section--lookbook .content-product-card {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  width: 250px;
+  opacity: 0;
+  visibility: hidden;
+}
+.wpbingo-section--lookbook .content-product-card:after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+}
+.wpbingo-section--lookbook .content-product-card.active {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+}
+.wpbingo-section--lookbook .content-product-card .product-card {
+  padding: 10px 10px 20px;
+  margin-bottom: 0;
+  text-align: center;
+  background-color: white;
+  transition: all 0.2s ease;
+  box-shadow: -1px 5px 5px 0 rgba(0, 0, 0, 0.2);
+  overflow: unset;
+}
+.wpbingo-section--lookbook .content-product-card .product-card .wpb-variants-swatch .swatch-content {
+  justify-content: center;
+}
+.wpbingo-section--lookbook .position-top-left .product-card {
+  transform: translate(calc(-100% + 30px), calc(-100% - 15px));
+  position: relative;
+}
+.wpbingo-section--lookbook .position-top-left .product-card:before {
+  content: "";
+  position: absolute;
+  border: 8px solid transparent;
+  border-top-color: var(--white);
+  border-width: 12px 8px;
+  bottom: -23px;
+  right: 7px;
+}
+.wpbingo-section--lookbook .position-top-right .product-card {
+  transform: translateY(calc(-100% - 12px));
+  position: relative;
+}
+.wpbingo-section--lookbook .position-top-right .product-card:before {
+  content: "";
+  position: absolute;
+  border: 8px solid transparent;
+  border-top-color: var(--white);
+  border-width: 12px 8px;
+  bottom: -23px;
+  left: 7px;
+}
+.wpbingo-section--lookbook .position-center-left .product-card {
+  transform: translate(calc(-100% - 15px), -50%);
+  position: relative;
+}
+.wpbingo-section--lookbook .position-center-left .product-card:before {
+  content: "";
+  position: absolute;
+  border: 8px solid transparent;
+  border-left-color: var(--white);
+  border-width: 8px 12px;
+  top: calc(50% + 6px);
+  left: 100%;
+}
+.wpbingo-section--lookbook .position-center-top .product-card {
+  transform: translate(calc(-50% + 12px), calc(-100% - 15px));
+  position: relative;
+}
+.wpbingo-section--lookbook .position-center-top .product-card:before {
+  content: "";
+  position: absolute;
+  border: 8px solid transparent;
+  border-top-color: var(--white);
+  border-width: 12px 8px;
+  bottom: -23px;
+  left: calc(50% - 6px);
+}
+.wpbingo-section--lookbook .position-center-right .product-card {
+  transform: translate(45px, calc(-50% + 15px));
+  position: relative;
+}
+.wpbingo-section--lookbook .position-center-right .product-card:before {
+  content: "";
+  position: absolute;
+  border: 8px solid transparent;
+  border-right-color: var(--white);
+  border-width: 8px 12px;
+  top: calc(50% - 8px);
+  left: -24px;
+}
+.wpbingo-section--lookbook .position-center-bottom .product-card {
+  transform: translate(calc(-50% + 15px), 45px);
+  position: relative;
+}
+.wpbingo-section--lookbook .position-center-bottom .product-card:before {
+  content: "";
+  position: absolute;
+  border: 8px solid transparent;
+  border-bottom-color: var(--white);
+  border-width: 12px 8px;
+  top: -24px;
+  left: calc(50% - 8px);
+}
+.wpbingo-section--lookbook .position-bottom-left .product-card {
+  transform: translate(calc(-100% + 30px), 45px);
+  position: relative;
+}
+.wpbingo-section--lookbook .position-bottom-left .product-card:before {
+  content: "";
+  position: absolute;
+  border: 8px solid transparent;
+  border-bottom-color: var(--white);
+  border-width: 12px 8px;
+  top: -24px;
+  right: 8px;
+}
+.wpbingo-section--lookbook .position-bottom-right .product-card {
+  transform: translateY(45px);
+  position: relative;
+}
+.wpbingo-section--lookbook .position-bottom-right .product-card:before {
+  content: "";
+  position: absolute;
+  border: 8px solid transparent;
+  border-bottom-color: var(--white);
+  border-width: 12px 8px;
+  top: -24px;
+  left: 7px;
+}
+.wpbingo-section--lookbook .lookbook-product__img {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px;
+}
+.wpbingo-section--lookbook .lookbook-product__price {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+}
+.wpbingo-section--lookbook .lookbook-modal .modal-header {
+  padding: 10px 15px 5px;
+  border-bottom: 0;
+}
+.wpbingo-section--lookbook .lookbook-modal .modal-body {
+  padding: 10px 15px 15px;
+}
+.wpbingo-section--lookbook .row__lookbook {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+.wpbingo-section--lookbook .row__lookbook .col__lookbook {
+  width: 50%;
+  flex: 0 0 50%;
+  padding: 0 15px;
+}
+.wpbingo-section--lookbook .row__lookbook .col__lookbook .featured-lookbook {
+  height: 100%;
+}
+.wpbingo-section--lookbook .row__lookbook .col__lookbook .featured-lookbook .lookbook-wrapper-infor {
+  display: flex;
+  height: 100%;
+}
+.wpbingo-section--lookbook .row__lookbook .col__lookbook .featured-lookbook .lookbook-wrapper-infor .info {
+  margin: auto;
+}
+.wpbingo-section--lookbook .row__lookbook .col__lookbook .featured-lookbook .lookbook-wrapper-infor .info .bwp-image-subtitle {
+  font-size: var(--font-size-base);
+  margin-bottom: 18px;
+}
+.wpbingo-section--lookbook .row__lookbook .col__lookbook .featured-lookbook .lookbook-wrapper-infor .info .title-lookbook {
+  font-size: 40px;
+  line-height: 40px;
+}
+.wpbingo-section--lookbook.lookbook-split .lookbook-split-content {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+}
+.wpbingo-section--lookbook.lookbook-split .wpbingo-lookbook__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: flex 0.8s cubic-bezier(0.29, 0, 0.2, 1);
+  will-change: flex;
+  height: var(--height-item);
+  border-right: 1px solid var(--white);
+}
+.wpbingo-section--lookbook.lookbook-split .wpbingo-lookbook__item:last-child {
+  border-right: 0;
+}
+.wpbingo-section--lookbook.lookbook-split .wpbingo-lookbook__item.active {
+  flex: var(--flex-item);
+}
+.wpbingo-section--lookbook.lookbook-split .wpbingo-lookbook__item.active .lookbook-card__item {
+  opacity: 1;
+  visibility: visible;
+}
+.wpbingo-section--lookbook.lookbook-split .lookbook-card__item {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease;
+}
+.wpbingo-section--lookbook.lookbook-split .lookbook-card {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.wpbingo-section--lookbook.lookbook-split .lookbook-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  height: var(--height-item);
+}
+.wpbingo-section--lookbook.lookbook-split .title {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--white);
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+.wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .wpbingo-section__inner {
+  position: relative;
+}
+.wpbingo-section--lookbook.lookbook-slider.layout-3 .slick-list {
+  margin: 0 -4px;
+}
+.wpbingo-section--lookbook.lookbook-slider.layout-3 .slick-slide {
+  padding: 0 4px;
+}
+.wpbingo-section--lookbook.lookbook-slider.layout-3 .slick-arrow {
+  top: calc(50% - 15px);
+}
+.wpbingo-section--lookbook.lookbook-simple .content-product-card {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  display: block;
+}
+.wpbingo-section--lookbook.lookbook-simple .content-product-card .product-card__content .product-review .spr-badge {
+  justify-content: center;
+}
+.wpbingo-section--lookbook.lookbook-simple .wpbingo-lookbook__item {
+  display: flex;
+  margin: 0 -15px;
+  align-items: center;
+}
+.wpbingo-section--lookbook.lookbook-simple .wpbingo-lookbook__item > div {
+  max-width: 50%;
+  flex: 0 0 50%;
+  padding: 0 15px;
+}
+.wpbingo-section--lookbook.lookbook-simple .lookbook-product .slick-list {
+  max-width: 330px;
+  margin: auto;
+}
+.wpbingo-section--lookbook.lookbook-simple .lookbook-card__btn.active {
+  color: var(--white);
+  background: var(--theme-color);
+}
+.wpbingo-section--lookbook.lookbook-simple .lookbook-card__btn.active:before, .wpbingo-section--lookbook.lookbook-simple .lookbook-card__btn.active:after {
+  border-color: var(--theme-color);
+}
+.wpbingo-section--lookbook.lookbook-simple .content-product-card .product-card {
+  padding: 0;
+  box-shadow: none;
+}
+.wpbingo-section--lookbook.lookbook-simple .content-product-card .product-card .wpb-variants-swatch .swatch-content {
+  justify-content: center;
+}
+.wpbingo-section--lookbook.lookbook-simple .content-product-card .product-card .product-card__content {
+  text-align: center;
+  margin-top: 15px;
+}
+.wpbingo-section--lookbook.lookbook-simple .content-product-card .product-card .product-card__content .button-detail a {
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: var(--body-font-weight-medium);
+  margin-top: 30px;
+  position: relative;
+}
+.wpbingo-section--lookbook.lookbook-simple .content-product-card .product-card .product-card__content .button-detail a:before {
+  content: "";
+  height: 1px;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gray-dark);
+  bottom: 0;
+  transition: all 0.3s ease;
+  position: absolute;
+}
+.wpbingo-section--lookbook.lookbook-simple .content-product-card .product-card .product-card__content .button-detail a:hover {
+  color: var(--theme-color);
+}
+.wpbingo-section--lookbook.lookbook-simple .content-product-card .product-card .product-card__content .button-detail a:hover:before {
+  width: 50%;
+  background: var(--theme-color);
+}
+.wpbingo-section--lookbook.lookbook-simple .slick-arrow {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid #dfdfdf;
+  line-height: 44px;
+  padding: 0;
+  text-align: center;
+  top: calc(50% - 23px);
+  background: var(--white);
+  box-shadow: unset;
+}
+.wpbingo-section--lookbook.lookbook-simple .slick-arrow:before {
+  font-size: 20px;
+}
+.wpbingo-section--lookbook.lookbook-simple .slick-arrow.slick-prev {
+  left: -80px;
+}
+.wpbingo-section--lookbook.lookbook-simple .slick-arrow.slick-next {
+  right: -80px;
+}
+.wpbingo-section--lookbook.lookbook-simple .slick-arrow:hover {
+  background: var(--theme-color);
+  border-color: var(--theme-color);
+  color: var(--white);
+}
+.wpbingo-section--lookbook.lookbook-gallery .lookbook-gallery-content {
+  display: grid;
+  grid-template-columns: repeat(var(--col), 1fr);
+  margin: 0 -15px;
+}
+.wpbingo-section--lookbook.lookbook-gallery .wpbingo-lookbook__item {
+  width: 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0 15px;
+  margin-bottom: 24px;
+  grid-column: span var(--width-col);
+  grid-row: span var(--width-col);
+}
+.wpbingo-section--lookbook.lookbook-instagram-gird .lookbook-instagram_content {
+  display: grid;
+  grid-template-columns: repeat(var(--col), 1fr);
+}
+.wpbingo-section--lookbook.lookbook-instagram-gird .wpbingo-lookbook__item {
+  width: 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+  grid-column: span var(--width-col);
+  grid-row: span var(--width-col);
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .lookbook-image a {
+  position: relative;
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .lookbook-image a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(0.8);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  background: rgba(0,0,0, 0.25);
+  z-index: 1;
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .lookbook-image a:hover:before {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .lookbook-image a {
+  position: relative;
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .lookbook-image a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(0.8);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  background: rgba(0,0,0, 0.25);
+  z-index: 1;
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .lookbook-image a:hover:before {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .slick-arrow {
+  top: calc(50% - 20px);
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .slick-arrow:hover {
+  background: var(--theme-color);
+  color: var(--white);
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .container-full .slick-arrow.slick-prev {
+  left: 25px;
+}
+.wpbingo-section--lookbook.lookbook-instagram-slider .container-full .slick-arrow.slick-next {
+  right: 25px;
+}
+@media (min-width: 767px) {
+	.wpbingo-section--lookbook .row__lookbook .col__lookbook.right {
+    order: 1;
+  }
+  .wpbingo-section--lookbook.lookbook-split .title {
+    transform: rotate(180deg);
+    writing-mode: vertical-rl;
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .tiltle-block {
+    font-size: 12px;
+    letter-spacing: 2px;
+    position: absolute;
+    background: var(--white);
+    padding: 20px 30px 50px;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    z-index: 2;
+    white-space: nowrap;
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .tiltle-block .count {
+    position: absolute;
+    bottom: 17px;
+    left: calc(50% + 7px);
+    width: 20px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .tiltle-block .count:before {
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: -5px;
+    width: 1px;
+    height: 20px;
+    background: var(--gray-dark);
+    transform: rotate(45deg);
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-arrow {
+    opacity: 1;
+    visibility: visible;
+    font-family: wpbingofont;
+    padding: 0;
+    line-height: 1;
+    bottom: 55px;
+    top: auto;
+    z-index: 2;
+    box-shadow: unset;
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-arrow.slick-prev {
+    left: calc(50% - 65px);
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-arrow.slick-prev:before {
+    font-size: 18px;
+    content: "\e908";
+    display: inline-block;
+    color: #aaaaaa;
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-arrow.slick-next {
+    right: calc(50% - 65px);
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-arrow.slick-next:before {
+    font-size: 18px;
+    content: "\e909";
+    display: inline-block;
+    color: #aaaaaa;
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-arrow:hover {
+    background: var(--white);
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-arrow:hover:before {
+    color: var(--theme-color);
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-1 .slick-dots {
+    bottom: 85px;
+    z-index: 2;
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-dots li {
+    position: absolute;
+    opacity: 0;
+    padding: 0;
+    left: calc(50% - 21px);
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-dots li.slick-active {
+    opacity: 1;
+  }
+  .wpbingo-section--lookbook.lookbook-slider:not(.layout-3) .slick-dots li button {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: transparent;
+    width: 20px;
+    text-align: right;
+    font-size: 12px;
+    color: var(--gray-dark);
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .tiltle-block {
+    bottom: 60px;
+    left: 170px;
+    height: 70px;
+    line-height: 70px;
+    padding: 0 100px 0 20px;
+    transform: unset;
+    z-index: 3;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .tiltle-block .count {
+    line-height: 1;
+    left: -31px;
+    top: 34px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-arrow {
+    bottom: 80px;
+    z-index: 8;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-arrow.slick-prev {
+    left: 335px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-arrow.slick-next {
+    right: auto;
+    left: 370px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-dots {
+    width: 70px;
+    height: 70px;
+    left: 99px;
+    bottom: 60px;
+    background: var(--white);
+	position:absolute;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-dots li {
+    top: 22px;
+    left: 10px;
+  }
+}
+@media (min-width: 767px) and (max-width: 991px) {
+	.wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-dots {
+    left: 30px;
+    bottom: 30px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .tiltle-block {
+    bottom: 30px;
+    left: 102px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-arrow {
+    bottom: 50px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-arrow.slick-prev {
+    left: 265px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-arrow.slick-next {
+    left: 300px;
+  }
+}
+@media (max-width: 1600px) {
+	.wpbingo-section--lookbook.lookbook-simple .slick-arrow {
+    width: 30px;
+    height: 30px;
+    line-height: 28px;
+    top: calc(50% - 15px);
+    background: var(--white);
+    color: var(--text-color);
+  }
+  .wpbingo-section--lookbook.lookbook-simple .slick-arrow:before {
+    font-size: 15px;
+  }
+  .wpbingo-section--lookbook.lookbook-simple .slick-arrow.slick-prev {
+    left: -15px;
+  }
+  .wpbingo-section--lookbook.lookbook-simple .slick-arrow.slick-next {
+    right: -15px;
+  }
+  .wpbingo-section--lookbook.lookbook-simple .slick-arrow:hover {
+    background: var(--theme-color);
+    border-color: var(--theme-color);
+    color: var(--white);
+  }
+}
+@media (max-width: 1440px) {
+  .wpbingo-section--lookbook.lookbook-instagram-gird .lookbook-instagram_content {
+    grid-template-columns: repeat(var(--col-1440), 1fr);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-gird .wpbingo-lookbook__item {
+    grid-column: span var(--width-col-lg);
+    grid-row: span var(--width-col-lg);
+  }
+}
+@media (max-width: 1199px) {
+	.wpbingo-section--lookbook .row__lookbook {
+    margin: 0 -7.5px;
+  }
+  .wpbingo-section--lookbook .row__lookbook .col__lookbook {
+    padding: 0 7.5px;
+  }
+  .wpbingo-section--lookbook.lookbook-gallery .lookbook-gallery-content {
+    margin: 0 -7.5px;
+    grid-template-columns: repeat(var(--col-lg), 1fr);
+  }
+  .wpbingo-section--lookbook.lookbook-gallery .wpbingo-lookbook__item {
+    padding: 0 7.5px;
+    margin-bottom: 14px;
+    grid-column: span var(--width-col-lg);
+    grid-row: span var(--width-col-lg);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-gird .lookbook-instagram_content {
+    grid-template-columns: repeat(var(--col-lg), 1fr);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-gird .wpbingo-lookbook__item {
+    grid-column: span var(--width-col-lg);
+    grid-row: span var(--width-col-lg);
+  }
+}
+@media (max-width: 991px) {
+	.wpbingo-section--lookbook .row__lookbook .col__lookbook .featured-lookbook .lookbook-wrapper-infor .info .title-lookbook {
+    font-size: 30px;
+    line-height: 35px;
+  }
+  .wpbingo-section--lookbook.lookbook-simple .lookbook-product .slick-list {
+    max-width: 210px;
+  }
+  .wpbingo-section--lookbook.lookbook-simple .slick-arrow {
+    opacity: 1;
+    visibility: visible;
+  }
+  .wpbingo-section--lookbook.lookbook-gallery .lookbook-gallery-content {
+    grid-template-columns: repeat(var(--col-md), 1fr);
+  }
+  .wpbingo-section--lookbook.lookbook-gallery .wpbingo-lookbook__item {
+    padding: 0 7.5px;
+    grid-column: span var(--width-col-md);
+    grid-row: span var(--width-col-md);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-gird .lookbook-instagram_content {
+    grid-template-columns: repeat(var(--col-md), 1fr);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-gird .wpbingo-lookbook__item {
+    grid-column: span var(--width-col-md);
+    grid-row: span var(--width-col-md);
+  }
+  .wpbingo-section--lookbook .content-product-card {
+    width: 220px;
+  }
+}
+@media (max-width: 767px) {
+	.wpbingo-section--lookbook .row__lookbook .col__lookbook {
+    width: 100%;
+    flex: 0 0 100%;
+  }
+  .wpbingo-section--lookbook.lookbook-split .lookbook-split-content {
+    flex-wrap: wrap;
+  }
+  .wpbingo-section--lookbook.lookbook-split .lookbook-card__item {
+    opacity: 1;
+    visibility: visible;
+  }
+  .wpbingo-section--lookbook.lookbook-split .wpbingo-lookbook__item {
+    flex: 0 0 100%;
+    height: auto;
+    border: 0;
+    border-bottom: 1px solid var(--white);
+  }
+  .wpbingo-section--lookbook.lookbook-split .wpbingo-lookbook__item.active {
+    flex: 0 0 100%;
+  }
+  .wpbingo-section--lookbook.lookbook-split .lookbook-image img {
+    height: auto;
+  }
+  .wpbingo-section--lookbook.lookbook-split .lookbook-card {
+    position: unset;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .tiltle-block {
+    display: none;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-arrow {
+    opacity: 1;
+    visibility: visible;
+    top: calc(50% - 12.5px);
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-arrow.slick-prev {
+    left: 15px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-arrow.slick-next {
+    right: 15px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider.layout-2 .slick-dots {
+    display: none !important;
+  }
+  .wpbingo-section--lookbook.lookbook-slider .tiltle-block {
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .wpbingo-section--lookbook.lookbook-slider .tiltle-block .count {
+    display: none;
+  }
+  .wpbingo-section--lookbook.lookbook-slider .slick-arrow {
+    opacity: 1;
+    visibility: visible;
+    top: calc(50% - 12.5px);
+  }
+  .wpbingo-section--lookbook.lookbook-slider .slick-dots {
+    bottom: 10px;
+  }
+  .wpbingo-section--lookbook.lookbook-gallery .lookbook-gallery-content {
+    grid-template-columns: repeat(var(--col-xs), 1fr);
+  }
+  .wpbingo-section--lookbook.lookbook-gallery .wpbingo-lookbook__item {
+    padding: 0 7.5px;
+    grid-column: span var(--width-col-xs);
+    grid-row: span var(--width-col-xs);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-gird .lookbook-instagram_content {
+    grid-template-columns: repeat(var(--col-xs), 1fr);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-gird .wpbingo-lookbook__item {
+    grid-column: span var(--width-col-xs);
+    grid-row: span var(--width-col-xs);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-slider .slick-arrow {
+    top: calc(50% - 12.5px);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-slider .slick-arrow:hover {
+    background: var(--theme-color);
+    color: var(--white);
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-slider .container-full .slick-arrow.slick-prev {
+    left: 0;
+  }
+  .wpbingo-section--lookbook.lookbook-instagram-slider .container-full .slick-arrow.slick-next {
+    right: 0;
+  }
+  .wpbingo-section--lookbook .lookbook-card__btn {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+  .wpbingo-section--lookbook .lookbook-card__btn span:before {
+    font-size: 13px;
+  }
+  .wpbingo-section--lookbook .lookbook-card__point {
+    top: -10px;
+    left: -10px;
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card {
+    position: fixed;
+    width: 100%;
+    top: auto !important;
+    left: 0 !important;
+    bottom: 50px !important;
+    display: block;
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 99;
+    border-bottom: 1px solid #ededed;
+    background: var(--white);
+    transform: translateY(100%) !important;
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .product-card {
+    padding: 20px;
+    transform: translateY(0) !important;
+    transition: all 0.3s ease;
+    box-shadow: unset;
+    max-width: 250px;
+    margin: auto;
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .product-card:before, .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .product-card:after {
+    display: none;
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .product-card .product-card__content {
+    text-align: center;
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .product-card .product-card__content .wpb-variants-swatch .swatch-content, .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .product-card .product-card__content .spr-badge {
+    justify-content: center;
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .product-card .product-card__image img {
+    aspect-ratio: 1;
+    object-fit: contain;
+    background: #f5f5f5;
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .close-lookbook {
+    display: inline-block;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    text-align: center;
+    z-index: 1;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    padding: 6px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    box-shadow: 0 2px 59px rgba(0, 0, 0, 0.4);
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .close-lookbook:before, .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .close-lookbook:after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 14px;
+    top: 50%;
+    left: calc(50% - 7px);
+    margin-top: -1px;
+    background-color: var(--gray-dark);
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .close-lookbook:before {
+    transform-origin: 50% 50%;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .close-lookbook:after {
+    transform-origin: 50% 50%;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .close-lookbook:hover:before, .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card .close-lookbook:hover:after {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card.active {
+    opacity: 1;
+    visibility: visible;
+    box-shadow: 0 -5px 30px 2px rgba(0, 0, 0, 0.0784313725);
+    transform: translateY(0) !important;
+  }
+  .wpbingo-section--lookbook:not(.lookbook-simple) .content-product-card.active .product-card {
+    transform: translateY(0) !important;
+  }
+}
+@media (max-width: 480px) {
+	  .wpbingo-section--lookbook.lookbook-simple .wpbingo-lookbook__item {
+    flex-wrap: wrap;
+  }
+  .wpbingo-section--lookbook.lookbook-simple .wpbingo-lookbook__item > div {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+  .wpbingo-section--lookbook.lookbook-simple .lookbook-product {
+    margin-top: 30px;
+  }
+}

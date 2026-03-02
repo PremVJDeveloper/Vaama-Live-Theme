@@ -1,0 +1,147 @@
+{%- liquid
+  assign sort_by = search.sort_by | default: search.default_sort_by
+  assign terms = search.terms | escape
+  assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+-%}
+
+{%- assign select_columns 	=  settings.select_columns -%}
+{%- assign sidebar_enable = settings.sidebar_enable -%}
+{%- assign shop_full = settings.shop_full -%}
+{%- assign layout_filter = settings.layout_filter -%}
+{%- assign sidebar_left_class = 'col-12' -%}
+{%- assign sidebar_right_class = 'col-12' -%}
+{%- if sidebar_enable and layout_filter contains 'sidebar' -%}
+	{%- assign sidebar_left_class = 'col-12 col-lg-12 col-xl-3' -%}
+	{%- assign sidebar_right_class = 'col-12 col-lg-12 col-xl-9' -%}
+{%- endif -%}
+
+<div class="js-page-collection page-collection template-search {{ settings.style_view_items }} {{ settings.layout_filter }} {% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %} {% if shop_full %} shop_full{% endif %}"{% if settings.style_view_items == 'viewmore' %} data-list_number="{{ settings.count_items }}"{% endif %}>
+	<div class="container">
+		<div class="template-search__header page-width center">
+			{%- if search.results_count == 0 and search.filters == empty -%}        
+				<p role="status">{{ 'general.search.no_results_html' | t: terms: search.terms }}</p>
+			{%- endif -%}
+		</div>
+		<div id="JsCollectionProduct" class="{{ select_columns }}">
+			{%- if search.results.size == 0 and search.filters != empty -%}
+				<div class="template-search__results collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
+					<div class="loading-overlay gradient"></div>
+					<div class="title-wrapper center">
+						<h2 class="title title--primary">
+							{{ 'collection_template.empty' | t }}<br>
+							{{ 'collection_template.use_fewer_filters_html' | t: link: search_url, class: "underlined-link link" }}
+						</h2>
+					</div>
+				</div>
+			{%- else -%}
+				<div class="row">
+					{%- if sidebar_enable and layout_filter contains 'sidebar' -%}
+						<aside class="collection-sidebar {{ sidebar_left_class }}">
+							<div class="collection-sidebar__overlay"></div>
+							<div class="collection-sidebar__wapper">
+								<button class="js-sidebar-toggle collection-sidebar__close" type="button">
+									<span>{{ 'collections.sidebar.close' | t }}</span>
+								</button>
+								<div class="content-sidebar">
+									{% include 'filter-sidebar', results: search %}
+								</div>
+							</div>
+						</aside>
+					{%- elsif sidebar_enable and layout_filter == 'dropdown' -%}
+						<aside class="collection-sidebar">
+							<div class="collection-sidebar__overlay"></div>
+						</aside>
+					{%- elsif sidebar_enable and layout_filter == 'on_top' -%}
+						<aside class="collection-sidebar">
+							<div class="collection-sidebar__overlay"></div>
+						</aside>
+					{%- elsif sidebar_enable -%}
+						<aside class="collection-sidebar">
+							<div class="collection-sidebar__overlay"></div>
+							<div class="collection-sidebar__wapper">
+								<button class="js-sidebar-toggle collection-sidebar__close" type="button">
+									<span>{{ 'collections.sidebar.close' | t }}</span>
+								</button>
+								<div class="content-sidebar">
+									{% include 'filter-sidebar', results: search %}
+								</div>
+							</div>
+						</aside>
+					{%- endif -%}
+					<div class="collection-content {{ sidebar_right_class }}">
+						<div class="page-collection-header">
+							{% include 'collection-header', results: search %}
+						</div>
+						{%- assign total_limit 			= section.settings.page_item -%}
+						{%- for item in search.results -%}
+							{%- if item.object_type == 'product' -%}
+								{% if item.type == "Gift Cards" %}
+									{%- assign total_limit = total_limit | plus: 1 -%}
+								{%- endif -%}
+							{%- endif -%}
+						{%- endfor -%}
+						{% paginate search.results by total_limit %}
+							<div class="template-search__results collection page-width" id="product-grid" data-id="{{ section.id }}">
+								<div class="loading-overlay gradient"></div>
+								<div class="products__row row negative-margin product-grid">
+									{%- for item in search.results -%}
+										{%- if item.object_type == 'product' -%}
+											{% if item.type != "Gift Cards" %}
+												<div class="grid__item{% if item.object_type == 'product' %} products__col{% endif %}">
+													{%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
+													{% render 'product-card', product: item %}
+												</div>
+											{%- endif -%}
+										{%- endif -%}
+									{%- endfor -%}
+								</div>
+								{%- if paginate.pages > 1 -%}
+									<div class="js-collection-paginations page-collection-footer">
+										{% capture previous_label %}
+										  <span class="pagination__navigation">
+											<i class="feather-chevron-left"></i>
+											<span class="sr-only">{{ 'general.pagination.previous' | t }}</span>
+										  </span>
+										{% endcapture %}
+										{% capture next_label %}
+										  <span class="pagination__navigation">
+											<i class="feather-chevron-right"></i>
+											<span class="sr-only">{{ 'general.pagination.next' | t }}</span>
+										  </span>
+										{% endcapture %}
+										<div class="pagination">
+										  {{ paginate | default_pagination: previous: previous_label, next: next_label }}
+										</div>
+									</div>
+								{%- endif -%}
+							</div>
+						{% endpaginate %}  
+					</div>
+				</div>
+			{%- endif -%}
+		</div>
+	</div>
+</div>
+
+{% schema %}
+{
+  "name": "Search Page",
+  "tag": "section",
+  "class": "spaced-section",
+  "settings": [
+    {
+		"type": "header",
+		"content": "Product"
+    },
+    {
+		"type": "range",
+		"id": "page_item",
+		"label": "Number of products in a page search",
+		"min": 1,
+		"max": 24,
+		"step": 1,
+		"default": 12
+	}
+  ]
+}
+{% endschema %}

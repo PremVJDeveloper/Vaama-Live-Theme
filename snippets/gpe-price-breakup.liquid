@@ -1,0 +1,786 @@
+<!-- [Live Gold Price Editor] Product Details & Price Breakdown section. -->
+<!-- [START OF CAPTURE] Capture data from the application. -->
+{% capture 'variant_meta_fields' %}
+  {% for variant in product.variants %}
+    {% if variant.metafields.DI-GoldPrice.variant_config != blank %}
+		{{ variant.id | json }}: {{ variant.metafields.DI-GoldPrice.variant_config }} {% unless forloop.last %},{% endunless %}
+	{% endif %}
+  {% endfor %}
+{% endcapture %}
+
+{% capture 'variants' %}
+  {% for variant in product.variants %}
+		{{ variant.id }}: {{ variant | json }} {% unless forloop.last %},{% endunless %}
+  {% endfor %}
+{% endcapture %}
+<!-- [END OF CAPTURE] -->
+
+<!-- Drawer HTML -->
+<div id="info-drawer" class="info-drawer">
+  <button id="close-info-drawer" class="close-btn">×</button>
+  <div class="drawer-content">
+    <div class="Top"><p>Price Breakup</p></div>
+    <!-- Product Info -->
+    <div class="product-summary">
+      <img
+        src="{{ product.featured_image | image_url: width: 100 }}"
+        alt="{{ product.title }}"
+        width="auto"
+        height="auto"
+      >
+      <div>
+        <h3 style="margin: 0;">{{ product.title }}</h3>
+        <p style="margin: 0;">
+          SKU: <span id="variant-sku">{{ product.variants.first.sku }}</span>
+        </p>
+        <p id="variant-price"></p>
+      </div>
+    </div>
+
+    <!-- Selected Variant -->
+    <p id="variant-titles"></p>
+
+    <!-- Accordion Sections -->
+
+    <details open>
+      <summary>
+        <div class="gpe-title">Metal</div>
+        <div>
+          <span class="gpe-title" id="metal-price"></span>
+          <span class="icon">&#10148;</span>
+        </div>
+      </summary>
+
+      <table id="metal-table" class="table-responsive"></table>
+    </details>
+
+    <details id="diamond-details">
+      <summary>
+        <div class="gpe-title">Diamond</div>
+        <div>
+          <span class="gpe-title" id="diamond-price"></span>
+          <span class="icon">&#10148;</span>
+        </div>
+      </summary>
+      <table id="diamond-table" class="table-responsive"></table>
+    </details>
+
+    <details id="gemstone-details">
+      <summary>
+        <div class="gpe-title">Gemstone</div>
+        <div>
+          <span class="gpe-title" id="gemstone-price"></span>
+          <span class="icon">&#10148;</span>
+        </div>
+      </summary>
+      <table id="gemstone-table" class="table-responsive"></table>
+    </details>
+
+    <details>
+      <summary>
+        <div class="gpe-title">Making Charges</div>
+        <div>
+          <span class="gpe-title" id="making-price"></span>
+          <span class="icon">&#10148;</span>
+        </div>
+      </summary>
+      <table id="making-table" class="table-responsive"></table>
+    </details>
+
+    <details open>
+      <summary>
+        <div class="gpe-title">Total Value</div>
+        <div>
+          <span class="gpe-title" id="total-price"></span>
+          <span class="icon">&#10148;</span>
+        </div>
+      </summary>
+      <table id="total-table" class="table-responsive"></table>
+    </details>
+  </div>
+</div>
+
+<!-- [START OF JAVASCRIPT] The Product Details and Price Breakdown. -->
+<script>
+  const titleTextColor = "{{ block.settings.active_tab_color }}";
+
+  // Save captured app data as Javascript objects.
+  var variantConfigs = { {{ variant_meta_fields }} };
+  var variants = { {{ variants }} };
+  var metalPriceConfig = {{ shop.metafields.DI-GoldPrice.metal_prices }};
+  var shopStonePricings = {{ shop.metafields.DI-GoldPrice.stone_pricing | default: "[]" }} || [];
+  var formulaDefaults = {{ shop.metafields.DI-GoldPrice.custom_fields | default: "null" }} || {};
+
+  console.log('[Live Gold Price Editor] Displaying Price Breakdown.');
+  //console.log(variantConfigs);
+  console.log(variants);
+  console.log(metalPriceConfig);
+</script>
+
+<script>
+  
+  //Populate the UI for the selected/default variant. 
+  const firstAvailableVariantId = {{ product.selected_or_first_available_variant.id }};
+  if (variantConfigs && variantConfigs[firstAvailableVariantId]) {
+    console.log('[Live Gold Price Editor] Selected Variant: ' + firstAvailableVariantId);
+    updatePriceBreakup(firstAvailableVariantId);
+  } else {
+    document.getElementById('open-info-drawer').style.display = 'none';
+  }
+
+  //Populate the UI again when the User selects a different Variant. 
+  document.addEventListener('change', function () {
+    const url = new URL(document.URL);
+    const variantId = url.searchParams.get("variant");
+    
+    if (variantId && !isNaN(variantId) && variantConfigs && variantConfigs[variantId]) {
+      console.log('[Live Gold Price Editor] Selected Variant: ' + variantId);
+      updatePriceBreakup(variantId);
+    } else {
+      document.getElementById('open-info-drawer').style.display = 'none';
+    }
+  });
+
+  function updatePriceBreakup(variantId) {
+    const variantConfig = variantConfigs[variantId];
+    const selectedVariant = variants[variantId];
+
+    var metalPricePerGram = 0;
+    var metalType;
+    if (variantConfig.metal_type.toLowerCase() == 'gold') {
+      if (variantConfig.purity == '24K') {
+        metalPricePerGram = metalPriceConfig.gold_price_24k;
+      } else if (variantConfig.purity == '22K') {
+        metalPricePerGram = metalPriceConfig.gold_price_22k;
+      } else if (variantConfig.purity == '21K') {
+        metalPricePerGram = metalPriceConfig.gold_price_21k;
+      } else if (variantConfig.purity == '18K') {
+        metalPricePerGram = metalPriceConfig.gold_price_18k;
+      } else if (variantConfig.purity == '14K') {
+        metalPricePerGram = metalPriceConfig.gold_price_14k;
+      } else if (variantConfig.purity == '10K') {
+        metalPricePerGram = metalPriceConfig.gold_price_10k;
+      } else if (variantConfig.purity == '9K') {
+        metalPricePerGram = metalPriceConfig.gold_price_9k;
+      }
+
+      metalType = 'Gold';
+    } else if (variantConfig.metal_type.toLowerCase() == 'silver') {
+      metalPricePerGram = metalPriceConfig.silver_price;
+      metalType = 'Silver';
+    } else if (variantConfig.metal_type.toLowerCase() == 'platinum') {
+      metalPricePerGram = metalPriceConfig.platinum_price;
+      metalType = 'Platinum';
+    } else if (variantConfig.metal_type.toLowerCase() == 'palladium') {
+      metalPricePerGram = metalPriceConfig.palladium_price;
+      metalType = 'Palladium';
+    }
+
+    if (!metalPricePerGram) {
+      throw new Error('This product variant is not configured correctly. Invalid Metal Type or Metal Purity');
+    }
+
+    document.getElementById('open-info-drawer').style.display = 'inline';
+
+    if (!variantConfig.tax) {
+      variantConfig.tax = metalPriceConfig.default_tax;
+    }
+
+    var totalDiscounts = 0;
+    var productPrice = variantConfig.metal_weight * metalPricePerGram;
+    const metalCost = variantConfig.metal_weight * metalPricePerGram;
+
+    var compareProductPrice = variantConfig.metal_weight * metalPricePerGram;
+
+    let metalTable = `<tr><td>Metal Type</td><td class="align-end" style="text-transform: capitalize">${variantConfig.metal_type} ${variantConfig.purity || ''}</td></tr>`
+    metalTable += `<tr><td>Net Weight</td><td class="align-end">${variantConfig.metal_weight} g</td></tr>`;
+    metalTable += `<tr><td>Price/Gram</td><td class="align-end">${formatCurrency(metalPricePerGram)}</td></tr>`;
+    metalTable += `<tr><td>Value</td><td class="align-end">${formatCurrency(metalCost)}</td></tr>`;
+
+    document.getElementById('metal-table').innerHTML = metalTable;
+    document.getElementById('metal-price').innerHTML = formatCurrency(metalCost);
+
+    var diamondCharges = 0;
+    var compareDiamondCharges = 0;
+    var diamondDiscount = 0;
+    if (variantConfig.advanced_stone_config && variantConfig.advanced_stone_config.length > 0) {
+      if (variantConfig.diamond_discount) {
+          diamondCharges = calculateTotalStonePriceBasedOnSlab(variantConfig.advanced_stone_config, 'diamond', false);
+          compareDiamondCharges = calculateTotalStonePriceBasedOnSlab(variantConfig.advanced_stone_config, 'diamond', false);
+
+          const discount = diamondCharges * variantConfig.diamond_discount / 100;
+          diamondCharges = diamondCharges - discount;
+      } else {
+          diamondCharges = calculateTotalStonePriceBasedOnSlab(variantConfig.advanced_stone_config, 'diamond', true);
+          compareDiamondCharges = calculateTotalStonePriceBasedOnSlab(variantConfig.advanced_stone_config, 'diamond', false);
+      }
+    }
+
+    if (diamondCharges) {
+      let diamondTable = `<tr class="table-header">
+          <td>Diamond Details</td>
+          <td>Weight</td>          
+          <td class="align-end">Value</td>
+        </tr>`;
+
+      for (const stoneConfig of variantConfig.advanced_stone_config) {
+        if (stoneConfig.stone_type.toLowerCase() != 'diamond') {
+          continue;
+        }
+        
+        const { slab, title } = fetchStonePricingSlab(stoneConfig, shopStonePricings);
+
+        let slabPrice = slab.price * stoneConfig.stone_weight;
+        let compareSlabPrice = slab.price * stoneConfig.stone_weight;
+        
+        if (variantConfig.diamond_discount) {
+          var slabDiscount = slab.price * variantConfig.diamond_discount / 100;
+          slabPrice = (slab.price - slabDiscount) * stoneConfig.stone_weight;
+        } else if (slab.discount) {
+          var slabDiscount = slab.price * slab.discount / 100;
+          slabPrice = (slab.price - slabDiscount) * stoneConfig.stone_weight;        
+        }
+
+        diamondTable += `<tr>
+          <td>${title} - ${stoneConfig.stone_quantity} Pcs.</td>
+          <td>${stoneConfig.stone_weight} Ct</td>
+          ${compareSlabPrice != slabPrice ? `
+          <td class="align-end">
+            <span class="price-strikeout">${formatCurrency(compareSlabPrice)}</span>
+            <span>${formatCurrency(slabPrice)}</span>            
+          </td>` :          
+          `<td class="align-end">${formatCurrency(slabPrice)}</td>`}
+        </tr>`
+      }
+
+      document.getElementById('diamond-table').innerHTML = diamondTable;
+      document.getElementById('diamond-price').innerHTML = formatCurrency(diamondCharges);
+      document.getElementById('diamond-details').style.display = 'block';
+
+      if (compareDiamondCharges && compareDiamondCharges != diamondCharges) {
+        document.getElementById('diamond-price').innerHTML = `<span class="price-strikeout">${formatCurrency(compareDiamondCharges)}</span>&nbsp;` + formatCurrency(diamondCharges);
+      }
+    } else {
+      document.getElementById('diamond-details').style.display = 'none';
+    }
+
+    var gemstoneCharges = 0;
+    var compareGemstoneCharges = 0;
+    if (variantConfig.advanced_stone_config && variantConfig.advanced_stone_config.length > 0) {
+      gemstoneCharges = calculateTotalStonePriceBasedOnSlab(variantConfig.advanced_stone_config, 'gemstone', true);
+      compareGemstoneCharges = calculateTotalStonePriceBasedOnSlab(variantConfig.advanced_stone_config, 'gemstone', false);
+    }
+
+    if (gemstoneCharges) {
+      let gemstoneTable = `<tr class="table-header">
+          <td>Gemstone Details</td>
+          <td>Total Carat</td>
+          <td>Price/Carat</td>
+          <td>Value</td>
+        </tr>`;
+
+      for (const stoneConfig of variantConfig.advanced_stone_config) {
+        if (stoneConfig.stone_type.toLowerCase() != 'gemstone') {
+          continue;
+        }
+        
+        const { slab, title } = fetchStonePricingSlab(stoneConfig, shopStonePricings);
+        
+        let slabPrice = slab.price * stoneConfig.stone_weight;
+        let compareSlabPrice = slab.price * stoneConfig.stone_weight;
+        if (slab.discount) {
+          var slabDiscount = slab.price * slab.discount / 100;
+          slabPrice = (slab.price - slabDiscount) * stoneConfig.stone_weight;
+        }
+        
+        gemstoneTable += `<tr>
+          <td>${title} - ${stoneConfig.stone_quantity} Pcs.</td>
+          <td>${stoneConfig.stone_weight} Ct</td>
+
+          ${compareSlabPrice != slabPrice ? `
+          <td>
+            <span class="price-strikeout">${formatCurrency(slab.price)}/Ct</span>
+            <span>${formatCurrency(slab.price - (slab.price * slab.discount/100))}/Ct</span>            
+          </td>` :          
+          `<td>${formatCurrency(slab.price)}/Ct </td>`}
+          
+          <td class="align-end">${formatCurrency(slabPrice)}</td>
+        </tr>`
+      }
+
+      document.getElementById('gemstone-table').innerHTML = gemstoneTable;
+      document.getElementById('gemstone-price').innerHTML = formatCurrency(gemstoneCharges);
+      document.getElementById('gemstone-details').style.display = 'block';
+    } else {
+      document.getElementById('gemstone-details').style.display = 'none';
+    }
+
+    productPrice = productPrice + diamondCharges + gemstoneCharges;
+    compareProductPrice = compareProductPrice + compareDiamondCharges + compareGemstoneCharges;
+
+    // MAKING CHARGES
+    var makingCharges = 0;
+    var compareMakingCharges = 0;
+    
+    if (variantConfig.making_charges) {
+        makingCharges = variantConfig.making_charges * variantConfig.metal_weight;
+    }
+
+    compareMakingCharges = makingCharges;
+    if (variantConfig.making_charges_discount) {
+        var makingChargesDiscount = makingCharges * variantConfig.making_charges_discount / 100;
+        makingCharges = makingCharges - makingChargesDiscount;
+    }
+
+    productPrice = productPrice + makingCharges;
+    compareProductPrice = compareProductPrice + compareMakingCharges;
+
+    let makingTable = `<tr><td>Net Weight</td><td class="align-end">${variantConfig.metal_weight} g</td></tr>`;
+    makingTable += `<tr><td>Price/Gram</td>
+    ${compareMakingCharges != makingCharges ? `<td class="align-end">
+        <span class="price-strikeout">${formatCurrency(variantConfig.making_charges)}/g</span>
+        <span class="price-value">${formatCurrency(variantConfig.making_charges - (variantConfig.making_charges * metalPriceConfig.making_charges_discount / 100))}/g</span>            
+      </td>` : `<td class="align-end">${formatCurrency(variantConfig.making_charges)}/g</td>`}
+    </td></tr>`;
+    makingTable += `<tr><td>Value</td><td class="align-end">${formatCurrency(makingCharges)}</td></tr>`;
+
+    document.getElementById('making-table').innerHTML = makingTable;
+    document.getElementById('making-price').innerHTML = formatCurrency(makingCharges);
+
+    if (compareMakingCharges && compareMakingCharges != makingCharges) {
+      document.getElementById('making-price').innerHTML = `<span class="price-strikeout">${formatCurrency(compareMakingCharges)}</span>&nbsp;` + formatCurrency(makingCharges);
+    }
+
+    const subtotal = productPrice;
+    const taxes = productPrice * (variantConfig.tax / 100);
+    const compareTaxes = compareProductPrice * (variantConfig.tax / 100);
+
+    const finalPrice = productPrice + taxes;
+    const finalComparePrice = compareProductPrice + compareTaxes;
+        
+    let totalTable = `<tr><td>Net Value</td><td class="align-end">${formatCurrency(subtotal)}</td></tr>`
+    totalTable += `<tr><td>GST (${variantConfig.tax}%)</td><td class="align-end">${formatCurrency(taxes)}</td></tr>`;
+    totalTable += `<tr><td>Total Value</td><td class="align-end">${formatCurrency(finalPrice)}</td></tr>`;
+
+    document.getElementById('total-table').innerHTML = totalTable;
+    document.getElementById('total-price').innerHTML = formatCurrency(finalPrice);
+    document.getElementById('variant-price').innerHTML = formatCurrency(finalPrice);
+
+    if (finalComparePrice != finalPrice) {
+      document.getElementById('variant-price').innerHTML = `<span class="price-strikeout">${formatCurrency(finalComparePrice)}</span> &nbsp; ${formatCurrency(finalPrice)}`;
+    }
+
+    let variantTitles = `<label>Selected Variant :</label>&nbsp;`;  
+    for (const option of selectedVariant.options) {
+      variantTitles = variantTitles + `<span>${option}</span>`
+    }
+
+    document.getElementById('variant-sku').innerHTML = selectedVariant.sku;
+    document.getElementById('variant-titles').innerHTML = variantTitles;
+    console.log('variantTitles',variantTitles);
+
+    /*document.getElementById('prop-gold-price-per-gram').value = `${formatCurrency(metalPricePerGram)}`;
+    document.getElementById('prop-gold-weight').value = `${variantConfig.metal_weight} grams`;
+    document.getElementById('prop-gold-price').value = `${formatCurrency(metalCost)}`;
+    document.getElementById('prop-making-charges').value = `${formatCurrency(makingCharges)}`;
+    document.getElementById('prop-diamond-charges').value = `${formatCurrency(diamondCharges)}`;*/
+
+    /* Comparison Table */
+    if (!document.getElementById('price-compare-table')) {
+      return;
+    }
+
+    const showComparisonTable = (diamondCharges != compareDiamondCharges) || (makingCharges != compareMakingCharges) || ((selectedVariant.price/100) >= 50000);
+    if (!showComparisonTable) {
+      document.getElementById('price-compare-table').innerHTML = "";
+      return;
+    }
+
+    const productTitle = selectedVariant.name.replace(` - ${selectedVariant.title}`, '');
+    let compareTable = `<table><tr><td colspan="3" class="bold">Festive Benifits</td></tr><tr><td colspan="3" class="bold">${productTitle}</td></tr><tr class="bold"><td>Particulars</td><td>Without Offers</td><td>Diwali Offers</td></tr>`;
+
+    compareTable += `<tr>
+      <td class="bold">Total Gold</td>
+      <td>${formatCurrency(metalCost)}</td>
+      <td>${formatCurrency(metalCost)}</td>
+    </tr>`;
+
+    const {solitaireAvailable, slabPrice, discount } = hasSolitaire(variantConfig.advanced_stone_config);
+
+  if (solitaireAvailable) {
+    compareTable += `<tr>
+      <td class="bold">Diamond/Carat</td>
+      <td>${formatCurrency(slabPrice)}</td>
+      <td class="has-difference">${formatCurrency(slabPrice - (slabPrice*discount/100))}</td>
+    </tr>`;
+  }
+
+
+  compareTable += `<tr>
+    <td class="bold">Total Diamonds</td>
+    <td ${compareDiamondCharges !== diamondCharges ? 'class="has-difference-without-offer"' : ''}>${formatCurrency(compareDiamondCharges)}</td>
+    <td ${compareDiamondCharges !== diamondCharges ? 'class="has-difference-withoffer"' : ''}>${formatCurrency(diamondCharges)}</td>
+  </tr>`;
+  compareTable += `<tr>
+    <td class="bold">Total Making</td>
+    <td ${compareMakingCharges !== makingCharges ? 'class="has-difference"' : ''}>${formatCurrency(compareMakingCharges)}</td>
+    <td ${compareMakingCharges !== makingCharges ? 'class="has-difference"' : ''}>${formatCurrency(makingCharges)}</td>
+  </tr>`;
+
+    let freeCoinValue = 0;
+    if ((selectedVariant.price/100) >= 50000) {
+      freeCoinValue = (selectedVariant.price/100) >= 100000 ? metalPriceConfig.gold_price_22k : metalPriceConfig.gold_price_22k/2;
+
+  compareTable += `<tr>
+    <td class="bold">Free Coin Offer</td>
+    <td>-</td>
+    <td class="coin-amount">${formatCurrency(freeCoinValue)}</td>
+  </tr>`;
+    }
+
+    compareTable += `<tr>
+      <td class="bold">GST</td>
+      <td>${formatCurrency(compareTaxes)}</td>
+      <td>${formatCurrency(taxes)}</td>
+    </tr>`;
+
+    const totalSavings = freeCoinValue + (finalComparePrice - finalPrice);
+    compareTable += `<tr class="bold">
+      <td>Total Savings</td>
+      <td colspan="2" class="savings-amount">${formatCurrency(totalSavings)}</td>
+    </tr>`;
+    const savingEl = document.getElementById('total-saving-amount');
+      if (savingEl) {
+        savingEl.textContent = formatCurrency(totalSavings);
+      }
+    compareTable += `<tr class="bold">
+      <td>Final Price</td>
+      <td>${formatCurrency(finalComparePrice)}</td>
+      <td>${formatCurrency(finalPrice)}</td>
+    </tr>`;
+
+    compareTable += `<tr><td colspan="3" class="bold">Offer Valid Till <span style="text-transform: lowercase;">23rd</span> October</td></tr>`;
+
+    compareTable += `</table>`;
+
+    document.getElementById('price-compare-table').innerHTML = compareTable;
+  }
+
+  // Useful Utility functions to work with Stone Pricing Slabs. 
+  function calculateTotalStonePriceBasedOnSlab(variantStoneConfigs, stoneType, includeDiscount) {
+    var stonePrice = 0;
+    var perStoneWeight = 0;
+
+    for (const variantStoneConfig of variantStoneConfigs) {
+      if (variantStoneConfig.stone_type.toLowerCase() != stoneType.toLowerCase()) {
+        continue;
+      }
+
+      var slabAvailable = false;
+      perStoneWeight = (+variantStoneConfig.stone_weight) / (+variantStoneConfig.stone_quantity);
+      for (const shopStonePricing of shopStonePricings) {
+        if (shopStonePricing.id != variantStoneConfig.pricing_id) {
+          continue;
+        }
+
+        for (const slab of shopStonePricing.slabs) {
+          if (perStoneWeight >= slab.from_weight && perStoneWeight <= slab.to_weight) {
+            var slabPrice = slab.price;
+            if (slab.discount && includeDiscount) {
+              slabPrice = slabPrice - (slabPrice * slab.discount / 100);
+            }
+
+            stonePrice = stonePrice + variantStoneConfig.stone_weight * slabPrice;
+            slabAvailable = true;
+            break;
+          }
+        }
+      }
+
+      if (!slabAvailable) {
+        throw new Error(`Slab not found for the stone weight. Pricing ID: ${variantStoneConfig.pricing_id}, Stone Weight: ${perStoneWeight.toFixed(4)} carat.`);
+      }
+    }
+
+    return stonePrice;
+  }
+
+  function fetchStonePricingSlab(selectedSlab, stonePricingSlabs) {
+    const perStoneWeight = (+selectedSlab.stone_weight) / (+selectedSlab.stone_quantity);
+
+    for (const shopStonePricing of shopStonePricings) {
+      if (shopStonePricing.id != selectedSlab.pricing_id) {
+        continue;
+      }
+
+      for (const slab of shopStonePricing.slabs) {
+        if (perStoneWeight >= slab.from_weight && perStoneWeight <= slab.to_weight) {
+            return  { slab: slab, title: shopStonePricing.title };
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function calculateTotalWeightBasedOnStoneType(variantStoneConfigs, stoneType) {
+    var totalStoneWeight = 0;
+    for (const variantStoneConfig of variantStoneConfigs) {
+      if (variantStoneConfig.stone_type.toLowerCase() != stoneType.toLowerCase()) {
+        continue;
+      }
+
+      if (variantStoneConfig.stone_weight) {
+        totalStoneWeight = totalStoneWeight + variantStoneConfig.stone_weight;
+      }
+    }
+
+    return totalStoneWeight;
+  }
+
+  function hasSolitaire(variantStoneConfigs) {
+    for (const variantStoneConfig of variantStoneConfigs) {
+      if (variantStoneConfig.stone_type.toLowerCase() != 'diamond'.toLowerCase()) {
+        continue;
+      }
+
+      const perStoneWeight = (+variantStoneConfig.stone_weight) / (+variantStoneConfig.stone_quantity);
+      
+      if (perStoneWeight < 1) {
+        continue;
+      }
+
+      const shopStonePricing = shopStonePricings.find(shopStonePricing => shopStonePricing.id == variantStoneConfig.pricing_id);
+      for (const slab of shopStonePricing.slabs) {
+        if (perStoneWeight >= slab.from_weight && perStoneWeight <= slab.to_weight) {
+          return {solitaireAvailable: true, slabPrice: slab.price, discount: slab.discount};
+        }
+      }
+    }
+
+    return {solitaireAvailable: false};
+  }
+
+  function formatCurrency(price) {
+    const decimalPlaces = 0;
+    
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0, minimumFractionDigits: 0,}).format(price);
+  }
+</script>
+<!-- [END OF JAVASCRIPT] -->
+
+<!-- CSS Styling -->
+<style>
+      .info-drawer {
+           position: fixed;
+           top: 0;
+           right: -100%;
+           width: 460px;
+           height: 100vh;
+           background: #fff;
+           box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+           z-index: 9999;
+           transition: right 0.3s ease-in-out;
+           display: flex;
+           flex-direction: column;
+           border-left: 1px solid #ddd;
+      }
+     .Top {
+         padding: 20px;
+         background: #a8b6cd;
+         border-radius: 10px;
+      }
+     .Top p {
+         font-size: 20px;
+      }
+     .info-drawer.open {
+         right: 0;
+      }
+     .drawer-content {
+         flex: 1;
+         overflow-y: auto;
+         padding: 1.5rem;
+      }
+     .close-btn {
+         position: absolute;
+         top: 3.6rem;
+         right: 2rem;
+         background: none;
+         border: none;
+         font-size: 1.5rem;
+         cursor: pointer;
+      }
+     .product-summary {
+         display: flex;
+         gap: 1rem;
+         margin-bottom: 1rem;
+         border: 1px solid #eee;
+         padding: 0.75rem;
+         border-radius: 8px;
+         align-items: center;
+         margin-top: 1rem;
+    }
+     .product-summary img {
+         width: 60px;
+         border-radius: 6px;
+    }
+     details {
+         border-top: 1px solid #eee;
+         padding: 0.75rem 0;
+    }
+    summary {
+         font-weight: bold;
+         cursor: pointer;
+         font-size: 1rem;
+         color: #28365b;
+    }
+
+    summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      cursor: pointer;
+    }
+
+    details>summary div>span.icon {
+      width: 24px;
+      height: 24px;
+      transition: all 0.3s;
+      display: inline-block;
+      /* margin-left: auto; */
+      transform: rotate(90deg);
+      padding-left: 4px;
+    }
+
+    details[open]>summary div>span.icon {
+      transform: rotate(270deg) !important;
+    }
+
+    details .table-responsive {
+      display: table;
+    }
+
+    .align-end {
+      text-align: end;
+    }
+
+    .gpe-title {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    details table td {
+      font-size: 14px;
+      padding: 8px 0;
+    }
+
+    table .table-header {
+      border-bottom: 1px solid #3b3b3b;
+    }
+
+    table .table-header>td {
+      font-weight: 600;
+    }
+
+    .price-strikeout {
+      text-decoration: line-through;
+    }
+
+    p {
+         margin: 1rem 0;
+         font-size: 0.95rem;
+         font-family: mickir;
+    }
+
+    .product-summary h3 {
+         font-size: 15px;
+    }
+button#open-info-drawer {
+    background: #ffffff;
+    color: white;
+    padding: 0px;
+    border: 0px;
+    color: #28365b;
+    text-decoration: underline;
+    font-family: 'Mickir';
+     font-size: 16px !important;
+}
+    @media(max-width: 767px){
+         .info-drawer {
+             position: fixed;
+             top: 0;
+             right: -100%;
+             width: 320px;
+             height: 100vh;
+             background: #fff;
+             box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+             z-index: 9999;
+             transition: right 0.3s ease-in-out;
+             display: flex;
+             flex-direction: column;
+             border-left: 1px solid #ddd;
+        }
+        .drawer-content {
+             flex: 1;
+             overflow-y: auto;
+             padding: 5.5rem 1.5rem 1.5rem 1.5rem;
+        }
+        .close-btn {
+             position: absolute;
+             top: 7.0rem;
+             right: 0.5rem;
+             background: none;
+             border: none;
+             font-size: 1.5rem;
+             cursor: pointer;
+             color: #28365b;
+        }
+        .Top {
+             padding: 10px;
+             background: #a8b6cd;
+             border-radius: 10px;
+        }
+    }
+
+    #variant-titles label {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 21px;
+      letter-spacing: 0.01em;
+      color: #4D4D4D;
+    }
+
+    #variant-titles span {
+      display: inline-block;
+      margin: 0;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      letter-spacing: 0.04em;
+      color: #666666;
+      background: #F2F2F2;
+      padding: 2px 8px;
+      margin: 3px 3px;
+      border-radius: 8px;
+  }
+</style>
+
+<!-- JavaScript -->
+<script>
+  document.getElementById('open-info-drawer').addEventListener('click', function () {
+    document.getElementById('info-drawer').classList.add('open');
+  });
+
+  document.getElementById('close-info-drawer').addEventListener('click', function () {
+    document.getElementById('info-drawer').classList.remove('open');
+  });
+  document.addEventListener('click', function(e) {
+    const drawer = document.getElementById('info-drawer');
+    const button = document.getElementById('open-info-drawer');
+    if (!drawer.contains(e.target) && !button.contains(e.target)) {
+      drawer.classList.remove('open');
+    }
+  });
+</script>

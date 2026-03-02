@@ -1,0 +1,82 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "settings": {
+        "enable": false,
+        "bgimage": false
+      }
+    },
+    "main": {
+      "type": "faq-template2",
+      "blocks": {
+        "b304a99b-a182-407a-b88e-e8a51269e316": {
+          "type": "faq",
+          "settings": {
+            "title": "When do I receive my order?",
+            "content": "<p>When placing the order, a day of shipment is indicated. After the order has been placed, the same delivery time will also be stated on the order confirmation. It is therefore never possible that during the order, the shipping day on the website, is different than on the order confirmation.</p>"
+          }
+        },
+        "98e1054a-63ec-46f1-92f4-559416117d51": {
+          "type": "faq",
+          "settings": {
+            "title": "I now see the longer delivery time of (a part of) my order. How can I cancel it?",
+            "content": "<p>When placing the order, a day of shipment is indicated. After the order has been placed, the same delivery time will also be stated on the order confirmation. It is therefore never possible that during the order, the shipping day on the website, is different than on the order confirmation.</p>"
+          }
+        },
+        "7db28b32-5f9f-4f35-a02a-0afbfeb23edd": {
+          "type": "faq",
+          "settings": {
+            "title": "When will I receive the invoice for my order?",
+            "content": "<p>When placing the order, a day of shipment is indicated. After the order has been placed, the same delivery time will also be stated on the order confirmation. It is therefore never possible that during the order, the shipping day on the website, is different than on the order confirmation.</p>"
+          }
+        },
+        "be5a0f8b-6381-4f02-a76e-f7ce26d4c8f5": {
+          "type": "faq",
+          "settings": {
+            "title": "How long will my order take to be delivered?",
+            "content": "<p>When placing the order, a day of shipment is indicated. After the order has been placed, the same delivery time will also be stated on the order confirmation. It is therefore never possible that during the order, the shipping day on the website, is different than on the order confirmation.</p>"
+          }
+        },
+        "12ffb638-6e34-427a-ba86-22c2cb7a6b68": {
+          "type": "faq",
+          "settings": {
+            "title": "Do I need to create an account to place an order?",
+            "content": "<p>When placing the order, a day of shipment is indicated. After the order has been placed, the same delivery time will also be stated on the order confirmation. It is therefore never possible that during the order, the shipping day on the website, is different than on the order confirmation.</p>"
+          }
+        },
+        "532e9c28-34ab-4f60-b2a1-1b09ee53c5ab": {
+          "type": "faq",
+          "settings": {
+            "title": "Can I choose my currency I pay in?",
+            "content": "<p>When placing the order, a day of shipment is indicated. After the order has been placed, the same delivery time will also be stated on the order confirmation. It is therefore never possible that during the order, the shipping day on the website, is different than on the order confirmation.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "b304a99b-a182-407a-b88e-e8a51269e316",
+        "98e1054a-63ec-46f1-92f4-559416117d51",
+        "7db28b32-5f9f-4f35-a02a-0afbfeb23edd",
+        "be5a0f8b-6381-4f02-a76e-f7ce26d4c8f5",
+        "12ffb638-6e34-427a-ba86-22c2cb7a6b68",
+        "532e9c28-34ab-4f60-b2a1-1b09ee53c5ab"
+      ],
+      "settings": {
+        "title": "Frequently Asked Questions."
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main"
+  ]
+}

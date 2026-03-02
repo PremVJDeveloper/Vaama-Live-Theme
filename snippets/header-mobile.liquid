@@ -1,0 +1,355 @@
+<div class="header-mobile">
+  <!-- Regular header (visible when not scrolled) -->
+  <div class="header-top-mobile">
+    <div class="mobile-container">
+      <div class="header-center__inner">
+        <div class="button-menu">
+          <button class="js-menu-mobile btn menu-mobile__btn" type="button" style="margin-left: 30px">
+            <i class="feather-menu"></i>
+          </button>
+        </div>
+        <div class="header-logo" itemscope itemtype="http://schema.org/Organization">
+          {%- if section.settings.logo -%}
+            <a href="/" itemprop="url" class="header-logo__link">
+              <img class="header-logo__img logo-home"
+                src="{{ section.settings.logo | image_url:width:section.settings.logo.width,height:section.settings.logo.height }}" 
+                srcset="{{ section.settings.logo | image_url:width:section.settings.logo.width,height:section.settings.logo.height }}"
+                alt="{{ section.settings.logo.alt | default: shop.name }}"
+                width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}"
+                itemprop="logo">
+
+              <img class="header-logo__img logo-main"
+                src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Group_4_2.svg?v=1747038589"
+                alt="{{ shop.name }}"
+                width="150"
+                height="auto"
+                itemprop="logo">
+            </a>
+          {%- else -%}
+            <a href="/" itemprop="url" class="header-logo__link header-logo__link--text">{{ shop.name }}</a>
+          {%- endif -%}
+        </div>
+        <div class="header-right">
+          {%- if section.settings.show_header_wishlist -%}
+          <div class="wishlist-mobile">
+            <a href="{{  section.settings.page_wishlist.url }}" title="wishlist" data-count-wishlist><i class="icon-wishlist"><span class="count"></span></i></a>
+          </div>
+          {%- endif -%}
+          {%- if section.settings.show_header_user -%}
+            <div class="header-account">
+              <a class="login-account {% unless customer %}show-sotp-popup{% endunless %}" href="{{ routes.account_url }}">
+                <i class="icon-account"></i>
+              </a>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.show_header_cart -%}
+            {% include 'header-cart' %}
+          {%- endif -%}
+        </div>
+        
+        <!-- Regular Search Bar (visible when not scrolled) -->
+        {%- if section.settings.show_header_search -%}
+        <style>
+          /* Home page only */
+body.template-index .bwp-header.header_2 .header-mobile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  background: transparent;
+}
+
+body.template-index .bwp-header.header_2 .header-mobile i,
+body.template-index .bwp-header.header_2 .header-mobile svg,
+body.template-index .bwp-header.header_2 .header-mobile [class^="icon-"],
+body.template-index .bwp-header.header_2 .header-mobile [class*=" icon-"] {
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+
+body.template-index .bwp-header.header_2 .header-mobile .header-logo__img{
+  filter:invert(1) brightness(0) invert(1) contrast(2);
+}
+body.template-index .bwp-header.header_2.sticky .header-mobile .header-logo__img{
+  filter: none;
+}
+body.template-index .bwp-header.header_2 .header-mobile .field,
+body.template-index .bwp-header.header_2 .header-mobile .mobile-search-input,
+body.template-index .bwp-header.header_2 .header-mobile .mobile-search-input::placeholder,
+body.template-index .bwp-header.header_2 .header-mobile .search-labels,
+body.template-index .bwp-header.header_2 .header-mobile .search-labels span,
+body.template-index .bwp-header.header_2 .header-mobile .search-rotating-text span,
+body.template-index .bwp-header.header_2 .header-mobile .icon-search {
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+
+body.template-index .bwp-header.header_2 .header-mobile .mobile-search-input {
+  caret-color: #fff;
+}
+
+body.template-index .bwp-header.header_2 .header-mobile .search-toggle {
+  border: 1px solid #fff;
+}
+
+/* Sticky header → BLACK */
+body.template-index .bwp-header.header_2.sticky .header-mobile i,
+body.template-index .bwp-header.header_2.sticky .header-mobile svg,
+body.template-index .bwp-header.header_2.sticky .header-mobile [class^="icon-"],
+body.template-index .bwp-header.header_2.sticky .header-mobile [class*=" icon-"] {
+  color: #000 !important;
+  fill: #000 !important;
+  stroke: #000 !important;
+}
+
+body.template-index .bwp-header.header_2.sticky .header-mobile .search-toggle {
+  border: 1px solid #28365b52;
+}
+
+body.template-index .bwp-header.header_2.sticky .header-mobile .field,
+body.template-index .bwp-header.header_2.sticky .header-mobile .mobile-search-input,
+body.template-index .bwp-header.header_2.sticky .header-mobile .mobile-search-input::placeholder,
+body.template-index .bwp-header.header_2.sticky .header-mobile .search-labels,
+body.template-index .bwp-header.header_2.sticky .header-mobile .search-labels span,
+body.template-index .bwp-header.header_2.sticky .header-mobile .search-rotating-text span,
+body.template-index .bwp-header.header_2.sticky .header-mobile .icon-search {
+  color: #000 !important;
+  fill: #000 !important;
+  stroke: #000 !important;
+}
+
+body.template-index .bwp-header.header_2.sticky .header-mobile .mobile-search-input {
+  caret-color: #000;
+}
+
+          /* Search container styles */
+          .search-toggle {
+            display: flex;
+            width: 100%;
+            height: 36px;
+            border: 1px solid #28365b52;
+            align-items: center;
+            border-radius: 10px;
+            top: 4px;
+            margin: 0 26px;
+            position: relative;
+            overflow: hidden;
+          }
+          
+          /* Search form styles */
+          .search-modals__form {
+            width: 100%;
+            height: 100%;
+          }
+          
+          /* Field container */
+          .field {
+            position: relative;
+            width: 100%;
+            height: 100%;
+          }
+          
+          /* Search input styles */
+          .mobile-search-input {
+            width: 100%;
+            height: 100%;
+            padding: 0 40px;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            color: #28365b;
+            outline: none;
+          }
+          
+          /* Search icon */
+          .field .icon-search {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            color: #28365b;
+            z-index: 1;
+            pointer-events: none;
+          }
+          
+          /* Search label container */
+          .search-labels {
+            position: absolute;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            font-size: 12px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            color: #28365b;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+          }
+          
+          /* Hide label when input has value or is focused */
+          .mobile-search-input:not(:placeholder-shown) + .search-labels,
+          .mobile-search-input:focus + .search-labels {
+            opacity: 0;
+            visibility: hidden;
+          }
+          
+          /* Add placeholder-shown state for browsers that support it */
+          .mobile-search-input::placeholder {
+            color: transparent;
+          }
+          
+          /* Rotating text animation */
+          .search-rotating-text {
+            font-size: 10px;
+            display: inline-block;
+            position: relative;
+            height: 14px;
+            width: 120px;
+            text-align: left;
+            overflow: hidden;
+          }
+          
+          .search-rotating-text span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            animation: rotateWords 15s infinite;
+            opacity: 0;
+            color: #28365b;
+            font-weight: 500;
+          }
+          
+          .search-rotating-text span:nth-child(1) {
+            animation-delay: 0s;
+          }
+          
+          .search-rotating-text span:nth-child(2) {
+            animation-delay: 3s;
+          }
+          
+          .search-rotating-text span:nth-child(3) {
+            animation-delay: 6s;
+          }
+          
+          .search-rotating-text span:nth-child(4) {
+            animation-delay: 9s;
+          }
+          
+          .search-rotating-text span:nth-child(5) {
+            animation-delay: 12s;
+          }
+          
+          @keyframes rotateWords {
+            0% {
+              opacity: 0;
+              transform: translateY(100%);
+            }
+            3% {
+              opacity: 1;
+              transform: translateY(0);
+            }
+            17% {
+              opacity: 1;
+              transform: translateY(0);
+            }
+            20% {
+              opacity: 0;
+              transform: translateY(-100%);
+            }
+            100% {
+              opacity: 0;
+            }
+          }
+          
+          /* Hide predictive search dropdown initially */
+          .predictive-search {
+            display: none;
+          }
+          
+          /* Loading spinner */
+          .predictive-search__loading-state .spinner {
+            animation: rotate 1s linear infinite;
+            width: 20px;
+            height: 20px;
+          }
+          
+          @keyframes rotate {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        </style>
+        
+        <div class="search-toggle regular-search">
+          <predictive-search class="search-modals__form">
+            <form action="{{ routes.search_url }}" method="get" role="search" class="search">
+              <div class="field">
+                <input type="hidden" name="type" value="product" />
+                <input type="hidden" name="options[prefix]" value="last" />
+                <input class="search__input field__input mobile-search-input" 
+                       name="q" 
+                       value="" 
+                       placeholder=" "
+                       aria-label="{{ 'general.search.submit' | t }}"
+                       autocomplete="off"
+                       autocapitalize="off"
+                       spellcheck="false">
+                <i class="icon-search"></i>
+                <label class="search-labels mobile-search-label">
+                  Search for&nbsp;
+                  <span class="search-rotating-text">
+                    <span>Wedding Rings</span>
+                    <span>Engagement Rings</span>
+                    <span>Gift for Mother</span>
+                    <span>Gift for Wife</span>
+                    <span>Birthday Gifts</span>
+                  </span>
+                </label>
+              </div>
+              
+              <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search style="display: none;">
+                <div class="predictive-search__loading-state">
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                  </svg>
+                </div>
+              </div>
+              
+              <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+            </form>
+          </predictive-search>
+        </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+  
+  {%- if settings.show_menu_bottom -%}
+  <div class="header-bottom-fixed">
+    <div class="home-mobile">
+      <a href="\" title="home"><i class="feather-home"></i><span>{{ 'layout.header.home' | t }}</span></a>
+    </div>
+    <div class="shop-mobile">
+      <a href="{{ routes.all_products_collection_url }}" title="shop"><i class="feather-grid"></i><span>{{ 'layout.header.shop' | t }}</span></a>
+    </div>
+    <div class="account-mobile">
+      <a href="{{ routes.account_url }}" title="my account"><i class="feather-user"></i><span>{{ 'layout.header.account' | t }}</span></a>
+    </div>
+    {%- if section.settings.show_header_wishlist -%}
+    <div class="wishlist-mobile">
+      <a href="{{  section.settings.page_wishlist.url }}" title="wishlist" data-count-wishlist><i class="feather-heart"><span class="count"></span></i><span>{{ 'layout.header.wishlist' | t }}</span></a>
+    </div>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+  {% include 'menu-mobile' %}
+</div>

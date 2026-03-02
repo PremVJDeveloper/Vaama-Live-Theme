@@ -1,0 +1,325 @@
+<div class="js-product-media-group js-product-media-group-{{ section.id }}{%- if varriant_array != blank -%}-{{ forloop.index }}{% endif %} product-single__media-group" data-nav="true"{%- if thumbnails -%} data-fade="true"{% endif %}{% if slider %} data-infinite="true"{% endif %}>
+	{%- assign width = 770 -%}
+	{%- assign height = 770 -%}
+	{%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
+	{%- assign metafield_video_url = product.metafields.custom.search_videos.value | strip -%}
+
+	{%- comment -%} 3D Model Product Mapping {%- endcomment -%}
+	{%- assign product_3d_mapping = "" -%}
+	{%- capture product_3d_mapping -%}
+		4.58ct Opulent Radiance Round Lab Grown Diamond Ring:Nin377KdTOWMUOUBhsQToQ|
+		4.58ct Eternal Prestige Round Lab Grown Diamond Ring:G6A87QAHRK2drp0JJv7sgw|
+		1.00 ct Lab-Grown Diamond Engagement Ring:b0upq16GQgSLgx2taC4QvQ|
+		1.00 ct Lab-Grown Diamond Oval Engagement Ring:RZjz4pCtSb2WhLv_GE-Ocw |
+		1.2 Ct Dazzling Oval Solitaire Ring:Qq59QTzHRN-oyotmZx6KvQ|
+		0.9 Ct Elegant Pear Solitaire Ring:MfaURLwvTqizMX1S4dHM7A
+	{%- endcapture -%}
+	
+	{%- assign mapping_array = product_3d_mapping | strip | split: '|' -%}
+	{%- assign product_code = '' -%}
+	{%- assign show_3d_button = false -%}
+	
+	{%- for mapping in mapping_array -%}
+		{%- assign title_code_pair = mapping | split: ':' -%}
+		{%- assign map_title = title_code_pair[0] | strip -%}
+	{%- assign product_title_clean = product.title | strip -%}
+
+			{%- if map_title == product_title_clean -%}
+			{%- assign product_code = title_code_pair[1] | strip -%}
+			{%- assign show_3d_button = true -%}
+			{%- break -%}
+		{%- endif -%}
+	{%- endfor -%}
+	
+	{%- if show_3d_button and product_code != '' -%}
+	<!-- 3D Button -->
+	<div class="view-3d-model-btn-wrapper" style="position:absolute;top:15px;left:15px;z-index:10;" data-product-code="{{ product_code }}">
+		  <button class="view-3d-model-btn" onclick="show3DModelPopup()">
+		View 3D Model
+	  </button>
+	</div>
+
+	<!-- Popup Overlay -->
+	<div id="model-popup-overlay">
+	  <div id="model-popup">
+		<button onclick="close3DModelPopup()">×</button>
+
+		<iframe
+		  id="model-iframe"
+		  title="3D Model Viewer"
+		  frameborder="0"
+		  allow="camera; autoplay; fullscreen; xr-spatial-tracking; web-share"
+		  width="100%"
+		  height="100%"
+		  style="border:none;"
+		></iframe>
+	  </div>
+	</div>
+	{%- endif -%}
+
+
+	{%- for media in product.media -%}
+		{%- assign featured = false -%}
+		{%- if media == featured_media -%}
+			{%- assign featured = true -%}
+		{%- endif -%}
+		{%- capture thumbnail_alt -%}
+			{%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+				{{ 'products.product.video_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+			{%- elsif media.media_type == 'model' -%}
+				{{ 'products.product.model_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+			{%- else -%}
+				{{ 'products.product.gallery_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+			{%- endif -%}
+		{%- endcapture -%}
+		{%- if varriant_array != blank -%}
+            {% assign media_alt = media.alt | strip | replace: ' ', '_' %}
+			{%- if media_alt ==  varriant_image -%}
+				<div class="js-product-media-item product-single__media-item" data-slick-media-label="{{ thumbnail_alt }}">
+					{%- include 'media' with media, featured: featured, width: width, height: height -%}
+				</div>
+			{%- endif -%}
+            {%- if media.alt == product.title -%}
+				<div class="js-product-media-item product-single__media-item" data-slick-media-label="{{ thumbnail_alt }}">
+					{%- include 'media' with media, featured: featured, width: width, height: height -%}
+				</div>
+			{%- endif -%}
+		{%- else -%}
+			{%- if media.alt == 'bwp-image-360' -%}
+				<div class="js-product-media-item product-single__media-item" data-slick-media-label="{{ thumbnail_alt }}">
+					<ul class="bwp-image-360" data-count="{{ count_image }}">{%- include 'media' with media: image, featured: featured, width: width, height: height -%}</ul>
+				</div>
+			{%- else -%}
+				<div class="js-product-media-item product-single__media-item" data-slick-media-label="{{ thumbnail_alt }}">
+					{%- include 'media' with media, featured: featured, width: width, height: height -%}
+				</div>
+			{%- endif -%}
+		{%- endif -%}
+		{%- if media.alt == 'bwp-image-360' -%}
+			{%- break -%}
+		{%- endif -%}
+	{%- endfor -%}
+	{% if metafield_video_url != blank %}
+		<div class="js-product-media-item product-single__media-item"
+			data-slick-media-label="Product video">
+			
+			{% render 'media-metafield-video',
+			video_url: metafield_video_url,
+			section_id: section.id,
+			width: width,
+			height: height
+			%}
+		</div>
+	{% endif %}
+
+</div>
+        {% assign full_url = request.host | append: request.path %}
+        <div class="product_share on_product_share_icon" style="display: flex;width: 40px;height: 40px;justify-content: space-around;align-items: center;background: #F5F6F8;border-radius: 50%;position: absolute;top: 15px;right: 15px;">
+          <div class="product_share_label">
+            <i class="feather-share-2" style="font-size: 15px;"></i>
+          </div>
+        </div>
+        {% render 'view-similar', product: product %}
+
+
+<div class="main-media__slick-controls">
+	<button class="slick__arrow slick__arrow--previous" data-slick-previous>
+	<img class="slick-arrow-icon" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Left_arrow.svg?v=1771928067" alt="Next" style="    object-fit: fill;
+    height: 16px;
+    background: none;
+	margin: -6px 0px 0px -1px;
+    width: 16px;
+">
+
+	</button>
+	<button class="slick__arrow slick__arrow--next" data-slick-next>
+ <img class="slick-arrow-icon" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Right_Arrow.svg?v=1771928067" alt="Next" style="    object-fit: fill;
+    height: 16px;
+	margin: -6px 0px 0px 2px;
+    background: none;
+    width: 16px;">
+	</button>
+</div>
+<div class="slider-track-bar">
+  <div class="slider-track-fill"></div>
+</div>
+<style>
+.on_product_share_icon {
+  display: none !important;
+}
+.product-single:has(.content-product_share.active) .slick-arrow {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none;
+}
+/* Show only on mobile */
+@media (max-width: 767px) {
+  .on_product_share_icon {
+    display: flex !important;
+  }
+}
+/* Button */
+.view-3d-model-btn {
+  background: transparent;
+  color: #28365b;
+  border: 0.5px solid #28365b;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.view-3d-model-btn:hover {
+background: rgba(104, 124, 158, 1);
+  color: #fff;
+
+}
+
+/* Overlay (IMPORTANT: no display:none) */
+#model-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  z-index: 999999999999999;
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+overflow-y: auto;
+  overscroll-behavior: contain;
+
+}
+
+/* Popup */
+#model-popup {
+  background: #fff;
+  width: 90%;
+  max-width: 1000px;
+  height: 85%;
+  border-radius: 12px;
+  overflow: hidden;
+  z-index:999999;
+  position: relative;
+}
+
+/* Close button */
+#model-popup button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #fff;
+  border: 2px solid #000;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+@media (max-width: 767px) {
+  #model-popup {
+    width: 95%;
+    height: 70%;
+  }
+}
+.slider-track-bar {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background: #e0e0e0;
+  margin-top: 10px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .slider-track-bar {
+    display: block;
+  }
+}
+
+.slider-track-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #28365b;
+  border-radius: 2px;
+  transition: transform 0.2s ease;
+}
+
+</style>
+{% comment %} <script>
+let modelLoaded = false;
+
+function show3DModelPopup() {
+  const overlay = document.getElementById("model-popup-overlay");
+  const iframe = document.getElementById("model-iframe");
+  
+  // Get product code from data attribute
+  const productCode = document.querySelector('.view-3d-model-btn-wrapper').getAttribute('data-product-code');
+  
+  if (!productCode) {
+    console.error('Product code not found');
+    return;
+  }
+  
+  const MODEL_URL = `https://ijewel3d.com/drive/files/${productCode}/embedded?slug=${productCode}&isTitle=false&isAutoplay=true&isEnabledZoom=false&isShare=false`;
+
+  // Load iframe only first time
+  if (!modelLoaded) {
+    iframe.src = MODEL_URL;
+    modelLoaded = true;
+  } else {
+    // If already loaded, just show the popup
+    overlay.style.visibility = "visible";
+    overlay.style.opacity = "1";
+    document.body.style.overflow = "hidden";
+  }
+
+  overlay.style.visibility = "visible";
+  overlay.style.opacity = "1";
+  document.body.style.overflow = "hidden";
+}
+
+function close3DModelPopup() {
+  const overlay = document.getElementById("model-popup-overlay");
+
+  overlay.style.opacity = "0";
+  overlay.style.visibility = "hidden";
+  document.body.style.overflow = "auto";
+}
+
+/* Close when clicking outside */
+document
+  .getElementById("model-popup-overlay")
+  .addEventListener("click", function (e) {
+    if (e.target === this) close3DModelPopup();
+  });
+
+/* Close with Escape key */
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") close3DModelPopup();
+});
+
+/* Optional: preload iframe after page load (faster first open) */
+window.addEventListener("load", function () {
+  const view3dWrapper = document.querySelector('.view-3d-model-btn-wrapper');
+  if (view3dWrapper) {
+    const productCode = view3dWrapper.getAttribute('data-product-code');
+    if (productCode) {
+      const iframe = document.getElementById("model-iframe");
+      const MODEL_URL = `https://ijewel3d.com/drive/files/${productCode}/embedded?slug=${productCode}&isTitle=false&isAutoplay=true&isEnabledZoom=false&isShare=false`;
+      iframe.src = MODEL_URL;
+      modelLoaded = true;
+    }
+  }
+});
+</script> {% endcomment %}

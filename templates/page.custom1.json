@@ -1,0 +1,461 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "page-breadcrumb",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "bgimage": false,
+        "show_pagetitle": true,
+        "show_breadcrumb": true,
+        "color_breadcrumb": "#000000",
+        "align_breadcrumb": "left"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "enable": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "featured_custom_section_w4BCAc": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_zJxNqq": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_yHdQF8": {
+              "type": "text-block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Vaama Story Section</title>\n  <style>\n\n    .section {\n         background: url(https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Customization.png?v=1746179313) no-repeat bottom / cover;\n    height: 700px;\n    display: flex\n;\n    align-items: end;\n    justify-content: center;\n    position: relative;\n    }\n\n    .glass-box {\n      background: rgba(255, 255, 255, 0.1);\n      backdrop-filter: blur(10px);\n      -webkit-backdrop-filter: blur(10px);\n      border-radius: 15px;\n      padding: 30px;\n      max-width: 1200px;\n      color: #fff;\n      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);\n margin-bottom: 30px\n    }\n\n    .glass-box h2 {\n      margin-top: 0;\n      font-size: 24px;\n      font-weight: bold;\n     color: white;\n     text-align: center;\n    }\n\n    .glass-box p {\n      margin-bottom: 10px;\n      font-size: 16px;\n      line-height: 1.5;\n    }\n.two-column {\n    display: flex;\n  gap: 30px;\n   font-family: mickir;\n  \n}  \n\n\n@media(max-width: 767px){\n.glass-box {\n      background: rgba(255, 255, 255, 0.1);\n      backdrop-filter: blur(10px);\n      -webkit-backdrop-filter: blur(10px);\n      border-radius: 15px;\n      padding: 30px;\n      max-width: 300px;\n      color: #fff;\n      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);\n margin-bottom: 30px\n    }\n.two-column {\n    display: block;\n  gap: 10px;\n   font-family: mickir;\n  \n}  \n}\n  </style>\n\n\n  <section class=\"section\">\n   \n    \n  </section>\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#28365b",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#28365b",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_yHdQF8"
+          ]
+        }
+      },
+      "block_order": [
+        "column_zJxNqq"
+      ],
+      "settings": {
+        "max_width": "",
+        "fullwidth": true,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "-200px 0px 0px 0px",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_6Mi48i": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_WWr6rX": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "title_RwKEMq": {
+              "type": "title",
+              "settings": {
+                "heading_size": "h4",
+                "title": "Create Something Truly Yours",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 42,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 20,
+                "line_height_mobi": 20,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            },
+            "text_block_ART9Da": {
+              "type": "text-block",
+              "settings": {
+                "title": "We believe jewelry should reflect the uniqueness of the person wearing it and the moments it commemorates. Our customization capabilities turn this belief into reality. <br><br>\n\n\nWhat makes our approach different is the seamless connection between inspiration and creation. By keeping both design and production local, we maintain quality control while creating pieces that truly feel like extensions of you.",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "title_RwKEMq",
+            "text_block_ART9Da"
+          ]
+        }
+      },
+      "block_order": [
+        "column_WWr6rX"
+      ],
+      "custom_css": [
+        "@media (max-width: 767px) {#shopify-block-AejVFYzc3Y09uemZSY__title_RwKEMq .bwp-block-title {font-size: 28px; line-height: 70px; font-weight: 300; letter-spacing: 0px; color: #28365b !important; text-align: center; font-family: var(--font-family-second); } #shopify-block-AWVZNWC9TVVc0VFBHQ__text_block_ART9Da .bwp-block-text > * {font-size: 16px; line-height: 24px; letter-spacing: 0px; color: #28365b !important; text-align: center; }}"
+      ],
+      "settings": {
+        "max_width": "1200px",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "60px 0px 30px 0px | 60px 0px 30px 0px | 60px 0px 30px 0px | 60px 0px 30px 0px",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_LiUNb9": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_eg8g7b": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_KnVDML": {
+              "type": "text-block",
+              "settings": {
+                "title": "<body>\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>3 Step Jewellery Customization Form</title>\n  <style>\n    .form-wrapper {\n      max-width: 1200px;\n      margin: 50px auto;\n      padding: 30px;\n      border: 0px solid #f2d1cf;\n      position: relative;\n    }\n\n    .step-tabs {\n      display: flex;\n      justify-content: space-between;\n      margin-bottom: 30px;\n      gap: 50px;\n    }\n\n    .step-tab {\n      flex: 1;\n      text-align: center;\n      padding: 10px;\n      border: none;\n      background-color: #dcdcdc;\n      color: #333;\n      cursor: pointer;\n      font-weight: 500;\n      border-right: 1px solid #fff;\n      transition: all 0.3s;\n    }\n\n    .step-tab.active {\n      background-color: #12203E;\n      color: white;\n    }\n\n    .step-tab:last-child {\n      border-right: none;\n    }\n\n    .step-content {\n      display: none;\n    }\n\n    .step-content.active {\n      display: block;\n    }\n\n    input, textarea, select {\n      width: 100%;\n      padding: 10px;\n      margin-bottom: 15px;\n      border: 1px solid #ccc;\n      border-radius: 4px;\n    }\n\n    .button-row {\n      display: flex;\n      justify-content: flex-end;\n      gap: 10px;\n    }\n\n    button {\n      background-color: #12203E;\n      color: white;\n      padding: 10px 20px;\n      border: none;\n      border-radius: 5px;\n      cursor: pointer;\n    }\n\n    button[disabled] {\n      background-color: #999;\n    }\n\n    #loader {\n      display: none;\n      text-align: center;\n      padding: 30px;\n    }\n\n    #loader div {\n      border: 5px solid #f3f3f3;\n      border-top: 5px solid #2d2d62;\n      border-radius: 50%;\n      width: 40px;\n      height: 40px;\n      animation: spin 1s linear infinite;\n      margin: 20px auto;\n    }\n\n    @keyframes spin {\n      0% { transform: rotate(0deg); }\n      100% { transform: rotate(360deg); }\n    }\n\n    @media (max-width: 600px) {\n      .step-tabs {\n        flex-direction: column;\n      }\n\n      .step-tab {\n        margin-bottom: 5px;\n      }\n\n      .button-row {\n        flex-direction: column;\n        align-items: stretch;\n      }\n\n      .step-content.active p {\n        color: black !important;\n      }\n\n      .step-content p {\n        color: black !important;\n      }\n\n      .form-wrapper p {\n        color: black;\n      }\n    }\n  </style>\n\n  <div class=\"form-wrapper\">\n    <div class=\"step-tabs\">\n      <div class=\"step-tab active\" data-step=\"1\">1. Tell Us Your Preferences</div>\n      <div class=\"step-tab\" data-step=\"2\">2. Share Your References</div>\n      <div class=\"step-tab\" data-step=\"3\">3. You’re Done!</div>\n    </div>\n\n    <!-- Step 1 -->\n    <div class=\"step-content active\" data-content=\"1\">\n      <input type=\"text\" id=\"name\" placeholder=\"Full Name\" required>\n      <input type=\"email\" id=\"email\" placeholder=\"Email Address\" required>\n      <input type=\"tel\" id=\"phone\" placeholder=\"Phone Number\" required>\n      <select id=\"type\">\n        <option disabled selected>Select Type of Jewellery</option>\n        <option>Rings</option>\n        <option>Bracelets</option>\n        <option>Pendants</option>\n        <option>Others</option>\n      </select>\n      <select id=\"metalType\">\n        <option disabled selected>Select Metal Type</option>\n        <option>14KT</option>\n        <option>18KT</option>\n      </select>\n      <select id=\"metalColour\">\n        <option disabled selected>Select Metal Colour</option>\n        <option>Yellow Gold</option>\n        <option>Rose Gold</option>\n        <option>White Gold</option>\n      </select>\n      <textarea id=\"description\" rows=\"4\" placeholder=\"Description\"></textarea>\n      <div class=\"button-row\">\n        <button onclick=\"nextStep(2)\">Next</button>\n      </div>\n    </div>\n\n    <!-- Step 2 -->\n    <div class=\"step-content\" data-content=\"2\">\n      <input type=\"text\" id=\"reference\" placeholder=\"Enter image / video URL or file name\">\n      <div class=\"button-row\">\n        <button onclick=\"prevStep(1)\">Back</button>\n        <button onclick=\"nextStep(3)\">Next</button>\n      </div>\n    </div>\n\n    <!-- Step 3 -->\n    <div class=\"step-content\" data-content=\"3\">\n      <h2>Thank You</h2>\n      <p>You are almost done<br><br>\n        Click submit to submit your request and we will get back to you shortly\n      </p>\n      <div class=\"button-row\">\n        <button onclick=\"prevStep(2)\">Back</button>\n        <button onclick=\"submitForm()\">Submit</button>\n      </div>\n    </div>\n\n    <!-- Loader -->\n    <div id=\"loader\">\n      <p style=\"font-weight: bold;\">Submitting your request...</p>\n      <div></div>\n    </div>\n  </div>\n\n  <script>\n    function nextStep(step) {\n      document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));\n      document.querySelectorAll('.step-tab').forEach(t => t.classList.remove('active'));\n      document.querySelector(`.step-content[data-content=\"${step}\"]`).classList.add('active');\n      document.querySelector(`.step-tab[data-step=\"${step}\"]`).classList.add('active');\n    }\n\n    function prevStep(step) {\n      nextStep(step);\n    }\n\n    function submitForm() {\n      const data = {\n        name: document.getElementById('name').value,\n        email: document.getElementById('email').value,\n        phone: document.getElementById('phone').value,\n        type: document.getElementById('type').value,\n        metalType: document.getElementById('metalType').value,\n        metalColour: document.getElementById('metalColour').value,\n        description: document.getElementById('description').value,\n        reference: document.getElementById('reference').value\n      };\n\n      // Show loader\n      document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));\n      document.getElementById('loader').style.display = 'block';\n\n      fetch('https://script.google.com/macros/s/AKfycbz8Q4xp4AG16OxU7EpjnjxtuVhl7fnAxfuG3toOFxAuuNq8fwbTgg5DvCSH1zRW1YyT/exec', {\n        method: 'POST',\n        mode: 'no-cors',\n        headers: {\n          'Content-Type': 'application/json'\n        },\n        body: JSON.stringify(data)\n      }).then(() => {\n        showThankYouMessage();\n      }).catch(() => {\n        alert(\"There was an error submitting the form.\");\n        document.getElementById('loader').style.display = 'none';\n      });\n    }\n\n    function showThankYouMessage() {\n      const wrapper = document.querySelector('.form-wrapper');\n      wrapper.innerHTML = `\n        <div style=\"text-align: center; padding: 40px;\">\n          <h2>Thank You!</h2>\n          <p>We’ve received your request.<br><br>\n          A member of our team will be in touch with you shortly to discuss your design and to guide you through the next steps.</p>\n        </div>\n      `;\n    }\n  </script>\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#000000",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_KnVDML"
+          ]
+        }
+      },
+      "block_order": [
+        "column_eg8g7b"
+      ],
+      "custom_css": [],
+      "settings": {
+        "max_width": "",
+        "fullwidth": true,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_custom_section_MwqPHk": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_7U8Q7B": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "title_CxqMhh": {
+              "type": "title",
+              "settings": {
+                "heading_size": "h3",
+                "title": "Crafted by Vaama just for You",
+                "font": "--font-family-second",
+                "color": "#28365b",
+                "font_size": 36,
+                "line_height": 70,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "center",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#28365b",
+                "font_size_mobi": 30,
+                "line_height_mobi": 35,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "center"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "title_CxqMhh"
+          ]
+        }
+      },
+      "block_order": [
+        "column_7U8Q7B"
+      ],
+      "settings": {
+        "max_width": "",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    },
+    "featured_instagram_shop_RiXCPp": {
+      "type": "featured-instagram-shop",
+      "blocks": {
+        "image_wRkrCM": {
+          "type": "image",
+          "settings": {
+            "name": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-02_at_11.57.45.jpg",
+            "url_lookbook": "#"
+          }
+        },
+        "image_Lf7pPz": {
+          "type": "image",
+          "settings": {
+            "name": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-02_at_11.57.44_1.jpg",
+            "url_lookbook": "#"
+          }
+        },
+        "image_xkC7Wg": {
+          "type": "image",
+          "settings": {
+            "name": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-02_at_11.53.32_68a44fa7-c592-4e21-bdf6-6bc97c7c405d.jpg",
+            "url_lookbook": "#"
+          }
+        },
+        "image_eTtQH3": {
+          "type": "image",
+          "settings": {
+            "name": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-02_at_11.57.44.jpg",
+            "url_lookbook": "#"
+          }
+        },
+        "image_8xiMQM": {
+          "type": "image",
+          "settings": {
+            "name": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-02_at_11.51.30_2c7b3a68-97a4-405c-a79a-da7239c2bb8e.jpg",
+            "url_lookbook": "#"
+          }
+        },
+        "image_JHbbKn": {
+          "type": "image",
+          "settings": {
+            "name": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-02_at_11.56.16.jpg",
+            "url_lookbook": "#"
+          }
+        },
+        "image_CqqCgQ": {
+          "type": "image",
+          "settings": {
+            "name": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-02_at_11.51.32_031f3677-0bce-4275-81b0-b6cb0fab6352.jpg",
+            "url_lookbook": "#"
+          }
+        },
+        "image_3jxwr9": {
+          "type": "image",
+          "settings": {
+            "name": "",
+            "url_lookbook": "#"
+          }
+        }
+      },
+      "block_order": [
+        "image_wRkrCM",
+        "image_Lf7pPz",
+        "image_xkC7Wg",
+        "image_eTtQH3",
+        "image_8xiMQM",
+        "image_JHbbKn",
+        "image_CqqCgQ",
+        "image_3jxwr9"
+      ],
+      "settings": {
+        "color_bg": "",
+        "width_bg": "container",
+        "padding_bg": "",
+        "max_width": "",
+        "fullwidth": false,
+        "padding": "",
+        "margin": "",
+        "margin_content": "0 -4px 0 -4px",
+        "padding_item": "0 4px 0 4px",
+        "margin_item": "0 0 8px 0",
+        "navigation": true,
+        "pagination": false,
+        "infinite": true,
+        "autoplay": false,
+        "autoplay_speed": "10000",
+        "rows": 1,
+        "columns": 4,
+        "column1440": 4,
+        "column1": 4,
+        "column2": 3,
+        "column3": 1,
+        "column4": 1
+      }
+    },
+    "featured_custom_section_UiTJUt": {
+      "type": "featured-custom-section",
+      "blocks": {
+        "column_VeBWPr": {
+          "type": "_column",
+          "settings": {
+            "width": 100,
+            "padding": "",
+            "margin": "",
+            "width_lap": 100,
+            "width_tab": 100,
+            "width_mobi": 100
+          },
+          "blocks": {
+            "text_block_gRxLix": {
+              "type": "text-block",
+              "name": "Text block",
+              "settings": {
+                "title": "<body>\n\n\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <meta name=\"description\" content=\"Frequently asked questions about Vaama Jewellery's lab-grown diamonds, certification, quality standards, and customer policies.\">\n  <title>Frequently Asked Questions - Vaama Jewellery | Lab-Grown Diamond FAQs</title>\n  <style>\n    .faq-wrapper {\n      max-width: 900px;\n      margin: 0 auto;\n    }\n\n    .faq-title {\n      text-align: center;\n      color: #24335b;\n      font-size: 2rem;\n      font-weight: 600;\n      margin-bottom: 40px;\n      letter-spacing: -0.5px;\n    }\n\n    .main-faq-container {\n      background: #ffffff;\n      border: 1px solid #e5e7eb;\n      border-radius: 8px;\n      overflow: hidden;\n    }\n\n    .main-faq-toggle {\n      background: #24335b;\n      color: #ffffff;\n      cursor: pointer;\n      padding: 20px 24px;\n      width: 100%;\n      text-align: left;\n      border: none;\n      outline: none;\n      font-size: 1.125rem;\n      font-weight: 600;\n      position: relative;\n      transition: background-color 0.2s ease;\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n    }\n\n    .main-faq-toggle:hover {\n      background: #1a2847;\n    }\n\n    .main-faq-toggle:focus {\n      outline: 2px solid #24335b;\n      outline-offset: 2px;\n    }\n\n    .main-faq-toggle::after {\n      content: '▼';\n      font-size: 1rem;\n      transition: transform 0.3s ease;\n      display: inline-block;\n    }\n\n    .main-faq-toggle.active::after {\n      transform: rotate(180deg);\n    }\n\n    .main-faq-content {\n      max-height: 0;\n      overflow: hidden;\n      transition: max-height 0.4s ease;\n      background: #ffffff;\n    }\n\n    .main-faq-content.active {\n      max-height: 5000px;\n    }\n\n    .nested-faq-container {\n      padding: 16px;\n    }\n\n    .faq-item {\n      background: #ffffff;\n      border: 1px solid #e5e7eb;\n      border-radius: 6px;\n      margin-bottom: 10px;\n      overflow: hidden;\n    }\n\n    .faq-toggle {\n      background: #ffffff;\n      color: #24335b;\n      cursor: pointer;\n      padding: 16px 20px;\n      width: 100%;\n      text-align: left;\n      border: none;\n      outline: none;\n      font-size: 1rem;\n      font-weight: 500;\n      position: relative;\n      transition: background-color 0.2s ease;\n      display: flex;\n      align-items: flex-start;\n      justify-content: space-between;\n      gap: 12px;\n      border-radius: 6px;\n    }\n\n    .faq-toggle:hover {\n      background: #f9fafb;\n    }\n\n    .faq-toggle:focus {\n      outline: 2px solid #24335b;\n      outline-offset: -2px;\n    }\n\n    .faq-toggle.active {\n      border-radius: 6px 6px 0 0;\n      background: #f9fafb;\n    }\n\n    .faq-question {\n      flex: 1;\n    }\n\n    .faq-toggle::after {\n      content: '+';\n      font-size: 1.5rem;\n      font-weight: 300;\n      transition: transform 0.3s ease;\n      display: inline-block;\n      min-width: 20px;\n      text-align: center;\n      color: #24335b;\n      line-height: 1;\n    }\n\n    .faq-toggle.active::after {\n      content: '−';\n    }\n\n    .faq-content {\n      max-height: 0;\n      overflow: hidden;\n      transition: max-height 0.3s ease, padding 0.3s ease;\n      background: #ffffff;\n      color: #4b5563;\n      line-height: 1.7;\n      font-size: 0.95rem;\n      border-top: 1px solid #e5e7eb;\n    }\n\n    .faq-content.active {\n      max-height: 500px;\n      padding: 16px 20px;\n    }\n\n    .faq-content p {\n      margin: 0;\n    }\n\n    @media (max-width: 768px) {\n\n\n      .faq-title {\n        font-size: 1.5rem;\n        margin-bottom: 30px;\n      }\n\n      .main-faq-toggle {\n        padding: 16px 20px;\n        font-size: 1rem;\n      }\n\n      .nested-faq-container {\n        padding: 12px;\n      }\n\n      .faq-toggle {\n        padding: 14px 16px;\n        font-size: 0.95rem;\n      }\n\n      .faq-content {\n        font-size: 0.9rem;\n      }\n\n      .faq-content.active {\n        padding: 14px 16px;\n      }\n    }\n\n    @media (prefers-reduced-motion: reduce) {\n      * {\n        animation-duration: 0.01ms !important;\n        animation-iteration-count: 1 !important;\n        transition-duration: 0.01ms !important;\n      }\n    }\n  </style>\n\n\n  <main class=\"faq-wrapper\">\n    <h1 class=\"faq-title\">Frequently Asked Questions</h1>\n\n    <section class=\"main-faq-container\" itemscope itemtype=\"https://schema.org/FAQPage\">\n      <button class=\"main-faq-toggle\" id=\"mainFaqToggle\" aria-expanded=\"false\" aria-controls=\"mainFaqContent\">\n        <span>Explore All FAQs</span>\n      </button>\n      \n      <div class=\"main-faq-content\" id=\"mainFaqContent\">\n        <div class=\"nested-faq-container\">\n          \n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Is a lab grown diamond a real diamond?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Yes, lab grown diamonds are genuine diamonds with identical physical, chemical, and optical properties to mined diamonds. They're created using advanced technology that replicates the natural diamond formation process in controlled laboratory conditions. Both rate 10 on the Mohs hardness scale and possess the same brilliance, fire, and durability.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Is it worth buying lab grown diamonds?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Absolutely. Lab grown diamonds offer exceptional value by providing the same beauty and quality as mined diamonds at typically 30-40% less cost. This means you can invest in higher quality grades or larger carat weights within your budget. You're getting superior quality while making a more sustainable choice.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">How much is 1 carat lab grown diamond?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">The price of a 1-carat lab grown diamond varies based on the 4Cs - cut, color, clarity, and carat weight. We recommend scheduling a consultation to explore options that match your specific preferences and budget, ensuring you receive the best value for your investment.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">What are the 4Cs of lab diamonds?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">The 4Cs - Cut, Color, Clarity, and Carat, define a diamond's quality and beauty. Cut determines how light moves through the stone, creating that captivating sparkle. Color grades range from colorless (D) to faint yellow (Z+), while Clarity measures internal characteristics. Carat refers to weight.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Can I buy only diamonds?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Yes, visit our gifting section to explore loose diamonds and other gemstones. Whether you're looking to customize an existing design or create something entirely new, our collection of individual stones offers beautiful options.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Is Vaama's jewellery certified?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Yes, all our jewellery comes with BIS Hallmarked certification and certified authenticity documentation. This ensures you receive complete transparency about your jewellery's quality and characteristics. We believe in providing you with detailed information about your jewelry, so you can wear your Vaama piece with confidence knowing its true value and ethical origins.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">What makes Vaama diamonds exceptionally brilliant?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Every Vaama ring features diamonds with our Triple Excellent Cut grade, which maximizes light reflection for unmatched sparkle. Combined with EF color grading for brilliant white perfection and VVS clarity for exceptional transparency, your jewellery delivers the kind of radiance that captures attention and creates lasting memories.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">What if my jewellery doesn't feel quite right after I receive it?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">We offer 15-day easy returns because we want you to absolutely love your jewellery. Whether it's sizing, style, or simply not feeling like \"the one,\" you can return your piece within 30 Days. This gives you time to live with your ring and ensure it truly becomes part of your story. This is not applicable on customized jewellery.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">How does Vaama ensure consistent quality across all designs?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">The Vaama Promise applies to every piece of jewellery we create - EF color diamonds, VVS clarity, and Triple Excellent cuts are our non-negotiable standards. Whether you choose a classic solitaire or an intricate vintage-inspired design, you receive the same exceptional quality that defines our commitment to excellence.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">How to Properly Store Your Jewellery?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Proper storage protects your earrings and extends their beauty for years to come. Store each pair in individual soft pouches or lined compartments to prevent scratching and tangling. Keep them away from humidity and direct sunlight, which can affect metal finishes over time. For earrings with gemstone accents, avoid contact with other jewelry pieces. Consider a dedicated jewelry box with separate sections, and always ensure earrings are completely dry before storing to prevent tarnishing.</p>\n            </div>\n          </article>\n\n          <article class=\"faq-item\" itemscope itemprop=\"mainEntity\" itemtype=\"https://schema.org/Question\">\n            <button class=\"faq-toggle\" aria-expanded=\"false\">\n              <span class=\"faq-question\" itemprop=\"name\">Can You Wear Lab-Grown Diamond Jewellery Everyday?</span>\n            </button>\n            <div class=\"faq-content\" itemscope itemprop=\"acceptedAnswer\" itemtype=\"https://schema.org/Answer\">\n              <p itemprop=\"text\">Absolutely. Lab-grown diamonds possess the same durability and hardness as mined diamonds, making them perfect for daily wear. Your Vaama earrings are crafted with secure settings and quality metals that withstand regular use while maintaining their brilliance. With proper care, your lab-grown diamond earrings will continue sparkling beautifully through all your everyday moments.</p>\n            </div>\n          </article>\n\n        </div>\n      </div>\n    </section>\n  </main>\n\n  <script>\n    const mainToggle = document.getElementById('mainFaqToggle');\n    const mainContent = document.getElementById('mainFaqContent');\n    const faqButtons = document.querySelectorAll('.faq-toggle');\n\n    mainToggle.addEventListener('click', () => {\n      const isExpanded = mainToggle.getAttribute('aria-expanded') === 'true';\n      mainToggle.setAttribute('aria-expanded', !isExpanded);\n      mainToggle.classList.toggle('active');\n      mainContent.classList.toggle('active');\n    });\n\n    faqButtons.forEach(btn => {\n      btn.addEventListener('click', () => {\n        const isExpanded = btn.getAttribute('aria-expanded') === 'true';\n        btn.setAttribute('aria-expanded', !isExpanded);\n        btn.classList.toggle('active');\n        const faqAnswer = btn.nextElementSibling;\n        faqAnswer.classList.toggle('active');\n      });\n    });\n  </script>\n\n</body>",
+                "font": "--font-family-base",
+                "color": "#ffffff",
+                "font_size": 16,
+                "line_height": 24,
+                "letter_spacing": 0,
+                "font_weight": "300",
+                "align": "left",
+                "padding": "",
+                "margin": "",
+                "color_mobi": "#ffffff",
+                "font_size_mobi": 16,
+                "line_height_mobi": 24,
+                "letter_spacing_mobi": 0,
+                "align_mobi": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_block_gRxLix"
+          ]
+        }
+      },
+      "block_order": [
+        "column_VeBWPr"
+      ],
+      "name": "Custom Section",
+      "settings": {
+        "max_width": "",
+        "fullwidth": false,
+        "background_color": "",
+        "background_fixed": false,
+        "background_size": "cover",
+        "background_pos": "center center",
+        "padding": "",
+        "margin": "",
+        "vertical_align": "top",
+        "horizontal_align": "left"
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "main",
+    "featured_custom_section_w4BCAc",
+    "featured_custom_section_6Mi48i",
+    "featured_custom_section_LiUNb9",
+    "featured_custom_section_MwqPHk",
+    "featured_instagram_shop_RiXCPp",
+    "featured_custom_section_UiTJUt"
+  ]
+}

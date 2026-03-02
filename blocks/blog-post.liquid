@@ -1,0 +1,272 @@
+{{ 'css-section-blog-post.css' | asset_url | stylesheet_tag }}
+{%- assign blog 	= block.settings.blog -%}
+{%- assign limit 	= block.settings.post_limit -%}
+{%- assign nav 		= block.settings.navigation -%}
+{%- assign infinite = block.settings.infinite -%}
+{%- assign autoplay = block.settings.autoplay -%}
+{%- assign autoplay_speed = block.settings.autoplay_speed | escape -%}
+{%- assign columns = block.settings.columns -%}
+{%- assign column1440 = block.settings.column1440 -%}
+{%- assign column1 = block.settings.column1 -%}
+{%- assign column2 = block.settings.column2 -%}
+{%- assign column3 = block.settings.column3 -%}
+{%- assign column4 = block.settings.column4 -%}
+{%- assign show_date = block.settings.blog_show_date -%}
+{%- assign show_image = block.settings.blog_show_image -%}
+{%- assign show_excerpt = block.settings.blog_show_excerpt -%}
+{%- assign lenght_excerpt = block.settings.lenght_excerpt -%}
+{%- assign show_button = block.settings.show_button -%}
+{% assign margin 			= block.settings.margin | split: "|" %}
+{% assign padding 			= block.settings.padding | split: "|" %}
+{%- style -%}
+{%- if margin[0] != blank or padding[0] != blank -%}
+	#shopify-block-{{ block.id }} .wpbingo-widget--featured-blog{
+		{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+		{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+	}
+{%- endif -%}
+{%- if margin[1] != blank or padding[1] != blank -%}
+	@media (max-width:1199px){
+		#shopify-block-{{ block.id }} .wpbingo-widget--featured-blog{
+			{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+			{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+		}
+	}
+{%- endif -%}
+{%- if margin[2] != blank or padding[2] != blank -%}
+	@media (max-width:991px){
+		#shopify-block-{{ block.id }} .wpbingo-widget--featured-blog{
+			{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+			{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+		}
+	}
+{%- endif -%}
+{%- if margin[3] != blank or padding[3] != blank -%}
+	@media (max-width:767px){
+		#shopify-block-{{ block.id }} .wpbingo-widget--featured-blog{
+			{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+			{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+		}
+	}
+{%- endif -%}
+{%- endstyle -%}
+<div class="wpbingo-block wpbingo-widget--featured-blog wpbingo-block--{{ block.id }} overflow-hidden">
+    <div class="featured-blog wpbingo-section__content bwp_slider-carousel">
+        {% if blog == blank %}
+             <h4>{{ 'blogs.block.select_blog' | t }}</h4>
+        {% else %}
+            {% unless blog.articles_count == 0 %}
+                <div class="js-carousel slick-carousel" data-nav="{{ nav }}" data-infinite="{{ infinite }}"
+                                data-autoplay="{{ autoplay }}"
+                                data-autoplayspeed="{{ autoplay_speed }}"
+                                data-columns="{{ columns }}"
+                                data-column1440="{{ column1440 }}"
+                                data-column1="{{ column1 }}"
+                                data-column2="{{ column2 }}"
+                                data-column3="{{ column3 }}"
+                                data-column4="{{ column4 }}">
+                    {% for article in blog.articles limit: limit %}
+                        <div class="slick-carousel__item">
+                            <div class="featured-blog__post">
+                                <article class="article">
+                                	{% unless article.image == blank %}
+                                		{%- if show_image -%}
+                                			<div class="article__image">
+                                				<a class="article__featured-image-link" href="{{ article.url }}">
+                                					<div class="article__featured-image-wrapper" style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100}}%;">
+                                						{% include 'img-global' with image: article.image, class: "article__featured-image", effect: "fade-in" %}
+                                					</div>
+                                				</a>
+                                			</div>
+                                		{%- endif -%}
+                                	{% endunless %}
+                                	<div class="article__content">
+                                    {%- if show_date -%}
+                                      <div class="article__meta">       					
+                                        <span class="article__meta-date"><time datetime="{{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' }}" class="date">{{ article.published_at | date: "%B %d, %Y" }}</time></span>                             					
+                                      </div>
+                                    {%- endif -%}
+                                		<h2 class="article__heading">
+                                			<a class="article__heading-link" href="{{ article.url }}">{{ article.title }}</a>
+                                		</h2>
+                                		{%- if show_excerpt -%}
+                                			<div class="rte article__excerpt">
+                                				{{ article.excerpt_or_content | strip_html | truncatewords: lenght_excerpt }}
+                                			</div>
+                                		{%- endif -%}
+                                		{%- if show_button -%}
+                                		<div class="button">
+                                			<a href="{{ article.url }}">{{ "blogs.article.read_more" | t }}</a>
+                                		</div>
+                                		{%- endif -%}
+                                	</div>
+                                </article>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                 <h4>{{ 'blogs.block.count_blog' | t }}</h4>
+            {% endunless %}
+        {% endif %}
+    </div>
+</div>
+{% schema %}
+  {
+    "name": "Blog post",
+    "settings": [
+       {
+			"type": "textarea",
+			"id": "padding",
+			"label": "Padding",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "textarea",
+			"id": "margin",
+			"label": "Margin",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+        {
+          "type": "header",
+          "content": "General Settings"
+        },
+        {
+          "id": "blog",
+          "type": "blog",
+          "label": "Blog features"
+        },
+        {
+          "type": "range",
+          "id": "post_limit",
+          "label": "Posts",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_show_date",
+          "label": "Show date",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_show_image",
+          "label": "Show cover image",
+          "default": true
+        },
+    	 {
+          "type": "checkbox",
+          "id": "show_button",
+          "label": "Show button read more",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_show_excerpt",
+          "label": "Show excerpt",
+          "default": true
+        },
+    	{
+          "type": "number",
+          "id": "lenght_excerpt",
+          "label": "Lenght excerpt",
+          "default": 10
+        },
+        {
+          "type": "header",
+          "content": "Carousel Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "navigation",
+          "label": "Show navigation",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "infinite",
+          "label": "Infinite loop sliding",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "autoplay",
+          "label": "Enable autoplay",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "autoplay_speed",
+          "label": "Autoplay speed",
+          "info": "Autoplay speed in milliseconds. Type: int(ms)",
+          "default": "10000"
+        },
+        {
+            "type": "range",
+            "id": "columns",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Number of Columns >1440px",
+            "default": 4,
+            "info": "Desktops"
+        },
+        {
+            "type": "range",
+            "id": "column1440",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Number of Columns 1200px to 1440px",
+            "default": 4,
+            "info": "Desktops"
+        },
+        {
+            "type": "range",
+            "id": "column1",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Number of Columns on 992px to 1199px",
+            "default": 4,
+            "info": "Desktops"
+        },
+        {
+            "type": "range",
+            "id": "column2",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Number of Columns on 768px to 991px",
+            "default": 3,
+            "info": "Laptop"
+        },
+        {
+            "type": "range",
+            "id": "column3",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Number of Columns on 480px to 767px",
+            "default": 1,
+            "info": "Tablets"
+        },
+        {
+            "type": "range",
+            "id": "column4",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Number of Columns in 480px or less than",
+            "default": 1,
+            "info": "Mobile phone"
+        }
+    ],
+     "presets": [{"name": "Blog post"}]
+  }
+{% endschema %}

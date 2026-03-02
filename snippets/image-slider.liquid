@@ -1,0 +1,88 @@
+{%- if settings.product_within_collection -%}
+	{%- assign product_url = product.url | within: collection -%}
+{%- else -%}
+	{%- assign product_url = product.url -%}
+{%- endif -%}
+{%- assign featured_image 		= product.featured_media.preview_image %}
+{%- assign media_featured		= product.featured_media %}
+{%- assign loading_type = section.settings.image_loading-%}
+
+{% capture varriant_array %}
+{%- for option in product.options_with_values limit:4 -%}
+	{%- for value in option.values -%}
+		{%- for media in product.media -%}
+			{%- if media.alt ==  value -%}
+					{{ value | strip | replace: ' ', '_' }}
+				{%- break -%}
+			{%- endif -%}
+		{%- endfor -%}
+	{%- endfor -%}
+{%- endfor -%}
+{% endcapture %}
+{% assign varriant_grouped = varriant_array | split: ' '%}
+{%- for current in product.selected_or_first_available_variant.options limit:4-%}
+    {% assign varriant_current = current | strip | replace: ' ', '_' %}
+	{%- for varriant_image in varriant_grouped -%}
+		{%- if varriant_current ==  varriant_image -%}
+			{% assign active_varriant_image = varriant_current %}
+			{%- break -%}
+		{%- endif -%}
+	{%- endfor -%}
+{%- endfor -%}
+{% if featured_image.src == blank %}
+<a class="product-card__image-link" href="{{ product_url }}" target="_blank"> 
+	<img class="product-card__image" src="https://placehold.jp/450x540.png"  width="450" height="540" alt="{{ featured_image.alt | escape }}" loading="eager">
+</a>
+{% else %}
+  {%- if varriant_array != blank -%}
+    {%- for varriant_image in varriant_grouped limit:4-%}
+    <div class="mutil_slider-single {{ varriant_image }}{% if active_varriant_image == varriant_image %} active{% endif %}">
+	<div class="product-card__image js-carousel slick-carousel" data-columns="1"
+						data-column1440="1"
+						data-column1="1"
+						data-column2="1"
+						data-column3="1"
+						data-column4="1" data-nav="true" data-draggable="true">
+		{%- for media in product.media -%}
+            {% assign media_alt = media.alt | strip | replace: ' ', '_' %}
+			{%- if media_alt ==  varriant_image -%}
+    			<a class="product-card__image-link" href="{{ product_url }}" data-variant_id="{{ media.id }}" target="_blank">
+    				{% if forloop.first %}
+    					{% render 'img-global-product' with image: media, media: media_featured, class: "product-card__img-visible variant", loading_type: loading_type  %}
+    				{% else %}
+    					{% render 'img-global-product' with image: media, class: "product-card__img-visible", loading_type: loading_type %}
+    				{% endif %}
+    			</a>
+            {%- endif -%}
+             {%- if media.alt == product.title -%}
+                 <a class="product-card__image-link" href="{{ product_url }}" data-variant_id="{{ media.id }}" target="_blank">
+    				{% if forloop.first %}
+    					{% render 'img-global-product' with image: media, media: media_featured, class: "product-card__img-visible variant", loading_type: loading_type %}
+    				{% else %}
+    					{% render 'img-global-product' with image: media, class: "product-card__img-visible", loading_type: loading_type %}
+    				{% endif %}
+    			</a>
+               {%- endif -%}
+		{%- endfor -%}
+	</div>
+    </div>
+    {%- endfor -%}
+  {%- else -%}
+      <div class="product-card__image js-carousel slick-carousel" data-columns="1"
+						data-column1440="1"
+						data-column1="1"
+						data-column2="1"
+						data-column3="1"
+						data-column4="1" data-nav="true" data-draggable="true">
+		{%- for media in product.media limit:4-%}
+			<a class="product-card__image-link" href="{{ product_url }}" data-variant_id="{{ media.id }}" target="_blank">
+				{% if forloop.first %}
+					{% render 'img-global-product' with image: media, media: media_featured, class: "product-card__img-visible variant", loading_type: loading_type %}
+				{% else %}
+					{% render 'img-global-product' with image: media, class: "product-card__img-visible", loading_type: loading_type %}
+				{% endif %}
+			</a>
+		{%- endfor -%}
+	</div>
+  {% endif %}
+{% endif %}

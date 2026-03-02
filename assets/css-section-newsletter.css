@@ -1,0 +1,106 @@
+/*============== SECTION NEWSLETTER =============*/
+.wpbingo-widget--newsletter .newsletter__content.layout-1 .newsletter-form__wrap {
+  display: flex;
+  max-width: 440px;
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-1 .newsletter-form__wrap input {
+  border: 0;
+  padding: 0 10px;
+  font-size: 14px;
+  line-height: 44px;
+  height: 44px;
+  background: transparent;
+  border-bottom: 1px solid var(--gray-dark);
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-1 .newsletter-form__wrap input::placeholder {
+  color: var(--text-color);
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-1 .newsletter-form__wrap .newsletter-form__submit {
+	border: 1px solid var(--gray-dark);
+  padding: 0 35px;
+  background: transparent;
+  transition: all .3s ease;
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 44px;
+  height: 44px;
+  color: var(--gray-dark);
+  margin: 0;
+  text-transform: uppercase;
+  text-wrap: nowrap;
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-1 .newsletter-form__wrap .newsletter-form__submit:hover {
+  background: var(--theme-color);
+  color: var(--white);
+  border-color: var(--theme-color);
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-2 .newsletter-form__wrap {
+	display: block;
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-2 .newsletter-form__wrap input {
+	border: 0;
+  padding: 0 10px;
+  font-size: 14px;
+  line-height: 44px;
+  height: 44px;
+  background: transparent;
+  border-bottom: 1px solid var(--white);
+  margin-bottom: 25px;
+  color: var(--white);
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-2 .newsletter-form__wrap input::placeholder {
+  color: var(--white);
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-2 .newsletter-form__wrap .newsletter-form__submit {
+	border: 1px solid var(--white);
+  padding: 0 35px;
+  background: var(--white);
+  transition: all .3s ease;
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 44px;
+  height: 44px;
+  color: var(--gray-dark);
+  margin: 0;
+  text-transform: uppercase;
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-2 .newsletter-form__wrap .newsletter-form__submit:hover {
+	background: var(--theme-color);
+  border-color: var(--theme-color);
+  color: var(--white);
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-3 .newsletter-form__wrap {
+    display: flex;
+    height: 50px;
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-3 .newsletter-form__wrap .form-control {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--gray-dark);
+  padding: 0 15px;
+  font-size: var(--font-size-base);
+  background: transparent;
+  height: auto;
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-3 .newsletter-form__wrap .form-control::placeholder {
+  color: var(--text-color);
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-3 .newsletter-form__wrap .newsletter-form__submit {
+  border: 0;
+  background: var(--theme-color);
+  font-size: var(--font-size-base);
+  text-transform: uppercase;
+  color: var(--white);
+  cursor: pointer;
+  padding: 0 40px;
+  text-wrap: nowrap;
+  margin-left: 25px;
+  font-weight: var(--body-font-weight-medium);
+}
+.wpbingo-widget--newsletter .newsletter__content.layout-3 .newsletter-form__wrap .newsletter-form__submit:hover {
+  background: var(--gray-dark);
+  color: var(--white);
+}
+.rtl .wpbingo-widget--newsletter .newsletter__content.layout-3 .newsletter-form__wrap .newsletter-form__submit {
+  margin: 0 25px 0 0;
+}

@@ -1,0 +1,1006 @@
+{%- assign hover_style        = settings.hover_style -%}
+{%- assign image_hover        = settings.image_hover -%}
+{%- assign filter_name_1      = settings.filter_name_1 -%}
+{%- assign select_filter_1    = settings.select_filter_1 -%}
+{%- assign filter_name_2      = settings.filter_name_2 -%}
+{%- assign select_filter_2    = settings.select_filter_2 -%}
+{%- assign filter_name_3      = settings.filter_name_3 -%}
+{%- assign select_filter_3    = settings.select_filter_3 -%}
+
+{%- assign current_tags = product.tags -%}
+
+<!-- View Similar Trigger Button -->
+<div class="view-similar__trigger-wrapper" style="    position: absolute;
+    bottom: 24px;
+    right: 15px;
+    padding: 0px;">
+  <button
+    type="button"
+    class="btn view-similar__trigger-btn"
+    data-view-similar-trigger
+    data-product-handle="{{ product.handle }}"
+    aria-expanded="false"
+    aria-controls="view-similar-drawer"
+    style="    padding: 0px;
+    height: 40px;
+    width: 40px;
+    background: #F5F6F8;
+    border-radius: 50%;
+}"
+  >
+    <img 
+      src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Similar_items_37f93cec-004b-4176-8ff4-70b13da754da.svg?v=1772102447" 
+      alt="View Similar"
+      class="view-similar__icon"
+      style="    object-fit: fill;
+    width: 28px;"
+    >
+  </button>
+</div>
+
+<!-- Bottom Drawer Overlay -->
+<div class="view-similar__overlay" data-view-similar-overlay aria-hidden="true"></div>
+
+<!-- Bottom Drawer -->
+<div
+  id="view-similar-drawer"
+  class="view-similar__drawer"
+  data-view-similar-drawer
+  role="dialog"
+  aria-modal="true"
+  aria-label="Similar Items"
+  aria-hidden="true"
+>
+  <div class="view-similar__drawer-header">
+    <p class="view-similar__drawer-title">
+      Similar Items
+    </p>
+    <button
+      type="button"
+      class="view-similar__close"
+      data-view-similar-close
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </div>
+
+  <!-- Loading overlay — shown on first click, hidden once cards are painted -->
+  <div class="view-similar__loading" data-view-similar-loading>
+    <div class="view-similar__spinner"></div>
+    <span>Finding similar items…</span>
+  </div>
+
+  <!--
+    Product grid — exists in the DOM but browser skips all paint/layout
+    cost until data-view-similar-body gets the class "is-ready".
+    content-visibility: hidden  = zero rendering cost on page load.
+  -->
+  <div class="view-similar__drawer-body" data-view-similar-body>
+
+    {%- comment -%}
+    ================================================================
+    PRICE RANGES  (Shopify prices are in paise × 100)
+    ±₹10,000  = ±1,000,000 units
+    ±₹30,000  = ±3,000,000 units
+    ================================================================
+    {%- endcomment -%}
+    {%- assign cur_price = product.price -%}
+    {%- assign lo_10     = cur_price | minus: 1000000 -%}
+    {%- assign hi_10     = cur_price | plus:  1000000 -%}
+    {%- assign lo_30     = cur_price | minus: 3000000 -%}
+    {%- assign hi_30     = cur_price | plus:  3000000 -%}
+
+    {%- comment -%}
+    ================================================================
+    PARSE CURRENT PRODUCT METAFIELD
+    Extracts:
+      current_shape     — value after "Center Diamond Shape:"
+      current_meta_tags — value after "Tags:"
+    ================================================================
+    {%- endcomment -%}
+    {%- assign cur_meta          = product.metafields.global.description_tag | default: '' -%}
+    {%- assign has_meta          = false -%}
+    {%- assign current_shape     = '' -%}
+    {%- assign current_meta_tags = '' -%}
+
+    {%- if cur_meta != blank -%}
+      {%- assign has_meta = true -%}
+      {%- assign _shape_parts = cur_meta | split: 'Center Diamond Shape:' -%}
+      {%- if _shape_parts.size > 1 -%}
+        {%- assign _shape_raw   = _shape_parts[1] | lstrip -%}
+        {%- assign _shape_words = _shape_raw | split: ' ' -%}
+        {%- assign current_shape = _shape_words[0] | strip | downcase -%}
+      {%- endif -%}
+      {%- assign _tags_parts = cur_meta | split: 'Tags:' -%}
+      {%- if _tags_parts.size > 1 -%}
+        {%- assign current_meta_tags = _tags_parts[1] | strip | downcase -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- comment -%}
+    ================================================================
+    SINGLE PASS — bucket every candidate into b1 / b2 / b3 / b4
+      b1  same shape + ±10k
+      b2  same shape + ±30k  (outside ±10k)
+      b3  ≥2 meta-tag matches + ±30k
+      b4  ≥2 product.tags matches, no price filter  (fallback)
+    MANDATORY GATE: product.type must match before any bucket check.
+    Separator between handles: "||"
+    ================================================================
+    {%- endcomment -%}
+    {%- assign b1 = '' -%}
+    {%- assign b2 = '' -%}
+    {%- assign b3 = '' -%}
+    {%- assign b4 = '' -%}
+
+    {%- paginate collections.all.products by 250 -%}
+      {%- for op in collections.all.products -%}
+
+        {%- comment -%} Skip self {%- endcomment -%}
+        {%- if op.handle == product.handle -%}{%- continue -%}{%- endif -%}
+
+        {%- comment -%} MANDATORY: product type must match exactly {%- endcomment -%}
+        {%- unless op.type == product.type -%}{%- continue -%}{%- endunless -%}
+        {%- unless current_tags contains 'Mens Rings' -%}
+          {%- if op.tags contains 'Mens Rings' -%}{%- continue -%}{%- endif -%}
+        {%- endunless -%}
+        {%- comment -%} Price-range flags {%- endcomment -%}
+        {%- assign op_price = op.price -%}
+        {%- assign in_10k   = false -%}
+        {%- assign in_30k   = false -%}
+        {%- if op_price >= lo_10 and op_price <= hi_10 -%}
+          {%- assign in_10k = true -%}
+          {%- assign in_30k = true -%}
+        {%- elsif op_price >= lo_30 and op_price <= hi_30 -%}
+          {%- assign in_30k = true -%}
+        {%- endif -%}
+
+        {%- comment -%} Parse candidate's metafield {%- endcomment -%}
+        {%- assign op_meta      = op.metafields.global.description_tag | default: '' -%}
+        {%- assign op_shape     = '' -%}
+        {%- assign op_meta_tags = '' -%}
+        {%- if op_meta != blank -%}
+          {%- assign _os_parts = op_meta | split: 'Center Diamond Shape:' -%}
+          {%- if _os_parts.size > 1 -%}
+            {%- assign _os_raw   = _os_parts[1] | lstrip -%}
+            {%- assign _os_words = _os_raw | split: ' ' -%}
+            {%- assign op_shape  = _os_words[0] | strip | downcase -%}
+          {%- endif -%}
+          {%- assign _ot_parts = op_meta | split: 'Tags:' -%}
+          {%- if _ot_parts.size > 1 -%}
+            {%- assign op_meta_tags = _ot_parts[1] | strip | downcase -%}
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- comment -%} Bucket 1: same shape + ±10k {%- endcomment -%}
+        {%- if has_meta and op_meta != blank and current_shape != blank and op_shape == current_shape and in_10k -%}
+          {%- assign b1 = b1 | append: op.handle | append: '||' -%}
+
+        {%- comment -%} Bucket 2: same shape + ±30k (not in ±10k) {%- endcomment -%}
+        {%- elsif has_meta and op_meta != blank and current_shape != blank and op_shape == current_shape and in_30k -%}
+          {%- assign b2 = b2 | append: op.handle | append: '||' -%}
+
+        {%- comment -%} Bucket 3: ≥2 meta Tags matches + ±30k {%- endcomment -%}
+        {%- elsif has_meta and op_meta != blank and current_meta_tags != blank and op_meta_tags != blank and in_30k -%}
+          {%- assign _meta_match = 0 -%}
+          {%- assign _mt_list    = current_meta_tags | split: ',' -%}
+          {%- for _mt in _mt_list -%}
+            {%- assign _mt_clean = _mt | strip -%}
+            {%- if _mt_clean != blank and op_meta_tags contains _mt_clean -%}
+              {%- assign _meta_match = _meta_match | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if _meta_match >= 2 -%}
+            {%- assign b3 = b3 | append: op.handle | append: '||' -%}
+          {%- endif -%}
+
+        {%- comment -%} Bucket 4: ≥2 product.tags matches, no price filter {%- endcomment -%}
+        {%- else -%}
+          {%- assign _tag_match = 0 -%}
+          {%- for _tag in current_tags -%}
+            {%- if op.tags contains _tag -%}
+              {%- assign _tag_match = _tag_match | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if _tag_match >= 2 -%}
+            {%- assign b4 = b4 | append: op.handle | append: '||' -%}
+          {%- endif -%}
+        {%- endif -%}
+
+      {%- endfor -%}
+
+      {%- comment -%}
+      ================================================================
+      BUILD FINAL HANDLE LIST
+      Fill b1 → b2 → b3 → b4, deduplicated, max 10
+      ================================================================
+      {%- endcomment -%}
+      {%- assign b1_arr = b1 | split: '||' -%}
+      {%- assign b2_arr = b2 | split: '||' -%}
+      {%- assign b3_arr = b3 | split: '||' -%}
+      {%- assign b4_arr = b4 | split: '||' -%}
+      {%- assign final_handles = '' -%}
+      {%- assign final_count   = 0 -%}
+
+      {%- for _h in b1_arr -%}
+        {%- if _h == blank or final_count >= 10 -%}{%- continue -%}{%- endif -%}
+        {%- assign final_handles = final_handles | append: _h | append: '||' -%}
+        {%- assign final_count   = final_count | plus: 1 -%}
+      {%- endfor -%}
+
+      {%- for _h in b2_arr -%}
+        {%- if _h == blank or final_count >= 10 -%}{%- continue -%}{%- endif -%}
+        {%- unless final_handles contains _h -%}
+          {%- assign final_handles = final_handles | append: _h | append: '||' -%}
+          {%- assign final_count   = final_count | plus: 1 -%}
+        {%- endunless -%}
+      {%- endfor -%}
+
+      {%- for _h in b3_arr -%}
+        {%- if _h == blank or final_count >= 10 -%}{%- continue -%}{%- endif -%}
+        {%- unless final_handles contains _h -%}
+          {%- assign final_handles = final_handles | append: _h | append: '||' -%}
+          {%- assign final_count   = final_count | plus: 1 -%}
+        {%- endunless -%}
+      {%- endfor -%}
+
+    {%- for _h in b4_arr -%}
+      {%- if _h == blank or final_count >= 10 -%}{%- continue -%}{%- endif -%}
+      {%- unless final_handles contains _h -%}
+        {%- assign final_handles = final_handles | append: _h | append: '||' -%}
+        {%- assign final_count   = final_count | plus: 1 -%}
+      {%- endunless -%}
+    {%- endfor -%}
+
+    {%- comment -%} B5 — type-only fallback: if still empty, show any same-type product {%- endcomment -%}
+    {%- if final_count == 0 -%}
+      {%- for op in collections.all.products -%}
+        {%- if final_count >= 10 -%}{%- break -%}{%- endif -%}
+        {%- if op.handle == product.handle -%}{%- continue -%}{%- endif -%}
+        {%- unless op.type == product.type -%}{%- continue -%}{%- endunless -%}
+        {%- unless current_tags contains 'Mens Rings' -%}
+          {%- if op.tags contains 'Mens Rings' -%}{%- continue -%}{%- endif -%}
+        {%- endunless -%}
+        {%- assign final_handles = final_handles | append: op.handle | append: '||' -%}
+        {%- assign final_count   = final_count | plus: 1 -%}
+      {%- endfor -%}
+      {%- assign final_arr = final_handles | split: '||' -%}
+    {%- endif -%}
+      {%- comment -%}
+      ================================================================
+      RENDER PASS — loop products, render only matched handles
+      ================================================================
+      {%- endcomment -%}
+      {%- assign final_arr = final_handles | split: '||' -%}
+      {%- assign rendered  = 0 -%}
+
+      {%- for sp in collections.all.products -%}
+        {%- if rendered >= 10 -%}{%- break -%}{%- endif -%}
+        {%- unless final_arr contains sp.handle -%}{%- continue -%}{%- endunless -%}
+        {%- assign rendered = rendered | plus: 1 -%}
+
+        {%- assign sp_on_sale           = false -%}
+        {%- if sp.compare_at_price > sp.price -%}
+          {%- assign sp_on_sale = true -%}
+        {%- endif -%}
+        {%- assign sp_sold_out          = true -%}
+        {%- if sp.available -%}
+          {%- assign sp_sold_out = false -%}
+        {%- endif -%}
+        {%- assign sp_url               = sp.url -%}
+        {%- assign sp_variant           = sp.selected_or_first_available_variant -%}
+        {%- assign sp_variant_count     = sp.variants | size -%}
+        {%- assign sp_current_variant   = sp.selected_or_first_available_variant -%}
+        {%- assign sp_group_product     = sp.metafields.bwp_fields.group_product -%}
+        {%- assign sp_countdowns        = sp.metafields.bwp_fields.countdowns -%}
+        {%- assign sp_external          = sp.metafields.bwp_fields.external -%}
+        {%- assign sp_short_description = sp.metafields.bwp_fields.shortdesc -%}
+
+        {%- if sp_variant_count == 1 -%}
+          {%- assign sp_url = sp_url | append: '?variant=' | append: sp_current_variant.id -%}
+        {%- endif -%}
+
+        {%- capture sp_group -%}
+          {%- if sp_group_product != blank -%}
+            {%- assign sp_group_ids_arr = sp_group_product | split: ',' -%}
+            {%- for gid in sp_group_ids_arr -%}
+              {%- assign gid_num = gid | plus: 0 -%}
+              {%- for gp in collections.all.products -%}
+                {%- if gp.id == gid_num -%}{{ gp.handle }},{%- endif -%}
+              {%- endfor -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endcapture -%}
+
+        <!-- Product Card — mirrors product-image-hover-5 markup exactly -->
+        <div
+          class="product-card {{ hover_style }}"
+          data-short_description="{{ sp_short_description }}"
+          data-group_product="{{ sp_group }}"
+          data-is_group_product="{%- if sp_group_product != blank -%}true{%- else -%}false{%- endif -%}"
+          data-countdowns="{{ sp_countdowns }}"
+          data-external="{{ sp_external }}"
+        >
+          <!-- Image Wrapper -->
+          <div class="product-card__image-wrapper {{ image_hover }}">
+            {%- if image_hover == 'fadein' -%}
+              {% render 'image-fadein', product: sp %}
+            {%- elsif image_hover == 'transform' -%}
+              {% render 'image-transform', product: sp %}
+            {%- elsif image_hover == 'slider' -%}
+              {% render 'image-slider', product: sp %}
+            {%- elsif image_hover == 'zoom' -%}
+              {% render 'image-zoom', product: sp %}
+            {%- endif -%}
+
+            <!-- Countdown -->
+            {%- if sp_countdowns != blank -%}
+              {%- if settings.countdown_style == 'style_1' -%}
+                <div class="countdown-product style_1">
+                  <div class="countdown" data-countdown="{{ sp_countdowns }}" data-day="D" data-hour="H" data-min="M" data-sec="S"></div>
+                </div>
+              {%- elsif settings.countdown_style == 'style_2' -%}
+                <div class="countdown-product style_2">
+                  <div class="countdown" data-countdown="{{ sp_countdowns }}"></div>
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+          <!-- /Image Wrapper -->
+
+          <!-- Card Content -->
+          <div class="product-card__content">
+            {%- if settings.product_card_review -%}
+              <div class="product-card__review product-review">
+                <div style='{{ jm_style }}' class='jdgm-widget jdgm-preview-badge' data-id='{{ sp.id }}'>
+                  {{ sp.metafields.judgeme.badge }}
+                </div>
+              </div>
+            {%- endif -%}
+
+            <div class="content-title-wishlist">
+              <div class="product-card__name">
+                <a href="{{ sp_url }}">{{ sp.title }}</a>
+              </div>
+            </div>
+
+            {%- if settings.product_vendor_enable -%}
+              <p class="product-card__vendor">{{ sp.vendor }}</p>
+            {%- endif -%}
+
+            <!-- Price -->
+            <div class="product-card__price">
+              <div class="product-group-price" data-handle="{{ sp.handle }}">
+                {%- if sp_group_product == blank -%}
+                  {%- if sp_on_sale -%}
+                    {%- if sp_variant_count > 1 -%}
+                      <div class="product-price variant-price price-sale">{{ sp_variant.price | money }}</div>
+                    {%- else -%}
+                      <div class="product-price price-sale">{{ sp.price | money }}</div>
+                    {%- endif -%}
+                    <div class="product-price product-price--regular">{{ sp.compare_at_price | money }}</div>
+                  {%- else -%}
+                    {%- if sp_variant_count > 1 -%}
+                      <div class="product-price variant-price">{{ sp_variant.price | money }}</div>
+                    {%- else -%}
+                      <div class="product-price">{{ sp.price | money }}</div>
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if sp.price_varies == false and sp_variant.unit_price_measurement -%}
+                    {%- capture sp_unit_price_separator -%}
+                      <span>/</span><span class="d-none">&nbsp;{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
+                    {%- endcapture -%}
+                    {%- capture sp_unit_price_base_unit -%}
+                      <span>
+                        {%- if sp_variant.unit_price_measurement.reference_value != 1 -%}
+                          {{- sp_variant.unit_price_measurement.reference_value -}}
+                        {%- endif -%}
+                        {{ sp_variant.unit_price_measurement.reference_unit }}
+                      </span>
+                    {%- endcapture -%}
+                    <span class="product-unit-price">
+                      <span class="d-none">{{ 'products.general.unit_price' | t }}</span>
+                      <span>{{ sp_variant.unit_price | money }}</span>{{- sp_unit_price_separator -}}{{- sp_unit_price_base_unit -}}
+                    </span>
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="product-price">
+                    {%- assign sp_prices = '' -%}
+                    {%- assign sp_group_ids_arr = sp_group_product | split: ',' -%}
+                    {%- for gid in sp_group_ids_arr -%}
+                      {%- assign gid_num = gid | plus: 0 -%}
+                      {%- for gp in collections.all.products -%}
+                        {%- if gp.id == gid_num -%}
+                          {%- for gv in gp.variants -%}
+                            {%- assign sp_prices = sp_prices | append: gv.price | append: ',' -%}
+                          {%- endfor -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endfor -%}
+                    {%- assign sp_price_arr = sp_prices | split: ',' -%}
+                    {%- assign sp_min_price = sp_price_arr[0] | plus: 0 -%}
+                    {%- assign sp_max_price = sp_price_arr[0] | plus: 0 -%}
+                    {%- for sp_p in sp_price_arr -%}
+                      {%- assign sp_op = sp_p | plus: 0 -%}
+                      {%- if sp_op < sp_min_price -%}{%- assign sp_min_price = sp_op -%}{%- endif -%}
+                      {%- if sp_op > sp_max_price -%}{%- assign sp_max_price = sp_op -%}{%- endif -%}
+                    {%- endfor -%}
+                    {{ sp_min_price | money }} - {{ sp_max_price | money }}
+                  </div>
+                {%- endif -%}
+              </div>
+              {% if sp_current_variant.available %}
+                {% if sp_current_variant.inventory_quantity == 0 and sp_current_variant.inventory_policy == "continue" %}
+                  <div class="pre_order">( {{ 'products.product.pre_order' | t }} )</div>
+                {% endif %}
+              {% endif %}
+            </div>
+            <!-- /Price -->
+
+            <!-- Variant Swatches -->
+            {%- if sp_variant_count > 1 and settings.sortby_variants -%}
+              <div class="wpb-variants-swatch" data-handle="{{ sp.handle }}">
+                {%- for option in sp.options_with_values -%}
+                  {%- assign sp_swatch_type = 'label' -%}
+                  {%- if filter_name_1 != blank and filter_name_1 == option.name -%}
+                    {%- assign sp_swatch_type = select_filter_1 -%}
+                  {%- elsif filter_name_2 != blank and filter_name_2 == option.name -%}
+                    {%- assign sp_swatch_type = select_filter_2 -%}
+                  {%- elsif filter_name_3 != blank and filter_name_3 == option.name -%}
+                    {%- assign sp_swatch_type = select_filter_3 -%}
+                  {%- endif -%}
+                  {%- assign sp_option_index = forloop.index -%}
+                  <div class="swatch-content swatch-content-{{ sp_option_index }} {{ sp_swatch_type }}">
+                    {%- assign sp_active_variant = sp.selected_or_first_available_variant -%}
+                    {%- for value in option.values -%}
+                      {%- if forloop.index <= settings.number_variants -%}
+                        {%- assign sp_swatch_active = ' ' -%}
+                        {%- if forloop.first == true -%}{%- assign sp_swatch_active = ' active' -%}{%- endif -%}
+                        {%- assign sp_option_disabled = true -%}
+                        {%- assign sp_variant_alt = 'false' -%}
+                        {%- for sv in sp.variants -%}
+                          {%- if sv.available -%}
+                            {%- if sp_option_index == 1 and sv.option1 == value -%}
+                              {%- assign sp_option_disabled = false -%}{%- break -%}
+                            {%- elsif sp_option_index == 2 and sv.option2 == value and sv.option1 == sp_active_variant.option1 -%}
+                              {%- assign sp_option_disabled = false -%}{%- break -%}
+                            {%- elsif sp_option_index == 3 and sv.option3 == value and sv.option2 == sp_active_variant.option2 and sv.option1 == sp_active_variant.option1 -%}
+                              {%- assign sp_option_disabled = false -%}{%- break -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                        {%- for media in sp.media -%}
+                          {%- if media.alt contains 'Color-' -%}
+                            {%- assign sp_variant_img_arr = media.alt | split: '-' -%}
+                            {%- if sp_variant_img_arr[1] == value -%}
+                              {%- assign sp_variant_alt = 'true' -%}{%- break -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                        {%- if sp_variant_alt == 'true' and sp_swatch_type == 'color' -%}
+                          {%- for media in sp.media -%}
+                            {%- if media.alt contains 'Color-' -%}
+                              {%- assign sp_media_alt = media.alt | split: '-' -%}
+                              {%- if sp_media_alt[1] == value -%}
+                                {%- assign sp_variant_img = media.preview_image | img_url: '100x' -%}
+                                <div class="swatch-items{{ sp_swatch_active }}{% if sp_option_disabled %} disabled{% endif %}">
+                                  <label
+                                    data-index="option{{ sp_option_index }}"
+                                    title="{{ value | strip | escape }}"
+                                    data-variant="{{ value | strip | escape }}"
+                                    style="background:url('{{ sp_variant_img }}');background-size:cover;background-position:center;"
+                                  >
+                                    {{ value }}<span>{{ value }}</span>
+                                  </label>
+                                </div>
+                              {%- endif -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                        {%- else -%}
+                          <div class="swatch-items{{ sp_swatch_active }}{% if sp_option_disabled %} disabled{% endif %}">
+                            <label
+                              class="{{ value }}"
+                              data-index="option{{ sp_option_index }}"
+                              title="{{ value | strip | escape }}"
+                              data-variant="{{ value | strip | escape }}"
+                            >
+                              {{ value }}<span>{{ value }}</span>
+                            </label>
+                          </div>
+                        {%- endif -%}
+                        {%- assign sp_count_variant = forloop.length -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if sp_count_variant > settings.number_variants -%}
+                      <a class="more-variant" href="{{ sp_url }}">
+                        +{{ sp_count_variant | minus: settings.number_variants }}
+                      </a>
+                    {%- endif -%}
+                  </div>
+                {%- endfor -%}
+                <div class="view-similar__view-detail">
+                  <a href="{{ sp_url }}" class="view-similar__view-detail-link">
+                    <span class="view-detail__full">View Detail &#10095;</span>
+                    <span class="view-detail__short">&#10095;</span>
+                  </a>
+                </div>
+              </div>
+            {%- endif -%}
+            <!-- /Variant Swatches -->
+
+            <!-- Short Description -->
+            {%- if sp_short_description != blank -%}
+              <div class="product-short-description">
+                {{ sp_short_description }}
+              </div>
+            {%- endif -%}
+
+            <!-- Mobile ATC -->
+            {%- if settings.product_atc_mobile != blank -%}
+              {%- unless sp_sold_out -%}
+                <div
+                  class="product-card__form mobile"
+                  data-handle="{{ sp.handle }}"
+                  data-title="{% if sp_group_product == blank and sp_external == blank %}{{ 'products.product.add_to_cart' | t }}{% else %}{{ 'products.product.buy_product' | t }}{% endif %}"
+                >
+                  {%- if sp_group_product == blank and sp_external == blank -%}
+                    {%- if sp_variant_count > 1 and settings.sortby_variants == blank -%}
+                      <a class="btn btn-link" href="{{ sp_url }}">{{ 'products.product.view_product' | t }}</a>
+                    {%- else -%}
+                      <form action="/cart/add" method="post" enctype="multipart/form-data" class="form-addtocart" data-product-form>
+                        <input type="hidden" name="id" value="{{ sp_variant.id }}" />
+                        <div class="wpbingo-qty">
+                          <button type="button" class="js-qty-adjust wpbingo-qty__adjust wpbingo-qty__adjust--minus" aria-label="{{ 'cart.general.reduce_quantity' | t }}">
+                            <i class="feather-minus"></i>
+                          </button>
+                          <input type="text" name="quantity" class="js-qty-number wpbingo-qty__number" value="1" min="0" aria-label="quantity" pattern="[0-9]*">
+                          <button type="button" class="js-qty-adjust wpbingo-qty__adjust wpbingo-qty__adjust--plus" aria-label="{{ 'cart.general.increase_quantity' | t }}">
+                            <i class="feather-plus"></i>
+                          </button>
+                        </div>
+                        <button
+                          class="js-btn-addtocart btn btn--add-to-cart"
+                          type="submit"
+                          value="Submit"
+                          title="{{ 'products.product.add_to_cart' | t }}"
+                        ></button>
+                      </form>
+                    {%- endif -%}
+                  {%- elsif sp_group_product == blank and sp_external != blank -%}
+                    <a class="btn btn-link" href="{{ sp_external }}">{{ 'products.product.view_product' | t }}</a>
+                  {%- else -%}
+                    <a class="btn btn-link" href="{{ sp_url }}">{{ 'products.product.view_product' | t }}</a>
+                  {%- endif -%}
+                </div>
+              {%- endunless -%}
+            {%- endif -%}
+          </div>
+          <!-- /Card Content -->
+        </div>
+        <!-- /Product Card -->
+
+      {%- endfor -%}
+
+      {%- if rendered == 0 -%}
+        <p class="view-similar__empty">
+          No similar products found.
+        </p>
+      {%- endif -%}
+
+    {%- endpaginate -%}
+  </div>
+  <!-- /Drawer Body -->
+</div>
+<!-- /Drawer -->
+
+<style>
+/* ============================================================
+   View Similar — Bottom Drawer
+   ============================================================ */
+.product-card__price .product-price.product-price--regular{
+    font-size: 12px;
+}
+product-card_price .product-price.variant-price, .product-card_price .product-price.price-sale {
+color: #28365b;      
+}
+.view-similar_drawer-body .product-cardprice, .view-similar_drawer-body .product-price
+{
+        font-size: 14px;
+}
+/* ── Overlay ── */
+.view-similar__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 2147483646;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+.view-similar__overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Drawer ── */
+.view-similar__drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2147483647;
+  background: #ffffff;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.15);
+  height: 60vh;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  overscroll-behavior: contain;
+}
+.view-similar__drawer.is-open {
+  transform: translateY(0);
+}
+
+/* ── Header ── */
+.view-similar__drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid #e8e8e8;
+  flex-shrink: 0;
+  background: #edf1f7;
+  border-radius: 16px 16px 0 0;
+}
+.view-similar__drawer-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin: 0;
+  color: #28365b;
+}
+.view-similar__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  font-family:'Inter', sans-serif;
+  line-height: 1;
+  color: #28365b;
+  padding: 4px 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.view-similar__close:hover {
+  background: #f0f0f0;
+  color: #000;
+}
+
+/* ── Loading overlay ──
+   Sits on top of the body area, shown only on first open        */
+.view-similar__loading {
+  position: absolute;
+  inset: 60px 0 0 0; /* below the header */
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #28365b;
+  font-size: 13px;
+    font-family:'Inter', sans-serif;
+
+  font-weight: 500;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.view-similar__loading.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Spinner */
+.view-similar__spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid #e0e4ef;
+  border-top-color: #28365b;
+  border-radius: 50%;
+  animation: vs-spin 0.7s linear infinite;
+}
+@keyframes vs-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Drawer body ──
+   KEY OPTIMIZATION:
+   content-visibility: hidden  → browser completely skips
+   layout + paint of all child nodes until class "is-ready"
+   is added on first click. Zero rendering cost on page load.   */
+.view-similar__drawer-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 12px 16px 24px;
+  align-content: start;
+  /* Deferred rendering — skips paint+layout until revealed */
+  content-visibility: hidden;
+    font-family:'Inter', sans-serif;
+
+}
+/* Once JS reveals it, browser renders normally */
+.view-similar__drawer-body.is-ready {
+  content-visibility: visible;
+}
+
+/* ── Product card sizing ── */
+.view-similar__drawer-body .product-card {
+  font-size: 11px;
+    font-family:'Inter', sans-serif;
+
+  min-width: 0;
+}
+.view-similar__drawer-body .product-card__image-wrapper img,
+.view-similar__drawer-body .product-card__image-wrapper .product-card__image {
+  width: 91%;
+  display: block;
+  object-fit: fill;
+    background: none;
+}
+.view-similar__drawer-body .product-card__name a {
+  font-size: 11px;
+    font-family:'Inter', sans-serif;
+
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #28365b;
+}
+.view-similar__drawer-body .product-card__price,
+.view-similar__drawer-body .product-price {
+  font-size: 14px;
+    color: #28365b;
+
+}
+.view-similar__drawer-body .product-card__content {
+  padding: 0 4px 4px;
+}
+.view-similar__drawer-body .wpb-variants-swatch {
+  align-items: center;
+}
+.view-similar__drawer-body .wpb-variants-swatch .swatch-items label {
+  width: 20px;
+  height: 20px;
+}
+.view-similar__drawer-body .product-card__buttons,
+.view-similar__drawer-body .content-button-mobile {
+  display: none;
+}
+
+/* ── View Detail link ── */
+.view-similar__view-detail { margin-top: -4px; }
+.view-similar__view-detail-link {
+  font-size: 11px;
+    font-family:'Inter', sans-serif;
+
+  color: #28365b;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.view-similar__view-detail-link:hover { color: #b8860b; }
+.view-detail__short { display: none; }
+
+/* ── Misc ── */
+.content-title-wishlist { color: #28365b; }
+.product-single .product-single__metas .button-wishlist button { margin: 0; }
+.product-card__content { margin-top: 0; }
+
+/* ── Empty state ── */
+.view-similar__empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #888;
+  padding: 40px 0;
+  font-size: 13px;
+    font-family:'Inter', sans-serif;
+
+}
+
+/* ── Trigger ── */
+.view-similar__trigger-wrapper { 
+
+
+}
+.view-similar__trigger-btn { cursor: pointer; }
+
+/* ── Body scroll-lock ── */
+body.vs-scroll-locked {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+}
+
+/* ── Mobile only (<600px) ── */
+@media (max-width: 599px) {
+  .view-detail__full  { display: none; }
+  .view-detail__short { display: inline; font-size: 13px; font-weight: 600;   font-family:'Inter', sans-serif;
+}
+}
+
+/* ── Tablet (600px–1023px) — 3 columns, 70vh ── */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .view-similar__drawer      { height: 70vh; max-height: 70vh; }
+  .view-similar__drawer-body { grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 16px 14px 28px; }
+  .view-similar__drawer-body .product-card__name a,
+  .view-similar__drawer-body .product-price { font-size: 14px;   font-family:'Inter', sans-serif;
+}
+  .view-similar__view-detail-link { font-size: 12px;   font-family:'Inter', sans-serif;
+}
+}
+
+/* ── Desktop (≥1024px) — 5 columns, 70vh ── */
+@media (min-width: 1024px) {
+    .view-similar__trigger-wrapper{
+    bottom:0px;
+top:24px;}
+  .view-similar__drawer        { height: 70vh; max-height: 70vh; }
+  .view-similar__drawer-header { padding: 18px 24px 14px; }
+  .view-similar__drawer-title  { font-size: 16px;   font-family:'Inter', sans-serif;
+}
+  .view-similar__drawer-body   { grid-template-columns: repeat(5, 1fr); gap: 18px; padding: 16px 8px 28px 16px;; }
+  .view-similar__drawer-body .product-card { font-size: 13px;   font-family:'Inter', sans-serif;
+}
+  .view-similar__drawer-body .product-card__name a,
+  .view-similar__drawer-body .product-price { font-size: 14px;   font-family:'Inter', sans-serif;
+}
+  .view-similar__view-detail-link { font-size: 13px;   font-family:'Inter', sans-serif;
+}
+  .view-similar__drawer-body .product-card__buttons { display: flex; }
+  .view-detail__full  { display: inline; }
+  .view-detail__short { display: none; }
+}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Scroll lock ── */
+  var _savedScrollY = 0;
+  function lockScroll() {
+    _savedScrollY = window.pageYOffset || document.documentElement.scrollTop;
+    document.body.style.top = '-' + _savedScrollY + 'px';
+    document.body.classList.add('vs-scroll-locked');
+  }
+  function unlockScroll() {
+    document.body.classList.remove('vs-scroll-locked');
+    document.body.style.top = '';
+    window.scrollTo(0, _savedScrollY);
+  }
+
+  /* ── Drawer controller ── */
+  function ViewSimilarDrawer() {
+    this.drawer      = document.querySelector('[data-view-similar-drawer]');
+    this.overlay     = document.querySelector('[data-view-similar-overlay]');
+    this.triggers    = document.querySelectorAll('[data-view-similar-trigger]');
+    this.closes      = document.querySelectorAll('[data-view-similar-close]');
+    this.loadingEl   = document.querySelector('[data-view-similar-loading]');
+    this.bodyEl      = document.querySelector('[data-view-similar-body]');
+    this._revealed   = false; /* deferred render flag — only pay cost once */
+    this._touchStart = 0;
+
+    if (!this.drawer) return;
+    this._bindEvents();
+  }
+
+  ViewSimilarDrawer.prototype._bindEvents = function () {
+    var self = this;
+    var body = this.bodyEl;
+
+    this.triggers.forEach(function (btn) {
+      btn.addEventListener('click', function () { self.open(); });
+    });
+    this.closes.forEach(function (btn) {
+      btn.addEventListener('click', function () { self.close(); });
+    });
+    if (this.overlay) {
+      this.overlay.addEventListener('click', function () { self.close(); });
+      this.overlay.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+      }, { passive: false });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') self.close();
+    });
+
+    /* Scroll boundary guards */
+    if (body) {
+      body.addEventListener('wheel', function (e) {
+        var atTop    = body.scrollTop === 0;
+        var atBottom = body.scrollTop + body.clientHeight >= body.scrollHeight - 1;
+        if ((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) e.preventDefault();
+      }, { passive: false });
+
+      body.addEventListener('touchstart', function (e) {
+        self._touchStart = e.touches[0].clientY;
+      }, { passive: true });
+
+      body.addEventListener('touchmove', function (e) {
+        var delta    = self._touchStart - e.touches[0].clientY;
+        var atTop    = body.scrollTop === 0;
+        var atBottom = body.scrollTop + body.clientHeight >= body.scrollHeight - 1;
+        if ((atTop && delta < 0) || (atBottom && delta > 0)) e.preventDefault();
+      }, { passive: false });
+    }
+  };
+
+  ViewSimilarDrawer.prototype.open = function () {
+    var self = this;
+    lockScroll();
+
+    this.drawer.classList.add('is-open');
+    this.drawer.setAttribute('aria-hidden', 'false');
+    if (this.overlay) {
+      this.overlay.classList.add('is-visible');
+      this.overlay.setAttribute('aria-hidden', 'false');
+    }
+    this.triggers.forEach(function (btn) { btn.setAttribute('aria-expanded', 'true'); });
+
+    if (!this._revealed) {
+      this._revealed = true;
+
+      /* Step 1: show spinner */
+      if (this.loadingEl) this.loadingEl.classList.add('is-active');
+
+      /* Step 2: defer layout work until after animation settles */
+      var revealDelay = 380;
+      setTimeout(function () {
+        if (self.bodyEl) self.bodyEl.classList.add('is-ready');
+
+        /* Step 3: hide spinner after browser has painted */
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            if (self.loadingEl) self.loadingEl.classList.remove('is-active');
+          });
+        });
+      }, revealDelay);
+    }
+  };
+
+  ViewSimilarDrawer.prototype.close = function () {
+    unlockScroll();
+    this.drawer.classList.remove('is-open');
+    this.drawer.setAttribute('aria-hidden', 'true');
+    if (this.overlay) {
+      this.overlay.classList.remove('is-visible');
+      this.overlay.setAttribute('aria-hidden', 'true');
+    }
+    this.triggers.forEach(function (btn) { btn.setAttribute('aria-expanded', 'false'); });
+  };
+
+  /* Init */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { new ViewSimilarDrawer(); });
+  } else {
+    new ViewSimilarDrawer();
+  }
+})();
+</script>

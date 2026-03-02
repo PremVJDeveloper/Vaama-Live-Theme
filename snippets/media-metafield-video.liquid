@@ -1,0 +1,22 @@
+{% capture media_id %}{{ section_id }}-metafield-video{% endcapture %}
+{% capture image_size %}{{ height }}x{{ height }}{% endcapture %}
+
+<div class="js-product-media product-media"
+     data-product-media-type-video
+     data-enable-video-looping="true"
+     data-media-id="{{ media_id }}"
+     tabindex="-1">
+
+  <div class="product-media__wrapper product-media__wrapper--video">
+    <video
+    class="media-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto">
+      <source src="{{ video_url }}" type="video/mp4">
+    </video>
+  </div>
+
+</div>

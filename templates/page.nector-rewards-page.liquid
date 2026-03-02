@@ -1,0 +1,70 @@
+<script async src="https://cdn.nector.io/nector-static/no-cache/reward-widget/mainloader.min.js"
+	data-op="reward"
+	data-api_key="ak_174a29fe3fb9ace30f518cc5a4e5bfafb1ee3f1906371541ee6f118e5204849c"
+	data-customer_id="{{customer.id}}"
+	data-platform="shopify"
+></script>
+<script>
+let counter = 0;
+let interval_id = setInterval(() => {
+if (counter >= 400) {
+clearInterval(interval_id);
+interval_id = null;
+return;
+}
+
+counter++;
+
+const target_element_id = 'nector-reward-page-container';
+const target_element = document.getElementById(target_element_id);
+let shadow_root = target_element.shadowRoot;
+if (!shadow_root) {
+return;
+}
+
+const styles = `
+/* Button padding */
+.nector-banner-content-btns .nector-button {
+    padding: 12px 16px !important;
+}
+
+/* Banner description responsive width */
+.nector-subtitle.nector-banner-description {
+    max-width: 100%;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+    .nector-subtitle.nector-banner-description {
+        max-width: 70%;
+    }
+}
+
+/* Remove center alignment + add top spacing */
+.nector-banner-content {
+    align-items: flex-start !important;
+    margin-top: 24px !important;
+}
+
+/* Apply Headstock Sans to all text inside nector root */
+span {
+    font-family: "Headstock Sans";
+}
+.nector-banner-content-btns > div:nth-child(2) {
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+}
+
+`;
+
+const style_element = document.createElement('style');
+style_element.appendChild(document.createTextNode(styles.trim()));
+shadow_root.appendChild(style_element);
+
+clearInterval(interval_id);
+interval_id = null;
+}, 200);
+</script>

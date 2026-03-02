@@ -1,0 +1,32 @@
+.bwp-widget-collapsible .card-header{
+  background:transparent;
+}
+.bwp-widget-collapsible .card-link{
+  position:relative;
+}
+.bwp-widget-collapsible .card-link span{
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.bwp-widget-collapsible .card-link span.active{
+  display:none;
+}
+.bwp-widget-collapsible .card-link.icon-left span{
+  left:0;
+}
+.bwp-widget-collapsible .card-link.icon-right span{
+  right:0;
+}
+.bwp-widget-collapsible .collapse-body{
+  display:none;
+}
+.bwp-widget-collapsible .card-body{
+  padding:0;
+}
+.bwp-widget-collapsible .card.active .card-link span.active{
+  display:block;
+}
+.bwp-widget-collapsible .card.active .card-link span.normal{
+  display:none;
+}

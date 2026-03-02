@@ -1,0 +1,310 @@
+{{ 'css-section-brands.css' | asset_url | stylesheet_tag }}
+{%- assign nav = block.settings.navigation -%}
+{%- assign infinite = block.settings.infinite -%}
+{%- assign autoplay = block.settings.autoplay -%}
+{%- assign autoplay_speed = block.settings.autoplay_speed | escape -%}
+{%- assign columns = block.settings.columns -%}
+{%- assign column1440 = block.settings.column1440 -%}
+{%- assign column1 = block.settings.column1 -%}
+{%- assign column2 = block.settings.column2 -%}
+{%- assign column3 = block.settings.column3 -%}
+{%- assign column4 = block.settings.column4 -%}
+{% assign margin 			= block.settings.margin | split: "|" %}
+{% assign padding 			= block.settings.padding | split: "|" %}
+{%- style -%}
+{%- if margin[0] != blank or padding[0] != blank -%}
+	#shopify-block-{{ block.id }} .wpbingo-widget--brands{
+		{%- if margin[0] != blank -%}margin: {{ margin[0] }};{%- endif -%}
+		{%- if padding[0] != blank -%}padding:{{ padding[0] }};{%- endif -%}
+	}
+{%- endif -%}
+{%- if margin[1] != blank or padding[1] != blank -%}
+	@media (max-width:1199px){
+		#shopify-block-{{ block.id }} .wpbingo-widget--brands{
+			{%- if margin[1] != blank -%}margin: {{ margin[1] }};{%- endif -%}
+			{%- if padding[1] != blank -%}padding:{{ padding[1] }};{%- endif -%}
+		}
+	}
+{%- endif -%}
+{%- if margin[2] != blank or padding[2] != blank -%}
+	@media (max-width:991px){
+		#shopify-block-{{ block.id }} .wpbingo-widget--brands{
+			{%- if margin[2] != blank -%}margin: {{ margin[2] }};{%- endif -%}
+			{%- if padding[2] != blank -%}padding:{{ padding[2] }};{%- endif -%}
+		}
+	}
+{%- endif -%}
+{%- if margin[3] != blank or padding[3] != blank -%}
+	@media (max-width:767px){
+		#shopify-block-{{ block.id }} .wpbingo-widget--brands{
+			{%- if margin[3] != blank -%}margin: {{ margin[3] }};{%- endif -%}
+			{%- if padding[3] != blank -%}padding:{{ padding[3] }};{%- endif -%}
+		}
+	}
+{%- endif -%}
+{%- endstyle -%}
+<div class="wpbingo-block wpbingo-widget--brands overflow-hidden wpbingo-block--{{ block.id }}">
+    <div class="wpbingo-section__content bwp_slider-carousel bwp-effect-{{ block.settings.effect }}">
+        <div class="js-carousel slick-carousel slick-carousel--brands" data-nav="{{ nav }}" data-dots="true" data-infinite="{{ infinite }}"
+            data-autoplay="{{ autoplay }}"
+            data-autoplayspeed="{{ autoplay_speed }}"
+            data-columns="{{ columns }}"
+            data-column1440="{{ column1440 }}"
+            data-column1="{{ column1 }}"
+            data-column2="{{ column2 }}"
+            data-column3="{{ column3 }}"
+            data-column4="{{ column4 }}">
+               {% content_for "blocks" %}
+        </div>
+    </div>
+</div>
+{% schema %}
+  {
+    "name": "Brands",
+    "blocks": [{ "type": "_brand" }],
+    "settings": [
+        {
+			"type": "textarea",
+			"id": "padding",
+			"label": "Padding",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+		{
+			"type": "textarea",
+			"id": "margin",
+			"label": "Margin",
+			"placeholder": "0px 0px 0px 0px",
+			"info":"Screen: desktop | 1200px | 991px | 767px"
+		},
+        {
+			"type": "header",
+			"content": "Carousel Settings"
+		},
+		{
+			"type": "checkbox",
+			"id": "navigation",
+			"label": "Show navigation",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "infinite",
+			"label": "Infinite loop sliding",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "autoplay",
+			"label": "Enable autoplay",
+			"default": false
+		},
+		{
+			"type": "text",
+			"id": "autoplay_speed",
+			"label": "Autoplay speed",
+			"info": "Autoplay speed in milliseconds. Type: int(ms)",
+			"default": "10000"
+		},
+		{
+			"type": "range",
+			"id": "columns",
+			"min": 1,
+			"max": 8,
+			"step": 1,
+			"label": "Number of Columns >1440px",
+			"default": 4,
+			"info": "Desktops"
+		},
+		{
+			"type": "range",
+			"id": "column1440",
+			"min": 1,
+			"max": 7,
+			"step": 1,
+			"label": "Number of Columns 1200px to 1440px",
+			"default": 4,
+			"info": "Desktops"
+		},
+		{
+			"type": "range",
+			"id": "column1",
+			"min": 1,
+			"max": 6,
+			"step": 1,
+			"label": "Number of Columns on 992px to 1199px",
+			"default": 4,
+			"info": "Desktops"
+		},
+		{
+			"type": "range",
+			"id": "column2",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns on 768px to 991px",
+			"default": 3,
+			"info": "Laptop"
+		},
+		{
+			"type": "range",
+			"id": "column3",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns on 480px to 767px",
+			"default": 1,
+			"info": "Tablets"
+		},
+		{
+			"type": "range",
+			"id": "column4",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"label": "Number of Columns in 480px or less than",
+			"default": 1,
+			"info": "Mobile phone"
+		},
+      {
+			"type": "select",
+			"id": "effect",
+			"label": "Effect",
+			"options": [
+				{
+					"value": "none",
+					"label": "None"
+				},
+				{
+					"value": "grow",
+					"label": "Grow"
+				},
+				{
+					"value": "shrink",
+					"label": "Shrink"
+				},
+				{
+					"value": "pulse",
+					"label": "Pulse"
+				},
+				{
+					"value": "pulse-grow",
+					"label": "Pulse Grow"
+				},
+				{
+					"value": "pulse-shrink",
+					"label": "Pulse Shrink"
+				},
+				{
+					"value": "push",
+					"label": "Push"
+				},
+				{
+					"value": "pop",
+					"label": "Pop"
+				},
+				{
+					"value": "bounce-in",
+					"label": "Bounce In"
+				},
+				{
+					"value": "bounce-out",
+					"label": "Bounce Out"
+				},
+				{
+					"value": "rotate",
+					"label": "Rotate"
+				},
+				{
+					"value": "grow-rotate",
+					"label": "Grow Rotate"
+				},
+				{
+					"value": "float",
+					"label": "Float"
+				},
+				{
+					"value": "sink",
+					"label": "Sink"
+				},
+				{
+					"value": "bob",
+					"label": "Bob"
+				},
+				{
+					"value": "hang",
+					"label": "Hang"
+				},
+				{
+					"value": "skew",
+					"label": "Skew"
+				},
+				{
+					"value": "skew-forward",
+					"label": "Skew Forward"
+				},
+				{
+					"value": "skew-backward",
+					"label": "Skew Backward"
+				},
+				{
+					"value": "wobble-vertical",
+					"label": "Wobble Vertical"
+				},
+				{
+					"value": "wobble-horizontal",
+					"label": "Wobble Horizontal"
+				},
+				{
+					"value": "wobble-to-bottom-right",
+					"label": "Wobble To Bottom Right"
+				},
+				{
+					"value": "wobble-to-top-right",
+					"label": "Wobble To Top Right"
+				},
+				{
+					"value": "wobble-top",
+					"label": "Wobble Top"
+				},
+				{
+					"value": "wobble-bottom",
+					"label": "Wobble Bottom"
+				},
+				{
+					"value": "wobble-skew",
+					"label": "Wobble Skew"
+				},
+				{
+					"value": "buzz",
+					"label": "Buzz"
+				},
+				{
+					"value": "buzz-out",
+					"label": "Buzz Out"
+				}
+			],
+			"default": "none"
+		}
+    ],
+    "presets": [
+        {
+            "name": "Brands",
+            "blocks": [
+              {
+                  "type": "_brand",
+              },
+              {
+                  "type": "_brand",
+              },
+              {
+                  "type": "_brand",
+              },
+              {
+                  "type": "_brand",
+              }
+           ]
+        }
+    ]
+  }
+{% endschema %}

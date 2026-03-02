@@ -1,0 +1,79 @@
+<section class="hero-section2">
+  <!-- Responsive Background Image -->
+  <picture>
+    {% if section.settings.mobile_bg != blank %}
+      <source 
+        media="(max-width: 768px)" 
+        srcset="{{ section.settings.mobile_bg | image_url: width: 1000 }}">
+    {% endif %}
+    {% if section.settings.desktop_bg != blank %}
+      <img 
+        src="{{ section.settings.desktop_bg | image_url: width: 2000 }}"
+        alt="Hero Background"
+        class="hero-bg"
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
+      >
+    {% endif %}
+  </picture>
+
+  <!-- Glass container content -->
+  <div class="glass-container">
+    <h1>{{ section.settings.hero_title }}</h1>
+    <p>{{ section.settings.hero_text }}</p>
+    {% if section.settings.button_label != blank %}
+      <a href="{{ section.settings.button_link }}" class="hero-btn">
+        {{ section.settings.button_label }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Glassmorphism Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desktop_bg",
+      "label": "Desktop Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_bg",
+      "label": "Mobile Background Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Heading",
+      "default": "Lab Diamonds. Responsibly Made."
+    },
+    {
+      "type": "textarea",
+      "id": "hero_text",
+      "label": "Description",
+      "default": "Lab-grown diamonds match mined ones physically, chemically, and optically but come from a more ethical, sustainable source. Graded on the same 4Cs, they offer full transparency and quality."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Glassmorphism Hero",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
