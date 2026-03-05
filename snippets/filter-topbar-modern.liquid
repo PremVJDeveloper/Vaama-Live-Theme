@@ -1,0 +1,247 @@
+{% comment %}
+  filter-topbar-modern.liquid
+  Renders filters as horizontal dropdown pills in a top bar.
+  Accepts:
+  - results: {Object} Collection or Search object (required)
+
+  Usage:
+  {% render 'filter-topbar-modern', results: collection %}
+{% endcomment %}
+
+{%- liquid
+  assign active_count = 0
+  for filter in results.filters
+    assign active_count = active_count | plus: filter.active_values.size
+  endfor
+-%}
+
+<div class="ftb-bar" id="FilterTopBar">
+  <facet-filters-form>
+    <form id="FacetFiltersForm" action="{{ results.url }}" method="get">
+      {%- if results.terms -%}
+        <input type="hidden" name="q" value="{{ results.terms | escape }}">
+        <input name="options[prefix]" type="hidden" value="last">
+      {%- endif -%}
+
+      <div class="ftb-inner">
+        {%- comment %} Filter Dropdowns {%- endcomment %}
+        {%- for filter in results.filters -%}
+          {%- liquid
+            assign is_active = false
+            if filter.active_values.size > 0
+              assign is_active = true
+            endif
+            if filter.type == 'price_range'
+              if filter.min_value.value != null or filter.max_value.value != null
+                assign is_active = true
+              endif
+            endif
+          -%}
+
+          {%- if filter.type == 'boolean' or filter.type == 'list' -%}
+            <div
+              class="ftb-dropdown {% if is_active %}is-active{% endif %}"
+              data-filter-id="{{ filter.label | handle }}"
+            >
+              <button type="button" class="ftb-dropdown__trigger" aria-expanded="false" aria-haspopup="true">
+                <span class="ftb-dropdown__label">
+                  {{ filter.label }}
+                  {%- if is_active -%}
+                    <span class="ftb-badge">{{ filter.active_values.size }}</span>
+                  {%- endif -%}
+                </span>
+                <svg
+                  class="ftb-chevron"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="ftb-dropdown__panel" role="dialog" aria-label="{{ filter.label }}">
+                <div class="ftb-dropdown__options">
+                  {%- for value in filter.values -%}
+                    <label class="ftb-option {% if value.active %}is-checked{% endif %}">
+                      <input
+                        type="checkbox"
+                        name="{{ value.param_name }}"
+                        value="{{ value.value | escape }}"
+                        {% if value.active %}
+                          checked
+                        {% endif %}
+                        class="ftb-checkbox"
+                      >
+                      <span class="ftb-option__label">{{ value.label }}</span>
+                      <span class="ftb-option__count">({{ value.count }})</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+                <div class="ftb-dropdown__footer">
+                  {%- if is_active -%}
+                    <facet-remove>
+                      <a href="{{ filter.url_to_remove }}" class="ftb-clear-btn">Clear</a>
+                    </facet-remove>
+                  {%- endif -%}
+                  <button type="submit" class="ftb-apply-btn">Apply</button>
+                </div>
+              </div>
+            </div>
+
+          {%- elsif filter.type == 'price_range' -%}
+            <div class="ftb-dropdown {% if is_active %}is-active{% endif %}" data-filter-id="price">
+              <button type="button" class="ftb-dropdown__trigger" aria-expanded="false" aria-haspopup="true">
+                <span class="ftb-dropdown__label">
+                  Price
+                  {%- if is_active -%}
+                    <span class="ftb-badge">✓</span>
+                  {%- endif -%}
+                </span>
+                <svg
+                  class="ftb-chevron"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="ftb-dropdown__panel ftb-dropdown__panel--price" role="dialog" aria-label="Price">
+                <div class="ftb-price-range">
+                  <div class="ftb-price-field">
+                    <label>Min (₹)</label>
+                    <input
+                      type="number"
+                      name="{{ filter.min_value.param_name }}"
+                      id="Filter_{{ filter.label | escape }}_GTE"
+                      value="{{ filter.min_value.value | default: '' }}"
+                      class="ftb-price-input"
+                      placeholder="0"
+                      min="0"
+                      max="{{ filter.range_max | divided_by: 100.0 | round }}"
+                    >
+                  </div>
+                  <span class="ftb-price-sep">—</span>
+                  <div class="ftb-price-field">
+                    <label>Max (₹)</label>
+                    <input
+                      type="number"
+                      name="{{ filter.max_value.param_name }}"
+                      id="Filter_{{ filter.label | escape }}_LTE"
+                      value="{{ filter.max_value.value | default: '' }}"
+                      class="ftb-price-input"
+                      placeholder="{{ filter.range_max | divided_by: 100.0 | round }}"
+                      min="0"
+                      max="{{ filter.range_max | divided_by: 100.0 | round }}"
+                    >
+                  </div>
+                </div>
+                <div class="ftb-dropdown__footer">
+                  {%- if is_active -%}
+                    <facet-remove>
+                      <a href="{{ filter.url_to_remove }}" class="ftb-clear-btn">Clear</a>
+                    </facet-remove>
+                  {%- endif -%}
+                  <button type="submit" class="ftb-apply-btn">Apply</button>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- comment %} Active Clear All {%- endcomment %}
+        {%- if active_count > 0 -%}
+          <facet-remove>
+            <a href="{{ results.url | split: '?' | first }}" class="ftb-clear-all"> Clear All ({{ active_count }}) </a>
+          </facet-remove>
+        {%- endif -%}
+      </div>
+
+      {%- comment %} Sort By {%- endcomment %}
+      <div class="ftb-sort">
+        <label class="ftb-sort__label" for="TopBarSortBy">Sort By:</label>
+        <div class="ftb-sort__select-wrap">
+          <select name="sort_by" id="TopBarSortBy" class="ftb-sort__select">
+            {%- for option in results.sort_options -%}
+              <option
+                value="{{ option.value | escape }}"
+                {% if option.value == results.sort_by %}
+                  selected="selected"
+                {% endif %}
+              >
+                {{ option.name | escape }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+      </div>
+    </form>
+  </facet-filters-form>
+</div>
+
+<script>
+  (function () {
+    function initTopBarFilters() {
+      const dropdowns = document.querySelectorAll('.ftb-dropdown');
+
+      dropdowns.forEach(function (dropdown) {
+        const trigger = dropdown.querySelector('.ftb-dropdown__trigger');
+        const panel = dropdown.querySelector('.ftb-dropdown__panel');
+
+        if (!trigger || !panel) return;
+
+        trigger.addEventListener('click', function (e) {
+          e.stopPropagation();
+          const isOpen = dropdown.classList.contains('is-open');
+
+          // Close all other dropdowns
+          dropdowns.forEach(function (other) {
+            if (other !== dropdown) {
+              other.classList.remove('is-open');
+              const otherTrigger = other.querySelector('.ftb-dropdown__trigger');
+              if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          dropdown.classList.toggle('is-open', !isOpen);
+          trigger.setAttribute('aria-expanded', !isOpen);
+        });
+      });
+
+      // Close on outside click
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('.ftb-dropdown')) {
+          dropdowns.forEach(function (d) {
+            d.classList.remove('is-open');
+            const t = d.querySelector('.ftb-dropdown__trigger');
+            if (t) t.setAttribute('aria-expanded', 'false');
+          });
+        }
+      });
+
+      // Sort change
+      const sortSelect = document.getElementById('TopBarSortBy');
+      if (sortSelect) {
+        sortSelect.addEventListener('change', function () {
+          this.closest('form').submit();
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTopBarFilters);
+    } else {
+      initTopBarFilters();
+    }
+  })();
+</script>

@@ -1,0 +1,221 @@
+{% comment %}
+  Renders a modern product card for the collection page.
+  Accepts:
+  - product: {Object} Product object (required)
+  - show_secondary_image: {Boolean} Show secondary image on hover (optional)
+  - show_vendor: {Boolean} Show vendor (optional)
+  - show_rating: {Boolean} Show product rating (optional)
+  - show_wishlist: {Boolean} Show wishlist icon (optional)
+  - show_swatches: {Boolean} Show variant swatches (optional)
+  - show_badge: {Boolean} Show discount badge (optional)
+  - show_view_details: {Boolean} Show view details link (optional)
+
+  Usage:
+  {% render 'product-card-modern', product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign product_url = product.url | within: collection
+  assign has_compare = false
+  if product.compare_at_price_max > product.price_min
+    assign has_compare = true
+  endif
+  assign discount_pct = 0
+  if has_compare and product.compare_at_price_max > 0
+    assign discount_pct = product.compare_at_price_max | minus: product.price_min | times: 100 | divided_by: product.compare_at_price_max | round
+  endif
+
+  assign featured_img = product.featured_image
+
+  assign color_option = null
+  assign color_position = null
+  for option in product.options_with_values
+    assign opt_lower = option.name | downcase
+    if opt_lower == 'color' or opt_lower == 'colour' or opt_lower == 'metal color' or opt_lower == 'metal colour'
+      assign color_option = option
+      assign color_position = forloop.index
+      break
+    endif
+  endfor
+  assign active_color_filter = null
+  if results.filters
+    for filter in results.filters
+      assign filter_label = filter.label | downcase
+      if filter_label contains 'color' or filter_label contains 'colour' or filter_label contains 'metal'
+        for value in filter.active_values
+          assign active_color_filter = value.label
+          break
+        endfor
+      endif
+      if active_color_filter
+        break
+      endif
+    endfor
+  endif
+
+  if active_color_filter
+    assign active_color_filter_down = active_color_filter | downcase
+    if active_color_filter_down == 'gold'
+      assign active_color_filter_down = 'yellow gold'
+    endif
+
+    for variant in product.variants
+      assign variant_color = null
+      if color_position == 1
+        assign variant_color = variant.option1 | downcase
+      elsif color_position == 2
+        assign variant_color = variant.option2 | downcase
+      elsif color_position == 3
+        assign variant_color = variant.option3 | downcase
+      endif
+
+      if variant_color == active_color_filter_down
+        if variant.image
+          assign featured_img = variant.image
+        endif
+        break
+      endif
+    endfor
+  endif
+-%}
+
+<div class="ccm-card ccm-fade-in" data-id="{{ product.id }}">
+  <div class="ccm-card__image-wrap">
+    {%- if show_badge and discount_pct > 0 -%}
+      <span class="ccm-card__badge">-{{ discount_pct }}%</span>
+    {%- endif -%}
+
+    {%- if show_wishlist -%}
+      <div class="button-wishlist">
+        <button
+          type="button"
+          aria-label="Wishlist"
+          button-wishlist
+          data-product-handle="{{ product.handle }}"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#28365b;"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+      </div>
+    {%- endif -%}
+
+    <a href="{{ product_url }}" class="ccm-card__image-link">
+      <img
+        src="{{ featured_img | image_url: width: 600 }}"
+        alt="{{ featured_img.alt | escape }}"
+        loading="lazy"
+        width="600"
+        height="600"
+        class="ccm-card__img"
+      >
+      {%- if show_secondary_image and product.media[1] != null -%}
+        <img
+          src="{{ product.media[1] | image_url: width: 600 }}"
+          alt="{{ product.media[1].alt | escape }}"
+          loading="lazy"
+          width="600"
+          height="600"
+          class="ccm-card__img ccm-card__img--secondary"
+          style="position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.3s ease;"
+        >
+      {%- endif -%}
+    </a>
+  </div>
+
+  <div class="ccm-card__body">
+    {%- if show_swatches and color_option -%}
+      <div class="ccm-card__swatches">
+        {%- for value in color_option.values -%}
+          {%- liquid
+            assign val_handle = value | handle
+            assign is_active = false
+            if active_color_filter
+              assign value_down = value | downcase
+              assign active_down = active_color_filter | downcase
+
+              if active_down == 'gold'
+                assign active_down = 'yellow gold'
+              endif
+              if value_down == 'gold'
+                assign value_down = 'yellow gold'
+              endif
+
+              if value_down == active_down
+                assign is_active = true
+              endif
+            elsif forloop.first
+              assign is_active = true
+            endif
+
+            assign variant_img_url = ''
+            for variant in product.variants
+              assign opt_val = ''
+              if color_position == 1
+                assign opt_val = variant.option1
+              elsif color_position == 2
+                assign opt_val = variant.option2
+              elsif color_position == 3
+                assign opt_val = variant.option3
+              endif
+              if opt_val == value
+                if variant.image
+                  assign variant_img_url = variant.image | image_url: width: 600
+                else
+                  assign variant_img_url = product.featured_image | image_url: width: 600
+                endif
+                break
+              endif
+            endfor
+
+            assign swatch_bg_url = ''
+            if value == 'Yellow Gold'
+              assign swatch_bg_url = 'https://vaama.co/cdn/shop/files/steptodown.com923204.jpg'
+            elsif value == 'Rose Gold'
+              assign swatch_bg_url = 'https://vaama.co/cdn/shop/files/Rose_Gold.png'
+            elsif value == 'White Gold'
+              assign swatch_bg_url = 'https://vaama.co/cdn/shop/files/Frame_11.png'
+            endif
+          -%}
+          <button
+            type="button"
+            class="ccm-card__swatch{% if is_active %} active{% endif %}"
+            aria-label="{{ value }}"
+            title="{{ value }}"
+            data-img="{{ variant_img_url }}"
+            data-color="{{ val_handle }}"
+            {%- if swatch_bg_url != '' -%}
+              style="background-image:url('{{ swatch_bg_url }}');background-size:cover;background-position:center;"
+            {%- else -%}
+              style="background-color:{{ value }};"
+            {%- endif -%}
+          ></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <h3 class="ccm-card__title">
+      <a href="{{ product_url }}">{{ product.title }}</a>
+    </h3>
+
+    <div class="ccm-card__price">
+      <span class="ccm-card__price-current">{{ product.price_min | money }}</span>
+      {%- if has_compare -%}
+        <span class="ccm-card__price-compare">{{ product.compare_at_price_max | money }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="ccm-card__footer">
+      {%- if show_view_details -%}
+        <a href="{{ product_url }}" class="ccm-card__link"> </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

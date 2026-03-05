@@ -1,0 +1,407 @@
+{{ 'custom-collection-modern.css' | asset_url | stylesheet_tag }}
+
+<style>
+  @font-face {
+    font-family: 'Headstock Sans';
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url("{{ 'HeadstockSans.woff2' | asset_url }}") format('woff2'),
+      url("{{ 'HeadstockSans.woff' | asset_url }}") format('woff');
+  }
+  @font-face {
+    font-family: 'Mickir';
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url("{{ 'Mickir.woff2' | asset_url }}") format('woff2'), url("{{ 'Mickir.woff' | asset_url }}") format('woff');
+  }
+</style>
+
+{%- liquid
+  assign products_per_page = section.settings.products_per_page | default: 12
+  assign show_sidebar = section.settings.show_sidebar
+  assign filter_style = section.settings.filter_style | default: 'sidebar'
+  assign use_topbar = false
+  if filter_style == 'topbar'
+    assign use_topbar = true
+  endif
+-%}
+
+<div
+  class="ccm-page section-{{ section.id }}-padding{% if use_topbar %} ccm-page--topbar-filter{% endif %}"
+  data-section-id="{{ section.id }}"
+  data-section-type="collection-page"
+>
+  <div class="ccm-container">
+    <header class="ccm-header">
+      <h1 class="ccm-header__title">{{ collection.title }}</h1>
+      <span class="ccm-header__count">({{ collection.products_count }} results)</span>
+    </header>
+    {%- comment %} Filter Bar: conditional render {%- endcomment %}
+    {%- if use_topbar -%}
+      {% render 'filter-topbar-modern', results: collection %}
+    {%- else -%}
+      {%- comment %} Toolbar with drawer trigger + sort {%- endcomment %}
+      <div class="ccm-toolbar">
+        <div class="ccm-toolbar__left">
+          <button class="ccm-filter-toggle js-drawer-open" type="button">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            Filter
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="ccm-filter-chips">
+            {%- liquid
+              assign active_count = 0
+              for filter in collection.filters
+                assign active_count = active_count | plus: filter.active_values.size
+              endfor
+            -%}
+            {%- for filter in collection.filters -%}
+              {%- for value in filter.active_values -%}
+                <a href="{{ value.url_to_remove }}" class="ccm-filter-chip">
+                  <span class="plus-icon">+</span>
+                  {{ value.label }}
+                </a>
+              {%- endfor -%}
+              {%- if filter.type == 'price_range' -%}
+                {%- if filter.min_value.value != null or filter.max_value.value != null -%}
+                  <a href="{{ filter.url_to_remove }}" class="ccm-filter-chip">
+                    <span class="plus-icon">+</span>
+                    {%- if filter.min_value.value -%}
+                      {{ filter.min_value.value | money }}
+                    {%- else -%}
+                      {{ 0 | money }}
+                    {%- endif -%}
+                    -
+                    {%- if filter.max_value.value -%}
+                      {{ filter.max_value.value | money }}
+                    {%- else -%}
+                      {{ filter.range_max | money }}
+                    {%- endif -%}
+                  </a>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {% comment %} <a href="#" class="ccm-show-more-filters js-drawer-open">+Show More</a> {% endcomment %}
+          </div>
+        </div>
+
+        <div class="ccm-toolbar__right">
+          <div class="ccm-sort-wrap">
+            <span class="ccm-sort-label">Sort By:</span>
+            <facet-filters-form>
+              <form id="FacetSortForm">
+                <select name="sort_by" class="ccm-sort-select" id="SortBy">
+                  {%- for option in collection.sort_options -%}
+                    <option
+                      value="{{ option.value | escape }}"
+                      {% if option.value == collection.sort_by %}
+                        selected="selected"
+                      {% endif %}
+                    >
+                      {{ option.name | escape }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </form>
+            </facet-filters-form>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="ccm-layout">
+      {%- if show_sidebar and use_topbar == false -%}
+        <aside class="ccm-sidebar">
+          {% render 'filter-sidebar-modern', results: collection %}
+        </aside>
+      {%- endif -%}
+
+      <main class="ccm-main">
+        {%- paginate collection.products by products_per_page -%}
+          <div id="JsCollectionProduct" class="ccm-grid">
+            {%- if collection.products.size > 0 -%}
+              {%- for product in collection.products -%}
+                {% render 'product-card-modern',
+                  product: product,
+                  section: section,
+                  results: collection,
+                  show_secondary_image: true,
+                  show_vendor: false,
+                  show_rating: false,
+                  show_wishlist: section.settings.show_wishlist,
+                  show_swatches: section.settings.show_swatches,
+                  show_badge: section.settings.show_badge,
+                  show_view_details: section.settings.show_view_details
+                %}
+              {%- endfor -%}
+            {%- else -%}
+              <div class="ccm-empty">
+                <div class="ccm-empty__icon">🔍</div>
+                <h2 class="ccm-empty__title">No products found</h2>
+                <p class="ccm-empty__text">Try adjusting your filters or search for something else.</p>
+              </div>
+            {%- endif -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <div class="ccm-pagination">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="prev-next">Prev</a>
+              {%- endif -%}
+
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}">{{ part.title }}</a>
+                {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                    <span class="current">{{ part.title }}</span>
+                  {%- else -%}
+                    <span>{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="prev-next">Next</a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </main>
+    </div>
+  </div>
+
+  {%- comment %} Mobile Filter Drawer (only shown in sidebar mode) {%- endcomment %}
+  <div class="ccm-drawer-overlay"></div>
+  <div class="ccm-drawer">
+    <div class="ccm-drawer__header">
+      <span class="ccm-drawer__title">Filters</span>
+      <button class="ccm-drawer__close js-drawer-close">&times;</button>
+    </div>
+    <div class="ccm-drawer__body">
+      {% render 'filter-sidebar-modern', results: collection, is_mobile: true %}
+    </div>
+  </div>
+
+  {% comment %} Mobile Sticky Pill {% endcomment %}
+  <div class="ccm-mobile-pill">
+    <button class="ccm-mobile-pill__btn js-drawer-open" style="width:100%; justify-content:center;" type="button">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line>
+        <line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line>
+        <line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line>
+        <line x1="17" y1="16" x2="23" y2="16"></line>
+      </svg>
+      Filter
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const drawerOpenBtns = document.querySelectorAll('.js-drawer-open');
+    const drawerCloseBtn = document.querySelector('.js-drawer-close');
+    const drawerOverlay = document.querySelector('.ccm-drawer-overlay');
+    const drawer = document.querySelector('.ccm-drawer');
+
+    if (drawerOpenBtns.length > 0 && drawerCloseBtn && drawerOverlay && drawer) {
+      drawerOpenBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          drawer.classList.add('is-open');
+          drawerOverlay.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      const closeDrawer = () => {
+        drawer.classList.remove('is-open');
+        drawerOverlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+      };
+
+      drawerCloseBtn.addEventListener('click', closeDrawer);
+      drawerOverlay.addEventListener('click', closeDrawer);
+
+      // Swatch Interaction Logic
+      document.addEventListener('click', function (e) {
+        const swatch = e.target.closest('.ccm-card__swatch');
+        if (!swatch) return;
+
+        const card = swatch.closest('.ccm-card');
+        if (!card) return;
+
+        const mainImg = card.querySelector('.ccm-card__img');
+        const newImgUrl = swatch.dataset.img;
+
+        if (mainImg && newImgUrl) {
+          mainImg.src = newImgUrl;
+          if (mainImg.srcset) mainImg.srcset = newImgUrl;
+        }
+
+        // Update active state
+        card.querySelectorAll('.ccm-card__swatch').forEach((s) => s.classList.remove('active'));
+        swatch.classList.add('active');
+      });
+    }
+    const sortSelect = document.getElementById('SortBy');
+
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function () {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort_by', this.value);
+
+        // Update browser URL without reload
+        history.pushState({}, '', url.toString());
+
+        // Fetch the new page content
+        fetch(url.toString())
+          .then((res) => res.text())
+          .then((html) => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Replace product grid
+            const newGrid = doc.getElementById('JsCollectionProduct');
+            const currentGrid = document.getElementById('JsCollectionProduct');
+            if (newGrid && currentGrid) {
+              currentGrid.innerHTML = newGrid.innerHTML;
+            }
+
+            // Replace pagination
+            const newPagination = doc.querySelector('.ccm-pagination');
+            const currentPagination = document.querySelector('.ccm-pagination');
+            if (newPagination && currentPagination) {
+              currentPagination.innerHTML = newPagination.innerHTML;
+            } else if (newPagination && !currentPagination) {
+              currentGrid.insertAdjacentElement('afterend', newPagination);
+            } else if (!newPagination && currentPagination) {
+              currentPagination.remove();
+            }
+
+            // Replace product count
+            const newCount = doc.querySelector('.ccm-header__count');
+            const currentCount = document.querySelector('.ccm-header__count');
+            if (newCount && currentCount) {
+              currentCount.textContent = newCount.textContent;
+            }
+          })
+          .catch((err) => {
+            console.error('Sort fetch failed:', err);
+            // Fallback to normal page load
+            window.location.href = url.toString();
+          });
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Custom Collection Modern",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "filter_style",
+      "label": "Filter Layout Style",
+      "info": "'Top Bar' shows horizontal dropdown filters above the grid (4 columns). 'Sidebar' shows a left panel drawer.",
+      "options": [
+        { "value": "topbar", "label": "Top Bar (Horizontal Dropdowns)" },
+        { "value": "sidebar", "label": "Sidebar / Drawer" }
+      ],
+      "default": "sidebar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hero",
+      "label": "Show Hero Image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sidebar",
+      "label": "Show Sidebar Column (Sidebar mode only)",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "label": "Products per page",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Product Card Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show Discount Badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show Wishlist Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show Variant Swatches",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_details",
+      "label": "Show View Details Link",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Collection Modern"
+    }
+  ]
+}
+{% endschema %}
