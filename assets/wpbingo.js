@@ -8846,7 +8846,7 @@ document.addEventListener("keydown", function (e) {
   if (e.key === "Escape") close3DModelPopup();
 });
 
-/* Optional: preload iframe after page load (faster first open) */
+/* Optional: preload iframe after page load (faster first open) - DISABLED FOR PERFORMANCE
 window.addEventListener("load", function () {
   const view3dWrapper = document.querySelector('.view-3d-model-btn-wrapper');
   if (view3dWrapper) {
@@ -8859,3 +8859,4 @@ window.addEventListener("load", function () {
     }
   }
 });
+*/

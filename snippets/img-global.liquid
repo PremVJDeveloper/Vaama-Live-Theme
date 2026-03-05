@@ -86,17 +86,27 @@
     {% assign max_height_image = max_height_image | ceil %}
 
     {%- endcapture -%}
-	<img class="lazyload  {{ class }} {{ effect }}"
-	aria-label="{{ image.alt | escape }}"
-	alt = "{{ image.alt }}"
-	data-alt="{{ image.alt | escape }}"
-	data-src="{% render 'bgset', image: image %}"
-	data-srcset="{% render 'bgset', image: image %}"
-	data-sizes="auto"
-	width="{{ max_width_image }}"
-	height="{{ max_height_image }}"
-	>
-	<noscript><img class="img-fluid noscript" alt = "{{ image.alt }}" src="{{ image | image_url:width:image.width,height:image.height }}"  width="{{ image.width }}" height="{{ image.height }}" /></noscript>
+<img
+  class="lazyload  {{ class }} {{ effect }}"
+  aria-label="{{ image.alt | escape }}"
+  alt="{{ image.alt }}"
+  data-alt="{{ image.alt | escape }}"
+  data-src="{% render 'bgset', image: image %}"
+  data-srcset="{% render 'bgset', image: image %}"
+  data-sizes="auto"
+  width="{{ max_width_image }}"
+  height="{{ max_height_image }}"
+  loading="lazy"
+  decoding="async"
+>
+<noscript
+  ><img
+    class="img-fluid noscript"
+    alt="{{ image.alt }}"
+    src="{{ image | image_url:width:image.width,height:image.height }}"
+    width="{{ image.width }}"
+    height="{{ image.height }}"
+></noscript>
 
 {%- capture _ -%}
     {% assign images_size = nil %}
