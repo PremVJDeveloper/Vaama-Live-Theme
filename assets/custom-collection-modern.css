@@ -1,6 +1,4 @@
 /* ---------- Google Fonts: Inter ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 /* ---------- Reset ---------- */
 .ccm-page *, .ccm-page *::before, .ccm-page *::after { box-sizing: border-box; }
 
@@ -10,36 +8,29 @@
   --border:  #D9D9DA;
   --bg:      #f0f0f0;
   /* Item 1: Inter as base font */
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   color: #1a1a1a;
   background: #fff;
   overflow-x: hidden;
 }
 
 /* ---------- Custom Font Faces ---------- */
-/* Handled in Liquid Section for Asset URL support */
-
-/* ---------- Futura Std (Keeping for potential legacy use) ---------- */
-@font-face { font-family:'Futura Std'; font-weight:300; font-style:normal; font-display:swap; src:url('https://cdn.jsdelivr.net/npm/fonts-archive-futura-std/FuturaStd-Light.woff2') format('woff2'); }
-@font-face { font-family:'Futura Std'; font-weight:400; font-style:normal; font-display:swap; src:url('https://cdn.jsdelivr.net/npm/fonts-archive-futura-std/FuturaStd-Regular.woff2') format('woff2'); }
-@font-face { font-family:'Futura Std'; font-weight:500; font-style:normal; font-display:swap; src:url('https://cdn.jsdelivr.net/npm/fonts-archive-futura-std/FuturaStd-Medium.woff2') format('woff2'); }
-@font-face { font-family:'Futura Std'; font-weight:600; font-style:normal; font-display:swap; src:url('https://cdn.jsdelivr.net/npm/fonts-archive-futura-std/FuturaStd-Bold.woff2') format('woff2'); }
 
 /* ---------- Header (Image Ref Style) ---------- */
 .ccm-header {
-  padding: 40px 0 20px;
+  /* padding: 40px 0 20px; */
   display: flex;
   align-items: baseline;
   gap: 12px;
 }
 .ccm-header__title {
-  font-size: 32px;
+  font-size: 16px;
   font-family: 'Headstock Sans', serif;
-  color: #432E23; /* Matching the deep brown in reference image */
+  color: #28365b; /* Matching the deep brown in reference image */
   margin: 0;
 }
 .ccm-header__count {
-  font-size: 18px;
+  font-size: 14px;
   color: #666;
   font-family: 'Inter', sans-serif;
 }
@@ -125,8 +116,59 @@
   margin-left: 4px;
 }
 
-/* Sort Pill (As per Ref Image) */
 .ccm-sort-wrap {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  background: #fff;
+  border: 1px solid #EAEAEA;
+  border-radius: 999px;
+  gap: 6px;
+  width: fit-content;
+}
+
+.ccm-sort-label {
+  font-size: 13px;
+  color: #666;
+  white-space: nowrap;
+}
+
+.ccm-sort-select-wrap {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.ccm-sort-select {
+  appearance: none;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1a1a1a;
+  cursor: pointer;
+  outline: none;
+  font-weight: 500;
+  padding-right: 18px;
+  width: auto;
+}
+
+.ccm-sort-icon {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+.ccm-sort-select option {
+  padding: 2px 4px;
+}
+.ccm-sort-icon svg {
+  width: 12px;
+  height: 12px;
+}
+/* Sort Pill (As per Ref Image) */
+/* .ccm-sort-wrap {
   display: flex;
   align-items: center;
   padding: 8px 20px;
@@ -207,278 +249,7 @@
   text-transform: uppercase;
   cursor: pointer;
 }
-.ccm-filter-toggle svg { width: 15px; height: 15px; }
-
-/* ============================================================
-   Top Bar Filter (ftb-*) — Horizontal dropdown pills
-   ============================================================ */
-.ftb-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 0 16px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
-.ftb-inner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-  flex-wrap: wrap;
-}
-
-/* Dropdown Trigger */
-.ftb-dropdown {
-  position: relative;
-}
-.ftb-dropdown__trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
-  border: 1px solid #DDDDE0;
-  border-radius: 999px;
-  background: #fff;
-  font-size: 13px;
-  font-family: inherit;
-  color: #1a1a1a;
-  cursor: pointer;
-  font-weight: 500;
-  transition: border-color 0.15s, background 0.15s;
-  white-space: nowrap;
-}
-.ftb-dropdown__trigger:hover { border-color: var(--navy); background: #f8f9fc; }
-.ftb-dropdown.is-active .ftb-dropdown__trigger {
-  border-color: var(--navy);
-  color: var(--navy);
-  background: #eef1f8;
-}
-.ftb-dropdown.is-open .ftb-dropdown__trigger {
-  border-color: var(--navy);
-  border-radius: 10px 10px 0 0;
-}
-.ftb-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--navy);
-  color: #fff;
-  font-size: 10px;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  padding: 0 4px;
-  margin-left: 2px;
-}
-.ftb-chevron {
-  transition: transform 0.2s ease;
-}
-.ftb-dropdown.is-open .ftb-chevron {
-  transform: rotate(180deg);
-}
-
-/* Dropdown Panel */
-.ftb-dropdown__panel {
-  display: none;
-  position: absolute;
-  top: calc(100% + 1px);
-  left: 0;
-  min-width: 240px;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 0 10px 10px 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  z-index: 200;
-  overflow: hidden;
-}
-.ftb-dropdown.is-open .ftb-dropdown__panel {
-  display: block;
-}
-.ftb-dropdown__panel--price {
-  min-width: 280px;
-}
-.ftb-dropdown__options {
-  max-height: 280px;
-  overflow-y: auto;
-  padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Option Item */
-.ftb-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 16px;
-  cursor: pointer;
-  transition: background 0.15s;
-  font-size: 13px;
-}
-.ftb-option:hover { background: #f4f4f6; }
-.ftb-checkbox {
-  appearance: none;
-  width: 15px; height: 15px;
-  border: 1.5px solid #ccc;
-  border-radius: 4px;
-  flex-shrink: 0;
-  cursor: pointer;
-  position: relative;
-  transition: border-color 0.15s, background 0.15s;
-}
-.ftb-checkbox:checked {
-  background: var(--navy);
-  border-color: var(--navy);
-}
-.ftb-checkbox:checked::after {
-  content: '';
-  position: absolute;
-  left: 3px; top: 1px;
-  width: 5px; height: 8px;
-  border: 2px solid #fff;
-  border-top: none; border-left: none;
-  transform: rotate(45deg);
-}
-.ftb-option__label { flex: 1; color: #1a1a1a; }
-.ftb-option__count { font-size: 11px; color: var(--muted); }
-
-/* Price Range */
-.ftb-price-range {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-}
-.ftb-price-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-.ftb-price-field label {
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.ftb-price-input {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 10px;
-  font-size: 14px;
-  font-family: inherit;
-  color: #1a1a1a;
-  outline: none;
-  width: 100%;
-  transition: border-color 0.15s;
-}
-.ftb-price-input:focus { border-color: var(--navy); }
-.ftb-price-sep { font-size: 16px; color: var(--muted); padding-top: 18px; }
-
-/* Panel Footer */
-.ftb-dropdown__footer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 10px 16px;
-  border-top: 1px solid var(--border);
-  background: #fafafa;
-}
-.ftb-clear-btn {
-  font-size: 12px;
-  color: var(--muted);
-  text-decoration: underline;
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  padding: 0;
-  font-family: inherit;
-}
-.ftb-apply-btn {
-  background: var(--navy);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 18px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  transition: opacity 0.15s;
-}
-.ftb-apply-btn:hover { opacity: 0.88; }
-
-/* Clear All */
-.ftb-clear-all {
-  font-size: 13px;
-  color: var(--navy);
-  text-decoration: none;
-  border: 1px solid var(--navy);
-  border-radius: 999px;
-  padding: 8px 14px;
-  white-space: nowrap;
-  transition: background 0.15s;
-}
-.ftb-clear-all:hover { background: #eef1f8; }
-
-/* Sort in top bar */
-.ftb-sort {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.ftb-sort__label {
-  font-size: 13px;
-  color: var(--muted);
-  white-space: nowrap;
-}
-.ftb-sort__select-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  border: 1px solid #DDDDE0;
-  border-radius: 999px;
-  padding: 8px 32px 8px 14px;
-  background: #fff;
-}
-.ftb-sort__select-wrap::after {
-  content: "";
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 10px; height: 10px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center;
-  pointer-events: none;
-}
-.ftb-sort__select {
-  appearance: none;
-  background: transparent;
-  border: none;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: inherit;
-  color: #1a1a1a;
-  cursor: pointer;
-  outline: none;
-}
-
-/* 4-column grid when top bar filter is active */
-.ccm-page--topbar-filter .ccm-grid {
-  grid-template-columns: repeat(4, 1fr) !important;
-}
-.ccm-page--topbar-filter .ccm-layout {
-  display: block;
-}
-.ccm-page--topbar-filter .ccm-main {
-  width: 100%;
-  max-width: 100%;
-}
+.ccm-filter-toggle svg { width: 15px; height: 15px; } */
 
 /* ---------- Layout ---------- */
 .ccm-layout {
@@ -606,10 +377,17 @@
 /* =========================================
    PRODUCT GRID
    ========================================= */
+.ccm-main {
+  overflow-x: hidden;
+  min-width: 0;           /* critical: prevents grid blowout in flex/grid parents */
+}
+
 .ccm-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px 16px;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* =========================================
@@ -624,11 +402,12 @@
 /* Image wrap — light grey background, square, no border radius visible in screenshot */
 .ccm-card__image-wrap {
   position: relative;
-  /* aspect-ratio: 1 / 1; */
-  background: #f8f8f6;
+  aspect-ratio: 1 / 1;   /* ALWAYS enforce square — never let images dictate height */
+  background: #fff;
   border-radius: 14px;
   overflow: hidden;
   margin-bottom: 12px;
+  width: 100%;
 }
 
 .ccm-card__image-wrap a {
@@ -638,12 +417,13 @@
 }
 
 .ccm-card__img {
+  position: absolute; /* anchor inside the aspect-ratio box */
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;   /* contain so the jewellery doesn't crop */
   object-position: center;
   display: block;
-  padding: 0px;         /* small inset so ring/earring doesn't touch edges */
 }
 
 /* Badge */
@@ -655,50 +435,62 @@
   color: #fff;
   font-size: 11px;
   font-weight: 400;
-  letter-spacing: 0.04em;
-  padding: 4px 10px;
-  border-radius: 999px;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 5px;
   z-index: 2;
   white-space: nowrap;
 }
 
-/* Item: Wishlist — Icon Only */
-.button-wishlist {
+/* ── Wishlist button — matches wpbingo structure, custom heart icon ── */
+.ccm-card__image-wrap .button-wishlist {
   position: absolute;
   top: 12px;
   right: 12px;
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.button-wishlist button {
+
+.ccm-card__image-wrap .button-wishlist button {
   background: transparent;
   border: none;
-  width: auto;
-  height: auto;
+  padding: 0;
+  cursor: pointer;
+  box-shadow: none;
+  outline: none;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  box-shadow: none;
-  padding: 0;
-  color: var(--navy); /* #28365b from variables */
-  transition: none;
+  font-size: 0; /* hide any text */
 }
-.button-wishlist button:hover { background: transparent; box-shadow: none; }
-.button-wishlist button svg {
-  width: 22px; /* Increased size */
+
+/* Heart icon via ::before using inline SVG background */
+.ccm-card__image-wrap .button-wishlist button::before {
+  content: '';
+  display: block;
+  width: 22px;
   height: 22px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5; /* Clean look, no thick outline */
-  transition: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='none' stroke='%2328365b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 28S3 20 3 11.5A7.5 7.5 0 0 1 16 6.36 7.5 7.5 0 0 1 29 11.5C29 20 16 28 16 28z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transition: background-image 0.2s;
 }
-.button-wishlist button.active svg,
-.button-wishlist button.is-added svg {
-  fill: var(--navy);
-  stroke: var(--navy);
+
+/* Active / filled state */
+.ccm-card__image-wrap .button-wishlist button.active::before,
+.ccm-card__image-wrap .button-wishlist button.is-added::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='%2328365b' stroke='%2328365b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 28S3 20 3 11.5A7.5 7.5 0 0 1 16 6.36 7.5 7.5 0 0 1 29 11.5C29 20 16 28 16 28z'/%3E%3C/svg%3E");
+}
+
+.ccm-card__image-wrap .button-wishlist button:hover::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='%2328365b' stroke='%2328365b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 28S3 20 3 11.5A7.5 7.5 0 0 1 16 6.36 7.5 7.5 0 0 1 29 11.5C29 20 16 28 16 28z'/%3E%3C/svg%3E");
+}
+
+/* Remove any wpbingo icomoon font interference */
+.ccm-card__image-wrap .button-wishlist button span {
+  display: none;
 }
 
 /* Card body */
@@ -716,10 +508,11 @@
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 4px;
+  margin-left:4px;
 }
 .ccm-card__swatch {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   cursor: pointer;
   border: none;
@@ -733,7 +526,7 @@
 }
 .ccm-card__swatch.active {
   /* white gap + navy ring — always visible, not affected by theme button resets */
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--navy);
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px var(--navy);
 }
 
 /* Metal image swatches via data-color */
@@ -901,7 +694,8 @@
 .ccm-card__title {
   font-size: 16px; 
   font-weight: 400;
-  font-family: 'Headstock Sans', 'Playfair Display', Georgia, serif;
+  font-family: 'Headstock Sans', serif;
+  letter-spacing:1px !important;
   color: #1a1a1a;
   line-height: 1.45;
   margin: 0;
@@ -911,7 +705,14 @@
   -webkit-box-orient: vertical;
   line-clamp: 2;
 }
-.ccm-card__title a { color: inherit; text-decoration: none; }
+.ccm-card__title a {
+    color: inherit;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;      /* number of lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
 /* Price — side by side */
 .ccm-card__price {
@@ -925,14 +726,14 @@
 .ccm-card__price-current {
   font-size: 15px;
   font-weight: 600;
-  font-family: 'Mickir', 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Mickir', serif;
   color: var(--navy);
   white-space: nowrap;
 }
 .ccm-card__price-compare {
   font-size: 12px;
   font-weight: 400;
-  font-family: 'Mickir', 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Mickir', serif;
   color: var(--muted);
   text-decoration: line-through;
   white-space: nowrap;
@@ -953,6 +754,24 @@
 .ccm-empty__icon { font-size: 44px; margin-bottom: 16px; opacity: 0.3; }
 .ccm-empty__title { font-size: 20px; font-weight: 300; letter-spacing: 0.06em; margin: 0 0 8px; }
 .ccm-empty__text { font-size: 14px; color: var(--muted); margin: 0; }
+
+/* =========================================
+   INFINITE SCROLL STATUS
+   ========================================= */
+#ccm-infinite-trigger {
+  height: 1px;
+  width: 100%;
+}
+#ccm-infinite-status {
+  text-align: center;
+  font-size: 13px;
+  color: #28365b;
+  letter-spacing: 0.05em;
+  padding: 24px 0;
+  font-family: inherit;
+  min-height: 48px;
+  transition: opacity 0.3s;
+}
 
 /* =========================================
    PAGINATION
@@ -1009,7 +828,7 @@
   position: sticky; top: 0; background: #fff; z-index: 1;
   display: flex; align-items: center; justify-content: space-between;
   padding: 20px 0 14px;
-  border-bottom: 1px solid var(--border);
+  /* border-bottom: 1px solid var(--border); */
   margin-bottom: 4px;
 }
 .ccm-drawer__title {
@@ -1060,6 +879,11 @@
 }
 
 @media (max-width: 768px) {
+  .ccm-header{
+    display: inline-grid;
+      gap: 0px;
+
+  }
   .ccm-hero { min-height: 200px; }
   .ccm-hero__body { padding: 32px 16px; }
 
@@ -1071,6 +895,9 @@
   .ccm-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px 10px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .ccm-filter-toggle { display: flex; }
@@ -1088,6 +915,11 @@
 }
 
 @media (max-width: 480px) {
+    .ccm-header{
+    display: inline-grid;
+          gap: 0px;
+
+  }
   .ccm-container { padding: 0 12px; }
   .ccm-grid { gap: 14px 8px; }
   .ccm-card__title { font-size: 12.5px; }
@@ -1311,8 +1143,8 @@
 .ccm-sidebar .vf-header { display: none; }
 
 .vf-title {
-  font-size: 11px; font-weight: 600; letter-spacing: .12em;
-  text-transform: uppercase; color: #1a1a1a;
+  font-size: 13px; font-weight: 600; letter-spacing: .12em;
+  text-transform: capitalize; color: #1a1a1a;
   display: flex; align-items: center; gap: 6px;
 }
 .vf-active-badge {

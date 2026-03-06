@@ -7,43 +7,43 @@
     font-style: normal;
     font-display: swap;
     src: url("{{ 'HeadstockSans.woff2' | asset_url }}") format('woff2'),
-      url("{{ 'HeadstockSans.woff' | asset_url }}") format('woff');
+         url("{{ 'HeadstockSans.woff' | asset_url }}") format('woff');
   }
   @font-face {
     font-family: 'Mickir';
     font-weight: 400;
     font-style: normal;
     font-display: swap;
-    src: url("{{ 'Mickir.woff2' | asset_url }}") format('woff2'), url("{{ 'Mickir.woff' | asset_url }}") format('woff');
+    src: url("{{ 'Mickir.woff2' | asset_url }}") format('woff2'),
+         url("{{ 'Mickir.woff' | asset_url }}") format('woff');
   }
 </style>
 
 {%- liquid
   assign products_per_page = section.settings.products_per_page | default: 12
   assign show_sidebar = section.settings.show_sidebar
-  assign filter_style = section.settings.filter_style | default: 'sidebar'
-  assign use_topbar = false
-  if filter_style == 'topbar'
-    assign use_topbar = true
-  endif
+  assign pagination_style = section.settings.pagination_style | default: 'pagination'
 -%}
 
 <div
-  class="ccm-page section-{{ section.id }}-padding{% if use_topbar %} ccm-page--topbar-filter{% endif %}"
+  class="ccm-page section-{{ section.id }}-padding"
   data-section-id="{{ section.id }}"
   data-section-type="collection-page"
 >
   <div class="ccm-container">
-    <header class="ccm-header">
-      <h1 class="ccm-header__title">{{ collection.title }}</h1>
-      <span class="ccm-header__count">({{ collection.products_count }} results)</span>
-    </header>
-    {%- comment %} Filter Bar: conditional render {%- endcomment %}
-    {%- if use_topbar -%}
-      {% render 'filter-topbar-modern', results: collection %}
-    {%- else -%}
-      {%- comment %} Toolbar with drawer trigger + sort {%- endcomment %}
-      <div class="ccm-toolbar">
+    {% comment %}
+      <header class="ccm-header">
+        <h1 class="ccm-header__title">{{ collection.title }}</h1>
+        <span class="ccm-header__count">({{ collection.products_count }} results)</span>
+      </header>
+    {% endcomment %}
+    <div class="ccm-toolbar">
+      <header class="ccm-header">
+        <h1 class="ccm-header__title">{{ collection.title }}</h1>
+        <span class="ccm-header__count">({{ collection.products_count }} results)</span>
+      </header>
+
+      {% comment %}
         <div class="ccm-toolbar__left">
           <button class="ccm-filter-toggle js-drawer-open" type="button">
             <svg
@@ -110,33 +110,45 @@
             {% comment %} <a href="#" class="ccm-show-more-filters js-drawer-open">+Show More</a> {% endcomment %}
           </div>
         </div>
+      {% endcomment %}
 
-        <div class="ccm-toolbar__right">
-          <div class="ccm-sort-wrap">
-            <span class="ccm-sort-label">Sort By:</span>
-            <facet-filters-form>
-              <form id="FacetSortForm">
-                <select name="sort_by" class="ccm-sort-select" id="SortBy">
-                  {%- for option in collection.sort_options -%}
-                    <option
-                      value="{{ option.value | escape }}"
-                      {% if option.value == collection.sort_by %}
-                        selected="selected"
-                      {% endif %}
-                    >
-                      {{ option.name | escape }}
-                    </option>
-                  {%- endfor -%}
-                </select>
-              </form>
-            </facet-filters-form>
+      <div class="ccm-toolbar__right">
+        <div class="ccm-sort-wrap">
+          <span class="ccm-sort-label">Sort by:</span>
+
+          <div class="ccm-sort-select-wrap">
+            <select name="sort_by" class="ccm-sort-select" id="SortBy">
+              {%- for option in collection.sort_options -%}
+                <option
+                  value="{{ option.value | escape }}"
+                  {% if option.value == collection.sort_by %}
+                    selected="selected"
+                  {% endif %}
+                >
+                  {{ option.name | escape }}
+                </option>
+              {%- endfor -%}
+            </select>
+
+            <span class="ccm-sort-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#666"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
           </div>
         </div>
       </div>
-    {%- endif -%}
+    </div>
 
     <div class="ccm-layout">
-      {%- if show_sidebar and use_topbar == false -%}
+      {%- if show_sidebar -%}
         <aside class="ccm-sidebar">
           {% render 'filter-sidebar-modern', results: collection %}
         </aside>
@@ -169,39 +181,48 @@
             {%- endif -%}
           </div>
 
-          {%- if paginate.pages > 1 -%}
-            <div class="ccm-pagination">
-              {%- if paginate.previous -%}
-                <a href="{{ paginate.previous.url }}" class="prev-next">Prev</a>
-              {%- endif -%}
-
-              {%- for part in paginate.parts -%}
-                {%- if part.is_link -%}
-                  <a href="{{ part.url }}">{{ part.title }}</a>
-                {%- else -%}
-                  {%- if part.title == paginate.current_page -%}
-                    <span class="current">{{ part.title }}</span>
-                  {%- else -%}
-                    <span>{{ part.title }}</span>
-                  {%- endif -%}
+          {%- if pagination_style == 'infinite' -%}
+            {%- comment %} Infinite Scroll: trigger element sits OUTSIDE the grid so it survives innerHTML swaps {%- endcomment %}
+            <div
+              id="ccm-infinite-trigger"
+              data-next-url="{% if paginate.next %}{{ paginate.next.url }}{% endif %}"
+            ></div>
+            <div id="ccm-infinite-status" aria-live="polite"></div>
+          {%- else -%}
+            {%- if paginate.pages > 1 -%}
+              <div class="ccm-pagination">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="prev-next">Prev</a>
                 {%- endif -%}
-              {%- endfor -%}
 
-              {%- if paginate.next -%}
-                <a href="{{ paginate.next.url }}" class="prev-next">Next</a>
-              {%- endif -%}
-            </div>
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                    <a href="{{ part.url }}">{{ part.title }}</a>
+                  {%- else -%}
+                    {%- if part.title == paginate.current_page -%}
+                      <span class="current">{{ part.title }}</span>
+                    {%- else -%}
+                      <span>{{ part.title }}</span>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="prev-next">Next</a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
           {%- endif -%}
         {%- endpaginate -%}
       </main>
     </div>
   </div>
 
-  {%- comment %} Mobile Filter Drawer (only shown in sidebar mode) {%- endcomment %}
+  {% comment %} Mobile Filter Drawer {% endcomment %}
   <div class="ccm-drawer-overlay"></div>
   <div class="ccm-drawer">
     <div class="ccm-drawer__header">
-      <span class="ccm-drawer__title">Filters</span>
+      <span class="ccm-drawer__title"></span>
       <button class="ccm-drawer__close js-drawer-close">&times;</button>
     </div>
     <div class="ccm-drawer__body">
@@ -301,7 +322,20 @@
               currentGrid.innerHTML = newGrid.innerHTML;
             }
 
-            // Replace pagination
+            // === Reset infinite scroll state after sort ===
+            const trigger = document.getElementById('ccm-infinite-trigger');
+            if (trigger) {
+              const newTrigger = doc.getElementById('ccm-infinite-trigger');
+              if (newTrigger) {
+                trigger.dataset.nextUrl = newTrigger.dataset.nextUrl || '';
+              } else {
+                trigger.dataset.nextUrl = '';
+              }
+              // Re-initialise observer
+              initInfiniteScroll();
+            }
+
+            // Replace pagination (for standard mode)
             const newPagination = doc.querySelector('.ccm-pagination');
             const currentPagination = document.querySelector('.ccm-pagination');
             if (newPagination && currentPagination) {
@@ -321,11 +355,94 @@
           })
           .catch((err) => {
             console.error('Sort fetch failed:', err);
-            // Fallback to normal page load
             window.location.href = url.toString();
           });
       });
     }
+
+    // =====================================================
+    // Infinite Scroll — only activates when trigger exists
+    // =====================================================
+    let infiniteObserver = null;
+    let isLoadingMore = false;
+
+    function initInfiniteScroll() {
+      const trigger = document.getElementById('ccm-infinite-trigger');
+      if (!trigger) return; // not in infinite mode
+
+      // Disconnect any previous observer before creating a new one
+      if (infiniteObserver) {
+        infiniteObserver.disconnect();
+        infiniteObserver = null;
+      }
+
+      // If there's no next page from the start, show end message immediately
+      if (!trigger.dataset.nextUrl) {
+        const status = document.getElementById('ccm-infinite-status');
+        if (status) status.textContent = '';
+        return;
+      }
+
+      infiniteObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !isLoadingMore) {
+              loadNextPage();
+            }
+          });
+        },
+        { rootMargin: '0px 0px 400px 0px' }
+      );
+
+      infiniteObserver.observe(trigger);
+    }
+
+    function loadNextPage() {
+      const trigger = document.getElementById('ccm-infinite-trigger');
+      const status = document.getElementById('ccm-infinite-status');
+      if (!trigger || !trigger.dataset.nextUrl) return;
+
+      isLoadingMore = true;
+      if (status) status.textContent = 'Please wait, products loading...';
+
+      fetch(trigger.dataset.nextUrl)
+        .then((res) => res.text())
+        .then((html) => {
+          const doc = new DOMParser().parseFromString(html, 'text/html');
+          const newGrid = doc.getElementById('JsCollectionProduct');
+          const currentGrid = document.getElementById('JsCollectionProduct');
+
+          if (newGrid && currentGrid) {
+            // APPEND cards, not replace
+            currentGrid.insertAdjacentHTML('beforeend', newGrid.innerHTML);
+          }
+
+          // Update next page URL from the fetched page
+          const newTrigger = doc.getElementById('ccm-infinite-trigger');
+          const nextUrl = newTrigger ? newTrigger.dataset.nextUrl : '';
+          trigger.dataset.nextUrl = nextUrl;
+
+          if (status) status.textContent = '';
+          isLoadingMore = false;
+
+          if (!nextUrl) {
+            // No more pages
+            if (status) status.textContent = "Thank you \u2014 you've seen all products!";
+            if (infiniteObserver) {
+              infiniteObserver.disconnect();
+              infiniteObserver = null;
+            }
+          }
+        })
+        .catch((err) => {
+          console.error('Infinite scroll fetch failed:', err);
+          if (status) status.textContent = '';
+          isLoadingMore = false;
+        });
+    }
+
+    // Kick off
+    initInfiniteScroll();
   });
 </script>
 
@@ -339,14 +456,14 @@
     },
     {
       "type": "select",
-      "id": "filter_style",
-      "label": "Filter Layout Style",
-      "info": "'Top Bar' shows horizontal dropdown filters above the grid (4 columns). 'Sidebar' shows a left panel drawer.",
+      "id": "pagination_style",
+      "label": "Pagination Style",
+      "info": "'Standard Pagination' shows page numbers. 'Infinite Scroll' auto-loads more products as you scroll.",
       "options": [
-        { "value": "topbar", "label": "Top Bar (Horizontal Dropdowns)" },
-        { "value": "sidebar", "label": "Sidebar / Drawer" }
+        { "value": "pagination", "label": "Standard Pagination" },
+        { "value": "infinite", "label": "Infinite Scroll" }
       ],
-      "default": "sidebar"
+      "default": "pagination"
     },
     {
       "type": "checkbox",
@@ -357,7 +474,7 @@
     {
       "type": "checkbox",
       "id": "show_sidebar",
-      "label": "Show Sidebar Column (Sidebar mode only)",
+      "label": "Show Sidebar Filters (Desktop)",
       "default": true
     },
     {

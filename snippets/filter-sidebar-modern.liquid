@@ -1,11 +1,13 @@
 {% comment %}
-  Refined filter sidebar snippet for modern collection page.
+  filter-sidebar-modern.liquid
+  Uses a SINGLE loop — each filter gets a unique data-index = forloop.index.
+  Color filters render as swatches (open by default).
+  Price filters render as dual-range slider + inputs.
+  All other filters render as checkboxes (collapsed by default).
+
   Accepts:
   - results: {Object} Collection or Search object (required)
   - is_mobile: {Boolean} Whether this is the mobile drawer version (optional)
-
-  Usage:
-  {% render 'filter-sidebar-modern', results: collection %}
 {% endcomment %}
 
 <div class="vf-container">
@@ -38,13 +40,15 @@
         </header>
 
         <div class="vf-groups">
-          {% comment %} 1. Render Color Filters First (Open by default) {% endcomment %}
           {%- for filter in results.filters -%}
             {%- assign filter_label_lower = filter.label | downcase -%}
-            {%- if filter_label_lower contains 'color'
-              or filter_label_lower contains 'colour'
-              or filter_label_lower contains 'metal'
-            -%}
+            {%- assign is_color = false -%}
+            {%- if filter_label_lower contains 'color' or filter_label_lower contains 'colour' -%}
+              {%- assign is_color = true -%}
+            {%- endif -%}
+
+            {%- comment %} Color filters: open by default, swatch layout {%- endcomment %}
+            {%- if is_color -%}
               <div class="vf-group js-filter" data-index="{{ forloop.index }}">
                 <button type="button" class="vf-group__head js-filter-toggle">
                   <span class="vf-group__label">{{ filter.label }}</span>
@@ -60,7 +64,6 @@
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
                 </button>
-
                 <div class="vf-group__body">
                   <div class="vf-color-grid">
                     {%- for value in filter.values -%}
@@ -88,138 +91,143 @@
                   </div>
                 </div>
               </div>
-            {%- endif -%}
-          {%- endfor -%}
 
-          {% comment %} 2. Render All Other Filters (Closed by default) {% endcomment %}
-          {%- for filter in results.filters -%}
-            {%- assign filter_label_lower = filter.label | downcase -%}
-            {%- if filter_label_lower contains 'color'
-              or filter_label_lower contains 'colour'
-              or filter_label_lower contains 'metal'
-            -%}
-              {% continue %}
-            {%- endif -%}
-
-            <div class="vf-group js-filter is-closed" data-index="{{ forloop.index }}">
-              <button type="button" class="vf-group__head js-filter-toggle">
-                <span class="vf-group__label">{{ filter.label }}</span>
-                <svg
-                  class="vf-group__chevron"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-
-              <div class="vf-group__body">
-                {% case filter.type %}
-                  {% when 'list' %}
-                    <ul class="vf-list">
-                      {%- for value in filter.values -%}
-                        <li>
-                          <label class="vf-checkbox-label">
-                            <input
-                              type="checkbox"
-                              name="{{ value.param_name }}"
-                              value="{{ value.value }}"
-                              data-single-select="true"
-                              {% if value.active %}
-                                checked
-                              {% endif %}
-                              {% if value.count == 0 and value.active == false %}
-                                disabled
-                              {% endif %}
-                              class="vf-checkbox"
-                            >
-                            <span class="vf-checkbox-box"></span>
-                            <span class="vf-checkbox-text">
-                              {{ value.label }}
-                              <span class="vf-checkbox-count">({{ value.count }})</span>
-                            </span>
-                          </label>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-
-                  {% when 'price_range' %}
-                    <div class="vf-price-range">
-                      {% liquid
-                        assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND' | split: ','
-                        assign uses_comma_decimals = false
-                        if currencies_using_comma_decimals contains cart.currency.iso_code
-                          assign uses_comma_decimals = true
-                        endif
-                      %}
-                      <price-range class="vf-price-inputs">
-                        <div class="vf-range-slider">
-                          <div class="vf-range-track"></div>
+              {%- comment %} Price / numeric range filters {%- endcomment %}
+            {%- elsif filter.type == 'price_range' or filter.type == 'number_range' -%}
+              <div class="vf-group js-filter is-closed" data-index="{{ forloop.index }}">
+                <button type="button" class="vf-group__head js-filter-toggle">
+                  <span class="vf-group__label">{{ filter.label }}</span>
+                  <svg
+                    class="vf-group__chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+                <div class="vf-group__body">
+                  <div class="vf-price-range">
+                    {%- liquid
+                      assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND' | split: ','
+                      assign uses_comma_decimals = false
+                      if currencies_using_comma_decimals contains cart.currency.iso_code
+                        assign uses_comma_decimals = true
+                      endif
+                    -%}
+                    <price-range class="vf-price-inputs">
+                      <div class="vf-range-slider">
+                        <div class="vf-range-track"></div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="{{ filter.range_max | divided_by: 100.0 | ceil }}"
+                          value="{% if filter.min_value.value %}{{ filter.min_value.value | divided_by: 100.0 | ceil }}{% else %}0{% endif %}"
+                          class="vf-range-input vf-range-min"
+                          aria-label="Min price"
+                        >
+                        <input
+                          type="range"
+                          min="0"
+                          max="{{ filter.range_max | divided_by: 100.0 | ceil }}"
+                          value="{% if filter.max_value.value %}{{ filter.max_value.value | divided_by: 100.0 | ceil }}{% else %}{{ filter.range_max | divided_by: 100.0 | ceil }}{% endif %}"
+                          class="vf-range-input vf-range-max"
+                          aria-label="Max price"
+                        >
+                      </div>
+                      <div class="vf-price-inputs-grid">
+                        <div class="field">
                           <input
-                            type="range"
+                            class="js-price-min field__input"
+                            name="{{ filter.min_value.param_name }}"
+                            id="Filter-{{ filter.label | escape }}-GTE"
+                            {%- if filter.min_value.value -%}
+                              {%- if uses_comma_decimals -%}
+                                value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                              {%- else -%}
+                                value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                              {%- endif -%}
+                            {%- endif -%}
+                            type="number"
+                            placeholder="0"
                             min="0"
                             max="{{ filter.range_max | divided_by: 100.0 | ceil }}"
-                            value="{% if filter.min_value.value %}{{ filter.min_value.value | divided_by: 100.0 | ceil }}{% else %}0{% endif %}"
-                            class="vf-range-input vf-range-min"
-                            aria-label="Min price"
                           >
+                        </div>
+                        <span class="vf-price-sep">—</span>
+                        <div class="field">
                           <input
-                            type="range"
+                            class="js-price-max field__input"
+                            name="{{ filter.max_value.param_name }}"
+                            id="Filter-{{ filter.label | escape }}-LTE"
+                            {%- if filter.max_value.value -%}
+                              {%- if uses_comma_decimals -%}
+                                value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                              {%- else -%}
+                                value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                              {%- endif -%}
+                            {%- endif -%}
+                            type="number"
                             min="0"
+                            placeholder="{{ filter.range_max | divided_by: 100.0 | ceil }}"
                             max="{{ filter.range_max | divided_by: 100.0 | ceil }}"
-                            value="{% if filter.max_value.value %}{{ filter.max_value.value | divided_by: 100.0 | ceil }}{% else %}{{ filter.range_max | divided_by: 100.0 | ceil }}{% endif %}"
-                            class="vf-range-input vf-range-max"
-                            aria-label="Max price"
                           >
                         </div>
-                        <div class="vf-price-inputs-grid">
-                          <div class="field">
-                            <input
-                              class="js-price-min field__input"
-                              name="{{ filter.min_value.param_name }}"
-                              id="Filter-{{ filter.label | escape }}-GTE"
-                              {%- if filter.min_value.value -%}
-                                {%- if uses_comma_decimals -%}
-                                  value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
-                                {%- else -%}
-                                  value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
-                                {%- endif %}
-                              {%- endif -%}
-                              type="number"
-                              placeholder="0"
-                              min="0"
-                              max="{{ filter.range_max | divided_by: 100.0 | ceil }}"
-                            >
-                          </div>
-                          <span class="vf-price-sep">—</span>
-                          <div class="field">
-                            <input
-                              class="js-price-max field__input"
-                              name="{{ filter.max_value.param_name }}"
-                              id="Filter-{{ filter.label | escape }}-LTE"
-                              {%- if filter.max_value.value -%}
-                                {%- if uses_comma_decimals -%}
-                                  value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
-                                {%- else -%}
-                                  value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
-                                {%- endif %}
-                              {%- endif -%}
-                              type="number"
-                              min="0"
-                              placeholder="{{ filter.range_max | divided_by: 100.0 | ceil }}"
-                              max="{{ filter.range_max | divided_by: 100.0 | ceil }}"
-                            >
-                          </div>
-                        </div>
-                      </price-range>
-                    </div>
-                {% endcase %}
+                      </div>
+                    </price-range>
+                  </div>
+                </div>
               </div>
-            </div>
+
+              {%- comment %} All other filters: boolean, list — checkboxes, collapsed by default {%- endcomment %}
+            {%- else -%}
+              <div class="vf-group js-filter is-closed" data-index="{{ forloop.index }}">
+                <button type="button" class="vf-group__head js-filter-toggle">
+                  <span class="vf-group__label">{{ filter.label }}</span>
+                  <svg
+                    class="vf-group__chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+                <div class="vf-group__body">
+                  <ul class="vf-list">
+                    {%- for value in filter.values -%}
+                      <li>
+                        <label class="vf-checkbox-label">
+                          <input
+                            type="checkbox"
+                            name="{{ value.param_name }}"
+                            value="{{ value.value }}"
+                            {% if value.active %}
+                              checked
+                            {% endif %}
+                            {% if value.count == 0 and value.active == false %}
+                              disabled
+                            {% endif %}
+                            class="vf-checkbox"
+                          >
+                          <span class="vf-checkbox-box"></span>
+                          <span class="vf-checkbox-text">
+                            {{ value.label }}
+                            <span class="vf-checkbox-count">({{ value.count }})</span>
+                          </span>
+                        </label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </div>
+            {%- endif -%}
           {%- endfor -%}
         </div>
 
@@ -252,71 +260,71 @@
         const maxInput = slider.querySelector('.vf-range-max');
         const track = slider.querySelector('.vf-range-track');
         const group = slider.closest('.vf-group');
-        if (!group) return;
+        const priceInputMin = group ? group.querySelector('.js-price-min') : null;
+        const priceInputMax = group ? group.querySelector('.js-price-max') : null;
 
-        const minValField = group.querySelector('.js-price-min');
-        const maxValField = group.querySelector('.js-price-max');
-
-        function updateSlider() {
-          let minVal = parseInt(minInput.value);
-          let maxVal = parseInt(maxInput.value);
-          if (minVal > maxVal) {
-            [minInput.value, maxInput.value] = [maxVal, minVal];
-            [minVal, maxVal] = [maxVal, minVal];
+        function updateTrack() {
+          const min = parseFloat(minInput.value);
+          const max = parseFloat(maxInput.value);
+          const rangeMax = parseFloat(minInput.max);
+          if (track) {
+            track.style.left = (min / rangeMax) * 100 + '%';
+            track.style.right = 100 - (max / rangeMax) * 100 + '%';
           }
-          const minPercent = (minVal / minInput.max) * 100;
-          const maxPercent = (maxVal / maxInput.max) * 100;
-          track.style.left = minPercent + '%';
-          track.style.right = 100 - maxPercent + '%';
-          if (minValField) minValField.value = minVal;
-          if (maxValField) maxValField.value = maxVal;
         }
 
-        minInput.addEventListener('input', updateSlider);
-        maxInput.addEventListener('input', updateSlider);
-
-        [minValField, maxValField].forEach((field) => {
-          if (!field) return;
-          field.addEventListener('change', () => {
-            minInput.value = minValField.value || 0;
-            maxInput.value = maxValField.value || maxInput.max;
-            updateSlider();
+        if (minInput && maxInput) {
+          minInput.addEventListener('input', () => {
+            if (parseFloat(minInput.value) > parseFloat(maxInput.value)) {
+              minInput.value = maxInput.value;
+            }
+            if (priceInputMin) priceInputMin.value = minInput.value;
+            updateTrack();
           });
-        });
 
-        updateSlider();
+          maxInput.addEventListener('input', () => {
+            if (parseFloat(maxInput.value) < parseFloat(minInput.value)) {
+              maxInput.value = minInput.value;
+            }
+            if (priceInputMax) priceInputMax.value = maxInput.value;
+            updateTrack();
+          });
+
+          updateTrack();
+        }
       });
 
-      // 3. Exclusive color selection
-      container.addEventListener('change', (e) => {
-        const colorGrid = e.target.closest('.vf-color-grid');
-        if (colorGrid && e.target.type === 'checkbox' && e.target.checked) {
-          colorGrid.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
-            if (cb !== e.target) cb.checked = false;
+      // 3. Price text inputs sync to range slider
+      container.querySelectorAll('.vf-price-inputs-grid').forEach((grid) => {
+        const minText = grid.querySelector('.js-price-min');
+        const maxText = grid.querySelector('.js-price-max');
+        const group = grid.closest('.vf-group');
+        const rangeMin = group ? group.querySelector('.vf-range-min') : null;
+        const rangeMax = group ? group.querySelector('.vf-range-max') : null;
+
+        if (minText && rangeMin) {
+          minText.addEventListener('change', () => {
+            rangeMin.value = minText.value;
+            rangeMin.dispatchEvent(new Event('input'));
+          });
+        }
+        if (maxText && rangeMax) {
+          maxText.addEventListener('change', () => {
+            rangeMax.value = maxText.value;
+            rangeMax.dispatchEvent(new Event('input'));
           });
         }
       });
     }
 
-    function initAll() {
-      // Initialise every .vf-container on the page (desktop sidebar + mobile drawer)
+    function run() {
       document.querySelectorAll('.vf-container').forEach(initFilterSidebar);
     }
 
-    // Run now if DOM is ready, otherwise wait
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initAll);
+      document.addEventListener('DOMContentLoaded', run);
     } else {
-      initAll();
+      run();
     }
-
-    // Also re-init when the mobile drawer opens (in case it was added to DOM late)
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('.js-drawer-open')) {
-        setTimeout(() => {
-          document.querySelectorAll('.vf-container').forEach(initFilterSidebar);
-        }, 50);
-      }
-    });
   })();
 </script>

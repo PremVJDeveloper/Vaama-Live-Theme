@@ -86,24 +86,14 @@
     {%- endif -%}
 
     {%- if show_wishlist -%}
-      <div class="button-wishlist">
+      <div class="button-wishlist" data-title="{{ 'products.product.wishlist' | t }}">
         <button
           type="button"
-          aria-label="Wishlist"
+          aria-label="{{ 'products.product.wishlist' | t }}"
+          class=""
           button-wishlist
           data-product-handle="{{ product.handle }}"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#28365b;"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-          </svg>
-        </button>
+        ></button>
       </div>
     {%- endif -%}
 
@@ -112,8 +102,8 @@
         src="{{ featured_img | image_url: width: 600 }}"
         alt="{{ featured_img.alt | escape }}"
         loading="lazy"
-        width="600"
-        height="600"
+        width="1"
+        height="1"
         class="ccm-card__img"
       >
       {%- if show_secondary_image and product.media[1] != null -%}
@@ -121,10 +111,10 @@
           src="{{ product.media[1] | image_url: width: 600 }}"
           alt="{{ product.media[1].alt | escape }}"
           loading="lazy"
-          width="600"
-          height="600"
+          width="1"
+          height="1"
           class="ccm-card__img ccm-card__img--secondary"
-          style="position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.3s ease;"
+          style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease;"
         >
       {%- endif -%}
     </a>
