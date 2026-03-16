@@ -1,0 +1,228 @@
+{{ 'custom-collection-modern.css' | asset_url | stylesheet_tag }}
+{{ 'deal-of-the-week.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign products_list = ''
+  assign p1  = section.settings.product_1
+  assign p2  = section.settings.product_2
+  assign p3  = section.settings.product_3
+  assign p4  = section.settings.product_4
+  assign p5  = section.settings.product_5
+  assign p6  = section.settings.product_6
+  assign p7  = section.settings.product_7
+  assign p8  = section.settings.product_8
+  assign all_products = p1 | default: blank
+  assign bg_color = section.settings.bg_color
+-%}
+
+<section class="dotw-section ccm-page" id="section-{{ section.id }}">
+  <div class="dotw-container">
+
+    <div class="dotw-header">
+      {%- if section.settings.title_image != blank -%}
+        <div class="dotw-title-image-wrap">
+          <img
+            class="dotw-title-image"
+            src="{{ section.settings.title_image | image_url: width: 900 }}"
+            srcset="
+              {{ section.settings.title_image | image_url: width: 600 }} 600w,
+              {{ section.settings.title_image | image_url: width: 900 }} 900w,
+              {{ section.settings.title_image | image_url: width: 1400 }} 1400w,
+              {{ section.settings.title_image | image_url: width: 1800 }} 1800w
+            "
+            sizes="100vw"
+            alt="{{ section.settings.title_image.alt | default: section.settings.subtitle | escape }}"
+            width="{{ section.settings.title_image.width }}"
+            height="{{ section.settings.title_image.height }}"
+            loading="lazy"
+          >
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Hidden checkbox for pure-CSS "load more" on mobile {%- endcomment -%}
+    <input type="checkbox" id="dotw-show-more-{{ section.id }}" class="dotw-show-more-input" aria-hidden="true">
+
+    <div class="dotw-grid">
+      {%- assign card_index = 0 -%}
+      {%- for slot in (1..8) -%}
+        {%- assign setting_key = 'product_' | append: slot -%}
+        {%- assign product = section.settings[setting_key] -%}
+        {%- if product != blank -%}
+          {%- assign card_index = card_index | plus: 1 -%}
+          {%- assign extra_class = '' -%}
+          {%- if card_index > 4 -%}{%- assign extra_class = 'hidden-mobile' -%}{%- endif -%}
+          <div class="ccm-card-wrapper {{ extra_class }}">
+            {% render 'product-card-modern',
+              product: product,
+              section: section,
+              show_secondary_image: section.settings.show_secondary_image,
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating,
+              show_wishlist: section.settings.show_wishlist,
+              show_swatches: section.settings.show_swatches,
+              show_badge: section.settings.show_badge,
+              show_view_details: section.settings.show_view_details
+            %}
+          </div>
+        {%- else -%}
+          {%- assign card_index = card_index | plus: 1 -%}
+          {%- assign extra_class = '' -%}
+          {%- if card_index > 4 -%}{%- assign extra_class = 'hidden-mobile' -%}{%- endif -%}
+          <div class="ccm-card placeholder {{ extra_class }}">
+            <div class="ccm-card__image-wrap" style="background: #f3f3f3;">
+              {{ 'product-' | append: slot | placeholder_svg_tag: 'ccm-card__img' }}
+            </div>
+            <div class="ccm-card__body">
+              <h3 class="ccm-card__title">Sample Product Title</h3>
+              <div class="ccm-card__price">
+                <span class="ccm-card__price-current">{{ 1999 | money }}</span>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} "Explore More" button — visible on mobile only, hidden after checkbox checked {%- endcomment -%}
+    <div class="dotw-explore-wrap">
+      <label for="dotw-show-more-{{ section.id }}" class="dotw-explore-btn">
+        {{ section.settings.explore_text | default: 'Explore Now' }} ›
+      </label>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('click', function (e) {
+      const swatch = e.target.closest('.ccm-card__swatch');
+      if (!swatch) return;
+      const card = swatch.closest('.ccm-card');
+      if (!card) return;
+      const mainImg = card.querySelector('.ccm-card__img');
+      const newImgUrl = swatch.dataset.img;
+      if (mainImg && newImgUrl) {
+        mainImg.src = newImgUrl;
+        if (mainImg.srcset) mainImg.srcset = newImgUrl;
+      }
+      card.querySelectorAll('.ccm-card__swatch').forEach((s) => s.classList.remove('active'));
+      swatch.classList.add('active');
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Deal of the Week",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "This Week's"
+    },
+    {
+      "type": "image_picker",
+      "id": "title_image",
+      "label": "Title Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title (fallback if no image)",
+      "default": "Special Picks"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Selected designs at a special price</p>"
+    },
+    {
+      "type": "header",
+      "content": "Pick Products (up to 8)"
+    },
+    { "type": "product", "id": "product_1", "label": "Product 1" },
+    { "type": "product", "id": "product_2", "label": "Product 2" },
+    { "type": "product", "id": "product_3", "label": "Product 3" },
+    { "type": "product", "id": "product_4", "label": "Product 4" },
+    { "type": "product", "id": "product_5", "label": "Product 5" },
+    { "type": "product", "id": "product_6", "label": "Product 6" },
+    { "type": "product", "id": "product_7", "label": "Product 7" },
+    { "type": "product", "id": "product_8", "label": "Product 8" },
+    {
+      "type": "text",
+      "id": "explore_text",
+      "label": "Explore Button Text",
+      "default": "Explore Now"
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#28365b"
+    },
+    {
+      "type": "header",
+      "content": "Product Card Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "Show secondary image on hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show Vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Product Rating",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show Wishlist Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show Swatches",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show Discount Badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_details",
+      "label": "Show View Details",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deal of the Week"
+    }
+  ]
+}
+{% endschema %}

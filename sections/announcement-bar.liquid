@@ -1,0 +1,139 @@
+<style>
+  .ann-bar {
+    width: 100%;
+    background: {{ section.settings.background_color }};
+    overflow: hidden;
+    position: relative;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ann-track {
+    display: flex;
+    flex-direction: column;
+    height: 36px;
+    animation: ann-rotate {{ section.blocks.size | times: 3 }}s linear infinite;
+  }
+
+  .ann-item {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ann-item a,
+  .ann-item span {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: {{ section.settings.text_color }};
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .ann-item a:hover {
+    text-decoration: underline;
+  }
+
+  {%- assign total = section.blocks.size -%}
+  {%- assign step = 100.0 | divided_by: total -%}
+  {%- assign hold_pct = step | minus: 5 -%}
+
+  @keyframes ann-rotate {
+    {%- for block in section.blocks -%}
+      {%- assign start_pct = forloop.index0 | times: step -%}
+      {%- assign hold_end = start_pct | plus: hold_pct -%}
+      {%- assign slide_end = start_pct | plus: step -%}
+      {{ start_pct | round: 2 }}% {
+        transform: translateY(-{{ forloop.index0 | times: 36 }}px);
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      {{ hold_end | round: 2 }}% {
+        transform: translateY(-{{ forloop.index0 | times: 36 }}px);
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      {{ slide_end | round: 2 }}% {
+        transform: translateY(-{{ forloop.index0 | plus: 1 | times: 36 }}px);
+      }
+    {%- endfor -%}
+    100% { transform: translateY(-{{ total | times: 36 }}px); }
+  }
+</style>
+
+<div class="ann-bar">
+  <div class="ann-track">
+    {%- for block in section.blocks -%}
+      <div class="ann-item" {{ block.shopify_attributes }}>
+        {%- if block.settings.link != blank -%}
+          <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
+        {%- else -%}
+          <span>{{ block.settings.text }}</span>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+    {%- comment -%}Duplicate first item for seamless loop{%- endcomment -%}
+    {%- assign first_block = section.blocks.first -%}
+    <div class="ann-item">
+      {%- if first_block.settings.link != blank -%}
+        <a href="{{ first_block.settings.link }}">{{ first_block.settings.text }}</a>
+      {%- else -%}
+        <span>{{ first_block.settings.text }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#28365B"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F5F6F8"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Message",
+          "default": "Free 24KT Gold Coin"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        { "type": "announcement", "settings": { "text": "Flat 20% Off on Diamonds" } },
+        { "type": "announcement", "settings": { "text": "Upto 50% Off on Making Charges" } },
+        { "type": "announcement", "settings": { "text": "Free 24KT Gold Coin" } }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}

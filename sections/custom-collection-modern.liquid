@@ -31,17 +31,15 @@
   data-section-type="collection-page"
 >
   <div class="ccm-container">
-    {% comment %}
-      <header class="ccm-header">
-        <h1 class="ccm-header__title">{{ collection.title }}</h1>
-        <span class="ccm-header__count">({{ collection.products_count }} results)</span>
-      </header>
-    {% endcomment %}
+    {% comment %} <header class="ccm-header">
+      <h1 class="ccm-header__title">{{ collection.title }}</h1>
+      <span class="ccm-header__count">({{ collection.products_count }} results)</span>
+    </header> {% endcomment %}
     <div class="ccm-toolbar">
-      <header class="ccm-header">
-        <h1 class="ccm-header__title">{{ collection.title }}</h1>
-        <span class="ccm-header__count">({{ collection.products_count }} results)</span>
-      </header>
+          <header class="ccm-header">
+      <h1 class="ccm-header__title">{{ collection.title }}</h1>
+      <span class="ccm-header__count">({{ collection.products_count }} results)</span>
+    </header>
 
       {% comment %}
         <div class="ccm-toolbar__left">
@@ -131,14 +129,7 @@
             </select>
 
             <span class="ccm-sort-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#666"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
+              <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </span>
@@ -444,6 +435,7 @@
     // Kick off
     initInfiniteScroll();
   });
+  
 </script>
 
 {% schema %}
@@ -463,7 +455,7 @@
         { "value": "pagination", "label": "Standard Pagination" },
         { "value": "infinite", "label": "Infinite Scroll" }
       ],
-      "default": "pagination"
+      "default": "infinite"
     },
     {
       "type": "checkbox",

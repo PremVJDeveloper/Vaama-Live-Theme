@@ -1,0 +1,569 @@
+{%- style -%}
+  .v-featured-slider {
+    background-color: {{ section.settings.bg_color | default: '#ffffff' }};
+    overflow: hidden;
+  }
+
+  .v-featured-slider__layout {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+    min-height: auto;
+    max-width: var(--v-container-width, 1400px);
+    margin: 10px auto;
+  }
+
+  /* LEFT — static image */
+  .v-featured-slider__left {
+    flex: 0 0 40%;
+    width: 40%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .v-featured-slider__left img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* RIGHT — product slider */
+  .v-featured-slider__right {
+    flex: 0 0 60%;
+    width: 60%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 20px 40px 0px;
+    overflow: hidden;
+  }
+
+  /* Arrows */
+  .v-featured-slider__arrows {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+  }
+
+  .v-featured-slider__arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    color: var(--v-color-text, #28365b);
+  }
+
+  .v-featured-slider__arrow:hover:not([disabled]) {
+    background: var(--v-color-text, #28365b);
+    color: #fff;
+    border-color: var(--v-color-text, #28365b);
+  }
+
+  .v-featured-slider__arrow[disabled] {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  /* Slider track */
+  .v-featured-slider__track-wrap {
+    overflow: hidden;
+    flex: 1;
+    margin: 0 -10px;
+  }
+
+  .v-featured-slider__track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    align-items: flex-start;
+  }
+
+  /* 3 Cards per view */
+  .v-featured-slider__slide {
+    flex: 0 0 calc(33.333% - 20px);
+    margin: 0 10px;
+    min-width: 0;
+    background: #fff;
+    padding: 1% 3%;
+    border-radius: 0.7rem;
+  }
+
+  /* Custom Compact Card Styles */
+  .v-custom-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .v-custom-card__image-container {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: #f9f7f5;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .v-custom-card__image-container img {
+    width: 100%;
+    height: 100%;
+    background: white;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Wishlist Button Overlay */
+  .v-custom-card .button-wishlist {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+  }
+
+  .v-custom-card .ccm-card__badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--v-color-text, #28365b);
+    color: #fff;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    z-index: 3;
+    text-transform: uppercase;
+  }
+
+  .v-custom-card__title {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 0 0 6px;
+    line-height: 1.4;
+    color: var(--v-color-text, #28365b);
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .v-custom-card__title a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .v-custom-card__price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .v-custom-card__price-current {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--v-color-text, #28365b);
+  }
+
+  .v-custom-card__price-compare {
+    font-size: 0.75rem;
+    color: #e05a5a;
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+
+  /* Swatches */
+  .v-custom-card__swatches {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+
+  .v-custom-card__swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .v-custom-card__swatch.active {
+    border-color: var(--v-color-text, #28365b);
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--v-color-text, #28365b);
+  }
+
+  /* Dots */
+  .v-featured-slider__dots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 25px;
+    flex-shrink: 0;
+  }
+
+  .v-featured-slider__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d4c5b0;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .v-featured-slider__dot.is-active {
+    background: var(--v-color-text, #28365b);
+    width: 18px;
+    border-radius: 3px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .v-featured-slider__left { flex: 0 0 50%; width: 50%; }
+    .v-featured-slider__right { flex: 0 0 50%; width: 50%; padding: 20px 15px; }
+    .v-featured-slider__slide { flex: 0 0 calc(50% - 20px); }
+  }
+
+  @media (max-width: 767px) {
+    .v-featured-slider__layout { flex-direction: column; }
+    .v-featured-slider__left { width: 100%; flex: none; height: auto; padding: 0px 16px; }
+    .v-featured-slider__right { width: 100%; flex: none; padding: 0px 15px; flex-direction: column; }
+    .v-featured-slider__slide { flex: 0 0 calc(50% - 20px); }
+    .v-featured-slider__dots { justify-content: center; }
+    .v-featured-slider__arrows {
+      order: 3;
+      justify-content: center;
+      margin-bottom: 0;
+      margin-top: 16px;
+    }
+    .v-featured-slider__track-wrap { order: 1; }
+    .v-featured-slider__dots { order: 2; }
+  }
+
+  /* Wishlist button */
+  .v-featured-slider .button-wishlist {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+  }
+
+  .v-featured-slider .button-wishlist button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: none;
+    outline: none;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .v-featured-slider .button-wishlist button span {
+    display: none;
+  }
+
+  .v-featured-slider .button-wishlist button::before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 22px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='none' stroke='%2328365b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 28S3 20 3 11.5A7.5 7.5 0 0 1 16 6.36 7.5 7.5 0 0 1 29 11.5C29 20 16 28 16 28z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    transition: background-image 0.2s;
+  }
+
+  .v-featured-slider .button-wishlist button.active::before,
+  .v-featured-slider .button-wishlist button.is-added::before {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='%2328365b' stroke='%2328365b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 28S3 20 3 11.5A7.5 7.5 0 0 1 16 6.36 7.5 7.5 0 0 1 29 11.5C29 20 16 28 16 28z'/%3E%3C/svg%3E");
+  }
+
+  .v-featured-slider .button-wishlist button:hover::before {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='%2328365b' stroke='%2328365b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 28S3 20 3 11.5A7.5 7.5 0 0 1 16 6.36 7.5 7.5 0 0 1 29 11.5C29 20 16 28 16 28z'/%3E%3C/svg%3E");
+  }
+{%- endstyle -%}
+
+<section class="v-featured-slider" id="v-featured-slider-{{ section.id }}">
+  <div class="v-featured-slider__layout">
+
+    <!-- LEFT: Static Image -->
+    <div class="v-featured-slider__left">
+      {%- if section.settings.featured_image != blank -%}
+        <img
+          src="{{ section.settings.featured_image | image_url: width: 1200 }}"
+          alt="{{ section.settings.featured_image.alt | escape }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    <!-- RIGHT: Compact Product Slider -->
+    <div class="v-featured-slider__right">
+      <div class="v-featured-slider__arrows">
+        <button class="v-featured-slider__arrow v-prev" aria-label="Previous">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <button class="v-featured-slider__arrow v-next" aria-label="Next">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="v-featured-slider__track-wrap">
+        <div class="v-featured-slider__track">
+          {%- for block in section.blocks -%}
+            {%- assign product = block.settings.product -%}
+            {%- if product == blank -%}{%- continue -%}{%- endif -%}
+
+            <div class="v-featured-slider__slide" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+              {%- liquid
+                assign featured_img = product.featured_image
+                assign color_option = null
+                assign color_position = null
+                for option in product.options_with_values
+                  assign opt_lower = option.name | downcase
+                  if opt_lower contains 'color' or opt_lower contains 'metal'
+                    assign color_option = option
+                    assign color_position = forloop.index
+                    break
+                  endif
+                endfor
+
+                assign discount_pct = 0
+                if product.compare_at_price_max > product.price_min
+                  assign discount_pct = product.compare_at_price_max | minus: product.price_min | times: 100 | divided_by: product.compare_at_price_max | round
+                endif
+              -%}
+
+              <div class="v-custom-card">
+                <div class="v-custom-card__image-container">
+                  {%- if discount_pct > 0 -%}
+                    <span class="ccm-card__badge">-{{ discount_pct }}%</span>
+                  {%- endif -%}
+
+                  <div class="button-wishlist" data-title="{{ 'products.product.wishlist' | t }}">
+                    <button
+                      type="button"
+                      aria-label="{{ 'products.product.wishlist' | t }}"
+                      class=""
+                      button-wishlist
+                      data-product-handle="{{ product.handle }}"
+                    ></button>
+                  </div>
+
+                  <a href="{{ product.url }}">
+                    <img
+                      src="{{ featured_img | image_url: width: 600 }}"
+                      alt="{{ product.title | escape }}"
+                      class="js-card-img"
+                      loading="lazy"
+                    >
+                  </a>
+                </div>
+
+                <div class="v-custom-card__info">
+                  {%- if color_option -%}
+                    <div class="v-custom-card__swatches">
+                      {%- for value in color_option.values -%}
+                        {%- liquid
+                          assign variant_img = ''
+                          for variant in product.variants
+                            assign opt_val = ''
+                            if color_position == 1
+                              assign opt_val = variant.option1
+                            elsif color_position == 2
+                              assign opt_val = variant.option2
+                            elsif color_position == 3
+                              assign opt_val = variant.option3
+                            endif
+                            if opt_val == value
+                              assign variant_img = variant.image | default: product.featured_image
+                              assign variant_img_url = variant_img | image_url: width: 600
+                              break
+                            endif
+                          endfor
+
+                          assign swatch_bg = ''
+                          if value == 'Yellow Gold'
+                            assign swatch_bg = 'https://vaama.co/cdn/shop/files/steptodown.com923204.jpg'
+                          elsif value == 'Rose Gold'
+                            assign swatch_bg = 'https://vaama.co/cdn/shop/files/Rose_Gold.png'
+                          elsif value == 'White Gold'
+                            assign swatch_bg = 'https://vaama.co/cdn/shop/files/Frame_11.png'
+                          endif
+                        -%}
+                        <button
+                          type="button"
+                          class="v-custom-card__swatch{% if forloop.first %} active{% endif %}"
+                          data-img="{{ variant_img_url }}"
+                          style="{% if swatch_bg != '' %}background-image:url('{{ swatch_bg }}'){% else %}background-color:{{ value }}{% endif %}"
+                          title="{{ value }}"
+                        ></button>
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+
+                  <h3 class="v-custom-card__title">
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                  </h3>
+                  <div class="v-custom-card__price">
+                    <span class="v-custom-card__price-current">{{ product.price | money }}</span>
+                    {%- if product.compare_at_price > product.price -%}
+                      <span class="v-custom-card__price-compare">{{ product.compare_at_price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="v-featured-slider__dots">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.product == blank -%}{%- continue -%}{%- endif -%}
+          <button
+            class="v-featured-slider__dot{% if forloop.first %} is-active{% endif %}"
+            data-index="{{ forloop.index0 }}"
+          ></button>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const section = document.querySelector('#v-featured-slider-{{ section.id }}');
+      if (!section) return;
+
+      const track = section.querySelector('.v-featured-slider__track');
+      const slides = Array.from(section.querySelectorAll('.v-featured-slider__slide'));
+      const dots = Array.from(section.querySelectorAll('.v-featured-slider__dot'));
+      const prevBtn = section.querySelector('.v-prev');
+      const nextBtn = section.querySelector('.v-next');
+
+      if (slides.length === 0) return;
+
+      let currentIndex = 0;
+
+      function update() {
+        const itemWidth = slides[0].offsetWidth + 20;
+        const maxIndex = Math.max(0, slides.length - (window.innerWidth > 767 ? 3 : 1));
+
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+        if (currentIndex < 0) currentIndex = 0;
+
+        track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+
+        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === currentIndex));
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= maxIndex;
+      }
+
+      nextBtn.addEventListener('click', () => { currentIndex++; update(); });
+      prevBtn.addEventListener('click', () => { currentIndex--; update(); });
+      dots.forEach((dot, i) => dot.addEventListener('click', () => { currentIndex = i; update(); }));
+
+      // Swatch Implementation
+      section.addEventListener('click', (e) => {
+        const swatch = e.target.closest('.v-custom-card__swatch');
+        if (!swatch) return;
+        const card = swatch.closest('.v-custom-card');
+        const img = card.querySelector('.js-card-img');
+        const newSrc = swatch.dataset.img;
+        if (newSrc && img) img.src = newSrc;
+        card.querySelectorAll('.v-custom-card__swatch').forEach((s) => s.classList.remove('active'));
+        swatch.classList.add('active');
+      });
+
+      // Swipe support
+      let startX = 0;
+      section.addEventListener('touchstart', (e) => (startX = e.touches[0].clientX), { passive: true });
+      section.addEventListener('touchend', (e) => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) currentIndex++;
+          else currentIndex--;
+          update();
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', update);
+      window.addEventListener('load', update);
+      setTimeout(update, 500);
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Product Slider",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "Left Feature Image"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Product Slider",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}

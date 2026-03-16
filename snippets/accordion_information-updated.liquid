@@ -12,28 +12,20 @@
     {%- if block.settings.product_tab_selector == 'description' and full_description != blank -%}
     <div class="apanel-item" id="apanel-product-details">
 
-      {%- comment %} Header ─────────────────────────────── {% endcomment %}
-        <button
+      <button
         class="apanel-header apanel-header--open"
         data-target="apanel-body-description"
         onclick="apanelToggle(this)"
         aria-expanded="true"
-        >
+      >
         <span class="apanel-title">{{ block.settings.tab_title | default: 'Product Details' }}</span>
-        {%- comment %} REPLACE src with your custom collapse/expand icons {% endcomment %}
         <img class="apanel-icon apanel-icon--close" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Up_Arrow_Icon_e21e70f5-5f03-465f-9a26-dc5c4fdb28d2.svg?v=1772021156" alt="collapse" style="display:none;" />
         <img class="apanel-icon apanel-icon--open"  src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Down_Arrow_Icon_515cc930-86c6-442f-b75c-c0e5e77dc155.svg?v=1772021157" alt="expand"/>
       </button>
 
-      {%- comment %} Body ──────────────────────────────── {% endcomment %}
-        <div class="apanel-body" id="apanel-body-description">
-        {%- comment %} Description text {% endcomment %}
+      <div class="apanel-body" id="apanel-body-description">
         <div class="apanel-description">{{ full_description }}</div>
 
-        {%- comment %}
-          Diamond Details card
-          Data pulled from product metafields — adjust namespace/key to match yours
-        {% endcomment %}
         {%- assign diamond_count   = product.metafields.product_details.diamond_count -%}
         {%- assign diamond_weight  = product.metafields.product_details.diamond_weight -%}
         {%- assign diamond_clarity = product.metafields.product_details.diamond_clarity -%}
@@ -64,10 +56,6 @@
         </div>
         {%- endif -%}
 
-        {%- comment %}
-          Gold Details card
-          Adjust metafield namespace/key to match yours
-        {% endcomment %}
         {%- assign gold_weight = product.metafields.product_details.gold_weight -%}
         {%- assign gold_karat  = product.metafields.product_details.gold_karat -%}
         {%- assign gold_color  = product.metafields.product_details.gold_color -%}
@@ -98,7 +86,103 @@
         </div>
         {%- endif -%}
 
-      </div>{%- comment %} /apanel-body {% endcomment %}
+      </div>
+    </div>
+    {%- endif -%}
+
+    {%- comment %} ── TRACE ORIGIN tab ── {% endcomment %}
+    {%- if block.settings.product_tab_selector == 'trace_origin' -%}
+    <div class="apanel-item">
+
+      {%- comment %} Header shows "Know Your Jewellery Journey" — no separate Trace Origin title {% endcomment %}
+      <button
+        class="apanel-header"
+        data-target="apanel-body-trace-{{ block.id }}"
+        onclick="apanelToggle(this)"
+        aria-expanded="false"
+      >
+        <span class="apanel-title">Know Your Jewellery Journey</span>
+        <img class="apanel-icon apanel-icon--close" src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Up_Arrow_Icon_e21e70f5-5f03-465f-9a26-dc5c4fdb28d2.svg?v=1772021156" alt="collapse" style="display:none;" />
+        <img class="apanel-icon apanel-icon--open"  src="https://cdn.shopify.com/s/files/1/0634/8239/6854/files/Down_Arrow_Icon_515cc930-86c6-442f-b75c-c0e5e77dc155.svg?v=1772021157" alt="expand"/>
+      </button>
+
+      <div class="apanel-body apanel-body--hidden to-body" id="apanel-body-trace-{{ block.id }}">
+
+        {%- comment %} Description — sits outside the card, above the timeline ── {% endcomment %}
+        <p class="to-description">Every Vaama piece follows a journey managed by our team in Surat, India's diamond capital. From the first design sketch to diamond and gold sourcing, expert craftsmanship, and final quality inspection, each stage is handled and monitored within our process. By overseeing the entire journey ourselves, we ensure the jewellery you receive meets our standards for authenticity, precision, and lasting quality.</p>
+
+        {%- comment %} Timeline card ── {% endcomment %}
+        <div class="to-card">
+          <div class="to-timeline" id="to-timeline-{{ block.id }}">
+
+            <!-- Row 1: RIGHT — Designed at Vaama -->
+            <div class="to-row">
+              <div class="to-cell to-cell--left to-cell--empty"></div>
+              <div class="to-dot-col"><div class="to-dot"></div></div>
+              <div class="to-cell to-cell--right">
+                <h4 class="to-title">Designed at Vaama</h4>
+                <p class="to-desc">Conceptualized by our design team in Surat and Ahmedabad</p>
+              </div>
+            </div>
+
+            <!-- Row 2: LEFT — Diamond Selection -->
+            <div class="to-row">
+              <div class="to-cell to-cell--left">
+                <h4 class="to-title">Diamond Selection</h4>
+                <p class="to-desc">Lab-grown diamonds are carefully sourced and matched to the design</p>
+              </div>
+              <div class="to-dot-col"><div class="to-dot"></div></div>
+              <div class="to-cell to-cell--right to-cell--empty"></div>
+            </div>
+
+            <!-- Row 3: RIGHT — Metal sourcing -->
+            <div class="to-row">
+              <div class="to-cell to-cell--left to-cell--empty"></div>
+              <div class="to-dot-col"><div class="to-dot"></div></div>
+              <div class="to-cell to-cell--right">
+                <h4 class="to-title">Metal sourcing</h4>
+                <p class="to-desc">Gold is mostly recycled or sourced via most ethical ways</p>
+              </div>
+            </div>
+
+            <!-- Row 4: LEFT — Crafting -->
+            <div class="to-row">
+              <div class="to-cell to-cell--left">
+                <h4 class="to-title">Crafting</h4>
+                <p class="to-desc">Skilled artisans bring the piece to life with precision!</p>
+              </div>
+              <div class="to-dot-col"><div class="to-dot"></div></div>
+              <div class="to-cell to-cell--right to-cell--empty"></div>
+            </div>
+
+            <!-- Row 5: RIGHT — Quality Inspection -->
+            <div class="to-row">
+              <div class="to-cell to-cell--left to-cell--empty"></div>
+              <div class="to-dot-col"><div class="to-dot"></div></div>
+              <div class="to-cell to-cell--right">
+                <h4 class="to-title">Quality Inspection</h4>
+                <p class="to-desc">Each piece undergoes detailed quality checks</p>
+              </div>
+            </div>
+
+            <!-- Row 6 LAST: LEFT — Secure Dispatch -->
+            <div class="to-row to-row--last">
+              <div class="to-cell to-cell--left">
+                <h4 class="to-title">Secure Dispatch</h4>
+                <p class="to-desc">Carefully packaged and shipped from our facility</p>
+              </div>
+              <div class="to-dot-col"><div class="to-dot"></div></div>
+              <div class="to-cell to-cell--right to-cell--empty"></div>
+            </div>
+
+          </div><!-- /to-timeline -->
+
+          <div class="to-footer">
+            <p class="to-footer-text">Made in India • Crafted in Surat • Quality Checked</p>
+          </div>
+        </div><!-- /to-card -->
+
+      </div><!-- /apanel-body -->
     </div>
     {%- endif -%}
 
@@ -171,47 +255,41 @@ function apanelToggle(btn) {
   const targetId = btn.getAttribute('data-target');
   const body = document.getElementById(targetId);
   const isOpen = btn.getAttribute('aria-expanded') === 'true';
-
-  const iconClose = btn.querySelector('.apanel-icon--close'); // Up arrow
-  const iconOpen  = btn.querySelector('.apanel-icon--open');  // Down arrow
+  const iconClose = btn.querySelector('.apanel-icon--close');
+  const iconOpen  = btn.querySelector('.apanel-icon--open');
 
   if (isOpen) {
-    // Collapse
     body.classList.add('apanel-body--hidden');
     btn.setAttribute('aria-expanded', 'false');
     btn.classList.remove('apanel-header--open');
-
-    if (iconClose) iconClose.style.display = '';     // show UP
-    if (iconOpen)  iconOpen.style.display  = 'none'; // hide DOWN
+    if (iconClose) iconClose.style.display = '';
+    if (iconOpen)  iconOpen.style.display  = 'none';
   } else {
-    // Expand
     body.classList.remove('apanel-body--hidden');
     btn.setAttribute('aria-expanded', 'true');
     btn.classList.add('apanel-header--open');
-
-    if (iconClose) iconClose.style.display = 'none'; // hide UP
-    if (iconOpen)  iconOpen.style.display  = '';     // show DOWN
+    if (iconClose) iconClose.style.display = 'none';
+    if (iconOpen)  iconOpen.style.display  = '';
   }
-}</script>
+}
+</script>
 
 <!-- CSS -->
 <style>
+  /* ── Base wrap ── */
   .apanel-wrap {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif !important;
     width: 100%;
     box-sizing: border-box;
   }
 
-  /* ── Each accordion item ── */
   .apanel-item {
     border-top: 1px solid #E5E7EB;
   }
-
   .apanel-item:last-child {
     border-bottom: 1px solid #E5E7EB;
   }
 
-  /* ── Header / trigger button ── */
   .apanel-header {
     width: 100%;
     display: flex;
@@ -225,14 +303,13 @@ function apanelToggle(btn) {
   }
 
   .apanel-title {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif !important;
     font-size: 14px;
     font-weight: 500;
     color: #28365B;
     line-height: 20px;
   }
 
-  /* Custom icon — 16×16, right side */
   .apanel-icon {
     width: 24px;
     height: 24px;
@@ -240,59 +317,47 @@ function apanelToggle(btn) {
     flex-shrink: 0;
   }
 
-  /* ── Body ── */
   .apanel-body {
     padding: 0 0 20px 0;
     overflow: hidden;
   }
-
   .apanel-body--hidden {
     display: none;
   }
 
-  /* ── Description text ── */
   .apanel-description {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif !important;
     font-size: 13px;
     font-weight: 400;
     line-height: 20px;
     color: #28365B;
     margin-bottom: 20px;
   }
-
   .apanel-description p {
     margin: 0 0 8px 0;
     font-size: 13px;
     color: #28365B;
   }
 
-  /* ── Detail card (Diamond / Gold) ── */
   .apanel-detail-card {
     background: #F5F6F8;
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 16px;
   }
+  .apanel-detail-card:last-child { margin-bottom: 0; }
 
-  .apanel-detail-card:last-child {
-    margin-bottom: 0;
-  }
-
-  /* Card header row — slightly darker bg */
   .apanel-detail-card__header {
     background: #EAECf2;
     padding: 12px 16px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif !important;
     font-size: 13px;
     font-weight: 600;
     color: #28365B;
     line-height: 20px;
   }
 
-  /* Card body rows */
-  .apanel-detail-card__body {
-    padding: 4px 0;
-  }
+  .apanel-detail-card__body { padding: 4px 0; }
 
   .apanel-detail-row {
     display: flex;
@@ -301,25 +366,174 @@ function apanelToggle(btn) {
     padding: 10px 16px;
     border-top: 1px solid #E5E7EB;
   }
-
-  .apanel-detail-row:first-child {
-    border-top: none;
-  }
+  .apanel-detail-row:first-child { border-top: none; }
 
   .apanel-detail-label {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif !important;
     font-size: 13px;
     font-weight: 500;
     color: #28365B;
     line-height: 20px;
   }
-
   .apanel-detail-value {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif !important;
     font-size: 13px;
     font-weight: 400;
     color: #28365B;
     line-height: 20px;
     text-align: right;
+  }
+
+  /* ═══════════════════════════════════════════════
+     TRACE ORIGIN — Timeline
+     Prefix: to-  (avoids conflicts with theme CSS)
+     
+     Strategy: single continuous ::before line on
+     .to-timeline runs from first dot centre to last
+     dot centre. Dots sit on top (z-index:1).
+     Gaps in the "dash" are controlled by
+     background-image repeating-linear-gradient.
+  ═══════════════════════════════════════════════ */
+
+  .to-body {
+    padding: 0 0 20px 0 !important;
+  }
+
+  .to-description {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #28365B;
+    margin: 0 0 16px 0;
+  }
+
+  /* Grey card */
+  .to-card {
+    background: #F5F6F8;
+    border-radius: 8px;
+    padding: 20px 16px 16px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  /* ── Timeline: position:relative so ::before can be absolute ── */
+  .to-timeline {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /*
+    Single continuous dashed line.
+    - left: 50%  puts it at the centre of .to-timeline
+    - top / bottom use padding that matches half the dot size (4-5px)
+      so the line starts & ends at each dot's centre
+    - We use background-image trick for true dashes with bigger gaps
+      because border-left dash size isn't controllable in CSS
+  */
+  .to-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 7px;        /* half of 9px dot + 3px margin-top offset = dot centre */
+    bottom: calc(100% - var(--to-last-dot-bottom, 92%));
+    width: 1.5px;
+    /* Repeating dash: 6px dash, 5px gap — tweak to taste */
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(40, 54, 91, 0.5) 0px,
+      rgba(40, 54, 91, 0.5) 5px,
+      transparent 5px,
+      transparent 11px
+    );
+    z-index: 0;
+  }
+
+  /* Each row */
+  .to-row {
+    display: grid;
+    grid-template-columns: 1fr 20px 1fr;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Dot column — only centres the dot, line is on ::before */
+  .to-dot-col {
+    display: flex;
+    justify-content: center;
+    padding-top: 3px; /* pushes dot down to align with text cap-height */
+  }
+
+  .to-dot {
+    width: 9px;
+    height: 9px;
+    background: #28365B;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2; /* sits above the ::before line */
+  }
+
+  /* Text cells */
+  .to-cell {
+    padding-bottom: 24px;
+    box-sizing: border-box;
+  }
+
+  .to-cell--left {
+    padding-right: 10px;
+    text-align: right;
+  }
+
+  .to-cell--right {
+    padding-left: 10px;
+    text-align: left;
+  }
+
+  .to-row--last .to-cell {
+    padding-bottom: 0;
+  }
+
+  .to-cell--empty { /* grid placeholder */ }
+
+  /* Typography */
+  .to-title {
+    font-family: 'Inter', sans-serif !important;
+        letter-spacing: 0px !important;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    color: #28365B;
+    margin: 0 0 3px 0;
+  }
+
+  .to-desc {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 15px;
+    color: #28365B;
+    margin: 0;
+  }
+
+  /* Footer */
+  .to-footer {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 0.75px solid #D4D8E1;
+  }
+
+  .to-footer-text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    color: #28365B;
+    text-align: center;
+    margin: 0;
   }
 </style>

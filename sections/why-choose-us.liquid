@@ -1,0 +1,443 @@
+<style>
+  .wcu-section {
+    position: relative;
+    width: 100%;
+    padding-top: 20px;
+    background: #28365B;
+  }
+
+  /* Hide floating buttons while WCU section is pinned/scrolling */
+  body:has(#wcu-panel.is-fixed) #nector-rewards-widget-container,
+  body:has(#wcu-panel.is-fixed) #whatsapp-btn {
+    display: none !important;
+  }
+
+  .wcu-scroll-spacer {
+    pointer-events: none;
+  }
+
+  .wcu-panel {
+    width: 100%;
+    height: 100vh;
+    background: #28365B;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    left: 0;
+  }
+
+  .wcu-panel.is-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
+
+  .wcu-panel.is-absolute-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .wcu-panel.is-absolute-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* ── LEFT: image ── */
+  .wcu-image-side {
+    position: relative;
+    width: 40%;
+    height: 100vh;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .wcu-image-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: transform;
+    transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+  }
+
+  /* ── STATES ── */
+  .wcu-image-slide.state-below {
+    transform: translateY(100%);
+    z-index: 1;
+  }
+
+  .wcu-image-slide.state-visible {
+    transform: translateY(0%);
+    z-index: 2;
+  }
+
+  .wcu-image-slide.state-above {
+    transform: translateY(-100%);
+    z-index: 1;
+  }
+
+  /* dots */
+  .wcu-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .wcu-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    transition: background 0.3s, transform 0.35s;
+    cursor: default;
+  }
+
+  .wcu-dot.is-active {
+    background: #fff;
+    transform: scale(1.55);
+  }
+
+  /* ── RIGHT: text ── */
+  .wcu-text-side {
+    flex: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 2% 34px 12%;
+    gap: 12rem;
+    overflow: hidden;
+  }
+
+  .wcu-heading-block {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .wcu-main-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .wcu-divider {
+    width: 220px;
+    border: none;
+    border-top: 0.75px solid rgba(255,255,255,0.35);
+    margin: 0;
+  }
+
+  /* content items with directional fade */
+  .wcu-content-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+  }
+
+  .wcu-content-item.state-below {
+    transform: translateY(28px);
+    opacity: 0;
+  }
+
+  .wcu-content-item.state-visible {
+    transform: translateY(0px);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .wcu-content-item.state-above {
+    transform: translateY(-28px);
+    opacity: 0;
+  }
+
+  .wcu-content-items-wrap {
+    position: relative;
+    min-height: 220px;
+  }
+
+  .wcu-item-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .wcu-item-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 3rem;
+    line-height: 3.6rem;
+    letter-spacing: 0.06rem;
+    color: #fff;
+    margin: 0;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .wcu-panel { flex-direction: column; height: 100vh !important; }
+    .wcu-image-side { width: 100%; height: 60vh !important; flex-shrink: 0; }
+    .wcu-text-side { height: 55vh; width: 100%; padding: 40px 30px 32px; gap: 5rem; overflow: hidden; flex-shrink: 0; }
+    .wcu-item-headline { font-size: 1.75rem; line-height: 2rem; }
+    .wcu-content-items-wrap { flex: 1; position: relative; width: 85%; }
+    .wcu-item-eyebrow { font-size: 0.8rem; letter-spacing: 0.1em; }
+    .wcu-content-item { gap: 0.2rem; }
+    .wcu-main-title { font-size: 1.3rem; letter-spacing: 0.04em; }
+  }
+</style>
+
+
+<section class="wcu-section" id="wcu-section" data-slides="{{ section.blocks.size }}">
+
+  <div id="wcu-spacer" class="wcu-scroll-spacer"></div>
+
+  <div class="wcu-panel is-absolute-top" id="wcu-panel">
+
+    <!-- LEFT: images -->
+    <div class="wcu-image-side" id="wcu-image-side">
+      {%- for block in section.blocks -%}
+        <img
+          class="wcu-image-slide {% if forloop.first %}state-visible{% else %}state-below{% endif %}"
+          src="{{ block.settings.image | img_url: '900x' }}"
+          alt="{{ block.settings.eyebrow | escape }}"
+          data-index="{{ forloop.index0 }}"
+          loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+        >
+      {%- endfor -%}
+
+      <div class="wcu-dots">
+        {%- for block in section.blocks -%}
+          <span
+            class="wcu-dot{% if forloop.first %} is-active{% endif %}"
+            data-dot="{{ forloop.index0 }}"
+          ></span>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- RIGHT: text -->
+    <div class="wcu-text-side">
+      <div class="wcu-heading-block">
+        {% comment %} <p class="wcu-label">{{ section.settings.label }}</p> {% endcomment %}
+        <h2 class="wcu-main-title">{{ section.settings.title }}</h2>
+        <hr class="wcu-divider">
+      </div>
+
+      <div class="wcu-content-items-wrap" id="wcu-content-wrap">
+        {%- for block in section.blocks -%}
+          <div
+            class="wcu-content-item {% if forloop.first %}state-visible{% else %}state-below{% endif %}"
+            data-content="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+          >
+            <p class="wcu-item-eyebrow">{{ block.settings.eyebrow }}</p>
+            <h3 class="wcu-item-headline">{{ block.settings.headline }}</h3>
+            {% comment %} <p class="wcu-item-body">{{ block.settings.body }}</p> {% endcomment %}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var section  = document.getElementById('wcu-section');
+  var spacer   = document.getElementById('wcu-spacer');
+  var panel    = document.getElementById('wcu-panel');
+  if (!section || !spacer || !panel) return;
+
+  var images   = panel.querySelectorAll('.wcu-image-slide');
+  var contents = panel.querySelectorAll('.wcu-content-item');
+  var dots     = panel.querySelectorAll('.wcu-dot');
+  var wrap     = document.getElementById('wcu-content-wrap');
+  var total    = images.length;
+
+  var current  = 0;
+  var lastScrollY = window.pageYOffset;
+
+  /* ── Auto-size the text content wrapper ── */
+  function sizeWrap() {
+    var max = 0;
+    contents.forEach(function(c) {
+      c.style.position = 'relative';
+      var h = c.offsetHeight;
+      c.style.position = '';
+      if (h > max) max = h;
+    });
+    wrap.style.minHeight = max + 'px';
+  }
+
+  /* ── Setup spacer height ── */
+  function setup() {
+    var panelH = panel.offsetHeight;
+    spacer.style.height = (panelH + total * window.innerHeight) + 'px';
+    sizeWrap();
+  }
+
+  /* ── Directional transition ── */
+  function goTo(idx, direction) {
+    // direction: 1 = scrolling DOWN (new image comes from below)
+    //            -1 = scrolling UP   (new image comes from above)
+    if (idx === current) return;
+
+    var outImg  = images[current];
+    var inImg   = images[idx];
+    var outTxt  = contents[current];
+    var inTxt   = contents[idx];
+
+    /* — images — */
+    // outgoing exits in scroll direction
+    outImg.classList.remove('state-visible');
+    outImg.classList.add(direction === 1 ? 'state-above' : 'state-below');
+
+    // incoming enters from opposite side
+    inImg.classList.remove('state-above', 'state-below');
+    // force position before transition
+    inImg.style.transition = 'none';
+    inImg.classList.add(direction === 1 ? 'state-below' : 'state-above');
+    inImg.offsetHeight; // reflow
+    inImg.style.transition = '';
+    inImg.classList.remove('state-above', 'state-below');
+    inImg.classList.add('state-visible');
+
+    /* — text — */
+    outTxt.classList.remove('state-visible');
+    outTxt.classList.add(direction === 1 ? 'state-above' : 'state-below');
+
+    inTxt.style.transition = 'none';
+    inTxt.classList.remove('state-above', 'state-below', 'state-visible');
+    inTxt.classList.add(direction === 1 ? 'state-below' : 'state-above');
+    inTxt.offsetHeight;
+    inTxt.style.transition = '';
+    inTxt.classList.remove('state-above', 'state-below');
+    inTxt.classList.add('state-visible');
+
+    /* — dots — */
+    dots[current].classList.remove('is-active');
+    dots[idx].classList.add('is-active');
+
+    current = idx;
+  }
+
+  /* ── Scroll handler ── */
+  function onScroll() {
+    var scrollY    = window.pageYOffset;
+    var direction  = scrollY > lastScrollY ? 1 : -1;
+    lastScrollY    = scrollY;
+
+    var sectionTop = section.getBoundingClientRect().top + scrollY;
+    var panelH     = panel.offsetHeight;
+    var sectionEnd = sectionTop + spacer.offsetHeight - panelH;
+
+    if (scrollY < sectionTop) {
+      panel.classList.remove('is-fixed', 'is-absolute-bottom');
+      panel.classList.add('is-absolute-top');
+
+    } else if (scrollY >= sectionTop && scrollY <= sectionEnd) {
+      panel.classList.add('is-fixed');
+      panel.classList.remove('is-absolute-top', 'is-absolute-bottom');
+
+      var scrolledIn = scrollY - sectionTop;
+      var idx = Math.min(total - 1, Math.round(scrolledIn / window.innerHeight));
+      goTo(idx, direction);
+
+    } else {
+      panel.classList.remove('is-fixed', 'is-absolute-top');
+      panel.classList.add('is-absolute-bottom');
+    }
+  }
+
+  setup();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { setup(); onScroll(); });
+  onScroll();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Why Choose Us",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section Label",
+      "default": "Why Choose Us"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Heading",
+      "default": "Why Choose Vaama"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow text",
+          "default": "Made & dispatched within 6 days"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Your jewellery gets dispatched within 6 working days"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body text",
+          "default": "We craft every piece with precision and care, ensuring it reaches you quickly without compromising on quality."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Choose Us",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}

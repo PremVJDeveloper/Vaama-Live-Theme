@@ -8846,17 +8846,16 @@ document.addEventListener("keydown", function (e) {
   if (e.key === "Escape") close3DModelPopup();
 });
 
-/* Optional: preload iframe after page load (faster first open) - DISABLED FOR PERFORMANCE
-window.addEventListener("load", function () {
-  const view3dWrapper = document.querySelector('.view-3d-model-btn-wrapper');
-  if (view3dWrapper) {
-    const productCode = view3dWrapper.getAttribute('data-product-code');
-    if (productCode) {
-      const iframe = document.getElementById("model-iframe");
-      const MODEL_URL = `https://ijewel3d.com/drive/files/${productCode}/embedded?slug=${productCode}&isTitle=false&isAutoplay=true&isEnabledZoom=false&isShare=false`;
-      iframe.src = MODEL_URL;
-      modelLoaded = true;
-    }
-  }
-});
-*/
+/* Optional: preload iframe after page load (faster first open) */
+// window.addEventListener("load", function () {
+//   const view3dWrapper = document.querySelector('.view-3d-model-btn-wrapper');
+//   if (view3dWrapper) {
+//     const productCode = view3dWrapper.getAttribute('data-product-code');
+//     if (productCode) {
+//       const iframe = document.getElementById("model-iframe");
+//       const MODEL_URL = `https://ijewel3d.com/drive/files/${productCode}/embedded?slug=${productCode}&isTitle=false&isAutoplay=true&isEnabledZoom=false&isShare=false`;
+//       iframe.src = MODEL_URL;
+//       modelLoaded = true;
+//     }
+//   }
+// });

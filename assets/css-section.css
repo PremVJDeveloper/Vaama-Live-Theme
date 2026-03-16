@@ -193,6 +193,10 @@
 .bwp-header.header_4 .header-left {
   padding-left: 125px;
 }
+.header-center__inner i {
+  color: #28365b !important;
+}
+
 .bwp-header.header_6 .header-bottom .container {
   max-width: 1890px;
   padding: 0 30px;
@@ -215,7 +219,7 @@
 	background-color: var(--header-bg-color);
 }
 .bwp-header.sticky .header-mobile .header-center__inner {
-	padding: 10px 0;
+	padding: 10px 0 4px;
 }
 .bwp-header.sticky .header-top-mobile {
 	position: fixed;
@@ -927,7 +931,7 @@ body.template-cart .header-cart .header-cart__content {
   justify-content: center;
 }
 .header-mobile .header-center__inner {
-  padding: 15px 0;
+  padding: 15px 0 4px;
 }
 .header-mobile .header-bottom-fixed {
   position: fixed;

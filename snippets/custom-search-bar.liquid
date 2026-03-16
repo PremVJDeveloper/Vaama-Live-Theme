@@ -1,0 +1,163 @@
+{% comment %}
+  Usage: {% render 'custom-search-bar', location: 'desktop' %}
+         {% render 'custom-search-bar', location: 'mobile' %}
+{% endcomment %}
+
+<div class="custom-search-bar custom-search-bar--{{ location }}">
+
+  {% if location == 'mobile' %}
+    <button class="mobile-search-trigger" aria-label="Open Search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <span class="mobile-trigger__static">Search for</span>
+      <span class="mobile-trigger__rotating">
+        <span>WEDDING RINGS</span>
+        <span>ENGAGEMENT RINGS</span>
+        <span>MENS RINGS</span>
+        <span>DIAMOND EARRINGS</span>
+        <span>GOLD NECKLACES</span>
+        <span>BIRTHDAY GIFTS</span>
+      </span>
+    </button>
+  {% endif %}
+
+  {% if location == 'desktop' %}
+    <form action="{{ routes.search_url }}" method="get" role="search" class="custom-search-bar__form">
+      <input type="hidden" name="type" value="product">
+      <input type="hidden" name="options[prefix]" value="last">
+      <svg class="search-icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <div class="search-placeholder-wrap">
+        <span class="search-placeholder__static">Search for</span>
+        <span class="search-placeholder__rotating">
+          <span>BIRTHDAY GIFTS</span>
+          <span>WEDDING RINGS</span>
+          <span>ENGAGEMENT RINGS</span>
+          <span>MENS RINGS</span>
+          <span>DIAMOND EARRINGS</span>
+          <span>GOLD NECKLACES</span>
+        </span>
+      </div>
+      <input type="text" name="q" class="custom-search-bar__input" placeholder="" aria-label="Search" autocomplete="off" spellcheck="false" style="height: 100%;">
+      <button type="button" class="custom-search-bar__clear" aria-label="Clear" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      {% comment %} <button type="submit" class="custom-search-bar__submit" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button> {% endcomment %}
+    </form>
+  {% endif %}
+  <div class="csp-panel csp-panel--{{ location }}" role="dialog" aria-label="Search">
+
+    {% if location == 'mobile' %}
+      <div class="csp-mobile-header">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="csp-mobile-form">
+          <input type="hidden" name="type" value="product">
+          <input type="hidden" name="options[prefix]" value="last">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" name="q" class="custom-search-bar__input csp-mobile-input" placeholder="Search jewellery..." aria-label="Search" autocomplete="off" spellcheck="false">
+          <button type="button" class="custom-search-bar__clear csp-mobile-clear" style="display:none;" aria-label="Clear">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </form>
+        <button class="csp-close-btn" aria-label="Close">Cancel</button>
+      </div>
+    {% endif %}
+
+    {% if location == 'desktop' %}
+      <div class="csp-desktop-header">
+        <button class="csp-close-btn" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    {% endif %}
+
+    <div class="csp-scroll-body">
+
+      {{- '<!-- INITIAL STATE -->' -}}
+      <div class="csp-state csp-state--initial" id="CspInitial--{{ location }}">
+
+        {{- '<!-- Trending Searches -->' -}}
+        <div class="csp-section" id="CspTrendingSection--{{ location }}">
+          <h3 class="csp-section__title">Trending Searches</h3>
+          <ul class="csp-trending-list" id="CspTrendingList--{{ location }}">
+            {{- '<!-- populated by JS from window.CspTrendingData -->' -}}
+          </ul>
+        </div>
+
+        {{- '<!-- Recent Searches (localStorage) -->' -}}
+        <div class="csp-section" id="CspRecentSection--{{ location }}" style="display:none;">
+          <h3 class="csp-section__title">Recent Searches</h3>
+          <div class="csp-recent-chips" id="CspRecentChips--{{ location }}"></div>
+        </div>
+
+        {{- '<!-- Suggested For You -->' -}}
+        <div class="csp-section" id="CspSuggestedSection--{{ location }}">
+          <h3 class="csp-section__title">Suggested For You</h3>
+          <div class="csp-product-grid csp-product-grid--suggested" id="CspSuggestedList--{{ location }}">
+            {{- '<!-- populated by JS from window.CspSuggestedData -->' -}}
+          </div>
+        </div>
+
+        {{- '<!-- Continue Browsing (localStorage) -->' -}}
+        <div class="csp-section" id="CspHistorySection--{{ location }}" style="display:none;">
+          <h3 class="csp-section__title">Continue Your Browsing</h3>
+          <div class="csp-history-track-wrap">
+            <div class="csp-history-track" id="CspHistoryTrack--{{ location }}"></div>
+          </div>
+        </div>
+
+      </div>
+
+      {{- '<!-- PREDICTIVE STATE -->' -}}
+      <div class="csp-state csp-state--predictive" id="CspPredictive--{{ location }}" style="display:none;">
+
+        <div class="csp-predictive-layout">
+
+          <div class="csp-predictive-left">
+            <div class="csp-section" id="CspSuggestSection--{{ location }}">
+              <h3 class="csp-section__title">Popular Suggestions</h3>
+              <div class="csp-suggest-list" id="CspSuggestList--{{ location }}"></div>
+            </div>
+            <div class="csp-section" id="CspCatSection--{{ location }}" style="display:none;">
+              <h3 class="csp-section__title">Categories</h3>
+              <div class="csp-suggest-list" id="CspCatList--{{ location }}"></div>
+            </div>
+            <div class="csp-section" id="CspPagesSection--{{ location }}" style="display:none;">
+              <h3 class="csp-section__title">Pages</h3>
+              <div class="csp-suggest-list" id="CspPagesList--{{ location }}"></div>
+            </div>
+          </div>
+
+          <div class="csp-predictive-right">
+            <div class="csp-section" id="CspProductSection--{{ location }}">
+              <h3 class="csp-section__title">Products</h3>
+              <div class="csp-product-grid" id="CspProductList--{{ location }}"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="csp-footer" id="CspFooter--{{ location }}" style="display:none;">
+          <a href="#" class="csp-view-all-btn" id="CspViewAll--{{ location }}">
+            VIEW ALL <span id="CspCount--{{ location }}"></span> RESULTS →
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

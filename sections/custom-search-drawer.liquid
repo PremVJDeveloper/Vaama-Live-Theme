@@ -1,0 +1,69 @@
+{% comment %}
+  Custom Search — Static Section
+  Add to theme.liquid: {% section 'custom-search-drawer' %}
+  Find in theme editor: Click any page → in left sidebar scroll to find "Custom Search"
+{% endcomment %}
+
+<script>
+  // Data from theme editor blocks — available globally before DOMContentLoaded
+  window.CspTrendingData = [];
+  window.CspSuggestedData = [];
+
+  {% for block in section.blocks %}
+    {% if block.type == 'trending_search' %}
+      window.CspTrendingData.push({
+        label: {{ block.settings.label | json }},
+        url: {{ block.settings.url | default: '#' | json }},
+        image: {% if block.settings.image %}{{ block.settings.image | image_url: width: 80 | json }}{% else %}null{% endif %}
+      });
+    {% endif %}
+    {% if block.type == 'suggested_product' %}
+      {% assign sp = all_products[block.settings.product] %}
+      {% if sp %}
+        window.CspSuggestedData.push({
+          title: {{ sp.title | json }},
+          url: {{ sp.url | json }},
+          image: {% if sp.featured_image %}{{ sp.featured_image | image_url: width: 300 | json }}{% else %}null{% endif %},
+          price: {{ sp.price | money | json }}
+        });
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</script>
+
+{% schema %}
+{
+  "name": "Custom Search",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "trending_search",
+      "name": "Trending Search Item",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Trending Earrings" },
+        { "type": "url", "id": "url", "label": "Link URL" },
+        { "type": "image_picker", "id": "image", "label": "Thumbnail Image" }
+      ]
+    },
+    {
+      "type": "suggested_product",
+      "name": "Suggested Product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Search",
+      "blocks": [
+        { "type": "trending_search", "settings": { "label": "Trending Earrings" } },
+        { "type": "trending_search", "settings": { "label": "Self Gifting" } },
+        { "type": "trending_search", "settings": { "label": "Personalized Gifts" } },
+        { "type": "trending_search", "settings": { "label": "Rings For Everyday" } },
+        { "type": "trending_search", "settings": { "label": "Office Wear Necklaces" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

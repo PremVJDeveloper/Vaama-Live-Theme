@@ -1,0 +1,603 @@
+{%- style -%}
+  .featured-in-wrapper-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  .featured-in-wrapper-{{ section.id }} .featured-in-heading {
+    font-size: {{ section.settings.heading_size }}px;
+    text-align: center;
+    margin: 0 0 32px;
+    color: #28365B;
+    font-weight: {{ section.settings.heading_weight }};
+    letter-spacing: 0.5px;
+    padding: 0 20px;
+  }
+
+  .featured-in-wrapper-{{ section.id }} .featured-in-subtitle {
+    font-size: {{ section.settings.subtitle_size }}px;
+    text-align: center;
+    margin: 0 0 40px;
+    color: {{ section.settings.subtitle_color }};
+    font-weight: {{ section.settings.subtitle_weight }};
+    padding: 0 20px;
+  }
+
+  .featured-in-wrapper-{{ section.id }} .marquee {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: {{ section.settings.logo_gap }}px;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    width: 100%;
+  }
+
+  .featured-in-wrapper-{{ section.id }} .marquee__group {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: {{ section.settings.logo_gap }}px;
+    min-width: auto;
+    animation: scroll-{{ section.id }} {{ section.settings.speed }}s linear infinite;
+    /* iOS optimizations */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000;
+    -webkit-perspective: 1000;
+  }
+
+  .featured-in-wrapper-{{ section.id }} .marquee__group a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+    text-decoration: none;
+    flex-shrink: 0; /* Prevent logos from shrinking */
+    margin: 0; /* Reset any margins */
+    padding: 0; /* Reset any padding */
+  }
+
+  .featured-in-wrapper-{{ section.id }} .marquee__group a:hover {
+    opacity: 0.7;
+  }
+
+  .featured-in-wrapper-{{ section.id }} .marquee__group img {
+    max-width: {{ section.settings.logo_max_width }}px;
+    max-height: {{ section.settings.logo_max_height }}px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    /* iOS optimizations */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  @keyframes scroll-{{ section.id }} {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* iOS-specific fixes
+  @supports (-webkit-touch-callout: none) {
+    .featured-in-wrapper-{{ section.id }} .marquee__group {
+      gap: {{ section.settings.logo_gap }}px;
+      will-change: transform;
+    }
+    
+    .featured-in-wrapper-{{ section.id }} .marquee__group a {
+      margin-right: 0;
+    }
+  } */
+
+  /* Pause animation on hover */
+  .featured-in-wrapper-{{ section.id }} .marquee:hover .marquee__group {
+    animation-play-state: paused;
+  }
+
+  /* Mobile responsive */
+  @media screen and (max-width: 768px) {
+    .featured-in-wrapper-{{ section.id }} .featured-in-heading {
+        margin: 0 0 26px;
+        padding:0px;
+      font-size: {{ section.settings.heading_size | times: 0.8 | round }}px;
+    }
+    
+    .featured-in-wrapper-{{ section.id }} .featured-in-subtitle {
+      font-size: {{ section.settings.subtitle_size | times: 0.8 | round }}px;
+      margin-bottom: 30px;
+    }
+    
+    .featured-in-wrapper-{{ section.id }} .marquee__group img {
+      max-width: {{ section.settings.logo_max_width | times: 0.8 | round }}px;
+      max-height: {{ section.settings.logo_max_height | times: 0.8 | round }}px;
+    }
+    
+    .featured-in-wrapper-{{ section.id }} .marquee__group {
+      gap: {{ section.settings.logo_gap | times: 0.6 | round }}px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .featured-in-wrapper-{{ section.id }} .featured-in-heading {
+        margin: 0 0 32px;
+        padding:0px;
+      font-size: {{ section.settings.heading_size | times: 0.7 | round }}px;
+    }
+    
+    .featured-in-wrapper-{{ section.id }} .featured-in-subtitle {
+      font-size: {{ section.settings.subtitle_size | times: 0.7 | round }}px;
+    }
+    
+    .featured-in-wrapper-{{ section.id }} .marquee__group img {
+      max-width: {{ section.settings.logo_max_width | times: 0.7 | round }}px;
+      max-height: {{ section.settings.logo_max_height | times: 0.7 | round }}px;
+    }
+    
+    .featured-in-wrapper-{{ section.id }} .marquee__group {
+      gap: {{ section.settings.logo_gap | times: 0.5 | round }}px;
+    }
+  }
+
+  /* Prevent overflow issues */
+  .featured-in-wrapper-{{ section.id }} * {
+    box-sizing: border-box;
+  }
+{%- endstyle -%}
+
+<div class="featured-in-wrapper-{{ section.id }}">
+  
+  {% if section.settings.heading != blank %}
+    <h2 class="featured-in-heading">Trusted By Reputed Publications</h2>
+  {% endif %}
+  
+  {% comment %} {% if section.settings.subtitle != blank %}
+    <p class="featured-in-subtitle">{{ section.settings.subtitle }}</p>
+  {% endif %} {% endcomment %}
+
+  <div class="marquee marquee--horizontal">
+    <div class="marquee__group">
+      
+      <!-- Dailyhunt -->
+      <a href="http://m.dailyhunt.in/news/india/english/r+news+india-epaper-dhfacc36dfce9c4bb68db0e89d033c921b/why+buying+fine+jewellery+online+still+feels+risky+and+what+new+brands+are+doing+about+it-newsid-dhfacc36dfce9c4bb68db0e89d033c921b_d8b8a070162711f1bb291f8cacb4fcb4?sm=Y" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Dailyhunt_250x.svg?v=1772528096" 
+          alt="Dailyhunt" 
+          title="Dailyhunt"
+          loading="lazy" 
+          width="138" 
+          height="36"
+        >
+      </a>
+      
+      <!-- Wow Entrepreneurs -->
+      <a href="https://wowentrepreneurs.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Wow-Entrepreneurs-Logo-PNG_250x.png?v=1772528096" 
+          alt="Wow Entrepreneurs" 
+          title="Wow Entrepreneurs"
+          loading="lazy" 
+          width="500" 
+          height="120"
+        >
+      </a>
+      
+      <!-- Entrepreneur Saga -->
+      <a href="https://entrepreneursaga.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Entrepreneur-Saga-PNG-300x59_250x.png?v=1772528095" 
+          alt="Entrepreneur Saga" 
+          title="Entrepreneur Saga"
+          loading="lazy" 
+          width="300" 
+          height="59"
+        >
+      </a>
+      
+      <!-- Deccan Business -->
+      <a href="https://deccanbusiness.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Deccan-Business-PNG-300x104_250x.png?v=1772528095" 
+          alt="Deccan Business" 
+          title="Deccan Business"
+          loading="lazy" 
+          width="300" 
+          height="104"
+        >
+      </a>
+      
+      <!-- Business Reporter -->
+      <a href="https://businessreporter.in/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Business-Reporter-PNG-300x61_250x.png?v=1772528096" 
+          alt="Business Reporter" 
+          title="Business Reporter"
+          loading="lazy" 
+          width="300" 
+          height="61"
+        >
+      </a>
+      
+      <!-- MoneyMania -->
+      <a href="https://1moneymania.in/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/1MoneyMania-PNG-2_1_250x.png?v=1772528095" 
+          alt="MoneyMania" 
+          title="MoneyMania"
+          loading="lazy" 
+          width="248" 
+          height="35"
+        >
+      </a>
+      
+      <!-- RD Times -->
+      <a href="https://biz.rdtimes.in/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/RD-Times-Logo-PNG-1_250x.png?v=1772528095" 
+          alt="RD Times" 
+          title="RD Times"
+          loading="lazy" 
+          width="186" 
+          height="51"
+        >
+      </a>
+      
+      <!-- Republic News India -->
+      <a href="https://business.republicnewsindia.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Republic-News-India-New-Logo-PNG-300x100_250x.png?v=1772528096" 
+          alt="Republic News India" 
+          title="Republic News India"
+          loading="lazy" 
+          width="300" 
+          height="100"
+        >
+      </a>
+      
+      <!-- The Indian Bulletin -->
+      <a href="https://biz.theindianbulletin.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/The-Indian-Bulletin-LOGO-02-300x75_250x.jpg?v=1772528096" 
+          alt="The Indian Bulletin" 
+          title="The Indian Bulletin"
+          loading="lazy" 
+          width="300" 
+          height="75"
+        >
+      </a>
+      
+      <!-- Indian Scoops -->
+      <a href="https://business.indianscoops.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Indian-Scoops-01-PNG-1_250x.png?v=1772528095" 
+          alt="Indian Scoops" 
+          title="Indian Scoops"
+          loading="lazy" 
+          width="300" 
+          height="71"
+        >
+      </a>
+      
+      <!-- News Head -->
+      <a href="https://business.newshead.in/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/News-Head-PNG_250x.png?v=1772528096" 
+          alt="News Head" 
+          title="News Head"
+          loading="lazy" 
+          width="301" 
+          height="92"
+        >
+      </a>
+      
+    </div>
+
+    <div class="marquee__group" aria-hidden="true">
+      
+      <!-- Dailyhunt (duplicate) -->
+      <a href="http://m.dailyhunt.in/news/india/english/r+news+india-epaper-dhfacc36dfce9c4bb68db0e89d033c921b/why+buying+fine+jewellery+online+still+feels+risky+and+what+new+brands+are+doing+about+it-newsid-dhfacc36dfce9c4bb68db0e89d033c921b_d8b8a070162711f1bb291f8cacb4fcb4?sm=Y" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Dailyhunt_250x.svg?v=1772528096" 
+          alt="Dailyhunt" 
+          title="Dailyhunt"
+          loading="lazy" 
+          width="138" 
+          height="36"
+        >
+      </a>
+      
+      <!-- Wow Entrepreneurs (duplicate) -->
+      <a href="https://wowentrepreneurs.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Wow-Entrepreneurs-Logo-PNG_250x.png?v=1772528096" 
+          alt="Wow Entrepreneurs" 
+          title="Wow Entrepreneurs"
+          loading="lazy" 
+          width="500" 
+          height="120"
+        >
+      </a>
+      
+      <!-- Entrepreneur Saga (duplicate) -->
+      <a href="https://entrepreneursaga.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Entrepreneur-Saga-PNG-300x59_250x.png?v=1772528095" 
+          alt="Entrepreneur Saga" 
+          title="Entrepreneur Saga"
+          loading="lazy" 
+          width="300" 
+          height="59"
+        >
+      </a>
+      
+      <!-- Deccan Business (duplicate) -->
+      <a href="https://deccanbusiness.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Deccan-Business-PNG-300x104_250x.png?v=1772528095" 
+          alt="Deccan Business" 
+          title="Deccan Business"
+          loading="lazy" 
+          width="300" 
+          height="104"
+        >
+      </a>
+      
+      <!-- Business Reporter (duplicate) -->
+      <a href="https://businessreporter.in/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Business-Reporter-PNG-300x61_250x.png?v=1772528096" 
+          alt="Business Reporter" 
+          title="Business Reporter"
+          loading="lazy" 
+          width="300" 
+          height="61"
+        >
+      </a>
+      
+      <!-- MoneyMania (duplicate) -->
+      <a href="https://1moneymania.in/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/1MoneyMania-PNG-2_1_250x.png?v=1772528095" 
+          alt="MoneyMania" 
+          title="MoneyMania"
+          loading="lazy" 
+          width="248" 
+          height="35"
+        >
+      </a>
+      
+      <!-- RD Times (duplicate) -->
+      <a href="https://biz.rdtimes.in/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/RD-Times-Logo-PNG-1_250x.png?v=1772528095" 
+          alt="RD Times" 
+          title="RD Times"
+          loading="lazy" 
+          width="186" 
+          height="51"
+        >
+      </a>
+      
+      <!-- Republic News India (duplicate) -->
+      <a href="https://business.republicnewsindia.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Republic-News-India-New-Logo-PNG-300x100_250x.png?v=1772528096" 
+          alt="Republic News India" 
+          title="Republic News India"
+          loading="lazy" 
+          width="300" 
+          height="100"
+        >
+      </a>
+      
+      <!-- The Indian Bulletin (duplicate) -->
+      <a href="https://biz.theindianbulletin.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/The-Indian-Bulletin-LOGO-02-300x75_250x.jpg?v=1772528096" 
+          alt="The Indian Bulletin" 
+          title="The Indian Bulletin"
+          loading="lazy" 
+          width="300" 
+          height="75"
+        >
+      </a>
+      
+      <!-- Indian Scoops (duplicate) -->
+      <a href="https://business.indianscoops.com/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/Indian-Scoops-01-PNG-1_250x.png?v=1772528095" 
+          alt="Indian Scoops" 
+          title="Indian Scoops"
+          loading="lazy" 
+          width="300" 
+          height="71"
+        >
+      </a>
+      
+      <!-- News Head (duplicate) -->
+      <a href="https://business.newshead.in/why-buying-fine-jewellery-online-still-feels-risky-and-what-new-brands-are-doing-about-it/" target="_blank" rel="noopener">
+        <img 
+          src="//t5dt9mycpvww8x5z-63482396854.shopifypreview.com/cdn/shop/files/News-Head-PNG_250x.png?v=1772528096" 
+          alt="News Head" 
+          title="News Head"
+          loading="lazy" 
+          width="301" 
+          height="92"
+        >
+      </a>
+      
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured In Marquee",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Trusted Across Major Media"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "As Seen on Leading Platforms"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle Size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_weight",
+      "label": "Subtitle Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Logo Max Width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "default": 150,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_height",
+      "label": "Logo Max Height",
+      "min": 20,
+      "max": 150,
+      "step": 5,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "logo_gap",
+      "label": "Gap Between Logos",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Scroll Speed (seconds)",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "default": 45,
+      "unit": "s"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured In Marquee",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

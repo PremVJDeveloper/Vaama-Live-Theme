@@ -18,7 +18,7 @@
 {% endcapture %}
 
 <div id="gpd-container">
-    <span class="gpd-accordion-title">Product Details</span>
+  <span class="gpd-accordion-title">Product Details</span>
 
   <!-- Product Description -->
   <p class="gpd-description">{{ product.description | strip_html }}</p>
@@ -74,23 +74,37 @@
     var cfg = gpdVariantConfigs[variantId];
     if (!cfg) return;
 
-    /* ---------- DIAMOND DETAILS ---------- */
+    /* ---------- DIAMOND DETAILS ----------
+       Each advanced_stone_config entry = its own row.
+       Diamonds with different weight = different row (no grouping by shape).
+       sc.stone_weight = TOTAL weight for all pieces in that entry — show directly, NEVER divide.
+    ------------------------------------------------------------ */
     var hasDiamonds = false;
-    var groups = {};
-    var groupOrder = [];
+    var html = '';
+    var rowIndex = 0;
 
     if (cfg.advanced_stone_config && cfg.advanced_stone_config.length > 0) {
       for (var i = 0; i < cfg.advanced_stone_config.length; i++) {
         var sc = cfg.advanced_stone_config[i];
         if (sc.stone_type.toLowerCase() !== 'diamond') continue;
+
         hasDiamonds = true;
-        var key = (sc.shape || sc.pricing_id || 'diamond').toLowerCase();
-        if (!groups[key]) {
-          groups[key] = { pcs: 0, weight: 0, sc: sc, shape: sc.shape || '' };
-          groupOrder.push(key);
-        }
-        groups[key].pcs    += +sc.stone_quantity;
-        groups[key].weight += +sc.stone_weight;
+
+        /* Get pricing title from shopStonePricings (e.g. "Marquise- EF VVS") */
+        var pricingTitle = gpdFetchTitle(sc) || (sc.shape || 'Diamond');
+        pricingTitle = pricingTitle.charAt(0).toUpperCase() + pricingTitle.slice(1);
+
+        var pcs     = +sc.stone_quantity;
+        /* sc.stone_weight is TOTAL weight for this entry — display as-is, never divide by pcs */
+        var totalWt = (+sc.stone_weight).toFixed(3) + ' ct';
+
+        html += '<div class="gpd-drow' + (rowIndex === 0 ? ' gpd-drow-first' : '') + '">'
+          + '<span class="gpd-drow-shape">' + pricingTitle + '</span>'
+          + '<span class="gpd-drow-pcs">' + pcs + ' Diamond' + (pcs > 1 ? 's' : '') + '</span>'
+          + '<span class="gpd-drow-weight">' + totalWt + '</span>'
+          + '</div>';
+
+        rowIndex++;
       }
     }
 
@@ -98,19 +112,6 @@
     var diamondRows = document.getElementById('gpd-diamond-rows');
 
     if (hasDiamonds) {
-      var html = '';
-      for (var k = 0; k < groupOrder.length; k++) {
-        var g         = groups[groupOrder[k]];
-        var shapeName = g.shape || gpdFetchTitle(g.sc) || 'Diamond';
-        shapeName     = shapeName.charAt(0).toUpperCase() + shapeName.slice(1);
-        var perPcCt   = (g.weight / g.pcs).toFixed(3) + ' ct';
-
-        html += '<div class="gpd-drow' + (k === 0 ? ' gpd-drow-first' : '') + '">'
-          + '<span class="gpd-drow-shape">' + shapeName + '</span>'
-          + '<span class="gpd-drow-pcs">' + g.pcs + ' Diamonds</span>'
-          + '<span class="gpd-drow-weight">' + perPcCt + '</span>'
-          + '</div>';
-      }
       diamondRows.innerHTML = html;
       diamondBox.style.display = '';
     } else {
@@ -139,8 +140,10 @@
     document.getElementById('gpd-gold-box').style.display = metalType ? '' : 'none';
   }
 
+  /* ── Helper: get pricing title for a stone config entry ──
+     Uses stone_weight / stone_quantity ONLY for slab range lookup — never for display */
   function gpdFetchTitle(sc) {
-    var pw = (+sc.stone_weight) / (+sc.stone_quantity);
+    var pw = (+sc.stone_weight) / (+sc.stone_quantity); // per-piece weight for slab lookup only
     for (var i = 0; i < gpdStonePricings.length; i++) {
       var p = gpdStonePricings[i];
       if (p.id !== sc.pricing_id) continue;
@@ -196,11 +199,12 @@
 
   .gpd-box-header-cols {
     display: flex;
-    min-width: 67%;
+    min-width: 55%;
   }
+
   .gpd-accordion-title {
     font-size: 15px;
-    padding:2px;
+    padding: 2px;
     font-weight: 600;
     color: #28365B;
     letter-spacing: 0.01em;
@@ -211,7 +215,7 @@
     font-size: 12px;
     font-weight: 500;
     color: rgba(40,54,91,0.55);
-    text-align: center;
+    text-align: right;
   }
 
   /* Divider */
@@ -226,7 +230,7 @@
   .gpd-drow {
     display: flex;
     align-items: center;
-    padding: 9px 5px 0px 5px;
+    padding: 9px 0;
     border-top: 0.5px solid rgba(40,54,91,0.08);
     font-size: 13px;
     color: #28365B;
@@ -246,14 +250,14 @@
   /* Pcs + weight share the right 55%, mirroring header cols */
   .gpd-drow-pcs {
     flex: 1;
-    text-align: center;
+    text-align: right;
     font-weight: 400;
     color: #28365B;
   }
 
   .gpd-drow-weight {
     flex: 1;
-    text-align: center;
+    text-align: right;
     font-weight: 400;
     color: #28365B;
   }

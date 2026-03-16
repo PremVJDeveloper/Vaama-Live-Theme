@@ -22,18 +22,14 @@ class FacetFiltersForm extends HTMLElement {
     this.onActiveFilterClick = this.onActiveFilterClick.bind(this);
 
     this.debouncedOnSubmit = debounce((event) => {
-      this.onSubmitHandler(event);
+		this.onSubmitHandler(event);
     }, 500);
 
-    const form = this.querySelector('form');
-    if (form) {
-      form.addEventListener('input', this.debouncedOnSubmit.bind(this));
-    }
+    this.querySelector('form').addEventListener('input', this.debouncedOnSubmit.bind(this));
 
     const facetWrapper = this.querySelector('.FacetsWrapperDesktop');
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
   }
-
   static setListeners() {
     const onHistoryChange = (event) => {
       const searchParams = event.state ? event.state.searchParams : FacetFiltersForm.searchParamsInitial;
@@ -52,9 +48,8 @@ class FacetFiltersForm extends HTMLElement {
   static renderPage(searchParams, event, updateURLHash = true) {
     FacetFiltersForm.searchParamsPrev = searchParams;
     const sections = FacetFiltersForm.getSections();
-    
     sections.forEach((section) => {
-      const url = `${window.location.pathname}?section_id=${section.id}&${searchParams}`;
+      const url = `${window.location.pathname}?block_id=${section.section}&${searchParams}`;
       const filterDataUrl = element => element.url === url;
 
       FacetFiltersForm.filterData.some(filterDataUrl) ?
@@ -73,8 +68,7 @@ class FacetFiltersForm extends HTMLElement {
         FacetFiltersForm.filterData = [...FacetFiltersForm.filterData, { html, url }];
         FacetFiltersForm.renderFilters(html, event);
         FacetFiltersForm.renderProductGridContainer(html);
-      })
-      .catch(e => console.error('Error fetching filters:', e));
+      });
   }
 
   static renderSectionFromCache(filterDataUrl, event) {
@@ -83,69 +77,97 @@ class FacetFiltersForm extends HTMLElement {
     FacetFiltersForm.renderProductGridContainer(html);
   }
 
-  static renderProductGridContainer(html) {
-    const parsedHTML = new DOMParser().parseFromString(html, 'text/html');
-    const sourceGrid = parsedHTML.getElementById('JsCollectionProduct');
-    const targetGrid = document.getElementById('JsCollectionProduct');
-
-    if (sourceGrid && targetGrid) {
-      targetGrid.innerHTML = sourceGrid.innerHTML;
-      // Re-trigger any animations
-      targetGrid.querySelectorAll('.ccm-fade-in').forEach(el => {
-        el.style.animation = 'none';
-        el.offsetHeight; // force reflow
-        el.style.animation = '';
-      });
-    }
-
-    // Re-initialize any theme-specific scripts if needed
-    if (typeof Currency !== 'undefined' && Currency.Currency_customer) {
-      Currency.Currency_customer(true);
-    }
-    
-    // Update product count if exists
-    const sourceCount = parsedHTML.querySelector('.ccm-toolbar__count');
-    const targetCount = document.querySelector('.ccm-toolbar__count');
-    if (sourceCount && targetCount) {
-      targetCount.innerHTML = sourceCount.innerHTML;
-    }
-  }
+	static renderProductGridContainer(html) {
+	const myTimeout = setTimeout(removeLoad, 1000);
+	var element = document.getElementById("pre-loading");
+			element.classList.add("load-product");
+	document.querySelector('.pre-loading__bar').style.width = '40%'
+    document.getElementById('JsCollectionProduct').innerHTML = new DOMParser().parseFromString(html, 'text/html').getElementById('JsCollectionProduct').innerHTML;
+	setTimeout(function() {
+		document.querySelector('.pre-loading__bar').style.width = '100%'
+	}, 500);
+	function removeLoad() {
+		document.querySelector('.pre-loading__bar').style.width = '0'
+					element.classList.remove("load-product");
+	}
+	$('.product-card__image-wrapper.slider .js-carousel').each(function() {
+		wpbingo.elementslickCarousel($(this));
+			});
+	if( $('.bwp_currency').length > 0){ Currency.Currency_customer(true); }
+	wpbingo.click_atribute_image();
+	wpbingo.zoom_thumb();
+	if(window.SPR){
+		SPR.initRatingHandler ();
+		SPR.initDomEls ();
+		SPR.loadProducts ();
+		SPR.loadBadges ();
+	}
+	wpbingo.countdown();
+	initButtons();
+	initButtonsCompare();
+	wpbingo.countActiveSidebar();
+	wpbingo.toggleSidebar(true);
+	wpbingo.sidebarCollection(true);
+	wpbingo.ajaxFilterCategory();
+	wpbingo.product_result_count();
+	cViewCollection = wpbingo.getCookie('wpbingo_view_collection');
+	if(cViewCollection){
+		$('#JsCollectionProduct').removeAttr('class');
+		$('#JsCollectionProduct').addClass(cViewCollection);
+		$('.js-change-view').removeClass('active');
+		$('[data-view='+cViewCollection+']').addClass('active');
+	}
+	$('.js-page-collection').on('click', '.js-change-view', function(e) {
+		e.preventDefault();
+		if (!$(this).hasClass('active')) {
+			$('.product-card__image-wrapper.slider .js-carousel','.js-collection-content-product').each(function() {
+				$(this).slick('refresh');
+			});
+			wpbingo.setCookie("wpbingo_view_collection", $(this).data('view'), 30);
+			$('.js-change-view').removeClass('active');
+			$(this).addClass('active');
+			$('#JsCollectionProduct').removeAttr('class');
+			$('#JsCollectionProduct').addClass($(this).data('view'));
+		}
+		});
+	}
 
   static renderFilters(html, event) {
     const parsedHTML = new DOMParser().parseFromString(html, 'text/html');
-    const facetDetailsElements = parsedHTML.querySelectorAll('.js-filter');
-    
-    facetDetailsElements.forEach((element) => {
-      const index = element.dataset.index;
-      const targetFilters = document.querySelectorAll(`.js-filter[data-index="${index}"]`);
-      
-      targetFilters.forEach(target => {
-        // Only update if it's not the one the user is currently interacting with (optional, but prevents focus loss)
-        // For now, update all to ensure counts are correct
-        const sourceBody = element.querySelector('.vf-group__body') || element.querySelector('.facets__display');
-        const targetBody = target.querySelector('.vf-group__body') || target.querySelector('.facets__display');
-        
-        if (sourceBody && targetBody) {
-          targetBody.innerHTML = sourceBody.innerHTML;
-        }
-      });
+    const facetDetailsElements = parsedHTML.querySelectorAll('.FacetFiltersForm .js-filter');
+    const matchesIndex = (element) => {
+		const jsFilter = event ? event.target.closest('.js-filter') : undefined;
+		//return jsFilter ? element.dataset.index === jsFilter.dataset.index : false;
+    }
+    const facetsToRender = Array.from(facetDetailsElements).filter(element => !matchesIndex(element));
+    const countsToRender = Array.from(facetDetailsElements).find(matchesIndex);
+    facetsToRender.forEach((element) => {
+		document.querySelector(`.js-filter[data-index="${element.dataset.index}"]`).innerHTML = element.innerHTML;
     });
-
     FacetFiltersForm.renderActiveFacets(parsedHTML);
+    if (countsToRender) FacetFiltersForm.renderCounts(countsToRender, event.target.closest('.js-filter'));
   }
 
   static renderActiveFacets(html) {
-    const activeFacetElementSelectors = ['.vf-header', '.vf-active-badge'];
+	
+    const activeFacetElementSelectors = ['.active-facets-desktop'];
 
     activeFacetElementSelectors.forEach((selector) => {
-      const sourceElement = html.querySelector(selector);
-      const targetElement = document.querySelector(selector);
-      if (sourceElement && targetElement) {
-        targetElement.innerHTML = sourceElement.innerHTML;
-      }
-    });
+      const activeFacetsElement = html.querySelector(selector);
+      if (!activeFacetsElement) return;
+      document.querySelector(selector).innerHTML = activeFacetsElement.innerHTML;
+    })
 
     FacetFiltersForm.toggleActiveFacets(false);
+  }
+
+  static renderCounts(source, target) {
+    const targetElement = target.querySelector('.facets__selected');
+    const sourceElement = source.querySelector('.facets__selected');
+
+    if (sourceElement && targetElement) {
+      target.querySelector('.facets__selected').outerHTML = source.querySelector('.facets__selected').outerHTML;
+    }
   }
 
   static updateURLHash(searchParams) {
@@ -153,18 +175,16 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   static getSections() {
-    const sectionElement = document.querySelector('[data-section-id]');
     return [
       {
-        id: sectionElement ? sectionElement.dataset.sectionId : 'custom-collection-modern',
+        section: document.getElementById('product-grid').dataset.id,
       }
     ]
   }
 
   onSubmitHandler(event) {
     event.preventDefault();
-    const form = event.target.closest('form');
-    const formData = new FormData(form);
+    const formData = new FormData(event.target.closest('form'));
     const searchParams = new URLSearchParams(formData).toString();
     FacetFiltersForm.renderPage(searchParams, event);
   }

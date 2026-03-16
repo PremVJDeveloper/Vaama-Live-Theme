@@ -43,7 +43,10 @@
 		<meta name="theme-color" content="{{ settings.color_primary }}">
 		{% include 'header-styles' %}
 		{% include 'header-javascript' %}
-		<script src="//searchanise-ef84.kxcdn.com/widgets/shopify/init.js?a=1R6I4K1E5Z"></script>
+		{{ 'custom-search.css' | asset_url | stylesheet_tag }}
+		<script src="{{ 'custom-search.js' | asset_url }}" defer="defer"></script>
+
+		{% comment %} <script src="//searchanise-ef84.kxcdn.com/widgets/shopify/init.js?a=1R6I4K1E5Z"></script> {% endcomment %}
 
 		{{ content_for_header }}
 
@@ -230,6 +233,8 @@ body {
 			<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M4WXQQS3"
 			height="0" width="0" style="display:none;visibility:hidden"></iframe>
 		</noscript>
+			{% section 'custom-search-drawer' %}
+
 		<!-- End Google Tag Manager (noscript) -->
 
 		{% comment %} <div id="pre-loading" class="pre-loading loading-page">
@@ -237,7 +242,7 @@ body {
 		</div> {% endcomment %}
 
 		{% section 'header-campar' %}
-		{% section 'header-topbar' %}
+		{% section 'announcement-bar' %}
 		<header class="header">
 			{%- liquid 
 				assign layout_header = settings.layout_header 

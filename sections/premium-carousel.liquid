@@ -1,0 +1,528 @@
+
+<style>
+  :root {
+      --primary-color: {{ section.settings.primary_color }};
+      --bg-color: {{ section.settings.bg_color }};
+      --text-color: {{ section.settings.text_color }};
+      --text-light: #28356b;
+      --border-color: #28356b;
+      --transition-speed: 0.8s;
+  }
+
+  .premium-carousel-{{ section.id }} {
+      font-family: 'HeadstockSans', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-container {
+      width: 100%;
+      max-width: 1400px;
+      padding: 2rem;
+      position: relative;
+      text-align: center;
+      overflow: visible;
+  }
+
+  .premium-carousel-{{ section.id }} .title {
+      font-family: 'HeadstockSans', sans-serif;
+      font-size: 1.75rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-wrapper {
+      position: relative;
+      height: 580px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      overflow: visible;
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+  }
+
+/* Nav Buttons */
+.premium-carousel-{{ section.id }} .nav-button {
+    position: absolute;
+    top: 38%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #28365b;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    cursor: pointer;
+    z-index: 98;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+    {% comment %} box-shadow: 0 2px 8px rgba(0,0,0,0.1); {% endcomment %}
+    padding-bottom:0.1rem;
+}
+
+.premium-carousel-{{ section.id }} .nav-button:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: #28365b;
+}
+
+.premium-carousel-{{ section.id }} .prev-btn { left: 2%; }
+.premium-carousel-{{ section.id }} .next-btn { right: 2%; }
+
+  /* Carousel Items */
+  .premium-carousel-{{ section.id }} .carousel-item {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      width: 400px;
+      transform: translateX(-50%);
+      transition: all var(--transition-speed) cubic-bezier(0.25, 1, 0.5, 1);
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-item.active {
+      transform: translateX(-50%) scale(1.1);
+      z-index: 20;
+      opacity: 1;
+      pointer-events: auto;
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-item.prev {
+      transform: translateX(calc(-50% - 420px)) scale(0.7);
+      z-index: 10;
+      opacity: 1;
+      pointer-events: auto;
+      cursor: pointer;
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-item.next {
+      transform: translateX(calc(-50% + 420px)) scale(0.7);
+      z-index: 10;
+      opacity: 1;
+      pointer-events: auto;
+      cursor: pointer;
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-item.hidden-left {
+      transform: translateX(calc(-50% - 650px)) scale(0.5);
+      opacity: 0;
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-item.hidden-right {
+      transform: translateX(calc(-50% + 650px)) scale(0.5);
+      opacity: 0;
+  }
+
+  /* Image Container */
+  .premium-carousel-{{ section.id }} .item-image-container {
+      width: 100%;
+      aspect-ratio: 1;
+      background: transparent;
+      padding: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+  }
+
+  .premium-carousel-{{ section.id }} .item-image-container img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: filter 0.3s ease;
+  }
+
+  /* Text Container */
+  .premium-carousel-{{ section.id }} .text-container {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      margin-top: 12px;
+  }
+
+  .premium-carousel-{{ section.id }} .item-price-only,
+  .premium-carousel-{{ section.id }} .item-details {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.5s ease;
+  }
+
+  .premium-carousel-{{ section.id }} .item-price-only {
+      opacity: 1;
+      transform: translateY(0);
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--primary-color);
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-item.active .item-price-only {
+      opacity: 0;
+      transform: translateY(-20px);
+      pointer-events: none;
+  }
+
+  .premium-carousel-{{ section.id }} .item-details {
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+  }
+
+  .premium-carousel-{{ section.id }} .carousel-item.active .item-details {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      transition-delay: 0.2s;
+  }
+
+  .premium-carousel-{{ section.id }} .item-name {
+      font-size: 1rem;
+      width:100%;
+      color: var(--text-light);
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+  }
+
+  .premium-carousel-{{ section.id }} .item-price {
+      font-size: 1.25rem;
+      font-weight: 500;
+      font-family:'Mickir';
+      color: var(--primary-color);
+      margin-bottom: 1.2rem;
+  }
+
+  .premium-carousel-{{ section.id }} .btn-details {
+      padding: 0.5rem 1.5rem;
+      background: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      display: inline-block;
+  }
+
+  .premium-carousel-{{ section.id }} .btn-details:hover {
+      background: var(--primary-color);
+      color: white;
+  }
+
+@media (max-width: 1024px) {
+    .premium-carousel-{{ section.id }} .nav-button { display: flex; } /* override the old display:none */
+    .premium-carousel-{{ section.id }} .carousel-item.prev { transform: translateX(calc(-50% - 320px)) scale(0.8); }
+    .premium-carousel-{{ section.id }} .carousel-item.next { transform: translateX(calc(-50% + 320px)) scale(0.8); }
+}
+@media (max-width: 768px) {
+    .premium-carousel-{{ section.id }} .carousel-wrapper { height: 420px; }
+    .premium-carousel-{{ section.id }} .carousel-item { width: 260px; top: 5%; }
+    .premium-carousel-{{ section.id }} .carousel-item.prev { transform: translateX(calc(-50% - 200px)) scale(0.6); opacity: 1; }
+    .premium-carousel-{{ section.id }} .carousel-item.next { transform: translateX(calc(-50% + 200px)) scale(0.6); opacity: 1; }
+    .premium-carousel-{{ section.id }} .carousel-item.active { transform: translateX(-50%) scale(1); }
+    .premium-carousel-{{ section.id }} .title { font-size: 1.75rem; margin-bottom: 0.4rem; }
+    .premium-carousel-{{ section.id }} .text-container { height: 130px; }
+    .premium-carousel-{{ section.id }} .nav-button { 
+        display: flex;
+        width: 34px;
+        height: 34px;
+        font-size: 1.2rem;
+        top: 35%;
+    }
+    .premium-carousel-{{ section.id }} .prev-btn { left: 10%; top: 85%;}
+    .premium-carousel-{{ section.id }} .next-btn { right: 10%; top: 85%;}
+    .premium-carousel-{{ section.id }} .explore-more-wrap {margin-top: 1.5rem;}
+
+}
+
+@media (max-width: 480px) {
+    .premium-carousel-{{ section.id }} .carousel-wrapper { height: 360px; }
+    .premium-carousel-{{ section.id }} .carousel-item { width: 220px; top: 3%; }
+    .premium-carousel-{{ section.id }} .carousel-item.prev { transform: translateX(calc(-50% - 160px)) scale(0.55); opacity: 1; }
+    .premium-carousel-{{ section.id }} .carousel-item.next { transform: translateX(calc(-50% + 160px)) scale(0.55); opacity: 1; }
+    .premium-carousel-{{ section.id }} .carousel-item.active { transform: translateX(-50%) scale(1); }
+    .premium-carousel-{{ section.id }} .title { font-size: 1.2rem; margin-bottom: 0.3rem; }
+    .premium-carousel-{{ section.id }} .text-container { height: 120px; }
+    .premium-carousel-{{ section.id }} .item-price-only { font-size: 0.9rem; }
+    .premium-carousel-{{ section.id }} .item-name { font-size: 0.85rem; }
+    .premium-carousel-{{ section.id }} .item-price { font-size: 1rem; margin-bottom: 0.8rem; }
+    .premium-carousel-{{ section.id }} .btn-details { padding: 0.5rem 1.2rem; font-size: 0.75rem; }
+    .premium-carousel-{{ section.id }} .nav-button {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+        top: 32%;
+    }
+    .premium-carousel-{{ section.id }} .prev-btn { left: 10%; top: 85%;}
+    .premium-carousel-{{ section.id }} .next-btn { right: 10%;top: 85%;}
+    .premium-carousel-{{ section.id }} .explore-more-wrap {margin-top: 0.7rem !important;}
+
+}
+.premium-carousel-{{ section.id }} .explore-more-wrap {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.premium-carousel-{{ section.id }} .explore-more-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s ease;
+    display: inline-block;
+}
+
+.premium-carousel-{{ section.id }} .explore-more-link:hover {
+    opacity: 0.7;
+}
+</style>
+<div class="premium-carousel-{{ section.id }}">
+  <div class="carousel-container">
+      {% if section.settings.title != blank %}
+        <h2 class="title">{{ section.settings.title }}</h2>
+      {% endif %}
+
+      <div class="carousel-wrapper" id="carouselWrapper-{{ section.id }}">
+      <button class="nav-button prev-btn" id="prevBtn-{{ section.id }}" aria-label="Previous Product">
+        &#8249;
+      </button>
+        <div class="carousel-track" id="carouselTrack-{{ section.id }}">
+          {%- assign carousel_products = section.settings.collection.products -%}
+          {%- assign product_count = 0 -%}
+          {%- assign max_products = section.settings.product_limit -%}
+
+          {%- for product in carousel_products -%}
+            {%- if product_count >= max_products -%}
+              {%- break -%}
+            {%- endif -%}
+
+            <div class="carousel-item" data-index="{{ forloop.index0 }}">
+              <div class="item-image-container">
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.title | escape }}"
+                  loading="lazy"
+                >
+              </div>
+              <div class="text-container">
+                <div class="item-price-only">{{ product.price | money }}</div>
+                <div class="item-details">
+                  <div class="item-name">{{ product.title }}</div>
+                  <div class="item-price">{{ product.price | money }}</div>
+                  <a href="{{ product.url }}" class="btn-details">{{ section.settings.button_text | default: 'View Details' }}</a>
+                </div>
+              </div>
+            </div>
+
+            {%- assign product_count = product_count | plus: 1 -%}
+          {%- endfor -%}
+        </div>
+      <button class="nav-button next-btn" id="nextBtn-{{ section.id }}" aria-label="Next Product">
+        &#8250;
+      </button>
+      </div>
+      {% if section.settings.collection != blank %}
+        <div class="explore-more-wrap">
+          <a href="{{ section.settings.collection.url }}" class="explore-more-link">
+            {{ section.settings.explore_text | default: 'View All' }} &rsaquo;
+          </a>
+        </div>
+      {% endif %}
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const sectionId = '{{ section.id }}';
+  const track  = document.getElementById('carouselTrack-' + sectionId);
+  const prevBtn = document.getElementById('prevBtn-' + sectionId);
+  const nextBtn = document.getElementById('nextBtn-' + sectionId);
+
+  if (!track) return;
+
+  const items = Array.from(track.querySelectorAll('.carousel-item'));
+  if (items.length === 0) return;
+
+  let currentIndex = items.length > 1 ? 1 : 0;
+  let isAnimating  = false;
+  let startX       = 0;
+  let currentX     = 0;
+
+  function lockAnimation() {
+    isAnimating = true;
+    setTimeout(() => { isAnimating = false; }, 850);
+  }
+
+  function updateCarousel() {
+    const total = items.length;
+    items.forEach((item, index) => {
+      item.className = 'carousel-item';
+      const diff = (index - currentIndex + total) % total;
+      if      (diff === 0)         item.classList.add('active');
+      else if (diff === 1)         item.classList.add('next');
+      else if (diff === total - 1) item.classList.add('prev');
+      else if (diff === 2)         item.classList.add('hidden-right');
+      else                         item.classList.add('hidden-left');
+    });
+  }
+
+  function moveNext() {
+    if (isAnimating || items.length <= 1) return;
+    currentIndex = (currentIndex + 1) % items.length;
+    updateCarousel();
+    lockAnimation();
+  }
+
+  function movePrev() {
+    if (isAnimating || items.length <= 1) return;
+    currentIndex = (currentIndex - 1 + items.length) % items.length;
+    updateCarousel();
+    lockAnimation();
+  }
+
+  // ── CLICK SIDE ITEMS ──
+  items.forEach(item => {
+    item.addEventListener('click', e => {
+      if (e.target.closest('a')) return;
+      if (isAnimating) return;
+      if (item.classList.contains('prev')) movePrev();
+      else if (item.classList.contains('next')) moveNext();
+    });
+  });
+
+  // ── ARROW BUTTONS ──
+  if (prevBtn) prevBtn.addEventListener('click', movePrev);
+  if (nextBtn) nextBtn.addEventListener('click', moveNext);
+
+  // ── SWIPE ──
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchmove',  e => { currentX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', () => {
+    if (!startX || !currentX) return;
+    const diff = startX - currentX;
+    if (Math.abs(diff) > 50) diff > 0 ? moveNext() : movePrev();
+    startX = 0; currentX = 0;
+  });
+
+  // ── INIT ──
+  updateCarousel();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Premium Product Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Our Most Loved Pieces"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "label": "Number of Products",
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "View Details"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primary Color",
+      "default": "#28365b"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    },
+    {
+  "type": "text",
+  "id": "explore_text",
+  "label": "Explore More Button Text",
+  "default": "View All"
+}
+  ],
+  "presets": [
+    {
+      "name": "Premium Product Carousel"
+    }
+  ]
+}
+{% endschema %}

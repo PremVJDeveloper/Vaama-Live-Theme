@@ -8,7 +8,14 @@
 {%- assign column2 = section.settings.column2 -%}
 {%- assign column3 = section.settings.column3 -%}
 {%- assign column4 = section.settings.column4 -%}
-
+<!-- Inline style tag for mobile override -->
+<style>
+  @media (max-width: 767px) {
+    .wpbingo-breadcrumbs__image {
+      background-image: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/women_s_day_collection_page_top_banner_mobile__webp.webp?v=1772791045') !important;
+    }
+  }
+</style>
 {%- if section.settings.enable -%}
 	{%- assign is_bg_image = section.settings.bgimage -%}
 	{%- if is_bg_image -%}
@@ -28,10 +35,10 @@
 		{%- endif -%}
 		<div class="wpbingo-breadcrumbs__image"
 			{%- if bg_image and is_bg_image -%}
-			style="background-image: url('{{ bg_image | image_url:width:bg_image.width,height:bg_image.height }}');background-size:cover; background-position:center center"{%- endif -%}>
+			style="background-image: url('https://cdn.shopify.com/s/files/1/0634/8239/6854/files/women_s_day_collection_page_top_banner_Desktop__webp.webp?v=1772791045');background-size:cover; background-position:center center"{%- endif -%}>
 			<div class="container">
 				<div class="wpbingo-breadcrumbs__inner">
-					{%- if section.settings.show_pagetitle -%}<h2 class="wpbingo-breadcrumbs__title">{{ collection.title }}</h2>{%- endif -%}
+					{% comment %} {%- if section.settings.show_pagetitle -%}<h2 class="wpbingo-breadcrumbs__title">{{ collection.title }}</h2>{%- endif -%}
 					{%- if section.settings.show_breadcrumb -%}
 					<ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
 						<li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
@@ -78,9 +85,9 @@
 						{%- endif -%}
 					  {%- endif -%}
 					</ol>
-					{%- endif -%}
+					{%- endif -%} {% endcomment %}
 				</div>
-				{%- if section.settings.enable_collection and is_collection_page == blank -%}
+				{% comment %} {%- if section.settings.enable_collection and is_collection_page == blank -%}
 					<div class="bwp_slider-carousel {{ section.settings.style_collection }}">
 						<div class="content-carousel">
 							<div class="js-carousel slick-carousel" data-nav="{{ nav }}" data-infinite="{{ infinite }}"
@@ -118,7 +125,7 @@
 							</div>
 						</div>
 					</div>
-				{%- endif -%}
+				{%- endif -%} {% endcomment %}
 			</div>
 		</div>
 	</section>

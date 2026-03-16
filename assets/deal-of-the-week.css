@@ -1,0 +1,248 @@
+/* ============================================
+   DEAL OF THE WEEK — Full Section Styles
+   ============================================ */
+
+.dotw-section {
+  padding: 0;
+  position: relative;
+  background: transparent;
+  margin-top: 30px;
+}
+
+.ccm-card {
+  background: #fff;
+  padding: 1% 4%;
+  border-radius: 0.7rem;
+}
+
+/* --- Concave Top SVG Shape --- */
+.dotw-wave-top {
+  display: block;
+  width: 100%;
+  height: 100px;
+  position: relative;
+  z-index: 2;
+  margin-bottom: -2px;
+  filter: drop-shadow(0px -6px 16px rgba(40, 54, 91, 0.35));
+}
+
+.dotw-wave-top svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Main Container --- */
+.dotw-container {
+  background-color: #f6f8fc;
+  padding: 0px 4% 70px;
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow:
+    0 0 5px rgba(0, 0, 0, 0.08),
+    0 0 10px rgba(0, 0, 0, 0.06),
+    0 0 20px rgba(0, 0, 0, 0.04);
+}
+
+.dotw-container::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1440px;
+  height: 1588px;
+  background: linear-gradient(to top, transparent, #ffffff87);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dotw-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, white);
+  filter: blur(8px);
+  pointer-events: none;
+  bottom:-40px;
+  z-index: 2;
+}
+
+/* Ensure content sits above the blur layer */
+.dotw-header,
+.dotw-grid {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Header --- */
+.dotw-header {
+  text-align: center;
+  /* margin-bottom: 40px;
+  padding-top: 20px; */
+}
+
+.dotw-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #28356b;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* --- Title Image (full-width banner) --- */
+.dotw-title-image-wrap {
+  width: calc(100% + 8%); /* bleed past the container's 4% side padding */
+  margin: 0 -4% 4px;
+  line-height: 0;          /* removes any inline-block gap below img */
+}
+
+.dotw-title-image {
+  display: block;
+  width: 100%;
+  height: auto;            /* always preserves aspect ratio */
+  object-fit: contain;
+  object-position: center;
+}
+
+/* --- Text Title (fallback) --- */
+.dotw-title {
+  font-family: 'Headstock Sans', serif;
+  font-size: 42px;
+  color: #28356b;
+  margin: 0 0 12px;
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.dotw-desc {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 14px;
+  color: #28356b;
+  line-height: 1.7;
+}
+
+.dotw-desc p {
+  margin: 0;
+}
+
+/* --- Product Grid --- */
+.dotw-grid {
+  display: grid;
+  gap: 28px 20px;
+  top:2rem;
+  /* margin-top: 20px; */
+}
+
+@media screen and (min-width: 990px) {
+  .dotw-grid {
+      /* top: 2rem; */
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 989px) {
+  .dotw-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .dotw-wave-top {
+    height: 60px;
+  }
+
+  .dotw-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px 10px;
+  }
+
+  /* Text title fallback */
+  .dotw-title {
+    font-size: 28px;
+  }
+
+  .dotw-container {
+    padding: 20px 4% 40px;
+  }
+  .dotw-title-image{
+    transform: scale(1.5);
+  }
+  .dotw-container::before {
+    background: radial-gradient(ellipse 30% 27% at 50% 0%, rgb(255, 255, 255) 60%, transparent 61%);
+  }
+}
+
+/* --- Card Hover --- */
+.dotw-grid .ccm-card {
+  transition: transform 0.3s ease;
+}
+
+.dotw-grid .ccm-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ============================================
+   DEAL OF THE WEEK — Pure-CSS Load More (Mobile)
+   ============================================ */
+
+/* Hide the checkbox itself */
+.dotw-show-more-input {
+  display: none;
+}
+
+/* "Explore Now" button — mobile only by default */
+.dotw-explore-wrap {
+  display: none;
+  text-align: center;
+  margin-top: 15%;
+  position: relative;
+  z-index: 3;
+}
+
+.dotw-explore-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: #28365b;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s ease;
+  /* border-radius: 50px; */
+  /* border: 2px solid #28365b; */
+  /* transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease; */
+  user-select: none;
+}
+
+@media (max-width: 767px) {
+  /* Show the button on mobile */
+  .dotw-explore-wrap {
+    display: block;
+  }
+
+  /* Hide cards 5-8 initially on mobile */
+  .dotw-grid .hidden-mobile {
+    display: none;
+  }
+
+  /* When checkbox is checked: reveal hidden cards */
+  .dotw-show-more-input:checked ~ .dotw-grid .hidden-mobile {
+    display: block;
+  }
+
+  /* When checkbox is checked: hide the button */
+  .dotw-show-more-input:checked ~ .dotw-explore-wrap {
+    display: none;
+  }
+}

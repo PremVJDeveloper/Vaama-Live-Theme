@@ -4,60 +4,6 @@
 	{%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
 	{%- assign metafield_video_url = product.metafields.custom.search_videos.value | strip -%}
 
-	{%- comment -%} 3D Model Product Mapping {%- endcomment -%}
-	{%- assign product_3d_mapping = "" -%}
-	{%- capture product_3d_mapping -%}
-		4.58ct Opulent Radiance Round Lab Grown Diamond Ring:Nin377KdTOWMUOUBhsQToQ|
-		4.58ct Eternal Prestige Round Lab Grown Diamond Ring:G6A87QAHRK2drp0JJv7sgw|
-		1.00 ct Lab-Grown Diamond Engagement Ring:b0upq16GQgSLgx2taC4QvQ|
-		1.00 ct Lab-Grown Diamond Oval Engagement Ring:RZjz4pCtSb2WhLv_GE-Ocw |
-		1.2 Ct Dazzling Oval Solitaire Ring:Qq59QTzHRN-oyotmZx6KvQ|
-		0.9 Ct Elegant Pear Solitaire Ring:MfaURLwvTqizMX1S4dHM7A
-	{%- endcapture -%}
-	
-	{%- assign mapping_array = product_3d_mapping | strip | split: '|' -%}
-	{%- assign product_code = '' -%}
-	{%- assign show_3d_button = false -%}
-	
-	{%- for mapping in mapping_array -%}
-		{%- assign title_code_pair = mapping | split: ':' -%}
-		{%- assign map_title = title_code_pair[0] | strip -%}
-	{%- assign product_title_clean = product.title | strip -%}
-
-			{%- if map_title == product_title_clean -%}
-			{%- assign product_code = title_code_pair[1] | strip -%}
-			{%- assign show_3d_button = true -%}
-			{%- break -%}
-		{%- endif -%}
-	{%- endfor -%}
-	
-	{%- if show_3d_button and product_code != '' -%}
-	<!-- 3D Button -->
-	<div class="view-3d-model-btn-wrapper" style="position:absolute;top:15px;left:15px;z-index:10;" data-product-code="{{ product_code }}">
-		  <button class="view-3d-model-btn" onclick="show3DModelPopup()">
-		View 3D Model
-	  </button>
-	</div>
-
-	<!-- Popup Overlay -->
-	<div id="model-popup-overlay">
-	  <div id="model-popup">
-		<button onclick="close3DModelPopup()">×</button>
-
-		<iframe
-		  id="model-iframe"
-		  title="3D Model Viewer"
-		  frameborder="0"
-		  allow="camera; autoplay; fullscreen; xr-spatial-tracking; web-share"
-		  width="100%"
-		  height="100%"
-		  style="border:none;"
-		></iframe>
-	  </div>
-	</div>
-	{%- endif -%}
-
-
 	{%- for media in product.media -%}
 		{%- assign featured = false -%}
 		{%- if media == featured_media -%}

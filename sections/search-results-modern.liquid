@@ -1,0 +1,349 @@
+{{ 'custom-collection-modern.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign products_per_page = section.settings.products_per_page | default: 12
+  assign show_sidebar = section.settings.show_sidebar
+  assign pagination_style = section.settings.pagination_style | default: 'pagination'
+-%}
+
+<div
+  class="ccm-page section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+  data-section-type="search-page"
+>
+  <div class="ccm-container">
+
+    <div class="ccm-toolbar">
+      <header class="ccm-header">
+        {% if search.performed %}
+          <h1 class="ccm-header__title">Results for "{{ search.terms }}"</h1>
+          <span class="ccm-header__count">({{ search.results_count }} results)</span>
+        {% else %}
+          <h1 class="ccm-header__title">Search</h1>
+        {% endif %}
+      </header>
+
+      <div class="ccm-toolbar__right">
+        <div class="ccm-sort-wrap">
+          <span class="ccm-sort-label">Sort by:</span>
+          <div class="ccm-sort-select-wrap">
+            <select name="sort_by" class="ccm-sort-select" id="SortBy">
+              <option value="relevance" {% if search.sort_by == 'relevance' %}selected{% endif %}>Relevance</option>
+              <option value="price-ascending" {% if search.sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+              <option value="price-descending" {% if search.sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+              <option value="title-ascending" {% if search.sort_by == 'title-ascending' %}selected{% endif %}>A–Z</option>
+              <option value="title-descending" {% if search.sort_by == 'title-descending' %}selected{% endif %}>Z–A</option>
+              <option value="created-descending" {% if search.sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
+            </select>
+            <span class="ccm-sort-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ccm-layout">
+      {%- if show_sidebar -%}
+        <aside class="ccm-sidebar">
+          {% render 'filter-sidebar-modern', results: search %}
+        </aside>
+      {%- endif -%}
+
+      <main class="ccm-main">
+        {%- paginate search.results by products_per_page -%}
+
+          <div id="JsCollectionProduct" class="ccm-grid">
+            {%- assign product_results = search.results | where: 'object_type', 'product' -%}
+
+            {%- if product_results.size > 0 -%}
+              {%- for product in product_results -%}
+                {% render 'product-card-modern',
+                  product: product,
+                  section: section,
+                  results: search,
+                  show_secondary_image: true,
+                  show_vendor: false,
+                  show_rating: false,
+                  show_wishlist: section.settings.show_wishlist,
+                  show_swatches: section.settings.show_swatches,
+                  show_badge: section.settings.show_badge,
+                  show_view_details: section.settings.show_view_details
+                %}
+              {%- endfor -%}
+            {%- else -%}
+              <div class="ccm-empty">
+                <div class="ccm-empty__icon">🔍</div>
+                <h2 class="ccm-empty__title">No products found</h2>
+                <p class="ccm-empty__text">Try a different search term or browse our categories.</p>
+                <a href="/collections/all" class="ccm-empty__link">Browse All Products</a>
+              </div>
+            {%- endif -%}
+          </div>
+
+          {%- if pagination_style == 'infinite' -%}
+            <div
+              id="ccm-infinite-trigger"
+              data-next-url="{% if paginate.next %}{{ paginate.next.url }}{% endif %}"
+            ></div>
+            <div id="ccm-infinite-status" aria-live="polite"></div>
+          {%- else -%}
+            {%- if paginate.pages > 1 -%}
+              <div class="ccm-pagination">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="prev-next">Prev</a>
+                {%- endif -%}
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                    <a href="{{ part.url }}">{{ part.title }}</a>
+                  {%- else -%}
+                    {%- if part.title == paginate.current_page -%}
+                      <span class="current">{{ part.title }}</span>
+                    {%- else -%}
+                      <span>{{ part.title }}</span>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="prev-next">Next</a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+
+        {%- endpaginate -%}
+      </main>
+    </div>
+  </div>
+
+  {{- '<!-- Mobile Filter Drawer -->' -}}
+  <div class="ccm-drawer-overlay"></div>
+  <div class="ccm-drawer">
+    <div class="ccm-drawer__header">
+      <span class="ccm-drawer__title">Filters</span>
+      <button class="ccm-drawer__close js-drawer-close">&times;</button>
+    </div>
+    <div class="ccm-drawer__body">
+      {% render 'filter-sidebar-modern', results: search, is_mobile: true %}
+    </div>
+  </div>
+
+  <div class="ccm-mobile-pill">
+    <button class="ccm-mobile-pill__btn js-drawer-open" style="width:100%; justify-content:center;" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line>
+        <line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line>
+        <line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line>
+        <line x1="17" y1="16" x2="23" y2="16"></line>
+      </svg>
+      Filter & Sort
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // ── Drawer ──────────────────────────────────
+    const drawerOpenBtns = document.querySelectorAll('.js-drawer-open');
+    const drawerCloseBtn = document.querySelector('.js-drawer-close');
+    const drawerOverlay  = document.querySelector('.ccm-drawer-overlay');
+    const drawer         = document.querySelector('.ccm-drawer');
+
+    if (drawerOpenBtns.length && drawerCloseBtn && drawerOverlay && drawer) {
+      drawerOpenBtns.forEach(btn => btn.addEventListener('click', () => {
+        drawer.classList.add('is-open');
+        drawerOverlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }));
+      const closeDrawer = () => {
+        drawer.classList.remove('is-open');
+        drawerOverlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+      };
+      drawerCloseBtn.addEventListener('click', closeDrawer);
+      drawerOverlay.addEventListener('click', closeDrawer);
+    }
+
+    // ── Swatch click ────────────────────────────
+    document.addEventListener('click', function (e) {
+      const swatch = e.target.closest('.ccm-card__swatch');
+      if (!swatch) return;
+      const card = swatch.closest('.ccm-card');
+      if (!card) return;
+      const mainImg  = card.querySelector('.ccm-card__img');
+      const newImgUrl = swatch.dataset.img;
+      if (mainImg && newImgUrl) {
+        mainImg.src = newImgUrl;
+        if (mainImg.srcset) mainImg.srcset = newImgUrl;
+      }
+      card.querySelectorAll('.ccm-card__swatch').forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+    });
+
+    // ── Sort ────────────────────────────────────
+    const sortSelect = document.getElementById('SortBy');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function () {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort_by', this.value);
+        history.pushState({}, '', url.toString());
+
+        fetch(url.toString())
+          .then(res => res.text())
+          .then(html => {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+
+            const newGrid     = doc.getElementById('JsCollectionProduct');
+            const currentGrid = document.getElementById('JsCollectionProduct');
+            if (newGrid && currentGrid) currentGrid.innerHTML = newGrid.innerHTML;
+
+            const trigger = document.getElementById('ccm-infinite-trigger');
+            if (trigger) {
+              const newTrigger = doc.getElementById('ccm-infinite-trigger');
+              trigger.dataset.nextUrl = newTrigger ? newTrigger.dataset.nextUrl || '' : '';
+              initInfiniteScroll();
+            }
+
+            const newPagination     = doc.querySelector('.ccm-pagination');
+            const currentPagination = document.querySelector('.ccm-pagination');
+            if (newPagination && currentPagination)       currentPagination.innerHTML = newPagination.innerHTML;
+            else if (newPagination && !currentPagination) currentGrid.insertAdjacentElement('afterend', newPagination);
+            else if (!newPagination && currentPagination) currentPagination.remove();
+
+            const newCount     = doc.querySelector('.ccm-header__count');
+            const currentCount = document.querySelector('.ccm-header__count');
+            if (newCount && currentCount) currentCount.textContent = newCount.textContent;
+          })
+          .catch(() => { window.location.href = url.toString(); });
+      });
+    }
+
+    // ── Infinite Scroll ─────────────────────────
+    let infiniteObserver = null;
+    let isLoadingMore    = false;
+
+    function initInfiniteScroll() {
+      const trigger = document.getElementById('ccm-infinite-trigger');
+      if (!trigger) return;
+      if (infiniteObserver) { infiniteObserver.disconnect(); infiniteObserver = null; }
+      if (!trigger.dataset.nextUrl) return;
+
+      infiniteObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting && !isLoadingMore) loadNextPage(); });
+      }, { rootMargin: '0px 0px 400px 0px' });
+
+      infiniteObserver.observe(trigger);
+    }
+
+    function loadNextPage() {
+      const trigger = document.getElementById('ccm-infinite-trigger');
+      const status  = document.getElementById('ccm-infinite-status');
+      if (!trigger || !trigger.dataset.nextUrl) return;
+
+      isLoadingMore = true;
+      if (status) status.textContent = 'Loading more products…';
+
+      fetch(trigger.dataset.nextUrl)
+        .then(res => res.text())
+        .then(html => {
+          const doc         = new DOMParser().parseFromString(html, 'text/html');
+          const newGrid     = doc.getElementById('JsCollectionProduct');
+          const currentGrid = document.getElementById('JsCollectionProduct');
+          if (newGrid && currentGrid) currentGrid.insertAdjacentHTML('beforeend', newGrid.innerHTML);
+
+          const newTrigger = doc.getElementById('ccm-infinite-trigger');
+          const nextUrl    = newTrigger ? newTrigger.dataset.nextUrl : '';
+          trigger.dataset.nextUrl = nextUrl;
+
+          if (status) status.textContent = '';
+          isLoadingMore = false;
+
+          if (!nextUrl) {
+            if (status) status.textContent = "You've seen all products!";
+            if (infiniteObserver) { infiniteObserver.disconnect(); infiniteObserver = null; }
+          }
+        })
+        .catch(err => {
+          console.error('Infinite scroll error:', err);
+          if (status) status.textContent = '';
+          isLoadingMore = false;
+        });
+    }
+
+    initInfiniteScroll();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Search Results Modern",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "pagination_style",
+      "label": "Pagination Style",
+      "options": [
+        { "value": "pagination", "label": "Standard Pagination" },
+        { "value": "infinite", "label": "Infinite Scroll" }
+      ],
+      "default": "pagination"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sidebar",
+      "label": "Show Sidebar Filters",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "label": "Products per page",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Product Card Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show Discount Badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show Wishlist Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show Variant Swatches",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_details",
+      "label": "Show View Details Link",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search Results Modern"
+    }
+  ]
+}
+{% endschema %}
